@@ -31,7 +31,7 @@ sudo rm -f /etc/nix/nix.conf
 ```
 Change computer name to match config
 ```
-sudo scutl --set HostName midnight
+sudo scutil --set HostName midnight
 ```
 ***Repeat the following step each time you pull new updates***
 
