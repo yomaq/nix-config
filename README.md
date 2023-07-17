@@ -3,7 +3,7 @@ https://nixos.org/download.html#nix-install-macos
 ```
 sh <(curl -L https://nixos.org/nix/install)
 ```
-Install Nix-Darwin:
+Install Nix-Darwin (use all defaults):
 https://github.com/LnL7/nix-darwin
 ```
 nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer

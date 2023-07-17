@@ -14,7 +14,6 @@
         "1password"
         "raycast"
         "arc"
-        "app-cleaner"
         "amethyst"
         "viscosity"
         "linearmouse"
