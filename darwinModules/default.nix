@@ -17,6 +17,7 @@
         "amethyst"
         "viscosity"
         "linearmouse"
+        "altserver"
       ];
       enable = true;
       onActivation = {
