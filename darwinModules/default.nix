@@ -48,7 +48,6 @@
         };
         options = "-d";
       };
-      readOnlyStore = true;
       settings = {
         auto-optimise-store = true;
         sandbox = true;
