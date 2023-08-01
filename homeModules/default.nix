@@ -10,7 +10,7 @@
         pkgs.vim
         pkgs.talosctl
         pkgs.kubectl
-        pkgs.starship
+        pkgs.oh-my-posh
         pkgs.nerdfonts
         pkgs.chezmoi
         pkgs._1password
