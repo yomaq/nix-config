@@ -10,6 +10,11 @@
         pkgs.vim
         pkgs.talosctl
         pkgs.kubectl
+        pkgs.starship
+        pkgs.nerdfonts
+        pkgs.chezmoi
+        pkgs._1password
+        pkgs.tmuxinator
       ];
       stateVersion = "23.11";
     };
@@ -19,17 +24,6 @@
       };
     };
     programs = {
-      bash = {
-        enable = true;
-        enableCompletion = true;
-      };
-      tmux = {
-        enable = true;
-        mouse = true;
-        tmuxinator = {
-          enable = true;
-        };
-      };
     };
   };
 }
