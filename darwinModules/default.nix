@@ -107,7 +107,7 @@
             priority = 50;
           };
           name = "carln";
-          shell = pkgs.bash;
+          shell = pkgs.zsh;
         };
       };
     };
