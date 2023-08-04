@@ -1,6 +1,11 @@
 { inputs, ... }@flakeContext:
 { config, lib, pkgs, ... }: {
   config = {
+    nixpkgs = {
+      config = {
+        allowUnfree = true;
+      };
+    };
     home = {
       packages = [
         pkgs.discord
@@ -17,12 +22,11 @@
       ];
       stateVersion = "23.11";
     };
-    nixpkgs = {
-      config = {
-        allowUnfree = true;
-      };
-    };
     programs = {
+     tmux = {
+        enable = true;
+        shell = "/etc/profiles/per-user/carln/bin/zsh";
+      };
       bash = {
         enable = true;
         enableCompletion = true;

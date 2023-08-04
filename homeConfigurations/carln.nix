@@ -10,11 +10,6 @@ let
           enable = false;
         };
       };
-      programs = {
-        tmux = {
-          shell = "/etc/profiles/per-user/carln/bin/zsh";
-        };
-      };
     };
   };
   nixosModule = { ... }: {
