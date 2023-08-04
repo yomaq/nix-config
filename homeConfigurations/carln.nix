@@ -12,7 +12,7 @@ let
       };
       programs = {
         tmux = {
-          shell = "/etc/profiles/per-user/carln/bin/bash";
+          shell = "/etc/profiles/per-user/carln/bin/zsh";
         };
       };
     };
