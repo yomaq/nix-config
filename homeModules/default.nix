@@ -10,7 +10,6 @@
       packages = [
         pkgs.discord
         pkgs.vscode
-        pkgs.bash
         pkgs.tmux
         pkgs.vim
         pkgs.talosctl
@@ -19,6 +18,7 @@
         pkgs.chezmoi
         pkgs._1password
         pkgs.tmuxinator
+        pkgs.spotify
       ];
       stateVersion = "23.11";
     };

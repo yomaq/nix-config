@@ -21,8 +21,8 @@
         default = import ./darwinModules/default.nix flakeContext;
       };
       homeConfigurations = {
-        carln = import ./homeConfigurations/carln.nix flakeContext;
-        carln86 = import ./homeConfigurations/carln86.nix flakeContext;
+        "carln@midnight" = import ./homeConfigurations/carln.nix flakeContext;
+        carln = import ./homeConfigurations/carln86.nix flakeContext;
       };
       homeModules = {
         default = import ./homeModules/default.nix flakeContext;

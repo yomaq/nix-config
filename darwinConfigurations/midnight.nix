@@ -4,7 +4,7 @@ let
     imports = [
       inputs.home-manager.darwinModules.home-manager
       inputs.self.darwinModules.default
-      inputs.self.homeConfigurations.carln.nixosModule
+      inputs.self.homeConfigurations."carln@midnight".nixosModule
       {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
