@@ -19,6 +19,7 @@
       };
       darwinModules = {
         default = import ./darwinModules/default.nix flakeContext;
+        yabai = import ./darwinModules/yabai.nix flakeContext;
       };
       homeConfigurations = {
         "carln@midnight" = import ./homeConfigurations/carln.nix flakeContext;

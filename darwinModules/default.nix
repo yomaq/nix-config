@@ -56,6 +56,9 @@
       settings = {
         auto-optimise-store = true;
         sandbox = true;
+        allowed-users = [
+          "carln"
+        ];
       };
     };
     nixpkgs = {
