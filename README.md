@@ -33,7 +33,7 @@ Change computer name to match config
 ```
 sudo scutil --set HostName midnight
 ```
-***Repeat the following step each time you pull new updates***
+***Repeat the following step each time you build new updates***
 
 Build Darwin
 ```

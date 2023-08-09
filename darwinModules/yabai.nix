@@ -8,7 +8,7 @@
           focus_follows_mouse = "autoraise";
           mouse_follows_focus = "off";
           mouse_modifier = "fn";
-          window_placement    = "second_child";
+          window_placement    = "first_child";
           window_opacity      = "on";
           active_window_opacity = 1.0;
           normal_window_opacity = 0.9;
