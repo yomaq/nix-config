@@ -19,7 +19,6 @@
         "1password"
         "raycast"
         "arc"
-        "amethyst"
         "viscosity"
         "linearmouse"
         "altserver"
