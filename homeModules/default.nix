@@ -10,7 +10,6 @@
       packages = [
         pkgs.discord
         pkgs.vscode
-        pkgs.tmux
         pkgs.vim
         pkgs.talosctl
         pkgs.kubectl
