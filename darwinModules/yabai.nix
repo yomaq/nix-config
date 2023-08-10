@@ -2,6 +2,7 @@
 { config, lib, pkgs, ... }: {
   config = {
     services = {
+#config for Yabai Window Manager, really basic config 
       yabai = {
         enable = true;
         extraConfig = ''
@@ -24,6 +25,7 @@
           #yabai -m rule --add app=""                  manage=off
         '';
       };
+#config for skhd keyboard shortcuts for Yabai Window Manager. 
       skhd = {
         enable = true;
         skhdConfig = ''

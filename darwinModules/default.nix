@@ -2,13 +2,16 @@
 { config, lib, pkgs, ... }: {
   config = {
     programs = {
+#Generally avoid installing generic packages in darwin rather than homeManager, however zsh paths are broken without enabling it in nixDarwin as well
       zsh = {
         enable = true;
       };
     };
+#At the time of making the config nix breaks when darwin documentation is enabled.
     documentation = {
       enable = false;
     };
+#Some programs don't have nix packages available, so making use of Homebrew is needed, sadly there is also no way of installing home brew through nix
     homebrew = {
       brewPrefix = "/opt/homebrew/bin";
       brews = [
@@ -30,6 +33,7 @@
         upgrade = true;
       };
     };
+#Network settings, plan to move these to their own module once I get wireguard setup
     networking = {
       knownNetworkServices = [
         ''
@@ -44,6 +48,7 @@
         "home.arpa"
       ];
     };
+#Garbage collection for the Nix Store
     nix = {
       gc = {
         automatic = true;
@@ -52,6 +57,7 @@
         };
         options = "-d";
       };
+#Nix Store config, hard linking identical dependancies etc.
       settings = {
         auto-optimise-store = true;
         sandbox = true;
@@ -70,6 +76,7 @@
         enable = true;
       };
     };
+#MacOS settings for Dock, Finder, etc
     system = {
       defaults = {
         NSGlobalDomain = {
@@ -105,6 +112,7 @@
       };
       stateVersion = 4;
     };
+#User specific settings, eventually plan to create the user account itself through Nix as well
     users = {
       users = {
         carln = {

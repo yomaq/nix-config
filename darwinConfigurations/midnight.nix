@@ -11,6 +11,7 @@ let
         home-manager.useUserPackages = true;
       }
     ];
+#Rename the Comptuer in every location that macs keep names.
     config = {
       networking = {
         computerName = "midnight";
