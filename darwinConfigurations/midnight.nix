@@ -6,6 +6,7 @@ let
       inputs.self.homeConfigurations."carln@midnight".nixosModule
       inputs.self.darwinModules.default
       inputs.self.darwinModules.yabai
+      inputs.self.darwinModules.tailscale
       {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
