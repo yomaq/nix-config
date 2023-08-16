@@ -6,8 +6,11 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "flake:home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    #Secret Encription
+    agenix.url = "github:ryantm/agenix";
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs = inputs:
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
       flakeContext = {
         inherit inputs;

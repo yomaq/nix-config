@@ -8,6 +8,7 @@
     };
     home = {
       packages = [
+        pkgs.tailscale
         pkgs.discord
         pkgs.vscode
         pkgs.vim
@@ -17,7 +18,7 @@
         pkgs.chezmoi
         pkgs._1password
         pkgs.tmuxinator
-        pkgs.spotify
+        pkgs.kubernetes-helm
       ];
       stateVersion = "23.11";
     };
