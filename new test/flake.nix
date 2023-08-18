@@ -64,10 +64,12 @@
       # Modules for importing without referencing their file location:
       darwinModules = {
         # folder to easily drop any modules into for use without editing the config to manually add them
-        current = import ./nix-darwin/modules/current/default.nix flakeContext;
+        brew = import ./nix-darwin/modules/current/brew_macos.nix flakeContext;
+        tailscale = import ./nix-darwin/modules/current/tailscale.nix flakeContext;
+        yabai = import ./nix-darwin/modules/current/yabai.nix flakeContext;
       };
       homeModules = {
-        current = import ./home-manager/home-modules/current flakeContext;
+        installs = import ./home-manager/modules/installs.nix flakeContext;
       };
 
 
