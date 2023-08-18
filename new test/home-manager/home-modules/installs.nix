@@ -1,6 +1,11 @@
-{ inputs, ... }@flakeContext:
-{ config, lib, pkgs, ... }: {
+{ inputs, lib, config, pkgs, ... }: {
   config = {
+    nixpkgs = {
+      inherit overlays;
+      config = {
+        allowUnfree = true;
+      };
+    };
     home = {
       packages = [
         pkgs.tailscale
@@ -14,6 +19,7 @@
         pkgs._1password
         pkgs.tmuxinator
         pkgs.kubernetes-helm
+        pkgs.agenix
       ];
       stateVersion = "23.11";
     };
