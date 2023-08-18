@@ -19,13 +19,13 @@
     
   };
 
-  outputs = { nixpkgs, home-manager, ... }@inputs: 
+  outputs = { nixpkgs, home-manager, nix-darwin, ... }@inputs: 
     let
       flakeContext = {
         inherit inputs;
       };
     in
-    {
+     {
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
@@ -41,9 +41,9 @@
       # Nix-darwin configuration entrypoint
       # Available through 'darwin-rebuild switch --flake .#your-hostname'
       darwinConfigurations = {
-        midnight = home-manager.lib.homeManagerConfiguration {
+        midnight = nix-darwin.lib.darwinSystem {
+          specialArgs = { inherit inputs; };
           system = "aarch64-darwin"; # "x86_64-darwin" if you're using a pre M1 mac
-          extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
           # > Our main home-manager configuration file <
           modules = [ ./nix-darwin/midnight.nix ];
         };
@@ -73,5 +73,5 @@
 
 
 
-    };
+     };
 }

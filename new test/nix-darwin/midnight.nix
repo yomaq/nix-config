@@ -6,10 +6,9 @@
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
     inputs.home-manager.darwinModules.home-manager
-    inputs.self.homeConfigurations."carln@midnight".nixosModule
+    # inputs.self.homeConfigurations."carln@midnight".
     inputs.self.darwinModules.current
     {
-      home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
     }
     # You can also split up your configuration and import pieces of it here by linking its location directly:
@@ -28,6 +27,13 @@
           NetBIOSName = "midnight";
           ServerDescription = "midnight";
         };
+      };
+    };
+    home-manager = {
+      extraSpecialArgs = { inherit inputs; };
+      users = {
+        # Import your home-manager configuration
+        carln = import .././home-manager/carlnMidnight.nix;
       };
     };
   };
