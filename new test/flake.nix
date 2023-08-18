@@ -19,39 +19,59 @@
     
   };
 
-  outputs = { nixpkgs, home-manager, ... }@inputs: {
-    # NixOS configuration entrypoint
-    # Available through 'nixos-rebuild --flake .#your-hostname'
-    nixosConfigurations = {
-      # FIXME replace with your hostname
-      your-hostname = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; }; # Pass flake inputs to our config
-        # > Our main nixos configuration file <
-        modules = [ ./nixos/configuration.nix ];
+  outputs = { nixpkgs, home-manager, ... }@inputs: 
+    let
+      flakeContext = {
+        inherit inputs;
       };
-    };
-
-
-    # Nix-darwin configuration entrypoint
-    darwinConfigurations = {
-      midnight = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
-        # > Our main home-manager configuration file <
-        modules = [ ./nix-darwin/midnight.nix ];
+    in
+    {
+      # NixOS configuration entrypoint
+      # Available through 'nixos-rebuild --flake .#your-hostname'
+      nixosConfigurations = {
+        # FIXME replace with your hostname
+        your-hostname = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+          # > Our main nixos configuration file <
+          modules = [ ./nixos/configuration.nix ];
+        };
       };
-    };
 
 
-    # Standalone home-manager configuration entrypoint
-    # Available through 'home-manager --flake .#your-username@your-hostname'
-    homeConfigurations = {
-      "carln@midnight" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
-        # > Our main home-manager configuration file <
-        modules = [ ./home-manager/mac.nix ];
+      # Nix-darwin configuration entrypoint
+      # Available through 'darwin-rebuild switch --flake .#your-hostname'
+      darwinConfigurations = {
+        midnight = home-manager.lib.homeManagerConfiguration {
+          system = "aarch64-darwin"; # "x86_64-darwin" if you're using a pre M1 mac
+          extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
+          # > Our main home-manager configuration file <
+          modules = [ ./nix-darwin/midnight.nix ];
+        };
       };
+
+
+      # Standalone home-manager configuration entrypoint
+      # Available through 'home-manager --flake .#your-username@your-hostname'
+      homeConfigurations = {
+        "carln@midnight" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
+          # > Our main home-manager configuration file <
+          modules = [ ./home-manager/carlnMidnight.nix ];
+        };
+      };
+
+      # Modules for importing without referencing their file location:
+      darwinModules = {
+        # folder to easily drop any modules into for use without editing the config to manually add them
+        current = import ./nix-darwin/modules/current flakeContext;
+      };
+      homeModules = {
+        # folder to easily drop any modules into for use without editing the config to manually add them
+        current = import ./home-manager/modules/current flakeContext;
+      };
+
+
+
     };
-  };
 }
