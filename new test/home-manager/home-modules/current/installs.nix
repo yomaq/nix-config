@@ -15,7 +15,7 @@
         pkgs.tmuxinator
         pkgs.kubernetes-helm
       ];
-      stateVersion = "23.11";
+      stateVersion = "23.05";
     };
     programs = {
      tmux = {

@@ -5,7 +5,7 @@
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
-    # inputs.self.homeModules.current
+    inputs.self.homeModules.current
 
     # You can also split up your configuration and import pieces of it here:
     # ./home-modules/installs

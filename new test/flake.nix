@@ -4,7 +4,7 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
-
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-23.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -64,11 +64,10 @@
       # Modules for importing without referencing their file location:
       darwinModules = {
         # folder to easily drop any modules into for use without editing the config to manually add them
-        current = import ./nix-darwin/modules/current flakeContext;
+        current = import ./nix-darwin/modules/current/default.nix flakeContext;
       };
       homeModules = {
-        # folder to easily drop any modules into for use without editing the config to manually add them
-        current = import ./home-manager/modules/current flakeContext;
+        current = import ./home-manager/home-modules/current flakeContext;
       };
 
 
