@@ -13,7 +13,7 @@
     nix-darwin.url = "flake:nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    #Secret Encription
+    # Secret Encription
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     
@@ -44,7 +44,7 @@
         midnight = nix-darwin.lib.darwinSystem {
           specialArgs = { inherit inputs; };
           system = "aarch64-darwin"; # "x86_64-darwin" if you're using a pre M1 mac
-          # > Our main home-manager configuration file <
+          # > Our main nix-darwin configuration file <
           modules = [ ./nix-darwin/midnight.nix ];
         };
       };
@@ -63,10 +63,9 @@
 
       # Modules for importing without referencing their file location:
       darwinModules = {
-        # folder to easily drop any modules into for use without editing the config to manually add them
-        brew = import ./nix-darwin/modules/current/brew_macos.nix flakeContext;
-        tailscale = import ./nix-darwin/modules/current/tailscale.nix flakeContext;
-        yabai = import ./nix-darwin/modules/current/yabai.nix flakeContext;
+        brew = import ./nix-darwin/modules/brew_macos.nix flakeContext;
+        tailscale = import ./nix-darwin/modules/tailscale.nix flakeContext;
+        yabai = import ./nix-darwin/modules/yabai.nix flakeContext;
       };
       homeModules = {
         installs = import ./home-manager/modules/installs.nix flakeContext;
