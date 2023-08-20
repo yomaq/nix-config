@@ -25,6 +25,7 @@
         "viscosity"
         "linearmouse"
         "altserver"
+        "tailscale"
       ];
       enable = true;
       onActivation = {

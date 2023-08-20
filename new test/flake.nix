@@ -64,7 +64,6 @@
       # Modules for importing without referencing their file location:
       darwinModules = {
         brew = import ./nix-darwin/modules/brew_macos.nix flakeContext;
-        tailscale = import ./nix-darwin/modules/tailscale.nix flakeContext;
         yabai = import ./nix-darwin/modules/yabai.nix flakeContext;
       };
       homeModules = {
