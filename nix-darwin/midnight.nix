@@ -6,9 +6,7 @@
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
     inputs.home-manager.darwinModules.home-manager
-    # inputs.self.homeConfigurations."carln@midnight".
     inputs.self.darwinModules.brew
-    inputs.self.darwinModules.tailscale
     inputs.self.darwinModules.yabai
     {
       home-manager.useUserPackages = true;
