@@ -14,6 +14,7 @@
         pkgs._1password
         pkgs.tmuxinator
         pkgs.kubernetes-helm
+        pkgs.agenix
       ];
       stateVersion = "23.05";
     };

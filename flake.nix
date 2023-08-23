@@ -19,7 +19,7 @@
     
   };
 
-  outputs = { nixpkgs, home-manager, nix-darwin, ... }@inputs: 
+  outputs = { nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
     let
       flakeContext = {
         inherit inputs;
@@ -54,7 +54,7 @@
       # Available through 'home-manager --flake .#your-username@your-hostname'
       homeConfigurations = {
         "carln@midnight" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
+          system = "aarch64-darwin"; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
           # > Our main home-manager configuration file <
           modules = [ ./home-manager/carlnMidnight.nix ];

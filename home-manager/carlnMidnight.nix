@@ -6,6 +6,7 @@
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
     inputs.self.homeModules.installs
+    inputs.agenix.homeManagerModules.default
 
     # You can also split up your configuration and import pieces of it here:
     # ./home-modules/installs
@@ -17,15 +18,7 @@
   nixpkgs = {
     # You can add overlays here
     overlays = [
-      # If you want to use overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
+      inputs.agenix.overlays.default
     ];
     # Configure your nixpkgs instance
     config = {

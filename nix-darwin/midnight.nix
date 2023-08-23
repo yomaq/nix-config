@@ -8,6 +8,7 @@
     inputs.home-manager.darwinModules.home-manager
     inputs.self.darwinModules.brew
     inputs.self.darwinModules.yabai
+    inputs.agenix.darwinModules.default
     {
       home-manager.useUserPackages = true;
     }
