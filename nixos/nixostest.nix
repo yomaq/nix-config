@@ -3,8 +3,8 @@
 {
   imports =
     [
-      ./nixos-test/configuration.nix;
-      ./nixos-test/configuration.nix;
+      ./nixos-test/configuration.nix
+      ./nixos-test/configuration.nix
     ];
   nix = {
     # This will add each flake input as a registry
