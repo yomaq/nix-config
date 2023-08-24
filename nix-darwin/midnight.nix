@@ -16,7 +16,6 @@
     # ./folder/location
   ];
 
-  # fix for home manager bug
   config = {
     networking = {
       computerName = "midnight";
