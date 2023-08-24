@@ -30,10 +30,11 @@
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
         # FIXME replace with your hostname
-        your-hostname = nixpkgs.lib.nixosSystem {
+        nixos = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux"
           specialArgs = { inherit inputs; }; # Pass flake inputs to our config
           # > Our main nixos configuration file <
-          modules = [ ./nixos/configuration.nix ];
+          modules = [ ./nixos/nixostest.nix ];
         };
       };
 

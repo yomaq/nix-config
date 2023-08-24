@@ -87,6 +87,7 @@
     packages = with pkgs; [
       firefox
       vim
+      git
     #  thunderbird
     ];
   };
