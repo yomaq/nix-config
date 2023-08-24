@@ -15,6 +15,7 @@
         pkgs.tmuxinator
         pkgs.kubernetes-helm
         pkgs.agenix
+        pkgs.git
       ];
       stateVersion = "23.05";
     };

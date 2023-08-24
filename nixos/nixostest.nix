@@ -22,4 +22,11 @@
       auto-optimise-store = true;
     };
   };
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      # Import your home-manager configuration
+      carln = import .././home-manager/carlnMidnight.nix;
+    };
+  };
 }
