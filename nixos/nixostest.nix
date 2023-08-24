@@ -5,6 +5,7 @@
     [
       ./nixos-test/configuration.nix
       ./nixos-test/configuration.nix
+      inputs.home-manager.nixosModules.home-manager
     ];
   nix = {
     # This will add each flake input as a registry
