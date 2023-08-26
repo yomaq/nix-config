@@ -5,6 +5,7 @@
     [
       ./configuration.nix
       ./hardware-configuration.nix
+      ./gnome.nix
       inputs.home-manager.nixosModules.home-manager
       inputs.nixos-hardware.nixosModules.lenovo-legion-15ach6
     ];
