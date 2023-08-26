@@ -16,7 +16,6 @@
         pkgs.kubernetes-helm
         pkgs.agenix
         pkgs.git
-        pkgs.firefox
         pkgs.freetube
       ];
       stateVersion = "23.05";

@@ -3,13 +3,33 @@
     inputs.nur.nixosModules.nur
   ];
   config = {
-    nixpkgs = {
-        # You can add overlays here
-        overlays = [
-        inputs.nur.overlay
-        ];
-    };
+    nixpkgs.overlays = [inputs.nur.overlay];
+    home.packages = [pkgs.firefox-unwrapped];
     programs.firefox = {
+      package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
+        extraPolicies = {
+          CaptivePortal = false;
+          DisableFirefoxStudies = true;
+          DisablePocket = true;
+          DisableTelemetry = true;
+          DisableFirefoxAccounts = true;
+          NoDefaultBookmarks = true;
+          OfferToSaveLogins = false;
+          OfferToSaveLoginsDefault = false;
+          PasswordManagerEnabled = false;
+          FirefoxHome = {
+              Search = true;
+              Pocket = false;
+              Snippets = false;
+              TopSites = false;
+              Highlights = false;
+          };
+          UserMessaging = {
+              ExtensionRecommendations = false;
+              SkipOnboarding = true;
+          };
+        };
+      };
       enable = true;
       profiles.default = {
         id = 0;
@@ -18,8 +38,15 @@
         extensions = with pkgs.nur.repos.rycee.firefox-addons; [
             ublock-origin
             onepassword-password-manager
-            bypass-paywalls-clean
+            maya-dark
         ];
+        search = {
+            force = true;
+            default = "DuckDuckGo";
+        };
+        settings = {
+            "general.smoothScroll" = true;
+        };
       };
     };
   };
