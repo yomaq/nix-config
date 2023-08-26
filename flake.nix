@@ -37,6 +37,15 @@
           modules = [ ./nixos/nixostest.nix ];
         };
       };
+      nixosConfigurations = {
+        # FIXME replace with your hostname
+        blue = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+          # > Our main nixos configuration file <
+          modules = [ ./nixos/blue/blue.nix ];
+        };
+      };
 
 
       # Nix-darwin configuration entrypoint

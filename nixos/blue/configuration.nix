@@ -65,6 +65,11 @@
     xkbVariant = "";
   };
 
+  # Set default shell
+  programs.zsh.enable = true;
+  users.users.carln.shell = pkgs.zsh;
+  environment.shells = with pkgs; [ zsh];
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -94,6 +99,7 @@
     description = "carln";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
+      _1password-gui
     #  thunderbird
     ];
   };

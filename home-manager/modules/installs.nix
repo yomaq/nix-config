@@ -16,6 +16,7 @@
         pkgs.kubernetes-helm
         pkgs.agenix
         pkgs.git
+        pkgs.firefox
       ];
       stateVersion = "23.05";
     };
