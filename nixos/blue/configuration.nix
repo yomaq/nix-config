@@ -99,7 +99,6 @@
     description = "carln";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      _1password-gui
     #  thunderbird
     ];
   };
