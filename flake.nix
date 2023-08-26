@@ -16,6 +16,9 @@
     # Secret Encription
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # hardware
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     
   };
 
@@ -27,9 +30,8 @@
     in
      {
       # NixOS configuration entrypoint
-      # Available through 'nixos-rebuild --flake .#your-hostname'
+      # Available through 'nixos-rebuild switch --flake .#your-hostname'
       nixosConfigurations = {
-        # FIXME replace with your hostname
         nixos = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = { inherit inputs; }; # Pass flake inputs to our config
@@ -38,7 +40,6 @@
         };
       };
       nixosConfigurations = {
-        # FIXME replace with your hostname
         blue = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = { inherit inputs; }; # Pass flake inputs to our config

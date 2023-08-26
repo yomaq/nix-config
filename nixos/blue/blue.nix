@@ -6,6 +6,7 @@
       ./configuration.nix
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.home-manager
+      inputs.nixos-hardware.nixosModules.lenovo-legion-15ach6
     ];
   nix = {
     # This will add each flake input as a registry

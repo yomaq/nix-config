@@ -58,6 +58,7 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.videoDrivers = [ "amdgpu" ];
 
   # Configure keymap in X11
   services.xserver = {
@@ -69,6 +70,11 @@
   programs.zsh.enable = true;
   users.users.carln.shell = pkgs.zsh;
   environment.shells = with pkgs; [ zsh];
+
+  # Tailscale
+  services.tailscale = {
+    enable = true;
+  };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -99,6 +105,7 @@
     description = "carln";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
+      tailscale
     #  thunderbird
     ];
   };
