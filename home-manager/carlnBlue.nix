@@ -10,6 +10,7 @@
     # You can also split up your configuration and import pieces of it here:
     ./modules/installs.nix
     ./modules/x86_64-linux_installs.nix
+    ./modules/gnome-home.nix
   ];
 
   # fix for home manager bug

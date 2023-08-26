@@ -74,10 +74,7 @@
     isNormalUser = true;
     description = "carln";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      tailscale
-    #  thunderbird
-    ];
+    packages = with pkgs; [];
   };
 
   # Allow unfree packages

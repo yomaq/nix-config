@@ -5,6 +5,7 @@
         pkgs.tailscale
         pkgs.discord
         pkgs.vscode
+        pkgs.alacritty
         pkgs.vim
         pkgs.talosctl
         pkgs.kubectl
