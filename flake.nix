@@ -20,6 +20,8 @@
     # hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     
+    # Nix User Repository
+    nur.url = github:nix-community/NUR;
   };
 
   outputs = { nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
