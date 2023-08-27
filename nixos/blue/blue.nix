@@ -28,12 +28,12 @@
   };
 
   age.identityPaths = [ "/home/carln/.ssh/agenix" ];
-  age.secrets.secret1.file = ./secret1.age;
+  age.secrets.carln.file = ./carln.age;
 
   users.users.carln = {
     isNormalUser = true;
     description = "carln";
-    passwordFile = config.age.secrets.secret1.path;
+    passwordFile = config.age.secrets.carln.path;
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
