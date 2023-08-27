@@ -43,6 +43,8 @@
   };
 
 
+  age.secrets.secret1.file = ./secret1.age;
+  environment.systemPackages = with pkgs; [ config.age.secrets.secret1.path ]
 
 
   
