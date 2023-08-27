@@ -27,7 +27,7 @@
     };
   };
 
-  age.identityPaths = [ "~/.ssh/agenix" ];
+  age.identityPaths = [ "/home/carln/.ssh/agenix" ];
   age.secrets.secret1.file = ./secret1.age;
 
   users.users.carln = {
