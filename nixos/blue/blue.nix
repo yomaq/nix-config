@@ -33,6 +33,8 @@
       carln = import ../.././home-manager/carlnBlue.nix;
     };
   };
+
+  # automatically rebuild system if github has updates
   system.autoUpgrade = {
     enable = true;
     flake = github:yomaq/nix-config;
