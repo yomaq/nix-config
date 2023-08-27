@@ -39,6 +39,7 @@
             ublock-origin
             onepassword-password-manager
             maya-dark
+            darkreader
         ];
         search = {
             force = true;

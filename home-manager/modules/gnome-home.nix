@@ -17,6 +17,7 @@
             "just-perfection-desktop@just-perfection" 
             "user-theme@gnome-shell-extensions.gcampax.github.com" 
             "blur-my-shell@aunetx"
+            "rounded-window-corners@yilozt"
           ];
         };
         "org/gnome/shell/extensions/unite" = {

@@ -48,6 +48,7 @@
     gnomeExtensions.forge
     gnomeExtensions.appindicator
     gnomeExtensions.rounded-window-corners
+    gnomeExtensions.tailscale-status
     ];
 
 

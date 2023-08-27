@@ -16,7 +16,6 @@
         pkgs.kubernetes-helm
         pkgs.agenix
         pkgs.git
-        pkgs.freetube
       ];
       stateVersion = "23.05";
     };

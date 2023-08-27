@@ -8,6 +8,7 @@
       ./gnome.nix
       inputs.home-manager.nixosModules.home-manager
       inputs.nixos-hardware.nixosModules.lenovo-legion-15ach6
+      inputs.agenix.nixosModules.default
     ];
   nix = {
     # This will add each flake input as a registry
@@ -32,4 +33,8 @@
       carln = import ../.././home-manager/carlnBlue.nix;
     };
   };
+
+  
+  # Apparently... nixos can't declaratively manage flatpaks????????
+  services.flatpak.enable = true;
 }
