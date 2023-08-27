@@ -33,6 +33,15 @@
       carln = import ../.././home-manager/carlnBlue.nix;
     };
   };
+  system.autoUpgrade = {
+    enable = true;
+    flake = github:yomaq/nix-config;
+    flags = ["-L" ]; # print build logs 
+    dates = "02:00";
+  };
+
+
+
 
   
   # Apparently... nixos can't declaratively manage flatpaks????????
