@@ -70,12 +70,6 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.carln = {
-    isNormalUser = true;
-    description = "carln";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
-  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
