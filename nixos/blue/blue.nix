@@ -26,6 +26,19 @@
       auto-optimise-store = true;
     };
   };
+
+  age.identityPaths = [ "~/.ssh/agenix" ];
+  age.secrets.secret1.file = ./secret1.age;
+
+  users.users.carln = {
+    isNormalUser = true;
+    description = "carln";
+    passwordFile = config.age.secrets.secret1.path;
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [];
+  };
+
+
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
@@ -42,9 +55,6 @@
     dates = "02:00";
   };
 
-
-  age.secrets.secret1.file = ./secret1.age;
-  environment.systemPackages = with pkgs; [ config.age.secrets.secret1.path ]
 
 
   
