@@ -6,6 +6,7 @@
         pkgs.trayscale
         pkgs.spotify
         pkgs.steam
+        pkgs.sunshine
       ];
       stateVersion = "23.05";
     };
