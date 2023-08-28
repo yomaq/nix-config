@@ -6,7 +6,7 @@
         pkgs.trayscale
         pkgs.spotify
         pkgs.steam
-        pkgs.moonlight
+        pkgs.moonlight-qt
       ];
       stateVersion = "23.05";
     };
