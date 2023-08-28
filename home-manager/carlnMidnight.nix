@@ -8,7 +8,7 @@
     inputs.agenix.homeManagerModules.default
 
     # You can also split up your configuration and import pieces of it here:
-    ./home-modules/installs
+    ./modules/installs
   ];
 
   # fix for home manager bug
