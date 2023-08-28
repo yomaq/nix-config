@@ -17,11 +17,15 @@
     "/crypto_keyfile.bin" = null;
   };
 
-  # Enable swap on luks
-  boot.initrd.luks.devices."luks-3d4bd4ee-c75c-4d59-9532-0cccda253d16".device = "/dev/disk/by-uuid/3d4bd4ee-c75c-4d59-9532-0cccda253d16";
-  boot.initrd.luks.devices."luks-3d4bd4ee-c75c-4d59-9532-0cccda253d16".keyFile = "/crypto_keyfile.bin";
 
-  boot.initrd.luks.devices."luks-fd50239a-5a7b-4f74-ab78-d1b4436fc8db".keyFile = "/crypto_keyfile.bin";
+  # Enable swap on luks
+  boot.initrd.luks.devices."luks-6be6d088-6896-4425-8c04-fd01399a9111".device = "/dev/disk/by-uuid/6be6d088-6896-4425-8c04-fd01399a9111";
+  boot.initrd.luks.devices."luks-6be6d088-6896-4425-8c04-fd01399a9111".keyFile = "/crypto_keyfile.bin";
+
+  boot.initrd.luks.devices."luks-57940460-3d44-45c1-bad4-1c913e3d0b0e".keyFile = "/crypto_keyfile.bin";
+
+
+
   networking.hostName = "blue"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 

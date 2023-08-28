@@ -27,8 +27,8 @@
     };
   };
 
-  age.identityPaths = [ "/home/carln/.ssh/agenix" ];
-  age.secrets.secret1.file = ./secret1.age;
+  #age.identityPaths = [ "/home/carln/.ssh/agenix" ];
+  #age.secrets.secret1.file = ./secret1.age;
 
   users.users.carln = {
     isNormalUser = true;
@@ -37,13 +37,13 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
-  users.users.carln2 = {
-    isNormalUser = true;
-    description = "carln2";
-    passwordFile = config.age.secrets.secret1.path;
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
-  };
+#  users.users.carln2 = {
+#    isNormalUser = true;
+#    description = "carln2";
+#    passwordFile = config.age.secrets.secret1.path;
+#    extraGroups = [ "networkmanager" "wheel" ];
+#    packages = with pkgs; [];
+#  };
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
