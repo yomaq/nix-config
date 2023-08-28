@@ -85,9 +85,6 @@
         brew = import ./nix-darwin/modules/brew_macos.nix flakeContext;
         yabai = import ./nix-darwin/modules/yabai.nix flakeContext;
       };
-      homeModules = {
-        installs = import ./home-manager/modules/installs.nix flakeContext;
-      };
 
 
 

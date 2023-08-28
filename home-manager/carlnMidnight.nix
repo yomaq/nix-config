@@ -5,11 +5,10 @@
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
-    inputs.self.homeModules.installs
     inputs.agenix.homeManagerModules.default
 
     # You can also split up your configuration and import pieces of it here:
-    # ./home-modules/installs
+    ./home-modules/installs
   ];
 
   # fix for home manager bug
