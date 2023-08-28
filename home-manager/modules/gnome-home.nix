@@ -28,6 +28,7 @@
     dconf.settings = {
       "org/gnome/desktop/wm/keybindings" = {
         close = [ "<Super>q" ];
+        screensaver = ["<Alt><Super>l"];
       };
     # Custom keyboard shorcuts. Needs both to be told that the custom exists, and then below to be told what the custom is.
       # Tell it that the custom exists here, follow its example of "custom0", "custom1" etc.
@@ -41,7 +42,6 @@
           binding = "<Alt><Super>Return";
           command = "alacritty";
           name = "alacritty"; 
-      };
     };
 
 
