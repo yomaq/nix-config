@@ -13,6 +13,19 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
+
+  # Luks
+  # Setup keyfile
+  boot.initrd.secrets = {
+    "/crypto_keyfile.bin" = null;
+  };
+
+  boot.initrd.luks.devices."luks-6be6d088-6896-4425-8c04-fd01399a9111".device = "/dev/disk/by-uuid/6be6d088-6896-4425-8c04-fd01399a9111";
+  boot.initrd.luks.devices."luks-6be6d088-6896-4425-8c04-fd01399a9111".keyFile = "/crypto_keyfile.bin";
+
+  boot.initrd.luks.devices."luks-57940460-3d44-45c1-bad4-1c913e3d0b0e".keyFile = "/crypto_keyfile.bin";
+
+
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/f782daf8-6b6e-49c1-bd00-0051fddbcf44";
       fsType = "ext4";

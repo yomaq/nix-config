@@ -98,6 +98,9 @@
         "org/gnome/shell/extensions/rounded-window-corners" = {
           skip-libadwaita-app = false;
         };
+        "org/gnome/shell/extensions/forge" = {
+          window-gap-hidden-on-single = true;
+        };
       };
     
 

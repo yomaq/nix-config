@@ -12,20 +12,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Setup keyfile
-  boot.initrd.secrets = {
-    "/crypto_keyfile.bin" = null;
-  };
-
-
-  # Enable swap on luks
-  boot.initrd.luks.devices."luks-6be6d088-6896-4425-8c04-fd01399a9111".device = "/dev/disk/by-uuid/6be6d088-6896-4425-8c04-fd01399a9111";
-  boot.initrd.luks.devices."luks-6be6d088-6896-4425-8c04-fd01399a9111".keyFile = "/crypto_keyfile.bin";
-
-  boot.initrd.luks.devices."luks-57940460-3d44-45c1-bad4-1c913e3d0b0e".keyFile = "/crypto_keyfile.bin";
-
-
-
   networking.hostName = "blue"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
