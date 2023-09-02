@@ -29,17 +29,18 @@
 
   age.identityPaths = [ "/home/carln/.ssh/agenix" ];
   age.secrets.carln.file = ../../secrets/carln.age;
+  users.mutableUsers = true;
 
   users.users.carln = {
     isNormalUser = true;
     description = "carln";
-    # passwordFile = config.age.secrets.carln.path;
+    passwordFile = config.age.secrets.carln.path;
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
-  users.users.carln2 = {
+  users.users.carln5 = {
     isNormalUser = true;
-    description = "carln2";
+    description = "carln5";
     passwordFile = config.age.secrets.carln.path;
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
