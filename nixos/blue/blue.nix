@@ -29,7 +29,7 @@
 
   age.identityPaths = [ "/home/carln/.ssh/agenix" ];
   age.secrets.carln.file = ../../secrets/carln.age;
-  users.mutableUsers = true;
+  users.mutableUsers = false;
 
   users.users.carln = {
     isNormalUser = true;
