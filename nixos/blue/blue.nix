@@ -29,7 +29,6 @@
 
   age.identityPaths = [ "/home/carln/.ssh/agenix" ];
   age.secrets.carln.file = ../../secrets/carln.age;
-    neededForUsers = true;
 
   users.users.carln = {
     isNormalUser = true;
