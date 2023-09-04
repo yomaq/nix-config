@@ -43,7 +43,7 @@
           system = "x86_64-linux";
           specialArgs = { inherit inputs; }; # Pass flake inputs to our config
           # > Our main nixos configuration file <
-          modules = [ ./nixos/nix-test/nixostest.nix ];
+          modules = [ ./nixos/nixos-test/nixostest.nix ];
         };
       };
       nixosConfigurations = {
@@ -51,7 +51,7 @@
           system = "x86_64-linux";
           specialArgs = { inherit inputs; }; # Pass flake inputs to our config
           # > Our main nixos configuration file <
-          modules = [ ./nixos/nix-test2/nixostest.nix ];
+          modules = [ ./nixos/nixos-test2/nixostest.nix ];
         };
       };
       nixosConfigurations = {
