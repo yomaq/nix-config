@@ -100,6 +100,7 @@
         };
         "org/gnome/shell/extensions/forge" = {
           window-gap-hidden-on-single = true;
+          focus-border-toggle = false;
         };
       };
     

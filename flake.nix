@@ -3,7 +3,7 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs";
+    nixpkgs.url = "github:nixos/nixpkgs"; 
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Home manager
@@ -20,15 +20,13 @@
 
     # Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
     
     # Nix User Repository
     nur.url = github:nix-community/NUR;
-    nur.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Disko - reproducible, disk partitioning/formating
-    inputs.disko.url = github:nix-community/disko;
-    inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
+    # Disko - reproducible disk partitioning/formating
+    disko.url = github:nix-community/disko;
+    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
