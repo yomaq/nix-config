@@ -3,10 +3,11 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
+    nixpkgs.url = "github:nixos/nixpkgs";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
     # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-23.05";
+    home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Nix-Darwin
@@ -17,11 +18,17 @@
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
-    # hardware
+    # Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-hardware.inputs.nixpkgs.follows = "nixpkgs";
     
     # Nix User Repository
     nur.url = github:nix-community/NUR;
+    nur.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Disko - reproducible, disk partitioning/formating
+    inputs.disko.url = github:nix-community/disko;
+    inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
@@ -38,7 +45,15 @@
           system = "x86_64-linux";
           specialArgs = { inherit inputs; }; # Pass flake inputs to our config
           # > Our main nixos configuration file <
-          modules = [ ./nixos/nixostest.nix ];
+          modules = [ ./nixos/nix-test/nixostest.nix ];
+        };
+      };
+      nixosConfigurations = {
+        nixos2 = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+          # > Our main nixos configuration file <
+          modules = [ ./nixos/nix-test2/nixostest.nix ];
         };
       };
       nixosConfigurations = {
