@@ -24,7 +24,7 @@
     };
   };
 disko.devices = import ./disko.nix {
-  lib = nixpkgs.lib;
+  lib = inputs.nixpkgs.lib;
 };
 services.openssh.enable = true;
 users.users.root.openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICEYoH0dcCQP4sFB3Jl3my7tqXdcwvHo0mOdDdB39UFX" ];

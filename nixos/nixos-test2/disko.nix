@@ -1,27 +1,30 @@
+{ disks ? [ "/dev/sda" ], ... }:
 {
-  disko.devices = {
-    disk = {
-      vda = {
-        device = "/dev/sda";
-        type = "disk";
-        content = {
-          type = "gpt";
-          partitions = {
-            ESP = {
-              size = "512M";
-              content = {
-                type = "filesystem";
-                format = "vfat";
-                mountpoint = "/boot";
-              };
+  disk = {
+    main = {
+      type = "disk";
+      device = builtins.elemAt disks 0;
+      content = {
+        type = "gpt";
+        partitions = {
+          boot = {
+            size = "1M";
+            type = "EF02"; # for grub MBR
+          };
+          ESP = {
+            size = "512M";
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot";
             };
-            root = {
-              size = "100%";
-              content = {
-                type = "filesystem";
-                format = "ext4";
-                mountpoint = "/";
-              };
+          };
+          root = {
+            size = "100%";
+            content = {
+              type = "filesystem";
+              format = "ext4";
+              mountpoint = "/";
             };
           };
         };
