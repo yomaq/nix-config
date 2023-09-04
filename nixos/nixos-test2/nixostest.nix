@@ -3,9 +3,8 @@
 {
   imports =
     [
-      ./nixos-test/configuration.nix
-      ./nixos-test/configuration.nix
-      inputs.home-manager.nixosModules.home-manager
+      ./configuration.nix
+      #inputs.home-manager.nixosModules.home-manager
     ];
   nix = {
     # This will add each flake input as a registry
@@ -23,11 +22,11 @@
       auto-optimise-store = true;
     };
   };
-  home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    users = {
-      # Import your home-manager configuration
-      carln = import .././home-manager/carlnMidnight.nix;
-    };
-  };
+#  home-manager = {
+#    extraSpecialArgs = { inherit inputs; };
+#    users = {
+#      # Import your home-manager configuration
+#      carln = import .././home-manager/carlnMidnight.nix;
+#    };
+#  };
 }

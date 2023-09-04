@@ -3,8 +3,7 @@
 {
   imports =
     [
-      ./nixos-test/configuration.nix
-      ./nixos-test/configuration.nix
+      ./configuration.nix
       inputs.home-manager.nixosModules.home-manager
     ];
   nix = {
