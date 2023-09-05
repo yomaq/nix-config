@@ -49,6 +49,7 @@
 ### Configure general Gnome settings here
     dconf.settings."org/gnome/desktop/interface".enable-hot-corners = false;
 
+    
 
 
 ### I have not learned how to install packages from multiple locations within the same file, so everything gets install here, and then configured down below.
@@ -67,6 +68,12 @@
       # gnome themes
       fluent-gtk-theme
       fluent-icon-theme
+      volantes-cursors
+      moka-icon-theme
+      (graphite-gtk-theme.override {
+        themeVariants = ["default"]; 
+        tweaks = ["rimless" "nord" "darker"];
+        })
       ];
 
 
@@ -108,21 +115,21 @@
 
 
 ### Set gnome themes after installing them above
-    dconf.settings."org/gnome/shell/extensions/user-theme".name = "Fluent-Dark-compact";
-    home.sessionVariables.GTK_THEME = "Fluent-Dark-compact";
+    dconf.settings."org/gnome/shell/extensions/user-theme".name = "Graphite-Dark-nord";
+    home.sessionVariables.GTK_THEME = "Graphite-Dark-nord";
     gtk = {
         enable = true;
 
         iconTheme = {
-        name = "Fluent-Dark";
+        name = "Moka";
         package = pkgs.fluent-icon-theme;
         };
-        #cursorTheme = {
-        #  name = "";
-        #  package = pkgs.;
-        #};
+        cursorTheme = {
+          name = "volantes_light_cursors";
+           package = pkgs.volantes-cursors;
+        };
         theme = {
-          name = "Fluent-Dark-compact";
+          name = "Graphite-Dark-nord";
           package = pkgs.graphite-gtk-theme;
         };
         gtk3.extraConfig = {

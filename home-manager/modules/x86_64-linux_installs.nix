@@ -2,7 +2,6 @@
   config = {
     home = {
       packages = [
-        pkgs._1password-gui
         pkgs.trayscale
         pkgs.spotify
         pkgs.steam
