@@ -71,8 +71,8 @@
       volantes-cursors
       moka-icon-theme
       (graphite-gtk-theme.override {
-        themeVariants = ["default"]; 
-        tweaks = ["rimless" "nord" "darker"];
+        themeVariants = ["teal"]; 
+        tweaks = ["rimless" "darker"];
         })
       ];
 
@@ -109,14 +109,17 @@
           window-gap-hidden-on-single = true;
           focus-border-toggle = false;
         };
+        "org/gnome/shell/extensions/blur-my-shell" = {
+          "panel/sigma" = 0;
+        };
       };
     
 
 
 
 ### Set gnome themes after installing them above
-    dconf.settings."org/gnome/shell/extensions/user-theme".name = "Graphite-Dark-nord";
-    home.sessionVariables.GTK_THEME = "Graphite-Dark-nord";
+    dconf.settings."org/gnome/shell/extensions/user-theme".name = "Graphite-teal-Dark";
+    home.sessionVariables.GTK_THEME = "Graphite-teal-Dark";
     gtk = {
         enable = true;
 
@@ -129,7 +132,7 @@
            package = pkgs.volantes-cursors;
         };
         theme = {
-          name = "Graphite-Dark-nord";
+          name = "Graphite-teal-Dark";
           package = pkgs.graphite-gtk-theme;
         };
         gtk3.extraConfig = {
