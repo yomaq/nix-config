@@ -61,7 +61,7 @@
             mountpoint = "none";
             encryption = "aes-256-gcm";
             keyformat = "passphrase";
-            keylocation = config.age.secrets.zfs.path;
+            keylocation = self.age.secrets.zfs.path;
           };
           # use this to read the key during boot
            postCreateHook = ''
