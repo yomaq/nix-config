@@ -8,6 +8,7 @@ let
 in
 {
   "carln.age".publicKeys = [ agenix carln ];
+  "zfs.age".publicKeys = [ agenix carln ];
 
   #example for calling groups
   #"secret2.age".publicKeys = users ++ systems;
