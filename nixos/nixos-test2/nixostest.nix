@@ -4,8 +4,8 @@
   imports =
     [
       ./configuration.nix
+      ./disko.nix
       #inputs.home-manager.nixosModules.home-manager
-      inputs.disko.nixosModules.disko
     ];
   nix = {
     # This will add each flake input as a registry
@@ -23,9 +23,6 @@
       auto-optimise-store = true;
     };
   };
-disko.devices = import ./disko.nix {
-  lib = inputs.nixpkgs.lib;
-};
 services.openssh.enable = true;
 users.users.root.openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICEYoH0dcCQP4sFB3Jl3my7tqXdcwvHo0mOdDdB39UFX" ];
 #  home-manager = {
