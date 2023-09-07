@@ -4,9 +4,8 @@
   ];
   config = {
     nixpkgs.overlays = [inputs.nur.overlay];
-    home.packages = [pkgs.firefox-unwrapped];
     programs.firefox = {
-      package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
+      package = pkgs.firefox.override {
         extraPolicies = {
           CaptivePortal = false;
           DisableFirefoxStudies = true;
