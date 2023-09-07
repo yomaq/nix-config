@@ -15,7 +15,7 @@
   boot.loader.grub.useOSProber = true;
 
   networking.hostName = "nixos-test2"; # Define your hostname.
-  networking.hostID = (builtins.substring 0 8 (builtins.readFile "/etc/machine-id")); # for ZFS
+  networking.hostID = "a43Bf4f9b306446f92b288b6eed1a951"; # for ZFS
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
