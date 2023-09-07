@@ -4,7 +4,6 @@
   imports =
     [
       ./configuration.nix
-      ./disko.nix
       inputs.disko.nixosModules.disko
       #inputs.home-manager.nixosModules.home-manager
     ];
@@ -25,7 +24,7 @@
     };
   };
 
-  disko.devices = import ./disko.nix {
+  disko.devices = import ./disko-zfs.nix {
     lib = inputs.nixpkgs.lib;
   };
 
