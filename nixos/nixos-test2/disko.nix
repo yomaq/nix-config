@@ -1,5 +1,5 @@
 { disks ? [ "/dev/sda" ], ... }:
-{  
+{
   disk = {
     main = {
       type = "disk";
