@@ -1,7 +1,4 @@
-{ disks ? [ 
-    "/dev/vda" 
-    ], ... 
-}:
+{ disks ? [ "/dev/vda" ], ... }:
 {  
   disk = {
     main = {
