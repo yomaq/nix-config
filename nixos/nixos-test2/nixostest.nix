@@ -26,7 +26,7 @@
   };
 
   disko.devices = import ./disko.nix {
-    lib = nixpkgs.lib;
+    lib = inputs.nixpkgs.lib;
   };
 
 
