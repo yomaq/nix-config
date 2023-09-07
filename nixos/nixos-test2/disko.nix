@@ -1,9 +1,9 @@
-{ lib, ... }:
+{ disks ? [ "/dev/sda" ], ... }:
 {  
   disk = {
     main = {
       type = "disk";
-      device = /dev/sda;
+      device = builtins.elemAt disks 0;
       content = {
         type = "gpt";
         partitions = {
@@ -19,51 +19,14 @@
               mountpoint = "/boot";
             };
           };
-          zfs = {
+          root = {
             size = "100%";
             content = {
-              type = "zfs";
-              pool = "zroot";
+              type = "filesystem";
+              format = "ext4";
+              mountpoint = "/";
             };
           };
-        };
-      };
-    };
-  };
-  zpool = {
-    zroot = {
-      type = "zpool";
-      mode = "mirror";
-      rootFsOptions = {
-        compression = "zstd";
-        "com.sun:auto-snapshot" = "false";
-      };
-      #mountpoint = "";
-      postCreateHook = "zfs snapshot zroot@blank";
-
-      datasets = {
-        #zfs_fs = {
-        #  type = "zfs_fs";
-        #  mountpoint = "/zfs_fs";
-        #  options."com.sun:auto-snapshot" = "true";
-        #};
-        encrypted = {
-          type = "zfs_fs";
-          options = {
-            mountpoint = "none";
-            encryption = "aes-256-gcm";
-            keyformat = "passphrase";
-            keylocation = "file:///tmp/disk-1.key";
-          };
-          # use this to read the key during boot
-          postCreateHook = ''
-            zfs set keylocation="prompt" "zroot/$name";
-          '';
-        };
-        "encrypted/test" = {
-          type = "zfs_fs";
-          mountpoint = "/";
-          #postCreateHook = "zfs snapshot zroot/encripted/test@blank";
         };
       };
     };
