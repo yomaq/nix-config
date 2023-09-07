@@ -39,7 +39,7 @@
         "com.sun:auto-snapshot" = "false";
       };
       mountpoint = "none";
-      #postCreateHook = "zfs snapshot zroot@blank";
+      postCreateHook = "zfs snapshot zroot@blank";
 
       datasets = {
         #zfs_fs = {
@@ -64,7 +64,6 @@
           type = "zfs_fs";
           mountpoint = "/";
           #postCreateHook = "zfs snapshot zroot/encripted/test@blank";
-          "com.sun:auto-snapshot" = "false";
         };
       };
     };
