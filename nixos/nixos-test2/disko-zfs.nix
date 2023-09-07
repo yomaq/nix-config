@@ -1,6 +1,7 @@
 { lib, disks ? [ "/dev/sda" ], ... }:
 {  
   disk = {
+    # Boot drive
     main = {
       type = "disk";
       device = builtins.elemAt disks 0;
@@ -29,6 +30,23 @@
         };
       };
     };
+  ### Add additional disks
+  #  disk1 = {
+  #    type = "disk";
+  #    device = builtins.elemAt disks 1;
+  #    content = {
+  #      type = "gpt";
+  #      partitions = {
+  #        zfs = {
+  #          size = "100%";
+  #          content = {
+  #            type = "zfs";
+  #            pool = "zroot";
+  #          };
+  #        };
+  #      };
+  #    };
+  #  };
   };
   zpool = {
     zroot = {
