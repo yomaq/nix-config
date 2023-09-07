@@ -15,6 +15,7 @@
   boot.loader.grub.useOSProber = true;
 
   networking.hostName = "nixos-test2"; # Define your hostname.
+  networking.hostID = "nixos-test2"; # for ZFS
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
