@@ -70,10 +70,6 @@
       fluent-icon-theme
       volantes-cursors
       moka-icon-theme
-      (graphite-gtk-theme.override {
-        themeVariants = ["teal"]; 
-        tweaks = ["rimless" "darker"];
-        })
       ];
 
 
@@ -118,8 +114,8 @@
 
 
 ### Set gnome themes after installing them above
-    dconf.settings."org/gnome/shell/extensions/user-theme".name = "Graphite-teal-Dark";
-    home.sessionVariables.GTK_THEME = "Graphite-teal-Dark";
+    dconf.settings."org/gnome/shell/extensions/user-theme".name = "Graphite-Dark";
+    home.sessionVariables.GTK_THEME = "Graphite-Dark";
     gtk = {
         enable = true;
 
@@ -132,8 +128,11 @@
            package = pkgs.volantes-cursors;
         };
         theme = {
-          name = "Graphite-teal-Dark";
-          package = pkgs.graphite-gtk-theme;
+          name = "Graphite-Dark";
+          package = (pkgs.graphite-gtk-theme.override {
+                        themeVariants = ["default"]; 
+                        tweaks = ["rimless" "darker"];
+                    });
         };
         gtk3.extraConfig = {
           Settings = ''

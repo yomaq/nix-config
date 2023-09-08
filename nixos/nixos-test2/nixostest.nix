@@ -23,7 +23,7 @@
       auto-optimise-store = true;
     };
   };
-  networking.hostID = "a43Bf4f9b306446f92b288b6eed1a951"; # for ZFS
+  networking.hostID = ""; # for ZFS
   disko.devices = import ./disko-zfs.nix {
     lib = inputs.nixpkgs.lib;
   };
