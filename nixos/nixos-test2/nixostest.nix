@@ -4,8 +4,7 @@
   imports =
     [
       ./configuration.nix
-      ./zfs.nix
-      inputs.disko.nixosModules.disko
+      ./disko-btrfs
       #inputs.home-manager.nixosModules.home-manager
     ];
   nix = {
@@ -24,10 +23,9 @@
       auto-optimise-store = true;
     };
   };
-  networking.hostId = "83b0a257"; # for ZFS
-  disko.devices = import ./disko-zfs.nix {
-    lib = inputs.nixpkgs.lib;
-  };
+  #disko.devices = import ./disko-zfs.nix {
+  #  lib = inputs.nixpkgs.lib;
+  #};
 
 
 services.openssh.enable = true;

@@ -1,3 +1,13 @@
+### This works, but it seems that you can't automatically unlock zfs on root in Nixos
+### Or at least I haven't figured out how to.
+### I am rather confused because I followed the steps here https://github.com/numtide/nixos-anywhere/issues/161
+### Which I believe should do the automatic unlock? But it does not.
+### I checked my keyfile and it does not end in a new line...
+
+
+
+
+
 { lib, disks ? [ "/dev/sda" ], ... }:
 {  
   disk = {
@@ -51,37 +61,74 @@
   zpool = {
     zroot = {
       type = "zpool";
-      mode = "mirror";
+      #mode = "mirror";
       rootFsOptions = {
+        canmount = "off";
+        checksum = "edonr";
         compression = "zstd";
+        dnodesize = "auto";
+        encryption = "aes-256-gcm";
+        # if you want to use the key for interactive login be sure there is no trailing newline
+        # for example use `echo -n "password" > /tmp/secret.key`
+        keylocation = "file:///tmp/disk-1.key";
+        keyformat = "passphrase";
+        mountpoint = "none";
+        normalization = "formD";
+        relatime = "on";
         "com.sun:auto-snapshot" = "false";
       };
-      #mountpoint = "";
-      postCreateHook = "zfs snapshot zroot@blank";
+      postCreateHook = ''
+        zfs set keylocation="prompt" $name;
+      '';
+      options = {
+        ashift = "12";
+        autotrim = "on";
+      };
+
 
       datasets = {
-        #zfs_fs = {
-        #  type = "zfs_fs";
-        #  mountpoint = "/zfs_fs";
-        #  options."com.sun:auto-snapshot" = "true";
-        #};
-        encrypted = {
-          type = "zfs_fs";
+        # zfs uses cow free space to delete files when the disk is completely filled
+        reserved = {
           options = {
+            canmount = "off";
             mountpoint = "none";
-            encryption = "aes-256-gcm";
-            keyformat = "passphrase";
-            keylocation = "file:///tmp/disk-1.key";
+            reservation = "5GiB";
           };
-          # use this to read the key during boot
-          postCreateHook = ''
-            zfs set keylocation="prompt" "zroot/$name";
-          '';
-        };
-        "encrypted/test" = {
           type = "zfs_fs";
+        };
+        home = {
+          type = "zfs_fs";
+          options.mountpoint = "legacy";
+          mountpoint = "/home";
+          options."com.sun:auto-snapshot" = "true";
+          postCreateHook = "zfs snapshot zroot/home@empty";
+        };
+        persist = {
+          type = "zfs_fs";
+          options.mountpoint = "legacy";
+          mountpoint = "/persist";
+          options."com.sun:auto-snapshot" = "true";
+          postCreateHook = "zfs snapshot zroot/persist@empty";
+        };
+        nix = {
+          type = "zfs_fs";
+          options.mountpoint = "legacy";
+          mountpoint = "/nix";
+          options = {
+            atime = "off";
+            canmount = "on";
+            "com.sun:auto-snapshot" = "true";
+          };
+          postCreateHook = "zfs snapshot zroot/nix@empty";
+        };
+        root = {
+          type = "zfs_fs";
+          options.mountpoint = "legacy";
           mountpoint = "/";
-          #postCreateHook = "zfs snapshot zroot/encripted/test@blank";
+          postCreateHook = ''
+            zfs snapshot zroot/root@empty
+            zfs snapshot zroot/root@lastboot
+          '';
         };
       };
     };

@@ -25,4 +25,4 @@ chmod 600 "$temp/etc/ssh/agenix"
 
 # Install NixOS to the host system with our secrets and encription
 nix run github:numtide/nixos-anywhere -- --extra-files "$temp" \
-  --disk-encryption-keys /tmp/disk-1.key <(op read op://Private/zfs-encription/password) --flake github:yomaq/nix-config#$flake root@$ipaddress
+  --disk-encryption-keys /tmp/disk-1.key <(op read op://Private/zfs-encription/password) --flake ..#$flake root@$ipaddress
