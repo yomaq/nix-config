@@ -1,9 +1,17 @@
 ### This works, but it seems that you can't automatically unlock zfs on root in Nixos
-### Or at least I haven't figured out how to.
+### Or at least I haven't figured out how to. I know next to nothing about zfs.
 ### I am rather confused because I followed the steps here https://github.com/numtide/nixos-anywhere/issues/161
 ### Which I believe should do the automatic unlock? But it does not.
 ### I checked my keyfile and it does not end in a new line...
 
+
+
+### Needed hardware configuration to wipe root
+  #boot.initrd.postDeviceCommands =
+  #      #wipe / and /var on boot
+  #      lib.mkAfter ''
+  #        zfs rollback -r rpool/root@empty
+  #    '';
 
 
 
