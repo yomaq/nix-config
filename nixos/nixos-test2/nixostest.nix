@@ -4,7 +4,7 @@
   imports =
     [
       ./configuration.nix
-      ./disko-btrfs
+      ./disko-btrfs.nix
       #inputs.home-manager.nixosModules.home-manager
     ];
   nix = {

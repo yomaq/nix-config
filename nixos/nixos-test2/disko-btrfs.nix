@@ -1,9 +1,16 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{ config, lib, pkgs, modulesPath, inputs, ... }:
 {
   imports =
     [
       inputs.disko.nixosModules.disko
+      inputs.agenix.nixosModules.default
     ];
+
+
+  age.identityPaths = [ "/etc/ssh/agenix" ];
+  age.secrets.encrypt.file = ../../secrets/encrypt.age;
+
+
   disko.devices = {
     disk = {
       vdb = {
@@ -34,7 +41,7 @@
                 # for example use `echo -n "password" > /tmp/secret.key`
                 #passwordFile = "/tmp/secret.key"; # Interactive
                 settings.keyFile = "/tmp/disk-1.key";
-                # additionalKeyFiles = [ "/tmp/additionalSecret.key" ];
+                additionalKeyFiles = [ config.age.secrets.encrypt.path ];
                 content = {
                   type = "btrfs";
                   extraArgs = [ "-f" ];
