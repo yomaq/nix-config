@@ -4,6 +4,7 @@
   imports =
     [
       ./configuration.nix
+      ./zfs.nix
       inputs.disko.nixosModules.disko
       #inputs.home-manager.nixosModules.home-manager
     ];
@@ -23,7 +24,7 @@
       auto-optimise-store = true;
     };
   };
-  networking.hostID = ""; # for ZFS
+  networking.hostID = "83b0a257"; # for ZFS
   disko.devices = import ./disko-zfs.nix {
     lib = inputs.nixpkgs.lib;
   };
