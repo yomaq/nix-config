@@ -13,22 +13,28 @@
 
   disko.devices = {
     disk = {
-      vdb = {
+      disk1 = {
         type = "disk";
-        device = "/dev/sda";
+        device = "/dev/nvme0n1";
         content = {
           type = "gpt";
           partitions = {
-            boot = {
-              size = "1M";
-              type = "EF02"; # for grub MBR
-            };
+            #boot = {
+            #  size = "1M";
+            #  type = "EF02"; # for grub MBR
+            #};
             ESP = {
+              label = "EFI";
+              name = "ESP";
               size = "512M";
+              type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
+                mountOptions = [
+                  "defaults"
+                ];
               };
             };
             luks = {

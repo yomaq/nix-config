@@ -24,9 +24,6 @@
     # Nix User Repository
     nur.url = github:nix-community/NUR;
 
-    # Disko - reproducible disk partitioning/formating
-    disko.url = github:nix-community/disko;
-    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 

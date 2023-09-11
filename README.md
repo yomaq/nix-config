@@ -39,3 +39,9 @@ Build Darwin
 ```
 darwin-rebuild switch --flake .
 ```
+
+
+
+Todo:
+
+Revisit Disko when its more stable github:nix-community/disko;

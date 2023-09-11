@@ -7,6 +7,8 @@
     ];
 
     
+    networking.hostId = "83b0a257";
+
     boot = {
       # Newest kernels might not be supported by ZFS
       kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
