@@ -44,26 +44,6 @@
         "type": "github"
       }
     },
-    "disko": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1694266353,
-        "narHash": "sha256-NutPFFKc5FK05zq8JYm8quBKJ93goYowxjW/FKcXAdI=",
-        "owner": "nix-community",
-        "repo": "disko",
-        "rev": "f9907fcf6df79a76ea7e3a3afe9340a672cb9c6e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "disko",
-        "type": "github"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -92,11 +72,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1694134858,
-        "narHash": "sha256-fG/ESauOGmiojKlpJG8gB62dJa5Wd+ZIuiDMKK/HD3g=",
+        "lastModified": 1694375657,
+        "narHash": "sha256-32X8dcty4vPXx+D4yJPQZBo5hJ1NQikALhevGv6elO4=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "19c6a4081b14443420358262f8416149bd79561a",
+        "rev": "f7848d3e5f15ed02e3f286029697e41ee31662d7",
         "type": "github"
       },
       "original": {
@@ -144,11 +124,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1694326581,
-        "narHash": "sha256-G/PeSSKQ1SA46nxgV8MXah2HgXAPc/ZlgV+HFVZyjg0=",
+        "lastModified": 1694416982,
+        "narHash": "sha256-23TXQ0X+h0t1zWiIRcRu2Kao8MxD5mH9qO5GuHsj9NU=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e1674514de689e7fb8226d5e6522a2a51ee1345c",
+        "rev": "6ef5ca47a9c188dfaa59c2bdf7e0a2712986f866",
         "type": "github"
       },
       "original": {
@@ -175,11 +155,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1694325693,
-        "narHash": "sha256-jgNw7X3Wu18tvpI0byF22QL857oOT9T/k8CGttmYREA=",
+        "lastModified": 1694415188,
+        "narHash": "sha256-aYIEZ+83sDEDJJqhkJvAP6Wh0BRwQauZ08JVnbHPb1E=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "3f27b48ba97a53a1bd492f163c6e1eb5b60b7954",
+        "rev": "9fe1516cee70b95098a25f94bfb58f606180afa1",
         "type": "github"
       },
       "original": {
@@ -191,7 +171,6 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
-        "disko": "disko",
         "home-manager": "home-manager_2",
         "nix-darwin": "nix-darwin",
         "nixos-hardware": "nixos-hardware",
