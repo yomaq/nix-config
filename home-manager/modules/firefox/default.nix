@@ -1,5 +1,5 @@
-from: 
-https://github.com/Ruixi-rebirth/flakes/blob/main/modules/programs/common/firefox/default.nix
+#from: 
+#https://github.com/Ruixi-rebirth/flakes/blob/main/modules/programs/common/firefox/default.nix
 
 
 { config, pkgs, ... }:
