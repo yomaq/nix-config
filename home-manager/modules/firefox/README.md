@@ -1,0 +1,1 @@
+https://github.com/Ruixi-rebirth/flakes/tree/main/modules/programs/common/firefox
