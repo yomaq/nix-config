@@ -38,12 +38,14 @@
 
   age.identityPaths = [ "/home/carln/.ssh/agenix" ];
   age.secrets.carln.file = ../../secrets/carln.age;
-  users.mutableUsers = false;
+### nixos update and fixed "passwordFile" to "hashedPasswordFile" to match that the file was already hashed.
+### however its not working for me so I'm leaving it as is and will revisit in a couple days
+  #users.mutableUsers = false;
 
   users.users.carln = {
     isNormalUser = true;
     description = "carln";
-    hashedPasswordFile = config.age.secrets.carln.path;
+    #hashedPasswordFile = config.age.secrets.carln.path;
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
