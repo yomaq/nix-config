@@ -27,6 +27,11 @@
               ExtensionRecommendations = false;
               SkipOnboarding = true;
           };
+          Preferences = {
+            "browser.toolbars.bookmarks.visibility" = "never";
+            "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+            "media.ffmpeg.vaapi.enabled" = true;
+          };
         };
       };
       enable = true;
@@ -37,7 +42,7 @@
         extensions = with pkgs.nur.repos.rycee.firefox-addons; [
             ublock-origin
             onepassword-password-manager
-            maya-dark
+            #maya-dark
             darkreader
         ];
         search = {
@@ -56,20 +61,12 @@
 
 
                 /* The default sidebar width. */
-                /* #sidebar-box { */
-                /*   overflow: hidden!important; */
-                /*   position: relative!important; */
-                /*   transition: all 300ms!important; */
-                /*   min-width: 60px !important; */
-                /*   max-width: 60px !important; */
-                /* } */
+                #sidebar-box, #sidebar-box *{ max-width:none!important; }
 
-                /* The sidebar width when hovered. */
-                /* #sidebar-box #sidebar,#sidebar-box:hover { */
-                /*   transition: all 300ms!important; */
-                /*   min-width: 60px !important; */
-                /*   max-width: 200px !important; */
-                /* } */
+                */ The sidebar width when hovered. */
+                #sidebar-box:hover, #sidebar-box:hover *{ max-width:none!important; }
+                #sidebar-box { opacity:0; }
+                #sidebar-box:hover { opacity:1; }
 
 
                 /* only remove TST headers */
@@ -117,7 +114,7 @@
         '';
         userContent = ''
                   /*hide all scroll bars*/
-                  /* *{ scrollbar-width: none !important } */
+                  *{ scrollbar-width: none !important }
 
 
                   * {

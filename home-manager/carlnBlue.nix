@@ -11,7 +11,7 @@
     ./modules/installs.nix
     ./modules/x86_64-linux_installs.nix
     ./modules/gnome-home.nix
-    ./modules/firefox2.nix
+    ./modules/firefox.nix
 
   ];
 
