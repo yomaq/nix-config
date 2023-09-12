@@ -43,7 +43,7 @@
   users.users.carln = {
     isNormalUser = true;
     description = "carln";
-    passwordFile = config.age.secrets.carln.path;
+    hashedPasswordFile = config.age.secrets.carln.path;
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
