@@ -9,6 +9,7 @@
 
     # You can also split up your configuration and import pieces of it here:
     ./modules/installs.nix
+    ./modules/firefox
   ];
 
   # fix for home manager bug
