@@ -40,12 +40,19 @@
   age.secrets.carln.file = ../../secrets/carln.age;
 ### nixos update and fixed "passwordFile" to "hashedPasswordFile" to match that the file was already hashed.
 ### however its not working for me so I'm leaving it as is and will revisit in a couple days
-  #users.mutableUsers = false;
+  users.mutableUsers = false;
 
   users.users.carln = {
     isNormalUser = true;
     description = "carln";
-    #hashedPasswordFile = config.age.secrets.carln.path;
+    passwordFile = config.age.secrets.carln.path;
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [];
+  };
+  users.users.carln90 = {
+    isNormalUser = true;
+    description = "carln90";
+    passwordFile = config.age.secrets.carln.path;
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
