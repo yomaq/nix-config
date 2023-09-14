@@ -49,13 +49,6 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
-  users.users.carln90 = {
-    isNormalUser = true;
-    description = "carln90";
-    passwordFile = config.age.secrets.carln.path;
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
-  };
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
