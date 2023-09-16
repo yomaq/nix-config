@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, modulesPath, inputs, ... }:
 {
   imports =
     [
@@ -17,7 +17,6 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
-
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
