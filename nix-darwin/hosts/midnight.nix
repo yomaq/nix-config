@@ -6,9 +6,9 @@
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
     inputs.home-manager.darwinModules.home-manager
-    inputs.self.darwinModules.brew
-    inputs.self.darwinModules.yabai
     inputs.agenix.darwinModules.default
+    ./modules/yabai.nix
+    ./modulesbrew_macos.nix
     {
       home-manager.useUserPackages = true;
     }

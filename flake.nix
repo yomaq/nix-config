@@ -18,39 +18,29 @@
     nur.url = github:nix-community/NUR;
   };
   outputs = { nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
-    let
-      flakeContext = {
-        inherit inputs;
-      };
-    in
-     {
-      # NixOS configuration entrypoint
-      # Available through 'nixos-rebuild switch --flake .#your-hostname'
-      nixosConfigurations = {
-        blue = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; }; 
-          modules = [ ./nixos/hosts/blue/blue.nix ];
-        };
-        nixos = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; }; 
-          modules = [ ./nixos/hosts/nixos-test/nixostest.nix ];
-        };
-      };
-      # Nix-darwin configuration entrypoint
-      # Available through 'darwin-rebuild switch --flake .#your-hostname'
-      darwinConfigurations = {
-        midnight = nix-darwin.lib.darwinSystem {
-          specialArgs = { inherit inputs; };
-          system = "aarch64-darwin"; 
-          modules = [ ./nix-darwin/hosts/midnight.nix ];
-        };
-      };
-      # Modules for importing without referencing their file location:
-      darwinModules = {
-        brew = import ./nix-darwin/modules/brew_macos.nix flakeContext;
-        yabai = import ./nixDarwin/modules/yabai.nix flakeContext;
-      };
-     };
+  {
+  # NixOS configuration entrypoint
+  # Available through 'nixos-rebuild switch --flake .#your-hostname'
+  nixosConfigurations = {
+    blue = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = { inherit inputs; }; 
+      modules = [ ./nixos/hosts/blue/blue.nix ];
+    };
+    nixos = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = { inherit inputs; }; 
+      modules = [ ./nixos/hosts/nixos-test/nixostest.nix ];
+    };
+  };
+  # Nix-darwin configuration entrypoint
+  # Available through 'darwin-rebuild switch --flake .#your-hostname'
+  darwinConfigurations = {
+    midnight = nix-darwin.lib.darwinSystem {
+      specialArgs = { inherit inputs; };
+      system = "aarch64-darwin"; 
+      modules = [ ./nix-darwin/hosts/midnight.nix ];
+    };
+  };
+  };
 }
