@@ -44,13 +44,17 @@
         midnight = nix-darwin.lib.darwinSystem {
           specialArgs = { inherit inputs; };
           system = "aarch64-darwin"; 
-          modules = [ ./nix-darwin/midnight.nix ];
+          modules = [ ./nixDarwin/midnight.nix ];
         };
       };
       # Modules for importing without referencing their file location:
       darwinModules = {
         brew = import ./nix-darwin/modules/brew_macos.nix flakeContext;
         yabai = import ./nix-darwin/modules/yabai.nix flakeContext;
+      };
+      homeModules = {
+        carlnBlue = import ./homeManager/carlnBlue.nix;
+        carlnMidight = import ./homeManager/carlnMidnight.nix;
       };
      };
 }
