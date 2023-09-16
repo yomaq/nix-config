@@ -36,7 +36,7 @@
   };
 
   age.identityPaths = [ "/home/carln/.ssh/agenix" ];
-  age.secrets.carln.file = ../../secrets/carln.age;
+  age.secrets.carln.file = ../../../secrets/carln.age;
 
   users.mutableUsers = false;
 
@@ -52,7 +52,7 @@
     extraSpecialArgs = { inherit inputs; };
     users = {
       # Import your home-manager configuration
-      carln = import inputs.home-manager.homeModules.carlnBlue;
+      carln = import ../../../home-manager/users/carln/carlnBlue.nix;
     };
   };
 
