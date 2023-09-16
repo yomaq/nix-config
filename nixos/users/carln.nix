@@ -17,6 +17,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
+
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
