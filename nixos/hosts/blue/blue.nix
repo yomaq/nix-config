@@ -6,9 +6,9 @@
       ./configuration.nix
       ./hardware-configuration.nix
       ./gnome.nix
-      inputs.home-manager.nixosModules.home-manager
       inputs.nixos-hardware.nixosModules.lenovo-legion-15ach6
-      inputs.agenix.nixosModules.default
+      # user account
+      ../../users/carln.nix
     ];
   nix = {
     # This will add each flake input as a registry
@@ -32,27 +32,6 @@
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
-    };
-  };
-
-  age.identityPaths = [ "/home/carln/.ssh/agenix" ];
-  age.secrets.carln.file = ../../../secrets/carln.age;
-
-  users.mutableUsers = false;
-
-  users.users.carln = {
-    isNormalUser = true;
-    description = "carln";
-    hashedPasswordFile = config.age.secrets.carln.path;
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
-  };
-
-  home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    users = {
-      # Import your home-manager configuration
-      carln = import ../../../home-manager/users/carln/carlnBlue.nix;
     };
   };
 
