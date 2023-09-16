@@ -52,7 +52,7 @@
     extraSpecialArgs = { inherit inputs; };
     users = {
       # Import your home-manager configuration
-      carln = import homeManager.homeModules.carlnBlue;
+      carln = import inputs.home-manager.homeModules.carlnBlue;
     };
   };
 
