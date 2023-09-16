@@ -16,8 +16,7 @@
     registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
 
     # This will additionally add your inputs to the system's legacy channels
-    # Making legacy nix commands consistent as well, awesome!
-       # I have no idea what this means, I got it from https://github.com/Misterio77/nix-starter-configs
+    # Making legacy nix commands consistent as well
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
 
     settings = {
@@ -38,14 +37,13 @@
 
   age.identityPaths = [ "/home/carln/.ssh/agenix" ];
   age.secrets.carln.file = ../../secrets/carln.age;
-### nixos update and fixed "passwordFile" to "hashedPasswordFile" to match that the file was already hashed.
-### however its not working for me so I'm leaving it as is and will revisit in a couple days
+
   users.mutableUsers = false;
 
   users.users.carln = {
     isNormalUser = true;
     description = "carln";
-    passwordFile = config.age.secrets.carln.path;
+    hashedPasswordFile = config.age.secrets.carln.path;
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
