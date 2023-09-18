@@ -2,14 +2,9 @@
 
 {
   imports =
-    [
-      ./configuration.nix
-      ./hardware-configuration.nix
-      ./gnome.nix
-      inputs.nixos-hardware.nixosModules.lenovo-legion-15ach6
-      # user account
-      ../../users/carln.nix
-    ];
+    [];
+
+
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
@@ -33,6 +28,11 @@
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
     };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
   };
 
   # automatically rebuild system if github has updates
@@ -42,10 +42,7 @@
     flags = ["-L" ]; # print build logs 
     dates = "02:00";
   };
-
-
-
   
-  # Apparently... nixos can't declaratively manage flatpaks????????
-  services.flatpak.enable = true;
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 }

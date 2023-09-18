@@ -1,8 +1,19 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, modulesPath, inputs, ... }:
 
 {
   imports =
-    [ ];
+    [
+      ./misc.nix
+      ./hardware-configuration.nix
+      ../modules/gnome.nix
+      inputs.nixos-hardware.nixosModules.lenovo-legion-15ach6
+      # user account
+      ../../users/carln.nix
+    ];
+  
+
+  system.stateVersion = "23.05";
+
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -32,33 +43,6 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-
-  # Set default shell
-  programs.zsh.enable = true;
-  users.users.carln.shell = pkgs.zsh;
-  environment.shells = with pkgs; [ zsh];
-
-  # Tailscale
-  services.tailscale = {
-    enable = true;
-  };
-
-# 1Password 
-  programs._1password-gui = {
-    enable = true;
-    polkitPolicyOwners = [ "carln" ];
-  };
-
-  
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-
-
-
-  system.stateVersion = "23.05"; # Did you read the comment?
-
 }

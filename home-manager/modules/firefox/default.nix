@@ -51,7 +51,7 @@
         settings = {
             "general.smoothScroll" = true;
         };
-### Pick chrome css here
+### Pick user chrome css here
         userChrome = ''
                 /*========================================================================================================*
 
