@@ -5,10 +5,11 @@
     [
       ./misc.nix
       ./hardware-configuration.nix
-      ../modules/gnome.nix
+      ../../modules/gnome.nix
       inputs.nixos-hardware.nixosModules.lenovo-legion-15ach6
       # user account
       ../../users/carln.nix
+      ../../modules/common
     ];
   
 
