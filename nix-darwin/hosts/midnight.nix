@@ -7,8 +7,7 @@
     # If you want to use home-manager modules from other flakes (such as nix-colors):
     inputs.home-manager.darwinModules.home-manager
     inputs.agenix.darwinModules.default
-    ./modules/yabai.nix
-    ./modulesbrew_macos.nix
+    ../modules/common
     {
       home-manager.useUserPackages = true;
     }
@@ -33,7 +32,7 @@
       extraSpecialArgs = { inherit inputs; };
       users = {
         # Import your home-manager configuration
-        carln = import .././home-manager/users/carln/carlnMidnight.nix;
+        carln = import ../../home-manager/users/carln/carlnMidnight.nix;
       };
     };
   };
