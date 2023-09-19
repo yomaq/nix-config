@@ -3,13 +3,15 @@
 {
   imports =
     [
+      # modules specific to this computer
       ./misc.nix
       ./hardware-configuration.nix
-      ../../modules/gnome.nix
       inputs.nixos-hardware.nixosModules.lenovo-legion-15ach6
-      # user account
+      # user accounts
       ../../users/carln.nix
+      # shared modules
       ../../modules/common
+      ../../modules/gnome.nix
     ];
   
 
