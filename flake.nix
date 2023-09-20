@@ -18,6 +18,8 @@
     nur.url = github:nix-community/NUR;
     # Impermanance
     impermanence.url = "github:nix-community/impermanence";
+    # Disko
+    disko.url = "https://flakehub.com/f/nix-community/disko/1.1.0.tar.gz"
   };
   outputs = { nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
   {
