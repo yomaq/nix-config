@@ -32,7 +32,7 @@
 
 ### enable swap
  swapDevices = [ {
-    device = "/var/lib/swapfile";
+    device = "/nix/swapfile";
     size = 32*1024;
   } ];
 
@@ -51,16 +51,31 @@
         content = {
           type = "gpt";
           partitions = {
-            boot = {
-              size = "1M";
-              type = "EF02"; # for grub MBR
-            };
+    ### use either boot or ESP
+            #boot = {
+            #  size = "1M";
+            #  type = "EF02"; 
+            #};
             ESP = {
+              label = "EFI";
+              name = "ESP";
               size = "512M";
+              type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
+                mountOptions = [
+                  "defaults"
+                ];
+              };
+            };
+            nix = {
+              size = "100%";
+              content = {
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/nix";
               };
             };
           };
