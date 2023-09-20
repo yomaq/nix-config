@@ -16,6 +16,8 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     # Nix User Repository
     nur.url = github:nix-community/NUR;
+    # Impermanance
+    impermanence.url = "github:nix-community/impermanence";
   };
   outputs = { nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
   {
