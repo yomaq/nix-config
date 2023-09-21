@@ -36,6 +36,11 @@
       specialArgs = { inherit inputs; }; 
       modules = [ ./nixos/hosts/nixos-test/nixostest.nix ];
     };
+    nixos2 = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = { inherit inputs; }; 
+      modules = [ ./nixos/hosts/nixos2 ];
+    };
   };
   # Nix-darwin configuration entrypoint
   # Available through 'darwin-rebuild switch --flake .#your-hostname'
