@@ -21,10 +21,10 @@
         "1password"
         "raycast"
         "arc"
-        "viscosity"
         "linearmouse"
         "altserver"
         "tailscale"
+        "1password-cli"
       ];
       enable = true;
       onActivation = {

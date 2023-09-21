@@ -6,6 +6,7 @@
         pkgs.spotify
         pkgs.steam
         pkgs.moonlight-qt
+        pkgs._1password
       ];
       stateVersion = "23.05";
     };

@@ -11,7 +11,6 @@
         pkgs.kubectl
         pkgs.nerdfonts
         pkgs.chezmoi
-        pkgs._1password
         pkgs.tmuxinator
         pkgs.kubernetes-helm
         pkgs.agenix
