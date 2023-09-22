@@ -1,17 +1,12 @@
 { config, lib, pkgs, modulesPath, inputs, ... }:
 {
   imports =
-    [];
+    [
+      # Enable ssh service
+      ../modules/ssh.nix
+    ];
 
-  # Enable SSH service
-  networking.firewall.allowedTCPPorts = [22];
-  services.openssh = {
-      enable = true;
-      settings = {
-        # Disable password ssh authentication
-        PasswordAuthentication = false;
-      };
-    };
+
   # Force all user accounts to require nix configuration, any manual changes to users will be lost
   user.mutableUsers = false;
   # Configure admin account
@@ -29,5 +24,12 @@
       users = [ "admin" ];
       commands = [ { command = "ALL"; options = [ "NOPASSWD" ]; } ];
     }
+  ];
+  # packages to make available to admin
+  users.users.admin.packages = with pkgs; [
+    git
+    vim
+    gh
+    tailscale
   ];
 }

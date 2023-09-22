@@ -3,6 +3,6 @@
 {
   imports =
     [
-       ./nix+nixos-config.nix 
+       ./nix+nixos-config.nix
     ];
 }

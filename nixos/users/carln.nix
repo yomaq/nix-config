@@ -4,6 +4,7 @@
     [
       inputs.home-manager.nixosModules.home-manager
       inputs.agenix.nixosModules.default
+      ../modules/ssh.nix
     ];
   age.identityPaths = [ "/home/carln/.ssh/agenix" ];
   age.secrets.carln.file = ../../secrets/carln.age;
@@ -15,6 +16,7 @@
     description = "carln";
     hashedPasswordFile = config.age.secrets.carln.path;
     extraGroups = [ "networkmanager" "wheel" ];
+    openssh.authorizedKeys.keys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI"];
     packages = with pkgs; [];
   };
 

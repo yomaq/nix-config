@@ -9,6 +9,7 @@
       inputs.nixos-hardware.nixosModules.lenovo-legion-15ach6
       # user accounts
       ../../users/carln.nix
+      ../../users/admin-ssh-only.nix
       # shared modules
       ../../modules/common
       ../../modules/gnome.nix
