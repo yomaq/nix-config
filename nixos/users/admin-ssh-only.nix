@@ -8,9 +8,12 @@
 
 
   # Force all user accounts to require nix configuration, any manual changes to users will be lost
-  user.mutableUsers = false;
+  users.mutableUsers = false;
   # Configure admin account
   users.users.admin = {
+    extraGroups = [ "networkmanager" "wheel" ];
+    isNormalUser = true;
+    description = "nix administrator";
     # disable password for admin account
     hashedPassword = null;
     # Set authorized keys to authenticate to ssh as admin user
