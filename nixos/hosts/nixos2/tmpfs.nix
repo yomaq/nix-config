@@ -34,40 +34,35 @@
     size = 4*1024;
   } ];
 
-### Mount root as tmpfs
-  fileSystems."/" = {
-    device = "none";
-    fsType = "tmpfs";
-    options = [ "defaults" "size=28G" "mode=755" ];
-  };
+
 
   disko.devices = {
     disk = {
-      main = {
+      sda = {
         type = "disk";
-        device = dev/sda;
+        device = "/dev/nvme0n1";
         content = {
           type = "gpt";
           partitions = {
     ### use either boot or ESP
-            boot = {
-             size = "1M";
-             type = "EF02"; 
+            #boot = {
+            # size = "1M";
+            # type = "EF02"; 
+            #};
+            ESP = {
+              label = "EFI";
+              name = "ESP";
+              size = "512M";
+              type = "EF00";
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot";
+                mountOptions = [
+                  "defaults"
+                ];
+              };
             };
-            # ESP = {
-            #   label = "EFI";
-            #   name = "ESP";
-            #   size = "512M";
-            #   type = "EF00";
-            #   content = {
-            #     type = "filesystem";
-            #     format = "vfat";
-            #     mountpoint = "/boot";
-            #     mountOptions = [
-            #       "defaults"
-            #     ];
-            #   };
-            # };
             nix = {
               size = "100%";
               content = {
@@ -78,6 +73,14 @@
             };
           };
         };
+      };
+    };
+    nodev = {
+      "/" = {
+        fsType = "tmpfs";
+        mountOptions = [
+          "defaults" "size=5G" "mode=755"
+        ];
       };
     };
   };
