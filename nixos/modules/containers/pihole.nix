@@ -3,6 +3,7 @@
   imports =[
     ./default.nix
     inputs.agenix.nixosModules.default
+    inputs.impermanence.nixosModules.impermanence
   ];
 
   ### agenix secret containing the password in format:
