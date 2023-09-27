@@ -10,6 +10,7 @@
     mutableExtensionsDir = false;
     extensions = [
       pkgs.vscode-extensions.dracula-theme.theme-dracula
+      pkgs.vscode-extensions.bbenoist.nix
     ];
     userSettings = {
       "[nix]"."editor.tabSize" = 2;
