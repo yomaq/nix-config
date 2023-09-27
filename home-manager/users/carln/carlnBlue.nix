@@ -12,6 +12,7 @@
     ../../modules/x86_64-linux_installs.nix
     ../../modules/gnome-home.nix
     ../../modules/firefox
+    ../../modules/common
 
   ];
 
