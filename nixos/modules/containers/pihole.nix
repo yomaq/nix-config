@@ -2,7 +2,7 @@
 {
   imports =[
     ./default.nix
-    #inputs.agenix.nixosModules.default
+    inputs.agenix.nixosModules.default
     inputs.impermanence.nixosModules.impermanence
   ];
 
