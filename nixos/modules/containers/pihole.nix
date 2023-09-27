@@ -27,6 +27,8 @@
     "d /nix/containers/pihole//etc-dnsmasq.d 0755 root root"
   ];
 
+  #networking.firewall.allowedTCPPorts = [80 53];
+  #networking.firewall.allowedUDPPorts = [53];
 
   virtualisation.oci-containers.containers = {
     pihole = {
