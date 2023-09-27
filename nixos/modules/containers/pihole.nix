@@ -2,19 +2,19 @@
 {
   imports =[
     ./default.nix
-    inputs.agenix.nixosModules.default
+    #inputs.agenix.nixosModules.default
     inputs.impermanence.nixosModules.impermanence
   ];
 
-  ### agenix secret containing the password in format:
-  ### WEBPASSWORD: 'set a secure password here or it will be random'
-  age.secrets.encrypt.file = ../../../secrets/encrypt.age;
-  # specify which agenix key to use
-  age.identityPaths = [ "/home/carln/.ssh/agenix" ];
-  # make sure the key persists between boots
-  environment.persistence."/nix/persistent".files = [
-      { file = "/etc/nix/containers"; parentDirectory = { mode = "0700"; }; }
-    ];
+  # ### agenix secret containing the password in format:
+  # ### WEBPASSWORD: 'set a secure password here or it will be random'
+  # age.secrets.encrypt.file = ../../../secrets/encrypt.age;
+  # # specify which agenix key to use
+  # age.identityPaths = [ "/home/carln/.ssh/agenix" ];
+  # # make sure the key persists between boots
+  # environment.persistence."/nix/persistent".files = [
+  #     { file = "/etc/nix/containers"; parentDirectory = { mode = "0700"; }; }
+  #   ];
 
 
 # make the directories where the volumes are stored
@@ -35,12 +35,12 @@
       ports = [ "53:53/tcp" "53:53/udp" "80:80/tcp" ];
       environment = {
         "TZ" = "America/Chicago";
-        #"WEBPASSWORD" = "test";
+        "WEBPASSWORD" = "test";
       };
-      environmentFiles = [
-        # agenix secret created above
-        config.age.secrets.encrypt.path
-      ];
+      # environmentFiles = [
+      #   # agenix secret created above
+      #   config.age.secrets.encrypt.path
+      # ];
       volumes = [
         "/nix/containers/pihole/etc-pihole:/etc/pihole"
         "/nix/containers/pihole//etc-dnsmasq.d:/etc/dnsmasq.d"
