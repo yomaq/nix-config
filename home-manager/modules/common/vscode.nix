@@ -14,6 +14,7 @@
     ];
     userSettings = {
       "[nix]"."editor.tabSize" = 2;
+      "workbench.colorTheme" = "Dracula Soft";
     };
   };
 }
