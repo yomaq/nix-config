@@ -13,9 +13,9 @@
   # specify which agenix key to use
   age.identityPaths = [ "/home/carln/.ssh/agenix" ];
   # # make sure the key persists between boots
-  # environment.persistence."/nix/persistent".files = [
-  #     { file = "/etc/nix/containers"; parentDirectory = { mode = "0700"; }; }
-  #   ];
+  environment.persistence."/nix/persistent".files = [
+      { file = "/home/carln/.ssh/agenix"; parentDirectory = { mode = "0700"; }; }
+    ];
 
 
 # make the directories where the volumes are stored
