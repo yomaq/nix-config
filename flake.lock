@@ -9,11 +9,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1695954160,
-        "narHash": "sha256-6SmzTtEcfstlz0PL6W/2XCozRibGBt72xpl4qyhIE78=",
+        "lastModified": 1695954619,
+        "narHash": "sha256-TYlE4B0ktPtlJJF9IFxTWrEeq+XKG8Ny0gc2FGEAdj0=",
         "owner": "yomaq",
         "repo": "agenix",
-        "rev": "7009549207c255cf1c5fda67715cb280df81ecbd",
+        "rev": "dcf377ac54701a339c69b52a31414fef591ee888",
         "type": "github"
       },
       "original": {
