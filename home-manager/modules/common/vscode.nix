@@ -15,7 +15,7 @@
     userSettings = {
       "[nix]"."editor.tabSize" = 2;
       "workbench.colorTheme" = "Dracula";
-      "git.confirmSync" = "false"
+      "git.confirmSync" = "false";
     };
   };
 }
