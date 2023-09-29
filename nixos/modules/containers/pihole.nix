@@ -38,11 +38,11 @@
       environment = {
         "TZ" = "America/Chicago";
         #"WEBPASSWORD" = "test";
-        #"WEBPASSWORD_FILE" = config.age.secrets.encrypt.path;
+        "WEBPASSWORD_FILE" = config.age.secrets.encrypt.path;
       };
-      environmentFiles = [
-        config.age.secrets.encrypt.path
-      ];
+      # environmentFiles = [
+      #   config.age.secrets.encrypt.path
+      # ];
       volumes = [
         "/nix/persistent/backup/containers/pihole/etc-pihole:/etc/pihole"
         "/nix/persistent/backup/containers/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
