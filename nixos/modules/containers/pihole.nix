@@ -4,7 +4,7 @@
     # import the container runtime configuration
     ./default.nix
     # import agenix and impermanance for encryption/ensure the key persists
-    ../../../secrets/agenix.nix
+    ../../secrets/agenix.nix
     inputs.impermanence.nixosModules.impermanence
   ];
 
