@@ -3,7 +3,7 @@
   imports =
     [
       inputs.home-manager.nixosModules.home-manager
-      inputs.agenix.nixosModules.default
+      ../../../secrets/agenix.nix
       ../modules/ssh.nix
     ];
   age.identityPaths = [ "/home/carln/.ssh/agenix" ];
