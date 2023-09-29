@@ -27,8 +27,8 @@
     "d /nix/persistent/backup/containers/pihole/etc-dnsmasq.d 0755 root root"
   ];
 
-  #networking.firewall.allowedTCPPorts = [80 53];
-  #networking.firewall.allowedUDPPorts = [53];
+  networking.firewall.allowedTCPPorts = [80 53];
+  networking.firewall.allowedUDPPorts = [53];
 
   virtualisation.oci-containers.containers = {
     pihole = {
@@ -38,7 +38,7 @@
       environment = {
         "TZ" = "America/Chicago";
         #"WEBPASSWORD" = "test";
-        "WEBPASSWORD_FILE" = config.age.secrets.encrypt.path
+        "WEBPASSWORD_FILE" = config.age.secrets.encrypt.path;
       };
       # environmentFiles = [
       # ];
