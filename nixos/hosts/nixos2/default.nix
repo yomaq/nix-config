@@ -6,7 +6,6 @@
       ./configuration.nix
       ./tmpfs.nix
       ../../users/admin-ssh-only.nix
-      ../../users/test.nix
       ../../modules/ssh.nix
     ];
   nix = {
