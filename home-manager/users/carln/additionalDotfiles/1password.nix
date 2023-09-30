@@ -4,7 +4,7 @@
   ];
   home.file.onePassword = {
     enable = true;
-    target = "(~/.config/1Password/ssh/agent.toml";
+    target = ".config/1Password/ssh/agent.toml";
     text = ''
       [[ssh-keys]]
       vault = "ssh"
