@@ -18,6 +18,7 @@
   };
 
 # 1Password 
+  programs._1password.enable = true;
   programs._1password-gui = {
     enable = true;
     polkitPolicyOwners = [ "carln" ];
@@ -27,3 +28,4 @@
   nixpkgs.config.allowUnfree = true;
 
 }
+ 
