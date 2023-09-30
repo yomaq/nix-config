@@ -13,7 +13,7 @@
   users.users.admin = {
     extraGroups = [ "networkmanager" "wheel" ];
     isNormalUser = true;
-    description = "nix administrator";
+    description = "admin";
     # disable password for admin account
     hashedPassword = null;
     # Set authorized keys to authenticate to ssh as admin user
