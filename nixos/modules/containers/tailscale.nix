@@ -39,7 +39,7 @@
        "TS_ACCEPT_DNS" = "true"
       };
       environmentFiles = [
-        # need to set "TS_AUTHKEY" = "key" in agenix and import here
+        # need to set "TS_AUTHKEY=key" in agenix and import here
         config.age.secrets.tailscale-envFile.path
       ];
       volumes = [
