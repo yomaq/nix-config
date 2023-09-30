@@ -11,6 +11,7 @@
     ../../modules/installs.nix
     ../../modules/common
     ./additionalDotfiles
+
   ];
 
   # fix for home manager bug
