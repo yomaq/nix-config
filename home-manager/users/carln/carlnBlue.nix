@@ -13,6 +13,7 @@
     ../../modules/gnome-home.nix
     ../../modules/firefox
     ../../modules/common
+    ./additionalDotfiles
 
   ];
 
