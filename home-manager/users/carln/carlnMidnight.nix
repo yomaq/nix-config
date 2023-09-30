@@ -10,6 +10,7 @@
     # You can also split up your configuration and import pieces of it here:
     ../../modules/installs.nix
     ../../modules/common
+    ./additionalDotfiles
   ];
 
   # fix for home manager bug
