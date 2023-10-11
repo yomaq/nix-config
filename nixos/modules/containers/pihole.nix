@@ -4,18 +4,14 @@
     # import the container runtime configuration
     ./default.nix
     # import agenix and impermanance for encryption/ensure the key persists
-    ../../../secrets/agenix.nix
-    inputs.impermanence.nixosModules.impermanence
+    ../../../secrets/agenix.nix #you can only import agenix into an output once, so rather than importing it directly we have to import it into a module, and import that module into every other module we need it in.
   ];
 
-  ### agenix secrets for container
-  age.secrets.encrypt.file = ../../../secrets/encrypt.age;
-  # specify which agenix key to use
-  age.identityPaths = [ "/home/carln/.ssh/agenix" ];
-  # # make sure the key persists between boots
-  # environment.persistence."/nix/persistent".files = [
-  #     { file = "/home/carln/.ssh/agenix"; parentDirectory = { mode = "0700"; }; }
-  #   ];
+  ### agenix secrets for container(s)
+  age.secrets.pihole-envFile.file = ../../../secrets/pihole-envFile.age;
+  age.secrets.tailscale-envFile.file = ../../../secrets/tailscale-envFile.age;
+  # Make sure the correct agenix decription keys are set on the host
+
 
 
 # make the directories where the volumes are stored
@@ -25,8 +21,11 @@
   systemd.tmpfiles.rules = [
     "d /nix/persistent/backup/containers/pihole/etc-pihole 0755 root root"
     "d /nix/persistent/backup/containers/pihole/etc-dnsmasq.d 0755 root root"
+    "d /nix/persistent/backup/containers/tailscale/data-lib 0755 root root"
+    "d /nix/persistent/backup/containers/tailscale/dev-net-tun 0755 root root"
   ];
 
+  # Expose nixOS host ports
   networking.firewall.allowedTCPPorts = [80 53];
   networking.firewall.allowedUDPPorts = [53];
 
@@ -34,14 +33,12 @@
     pihole = {
       image = "pihole/pihole:latest";
       autoStart = true;
-      ports = [ "53:53/tcp" "53:53/udp" "80:80/tcp" ];
       environment = {
         "TZ" = "America/Chicago";
-        #"WEBPASSWORD" = "test";
-        #"WEBPASSWORD_FILE" = config.age.secrets.encrypt.path;
       };
       environmentFiles = [
-        config.age.secrets.encrypt.path
+        # need to set "WEBPASSWORD=password" in agenix and import here
+        config.age.secrets.pihole-envFile.path
       ];
       volumes = [
         "/nix/persistent/backup/containers/pihole/etc-pihole:/etc/pihole"
@@ -49,7 +46,32 @@
       ];
       extraOptions = [
         "--pull=newer"
+        "--network=container:tailscale-for-pihole"
+      ];
+    };
+    tailscale-for-pihole = {
+      image = "tailscale/tailscale:latest";
+      autoStart = true;
+      ports = [ "53:53/tcp" "53:53/udp" "80:80/tcp" ];
+      environment = {
+       "TS_HOSTNAME" =" tailnord";
+       "TS_STATE_DIR"= "/var/lib/tailscale";
+       "TS_EXTRA_ARGS" = "--exit-node _______________";
+       "TS_ACCEPT_DNS" = "true"
+      };
+      environmentFiles = [
+        # need to set "TS_AUTHKEY=key" in agenix and import here
+        config.age.secrets.tailscale-envFile.path
+      ];
+      volumes = [
+        "/nix/persistent/backup/containers/tailscale/data-lib:/var/lib"
+        "/nix/persistent/backup/containers/tailscale/dev-net-tun:/dev/net/tun"
+      ];
+      extraOptions = [
+        "--pull=newer"
         "--network=host"
+        "--cap-add=NET_ADMIN"
+        "--cap-add=NET_RAW"
       ];
     };
   };

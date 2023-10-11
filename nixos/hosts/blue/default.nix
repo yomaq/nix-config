@@ -13,8 +13,6 @@
       # shared modules
       ../../modules/common
       ../../modules/gnome.nix
-
-      ../../modules/containers/pihole.nix
     ];
   
 
