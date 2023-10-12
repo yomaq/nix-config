@@ -25,6 +25,7 @@
         "altserver"
         "tailscale"
         "1password-cli"
+        "spotify"
       ];
       enable = true;
       onActivation = {
