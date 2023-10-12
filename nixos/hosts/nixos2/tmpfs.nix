@@ -6,7 +6,7 @@
 
 {
   imports =[
-    inputs.impermanence.nixosModules.impermanence
+    ../../modules/impermanence
     inputs.disko.nixosModules.disko
   ];
   environment.persistence."/nix/persistent" = {

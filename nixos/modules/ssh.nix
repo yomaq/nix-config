@@ -2,7 +2,7 @@
 {
   imports =
     [
-      inputs.impermanence.nixosModules.impermanence
+      ./impermanence
     ];
 
   # Enable SSH service
