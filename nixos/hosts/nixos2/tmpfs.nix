@@ -19,7 +19,7 @@
       "/etc/NetworkManager/system-connections"
     ];
     files = [
-      "/etc/machine-id"
+      #"/etc/machine-id"
     ];
     #users.example = {
     #  directories = [];
