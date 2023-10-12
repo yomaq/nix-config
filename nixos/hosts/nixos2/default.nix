@@ -6,7 +6,6 @@
       ./configuration.nix
       ./tmpfs.nix
       ../../users/admin-ssh-only.nix
-      ../../modules/ssh.nix
     ];
   nix = {
     # This will add each flake input as a registry

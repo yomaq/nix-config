@@ -17,9 +17,10 @@
       "/var/lib/nixos"
       "/var/lib/systemd/coredump"
       "/etc/NetworkManager/system-connections"
+      "/etc/ssh"
     ];
     files = [
-      { file = "/etc/ssh/agenix"; parentDirectory = { mode = "u=rwx,g=,o="; }; }
+      "/etc/machine-id"
     ];
     #users.example = {
     #  directories = [];
