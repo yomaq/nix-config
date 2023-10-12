@@ -20,7 +20,7 @@
       #"/etc/ssh"
     ];
     files = [
-      #"/etc/machine-id"
+      "/etc/machine-id"
     ];
     #users.example = {
     #  directories = [];
