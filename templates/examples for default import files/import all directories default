@@ -1,0 +1,25 @@
+{ lib, ... }:
+
+with lib;
+let
+  # Recursively constructs an attrset of a given folder, recursing on directories, value of attrs is the default.nix file
+  getDir = dir: mapAttrs
+    (file: type:
+      if type == "directory" then getDir "${dir}/${file}" else null
+    )
+    (builtins.readDir dir);
+
+  # Collects all default.nix files of a directory as a list of strings of paths
+  files = dir: collect isString (mapAttrsRecursive (path: type: concatStringsSep "/" path) (getDir dir));
+
+  # Filters out files that are not default.nix, also makes the strings absolute
+  validFiles = dir: map
+    (file: ./. + "/${file}/default.nix")
+    (filter
+      (file: file == "default.nix")
+      (files dir));
+
+in
+{
+  imports = validFiles ./.;
+}
