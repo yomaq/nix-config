@@ -23,33 +23,36 @@
   };
   outputs = { nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
   {
-  # NixOS configuration entrypoint
-  # Available through 'nixos-rebuild switch --flake .#your-hostname'
-  nixosConfigurations = {
-    blue = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs; }; 
-      modules = [ ./nixos/hosts/blue ];
+    # NixOS configuration entrypoint
+    # Available through 'nixos-rebuild switch --flake .#your-hostname'
+    nixosConfigurations = {
+      blue = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; }; 
+        modules = [ ./nixos/hosts/blue ];
+      };
+      nixos = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; }; 
+        modules = [ ./nixos/hosts/nixos-test/nixostest.nix ];
+      };
+      nixos2 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; }; 
+        modules = [ ./nixos/hosts/nixos2 ];
+      };
     };
-    nixos = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs; }; 
-      modules = [ ./nixos/hosts/nixos-test/nixostest.nix ];
+    # Nix-darwin configuration entrypoint
+    # Available through 'darwin-rebuild switch --flake .#your-hostname'
+    darwinConfigurations = {
+      midnight = nix-darwin.lib.darwinSystem {
+        specialArgs = { inherit inputs; };
+        system = "aarch64-darwin"; 
+        modules = [ ./nix-darwin/hosts/midnight.nix ];
+      };
     };
-    nixos2 = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs; }; 
-      modules = [ ./nixos/hosts/nixos2 ];
+    darwinModules = {
+      test = import ./nix-darwin
     };
-  };
-  # Nix-darwin configuration entrypoint
-  # Available through 'darwin-rebuild switch --flake .#your-hostname'
-  darwinConfigurations = {
-    midnight = nix-darwin.lib.darwinSystem {
-      specialArgs = { inherit inputs; };
-      system = "aarch64-darwin"; 
-      modules = [ ./nix-darwin/hosts/midnight.nix ];
-    };
-  };
   };
 }
