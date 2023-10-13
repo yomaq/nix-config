@@ -52,7 +52,7 @@
       };
     };
     darwinModules = {
-      test = import ./nix-darwin
+      test = import ./nix-darwin;
     };
   };
 }

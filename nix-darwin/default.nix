@@ -5,5 +5,5 @@
         "brave-browser"
       ];
     };
-  }
+  };
 }
