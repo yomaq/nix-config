@@ -10,7 +10,6 @@ in
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
     inputs.home-manager.darwinModules.home-manager
-    inputs.self.darwinModules.test
     ../modules/common
     {
       home-manager.useUserPackages = true;

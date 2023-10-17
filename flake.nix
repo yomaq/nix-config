@@ -23,6 +23,9 @@
   };
   outputs = { nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
   {
+
+### Host outputs
+
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild switch --flake .#your-hostname'
     nixosConfigurations = {
@@ -51,8 +54,21 @@
         modules = [ ./nix-darwin/hosts/midnight.nix ];
       };
     };
+### Module outputs
+    sharedModules = {
+      common = import ./modules/common;
+    };
+    nixosModules = {
+      common = import ./modules/nixos/common;
+      options = import ./modules/nixos/options;
+    };
     darwinModules = {
-      test = import ./nix-darwin;
+      common = import ./modules/nix-darwin/common;
+      options = import ./modules/nix-darwin/options;
+    };
+    homeManagerModules = {
+      common = import ./modules/home-manager/common;
+      options = import ./modules/home-manager/options;
     };
   };
 }
