@@ -55,8 +55,9 @@
       };
     };
 ### Module outputs
-    sharedModules = {
-      common = import ./modules/common;
+    sharedModules = { # modules that are used in both nixOS and nix-Darwin
+      common = import ./modules/shared/common;
+      options = import ./modules/shared/options;
     };
     nixosModules = {
       common = import ./modules/nixos/common;
