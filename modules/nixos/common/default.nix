@@ -1,6 +1,6 @@
 { lib, ... }:
 
-## Import all default.nix modules within all neighbouring directories (recursive).
+## Import all default.nix modules within all neighbouring directories.
 ## from: https://github.com/evanjs/nixos_cfg/blob/4bb5b0b84a221b25cf50853c12b9f66f0cad3ea4/config/new-modules/default.nix
 
 with lib;
