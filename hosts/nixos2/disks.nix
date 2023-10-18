@@ -5,10 +5,17 @@
 { config, lib, pkgs, modulesPath, inputs, ... }:
 
 {
-  imports =[
-    ../../modules/impermanence
-    inputs.disko.nixosModules.disko
-  ];
+  imports =[];
+  
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  # Needed for impermanance
+  boot.initrd.systemd.enable = true;
+
+
+
+
   environment.persistence."/nix/persistent" = {
     hideMounts = true;
     directories = [

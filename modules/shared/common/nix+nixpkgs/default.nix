@@ -1,12 +1,8 @@
 { config, lib, pkgs, modulesPath, inputs, ... }:
 
 {
-  imports =
-    [
-      ./configuration.nix
-      ./tmpfs.nix
-      ../../users/admin-ssh-only.nix
-    ];
+  imports =[];
+  
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
@@ -21,6 +17,15 @@
       experimental-features = "nix-command flakes";
       # Deduplicate and optimize nix store
       auto-optimise-store = true;
+    };
+  };
+  nixpkgs = {
+    # Configure your nixpkgs instance
+    config = {
+      # Disable if you don't want unfree packages
+      allowUnfree = true;
+      # Workaround for https://github.com/nix-community/home-manager/issues/2942
+      allowUnfreePredicate = (_: true);
     };
   };
 }
