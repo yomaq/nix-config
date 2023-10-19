@@ -3,14 +3,18 @@
 
 let
   cfg = config.yomaq.users;
-  usersList = lib.mapAttrsToList (name: _: "./${name}") config.yomaq.users.users;
+  usersList = config.yomaq.users.users: "./" + ${config.yomaq.users.users};
 in
 {
-  options.yomaq.users = with types; {
-    users = mkOpt attrs { };
+  options = {
+    cfg.users = lib.mkOption {
+      type = lib.types.listOf lib.types.string;
+      default = [];
+      description = "List of usernames";
+    };
   };
 
   config = {
-    imports = lib.map (dir: { file = dir; }) usersList;
+    imports = [ usersList ];
   };
 }
