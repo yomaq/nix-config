@@ -1,10 +1,10 @@
 { config, lib, pkgs, modulesPath, inputs, ... }:
 {
   imports =[
-    self.inputs.nixosModules.common
-    self.inputs.nixosModules.options
-    self.inputs.shared.common
-    self.inputs.shared.options
+    inputs.self.nixosModules.common
+    inputs.self.nixosModules.options
+    inputs.self.shared.common
+    inputs.self.shared.options
   ];
   networking.hostName = "nixos";
   system.stateVersion = "23.05";
