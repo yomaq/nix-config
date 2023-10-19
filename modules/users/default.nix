@@ -3,7 +3,7 @@
 let
   cfg = config.yomaq.users;
   addPrefix = name: "./" + name;
-  #listDirectories = builtins.map addPrefix cfg.users;
+  listDirectories = builtins.map addPrefix cfg.users;
 in
 {
   options.yomaq.users.users = lib.mkOption {
@@ -13,6 +13,6 @@ in
     };
 
 
-  imports = builtins.map addPrefix cfg.users;
+  imports = listDirectories;
 
 }
