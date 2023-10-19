@@ -4,6 +4,7 @@ with lib;
 let
   cfg = config.yomaq.users;
   addPrefix = name: "./" + name;
+  listDirectories = lib.map addPrefix cfg.users;
 in
 {
   options = {
@@ -15,6 +16,6 @@ in
   };
 
   config = {
-    imports = lib.map addPrefix cfg.users;
+    imports = listDirectories;
   };
 }
