@@ -11,8 +11,5 @@ in
       default = [];
       description = "List of usernames";
     };
-
-
-  #imports = listDirectories;
-
+  imports = listDirectories;
 }
