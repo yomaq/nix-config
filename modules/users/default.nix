@@ -1,7 +1,6 @@
 { options, config, lib, pkgs, ... }:
 
 let
-  cfg = config.yomaq.users;
   addPrefix = name: "./" + name;
 in
 {
