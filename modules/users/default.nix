@@ -7,7 +7,7 @@ let
 in
 {
   options.yomaq.users.users = lib.mkOption {
-      type = listOf str;
+      type = lib.types.listOf lib.types.str;
       default = [];
       description = "List of usernames";
     };
