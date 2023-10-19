@@ -12,7 +12,7 @@ in
       description = "List of usernames";
     };
 
-  config = {
-    imports = listDirectories;
-  };
+
+  imports = listDirectories;
+
 }
