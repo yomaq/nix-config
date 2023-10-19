@@ -6,13 +6,11 @@ let
   listDirectories = builtins.map addPrefix cfg.users;
 in
 {
-  options = {
-    cfg.users = lib.mkOption {
+  options.yomaq.users.users = lib.mkOption {
       type = lib.types.listOf lib.types.string;
       default = [];
       description = "List of usernames";
     };
-  };
 
   config = {
     imports = listDirectories;
