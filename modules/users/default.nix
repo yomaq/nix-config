@@ -3,7 +3,7 @@
 
 let
   cfg = config.yomaq.users;
-  usersList = config.yomaq.users.users: "./" + ${config.yomaq.users.users};
+  addPrefix = name: "./" + name;
 in
 {
   options = {
@@ -15,6 +15,6 @@ in
   };
 
   config = {
-    imports = [ usersList ];
+    imports = lib.map addPrefix cfg.users;
   };
 }

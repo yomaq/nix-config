@@ -16,7 +16,9 @@ let
   validFiles = dir: map
     (file: ./. + "/${file}")
     (filter
-      (file: hasSuffix "default.nix" file)
+      (file: hasSuffix "default.nix" file
+      && file != "default.nix"
+      )
       (files dir));
 
 in
