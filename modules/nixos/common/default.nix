@@ -23,6 +23,6 @@
 {
   imports = [
     ./core/disko
-    ./core/impermanance
+    ./core/impermanence
   ];
 }
