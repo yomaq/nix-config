@@ -9,4 +9,5 @@
   networking.hostName = "nixos";
   system.stateVersion = "23.05";
   networking.useDHCP = lib.mkDefault true;
+  yomaq.users.users = { admin };
 }
