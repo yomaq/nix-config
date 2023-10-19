@@ -2,9 +2,9 @@
 {
   imports =[
     inputs.self.nixosModules.common
-    inputs.self.nixosModules.options
+    #inputs.self.nixosModules.options
     inputs.self.shared.common
-    inputs.self.shared.options
+    #inputs.self.shared.options
   ];
   config = {
     networking.hostName = "nixos";
