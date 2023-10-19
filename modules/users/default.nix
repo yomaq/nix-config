@@ -1,10 +1,9 @@
 { options, config, lib, pkgs, ... }:
 
-with lib;
 let
   cfg = config.yomaq.users;
   addPrefix = name: "./" + name;
-  listDirectories = lib.map addPrefix cfg.users;
+  listDirectories = builtins.map addPrefix cfg.users;
 in
 {
   options = {
