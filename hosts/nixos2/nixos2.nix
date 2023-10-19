@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modulesPath, inputs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 {
   imports =[
     inputs.self.nixosModules.common
@@ -6,8 +6,10 @@
     inputs.self.shared.common
     inputs.self.shared.options
   ];
-  networking.hostName = "nixos";
-  system.stateVersion = "23.05";
-  networking.useDHCP = lib.mkDefault true;
-  yomaq.users.users = { admin };
+  config = {
+    networking.hostName = "nixos";
+    system.stateVersion = "23.05";
+    networking.useDHCP = lib.mkDefault true;
+    yomaq.users.users = { admin };
+  };
 }
