@@ -6,7 +6,7 @@ let
 in
 {
   options.yomaq.users = with types; {
-    users =  mkOpt (listOf str) [ ] "List of users";
+    users = mkOpt attrs { };
   };
 
   config = {
