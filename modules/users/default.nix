@@ -1,4 +1,4 @@
-{ options, config, lib, pkgs, ... }:
+{ options, config, lib, ... }:
 
 let
   addPrefix = name: "./" + name;
