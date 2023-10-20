@@ -39,9 +39,8 @@ Build Darwin
 ```
 darwin-rebuild switch --flake .
 ```
+Or to build without cloning
+```
+darwin-rebuild switch --flake github:yomaq/nix-config
+```
 
-
-
-Todo:
-
-Revisit Disko when its more stable github:nix-community/disko;
