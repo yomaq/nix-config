@@ -2,9 +2,9 @@
 {
   imports =[
     inputs.self.nixosModules.common
-    #inputs.self.nixosModules.options
-    #inputs.self.shared.common
-    inputs.self.shared.options
+    inputs.self.nixosModules.options
+    inputs.self.sharedModules.common
+    inputs.self.sharedModules.options
     (inputs.self + /users/admin)
   ];
   config = {

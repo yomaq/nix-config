@@ -1,6 +1,6 @@
 { lib, ... }:
 
-## Import all default.nix modules within all neighbouring directories.
+## Import all default.nix modules within all neighbouring directories (recursive).
 ## from: https://github.com/evanjs/nixos_cfg/blob/4bb5b0b84a221b25cf50853c12b9f66f0cad3ea4/config/new-modules/default.nix
 
 with lib;
@@ -16,7 +16,9 @@ let
   validFiles = dir: map
     (file: ./. + "/${file}")
     (filter
-      (file: hasSuffix "default.nix" file)
+      (file: hasSuffix "default.nix" file
+      && file != "default.nix"
+      )
       (files dir));
 
 in
