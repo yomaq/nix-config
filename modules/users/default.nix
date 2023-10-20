@@ -1,7 +1,7 @@
 { options, config, lib, pkgs, ... }:
 
 let
-  inherit (lib) mkOption types map;
+  inherit (lib) mkOption types;
 in
 {
   options.yomaq.users.users = mkOption {
@@ -9,5 +9,5 @@ in
       default = [ "admin" ];
       description = "List of usernames";
     };
-  imports = map (username: "./${username}") config.yomaq.users.users;
+  imports = builtins.map (username: "./${username}") config.yomaq.users.users;
 }
