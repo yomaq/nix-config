@@ -1,9 +1,7 @@
 { options, config, lib, pkgs, ... }:
 
 let
-  cfg = config.yomaq.users;
   addPrefix = name: "./" + name;
-  listDirectories = builtins.map addPrefix config.yomaq.users.users;
 in
 {
   options.yomaq.users.users = lib.mkOption {
@@ -11,5 +9,5 @@ in
       default = [ "admin" ];
       description = "List of usernames";
     };
-  imports = listDirectories;
+  imports = builtins.map addPrefix config.yomaq.users.users;
 }
