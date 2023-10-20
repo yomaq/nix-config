@@ -3,7 +3,7 @@
   imports =
     [];
 
-
+  yomaq.ssh.enable = true;
   # Force all user accounts to require nix configuration, any manual changes to users will be lost
   users.mutableUsers = false;
   # Configure admin account
