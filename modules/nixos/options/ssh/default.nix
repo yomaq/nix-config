@@ -1,5 +1,6 @@
 { options, config, lib, pkgs, ... }:
 
+with lib;
 let
   cfg = config.yomaq.ssh;
 in
