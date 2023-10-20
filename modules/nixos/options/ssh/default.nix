@@ -5,8 +5,14 @@ let
   cfg = config.yomaq.ssh;
 in
 {
-  options.yomaq.ssh = with types; {
-    enable = mkBoolOpt false "Whether or not to enable ssh.";
+  options.ssh = {
+    enable = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        enable custom ssh module
+      '';
+    };
   };
 
   config = mkIf cfg.enable {
