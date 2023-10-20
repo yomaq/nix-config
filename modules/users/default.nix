@@ -9,5 +9,5 @@ in
       default = [ "admin" ];
       description = "List of usernames";
     };
-  imports = builtins.map (username: "./${username}") config.yomaq.users.users;
+  imports = builtins.map (username: ./${username}) config.yomaq.users.users;
 }
