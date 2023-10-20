@@ -5,7 +5,7 @@ let
   cfg = config.yomaq.ssh;
 in
 {
-  options.ssh = {
+  options.yomaq.ssh = {
     enable = mkOption {
       type = types.bool;
       default = false;
