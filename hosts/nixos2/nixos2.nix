@@ -5,7 +5,7 @@
     #inputs.self.nixosModules.options
     #inputs.self.shared.common
     #inputs.self.shared.options
-    (inputs.self + /nixos/users/admin-ssh-only.nix)
+    (inputs.self + /users/admin)
   ];
   config = {
     networking.hostName = "nixos";
