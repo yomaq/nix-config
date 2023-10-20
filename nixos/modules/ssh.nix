@@ -28,8 +28,8 @@
   environment.persistence."/persistent" = {
     hideMounts = true;
     files = [
-      { file = "/etc/ssh/ssh/ssh_host_ed25519_key"; parentDirectory = { mode = "u=rwx,g=,o="; }; }
-      { file = "/etc/ssh/ssh/ssh_host_rsa_key"; parentDirectory = { mode = "u=rwx,g=,o="; }; }
+      { file = "/etc/ssh/ssh_host_ed25519_key"; parentDirectory = { mode = "u=rwx,g=,o="; }; }
+      { file = "/etc/ssh/ssh_host_rsa_key"; parentDirectory = { mode = "u=rwx,g=,o="; }; }
     ];
   };
 }
