@@ -10,5 +10,5 @@ in
       default = [];
       description = "List of usernames";
     };
-  imports = builtins.map addPrefix config.yomaq.users.users;
+  imports = builtins.map "./" + config.yomaq.users.users;
 }
