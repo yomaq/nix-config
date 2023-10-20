@@ -2,9 +2,8 @@
 
 let
   inherit (lib) mkOption types;
-  cfg = config.yomaq.users;
-  addPrefix = name: "./" + name;
-  listDirectories = builtins.map addPrefix config.yomaq.users.users;
+  # addPrefix = name: "./" + name;
+  # listDirectories = builtins.map addPrefix config.yomaq.users.users;
 in
 {
   options.yomaq.users.users = mkOption {
@@ -12,5 +11,5 @@ in
       default = [ "admin" ];
       description = "List of usernames";
     };
-  imports = listDirectories;
+  # imports = listDirectories;
 }
