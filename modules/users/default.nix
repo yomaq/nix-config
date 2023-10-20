@@ -2,7 +2,6 @@
 
 let
   addPrefix = name: "./" + name;
-  #test
 in
 {
   options.yomaq.users.users = lib.mkOpt {
@@ -10,5 +9,6 @@ in
       default = [];
       description = "List of usernames";
     };
-  imports = builtins.map "./" + config.yomaq.users.users;
+
+  imports = "./" + config.yomaq.users.users;
 }
