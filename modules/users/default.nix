@@ -1,12 +1,15 @@
-{ options, config, lib, ... }:
+{ options, config, lib, pkgs, ... }:
 
-
+let
+  cfg = config.yomaq.users;
+  addPrefix = name: "./" + name;
+  listDirectories = builtins.map addPrefix config.yomaq.users.users;
+in
 {
-  options.yomaq.users.users = lib.mkOpt {
+  options.yomaq.users.users = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = [];
+      default = [ admin ];
       description = "List of usernames";
     };
-
-  imports = "./" + config.yomaq.users.users;
+  imports = listDirectories;
 }
