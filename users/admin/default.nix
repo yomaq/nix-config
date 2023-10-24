@@ -16,7 +16,7 @@
     openssh.authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYSJ9ywFRJ747tkhvYWFkx/Y9SkLqv3rb7T1UuXVBWo"
         ];
-    shell = pkgs.fish;
+    shell = pkgs.zsh;
     extraGroups = [ "networkmanager" "wheel" ];
   };
   # Enable admin account to use ssh without password (since the admin account doesn't HAVE a password)
