@@ -1,4 +1,4 @@
-{ options, config, lib, pkgs, ... }:
+{ options, config, lib, pkgs, inputs, ... }:
 # from https://github.com/Misterio77/nix-config/blob/main/hosts/common/global/auto-upgrade.nix
 
 with lib;
