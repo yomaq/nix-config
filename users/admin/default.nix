@@ -31,6 +31,7 @@
     git
     vim
     gh
+    agenix
     tailscale
   ];
   environment.persistence."/nix/persistent" = {

@@ -13,6 +13,7 @@ in
       { file = "/etc/ssh/${hostName}"; }
     ];
   };
+    age.identityPaths = [ "/etc/ssh/${hostName}" ];
     age.secrets = {
       # user secrets
       carln.file = ./carln.age;
