@@ -3,7 +3,7 @@
 
 with lib;
 let
-  cfg = config.yomaq.ssh;
+  cfg = config.yomaq.autoUpgrade;
   # Only enable auto upgrade if current config came from a clean tree
   # This avoids accidental auto-upgrades when working locally.
   isClean = inputs.self ? rev;
