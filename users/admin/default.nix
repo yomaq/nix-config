@@ -8,7 +8,6 @@
   users.mutableUsers = false;
   # Configure admin account
   users.users.admin = {
-    extraGroups = [ "networkmanager" "wheel" ];
     isNormalUser = true;
     description = "admin";
     # disable password for admin account
@@ -17,6 +16,7 @@
     openssh.authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYSJ9ywFRJ747tkhvYWFkx/Y9SkLqv3rb7T1UuXVBWo"
         ];
+    extraGroups = [ "networkmanager" "wheel" ];
   };
   # Enable admin account to use ssh without password (since the admin account doesn't HAVE a password)
   security.sudo.extraRules = [
@@ -32,4 +32,12 @@
     gh
     tailscale
   ];
+  environment.persistence."/persistent" = {
+    users.admin = {
+      directories = [
+        "nix"
+        "documents"
+      ];
+    };
+  };
 }

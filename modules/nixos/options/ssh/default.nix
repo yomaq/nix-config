@@ -36,12 +36,12 @@ in
         }
       ];
     };
-    # environment.persistence."/persistent" = {
-    #   hideMounts = true;
-    #   files = [
-    #     { file = "/etc/ssh/ssh_host_ed25519_key"; }
-    #     { file = "/etc/ssh/ssh_host_rsa_key"; }
-    #   ];
-    # };
+    environment.persistence."/persistent" = {
+      hideMounts = true;
+      files = [
+        { file = "/etc/ssh/ssh_host_ed25519_key"; }
+        { file = "/etc/ssh/ssh_host_rsa_key"; }
+      ];
+    };
   };
 }
