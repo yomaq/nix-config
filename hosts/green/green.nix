@@ -1,14 +1,14 @@
 { config, lib, pkgs, inputs, ... }:
 {
   imports =[
-    inputs.self.nixosModules.common
-    inputs.self.nixosModules.options
-    inputs.self.sharedModules.common
-    inputs.self.sharedModules.options
+    # import custom modules
+    inputs.self.nixosModules.yomaq
+    inputs.self.sharedModules.yomaq
+    # import users
     (inputs.self + /users/admin)
   ];
   config = {
-    networking.hostName = "nixos";
+    networking.hostName = "green";
     system.stateVersion = "23.05";
     networking.useDHCP = lib.mkDefault true;
   };

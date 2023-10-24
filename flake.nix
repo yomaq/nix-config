@@ -39,10 +39,10 @@
         specialArgs = { inherit inputs; }; 
         modules = [ ./nixos/hosts/nixos-test/nixostest.nix ];
       };
-      nixos2 = nixpkgs.lib.nixosSystem {
+      greeen = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; }; 
-        modules = [ ./hosts/nixos2 ];
+        modules = [ ./hosts/green ];
       };
     };
     # Nix-darwin configuration entrypoint
@@ -56,20 +56,16 @@
     };
 ### Module outputs
     sharedModules = { # modules that are used in both nixOS and nix-Darwin
-      common = import ./modules/shared/common;
-      options = import ./modules/shared/options;
+      yomaq = import ./modules/shared;
     };
     nixosModules = {
-      common = import ./modules/nixos/common;
-      options = import ./modules/nixos/options;
+      yomaq = import ./modules/nixos;
     };
     darwinModules = {
-      common = import ./modules/nix-darwin/common;
-      options = import ./modules/nix-darwin/options;
+      yomaq = import ./modules/nix-darwin;
     };
     homeManagerModules = {
-      common = import ./modules/home-manager/common;
-      options = import ./modules/home-manager/options;
+      yomaq = import ./modules/home-manager;
     };
   };
 }
