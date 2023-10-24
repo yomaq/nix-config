@@ -16,6 +16,9 @@
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
       _1password.enable = true;
+      tailscale = {
+        enable = true;
+      };
     };
   };
 }
