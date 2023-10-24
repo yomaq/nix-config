@@ -36,7 +36,7 @@ in
         }
       ];
     };
-    environment.persistence."/persistent" = {
+    environment.persistence."/nix/persistent" = {
       hideMounts = true;
       files = [
         { file = "/etc/ssh/ssh_host_ed25519_key"; }

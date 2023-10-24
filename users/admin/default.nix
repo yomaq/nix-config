@@ -32,7 +32,7 @@
     gh
     tailscale
   ];
-  environment.persistence."/persistent" = {
+  environment.persistence."/nix/persistent" = {
     users.admin = {
       directories = [
         "nix"
