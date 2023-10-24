@@ -1,8 +1,24 @@
 { config, lib, pkgs, inputs, ... }:
+let
+  inherit (config.networking) hostName;
+in
 {
-  # I have to do this so I can use agenix in multiple modules, because if I import it directly to multiple modules... it breaks
   imports =
     [
       inputs.agenix.nixosModules.default
     ];
+  environment.persistence."/nix/persistent" = {
+    hideMounts = true;
+    files = [
+      { file = "/etc/ssh/${hostName}"; }
+    ];
+  };
+    age.secrets = {
+      # user secrets
+      carln.file = ./carln.age;
+      # application secrets
+      tailscaleKey.file = ./tailscaleKey.age;
+      # generic secrets
+      encrypt.file = ./tailscaleKey.age;
+    };
 }

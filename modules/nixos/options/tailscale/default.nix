@@ -40,7 +40,7 @@ in
   config = mkIf cfg.enable {
     services.tailscale = {
       enable = true;
-      # authKeyFile = "path/to/key"
+      authKeyFile = config.age.secrets.carln.path;
       extraUpFlags = cfg.extraUpFlags;
       useRoutingFeatures = cfg.useRoutingFeatures;
     };

@@ -3,7 +3,7 @@
 echo "ipaddress"
 read ipaddress
 echo "hostname in flake"
-read flake
+read hostname
 
 # Create a temporary directory
 temp=$(mktemp -d)
@@ -18,11 +18,11 @@ trap cleanup EXIT
 install -d -m755 "$temp/etc/ssh"
 
 # Decrypt your private key for agenix from the password store and copy it to the temporary directory
-op read op:"//nix/$hostname/private key" > "$temp/etc/ssh/$hostname"
+op read op:"//nix/$hostname/private key" > "$temp/etc/ssh/$hostname + hostkey"
 
 # Set the correct permissions so sshd will accept the key
-chmod 600 "$temp/etc/ssh/$hostname"
+chmod 600 "$temp/etc/ssh/agenix"
 
 # Install NixOS to the host system with our secrets and encription
 nix run github:numtide/nixos-anywhere -- --extra-files "$temp" \
-  --flake ..#$flake root@$ipaddress
+  --disk-encryption-keys /tmp/disk-1.key <(op read op://nix/$hostname/encryption) --flake ..#$hostname root@$ipaddress
