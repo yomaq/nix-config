@@ -34,6 +34,7 @@ in
         When set to `client` or `both`, reverse path filtering will be set to loose instead of strict.
         When set to `server` or `both`, IP forwarding will be enabled.
       '';
+    };
   };
 
   config = mkIf cfg.enable {
