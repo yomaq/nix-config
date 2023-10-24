@@ -14,7 +14,7 @@
 
     yomaq = {
       autoUpgrade.enable = true;
-      primaryUser.users = admin;
+      primaryUser.users = [ "admin" ];
       _1password.enable = true;
     };
   };
