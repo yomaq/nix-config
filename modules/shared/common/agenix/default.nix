@@ -20,6 +20,6 @@ in
       # application secrets
       tailscaleKey.file = ./tailscaleKey.age;
       # generic secrets
-      encrypt.file = ./tailscaleKey.age;
+      encrypt.file = ./encrypt.age;
     };
 }
