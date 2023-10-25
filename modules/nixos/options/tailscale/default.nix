@@ -1,4 +1,4 @@
-{ options, config, lib, pkgs, ... }:
+{ options, config, lib, pkgs, inputs, ... }:
 
 # why am I not just using the tailscale service directly? ... idk, it auto configures the authKeyFile?
 
