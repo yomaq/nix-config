@@ -51,4 +51,5 @@ in
       ];
     };
     age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
+  };
 }
