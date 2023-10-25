@@ -44,5 +44,11 @@ in
       extraUpFlags = cfg.extraUpFlags;
       useRoutingFeatures = cfg.useRoutingFeatures;
     };
+    environment.persistence."/nix/persistent" = {
+      hideMounts = true;
+      directories = [
+        "/var/lib/tailscale"
+      ];
+    };
   };
 }
