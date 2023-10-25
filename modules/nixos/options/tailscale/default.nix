@@ -50,5 +50,5 @@ in
         "/var/lib/tailscale"
       ];
     };
-  };
+    age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
 }

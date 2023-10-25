@@ -18,13 +18,4 @@ in
   
   };
     age.identityPaths = [ "/etc/ssh/${hostName}" ];
-    age.secrets = {
-      # user secrets
-      carln.file = ./carln.age;
-      # application secrets
-      tailscaleKey.file = ./tailscaleKey.age;
-      # generic secrets
-      encrypt.file = ./encrypt.age;
-    };
-  
 }
