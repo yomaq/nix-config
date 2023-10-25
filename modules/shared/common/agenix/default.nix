@@ -10,7 +10,7 @@ in
   environment.persistence."/nix/persistent" = {
     hideMounts = true;
     directories = [
-      "/run/agenix"
+      { directory = "/run/agenix"; mode = "0700"; }
     ];
     files = [
       { file = "/etc/ssh/${hostName}"; }
