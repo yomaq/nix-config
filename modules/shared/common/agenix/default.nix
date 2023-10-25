@@ -9,9 +9,13 @@ in
     ];
   environment.persistence."/nix/persistent" = {
     hideMounts = true;
+    directories = [
+      "/run/agenix"
+    ];
     files = [
       { file = "/etc/ssh/${hostName}"; }
     ];
+  
   };
     age.identityPaths = [ "/etc/ssh/${hostName}" ];
     age.secrets = {
@@ -22,4 +26,5 @@ in
       # generic secrets
       encrypt.file = ./encrypt.age;
     };
+  
 }
