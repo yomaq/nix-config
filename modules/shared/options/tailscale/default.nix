@@ -37,7 +37,7 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.enable && pkgs.system == "x86_64-linux") {
     services.tailscale = {
       enable = true;
       authKeyFile = config.age.secrets.tailscaleKey.path;
@@ -51,5 +51,10 @@ in
       ];
     };
     age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
+  };
+  config = mkIf (cfg.enable && pkgs.system == "aarch64-darwin") {
+    homebrew.casks = [
+      "tailscale"
+    ];
   };
 }
