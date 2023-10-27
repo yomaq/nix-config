@@ -10,7 +10,7 @@
     nix-darwin.url = "github:LnL7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     # Secret Encription
-    agenix.url = "github:yomaq/agenix";
+    agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     # Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
