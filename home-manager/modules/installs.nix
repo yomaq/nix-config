@@ -1,4 +1,4 @@
-{ inputs, config, lib, pkgs, ... }: {
+{ inputs, config, lib, pkgs, pkgs-stable, ... }: {
   config = {
     home = {
       packages = [
@@ -7,7 +7,7 @@
         pkgs.vscode
         pkgs.alacritty
         pkgs.vim
-        pkgs.talosctl
+        #pkgs.talosctl
         pkgs.kubectl
         pkgs.nerdfonts
         pkgs.chezmoi

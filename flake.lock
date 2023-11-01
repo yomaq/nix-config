@@ -170,6 +170,20 @@
         "type": "github"
       }
     },
+    "nixpkgs-stable": {
+      "locked": {
+        "lastModified": 1698562188,
+        "narHash": "sha256-9nkxGnA/T+jLhHAMFRW157Qi/zfbf5dF1q7HfKROl3o=",
+        "rev": "3e10c80821dedb93592682379f476745f370a58e",
+        "revCount": 491967,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2305.491967%2Brev-3e10c80821dedb93592682379f476745f370a58e/018b848f-b914-7167-aaf3-382bf49ee647/source.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://flakehub.com/f/NixOS/nixpkgs/%2A.tar.gz"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1698611440,
@@ -188,11 +202,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1698803130,
-        "narHash": "sha256-JZMEhS00t7P+XdYYYCrEk+RYVDCgeJWxmlW8TtB1O3o=",
+        "lastModified": 1698813212,
+        "narHash": "sha256-IX/eiqDNLLyinbStYj8lix0bOZeCmvNnSjsKhPpZDEE=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "814a7b5a1b4110d16dfdc8132891da0f38ef9d60",
+        "rev": "5fbde997b7172e7e61f0e2d0a1070b1488e4b0b9",
         "type": "github"
       },
       "original": {
@@ -210,6 +224,7 @@
         "nix-darwin": "nix-darwin",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
+        "nixpkgs-stable": "nixpkgs-stable",
         "nur": "nur"
       }
     }
