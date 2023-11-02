@@ -4,5 +4,6 @@
     [
       ./options
       ./common
+      (inputs.self + /modules/shared/nixos.nix)
     ];
 }

@@ -6,7 +6,6 @@
     inputs.self.sharedModules.yomaq
     # import users
     (inputs.self + /users/admin)
-    (inputs.self + /modules/shared/nixos.nix)
   ];
   config = {
     networking.hostName = "green";
