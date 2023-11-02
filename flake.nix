@@ -57,9 +57,6 @@
       };
     };
 ### Module outputs
-    sharedModules = { # modules that are used in both nixOS and nix-Darwin
-      yomaq = import ./modules/shared/common;
-    };
     nixosModules = {
       yomaq = import ./modules/nixos;
     };
