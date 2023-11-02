@@ -13,18 +13,18 @@ in
     };
   };
 
- config =
-   (lib.optionalAttrs (cfg.enable && pkgs.system == "x86_64-linux") {
-    programs._1password.enable = true;
-    programs._1password-gui = {
-      enable = true;
-      polkitPolicyOwners = config.yomaq.primaryUser.users;
-    };
-   }) //
-   (lib.optionalAttrs (cfg.enable && pkgs.system == "aarch64-darwin") {
-    homebrew.casks = [
-      "1password"
-      "1password-cli"
-    ];
-   });
+#  config =
+#    (lib.optionalAttrs (cfg.enable && pkgs.system == "x86_64-linux") {
+#     programs._1password.enable = true;
+#     programs._1password-gui = {
+#       enable = true;
+#       polkitPolicyOwners = config.yomaq.primaryUser.users;
+#     };
+#    }) //
+#    (lib.optionalAttrs (cfg.enable && pkgs.system == "aarch64-darwin") {
+#     homebrew.casks = [
+#       "1password"
+#       "1password-cli"
+#     ];
+#    });
 }
