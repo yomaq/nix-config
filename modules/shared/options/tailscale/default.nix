@@ -37,22 +37,22 @@ in
     };
   };
 
-#  config =
-#    (optionalAttrs (cfg.enable && pkgs.system == "x86_64-linux") {
-#      services.tailscale = {
-#        enable = true;
-#        authKeyFile = config.age.secrets.tailscaleKey.path;
-#        extraUpFlags = cfg.extraUpFlags;
-#        useRoutingFeatures = cfg.useRoutingFeatures;
-#      };
-#      environment.persistence."/nix/persistent" = {
-#        hideMounts = true;
-#        directories = [
-#          "/var/lib/tailscale"
-#        ];
-#      };
-#      age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
-#    }) //
+ config =
+   (optionalAttrs (cfg.enable && pkgs.system == "x86_64-linux") {
+     services.tailscale = {
+       enable = true;
+       authKeyFile = config.age.secrets.tailscaleKey.path;
+       extraUpFlags = cfg.extraUpFlags;
+       useRoutingFeatures = cfg.useRoutingFeatures;
+     };
+     environment.persistence."/nix/persistent" = {
+       hideMounts = true;
+       directories = [
+         "/var/lib/tailscale"
+       ];
+     };
+     age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
+   }) #//
 #    (optionalAttrs (cfg.enable && pkgs.system == "aarch64-darwin") {
 #      homebrew.casks = [
 #        "tailscale"
