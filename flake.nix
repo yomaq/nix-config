@@ -58,7 +58,7 @@
     };
 ### Module outputs
     nixosModules = {
-      yomaq = import ./modules/nixos;
+      yomaq = import /modules/shared/nixos.nix;
     };
     darwinModules = {
       yomaq = import ./modules/nix-darwin;
