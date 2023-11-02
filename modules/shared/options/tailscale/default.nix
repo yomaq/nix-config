@@ -37,8 +37,8 @@ in
     };
   };
 
-config = mkIf cfg.enable (mkMerge [
-   (mkIf (pkgs.system == "x86_64-linux") {
+ config =
+   (lib.optionalAttrs (cfg.enable && pkgs.system == "x86_64-linux") {
      services.tailscale = {
        enable = true;
        authKeyFile = config.age.secrets.tailscaleKey.path;
@@ -52,11 +52,10 @@ config = mkIf cfg.enable (mkMerge [
        ];
      };
      age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
-   })
-   (mkIf (pkgs.system == "aarch64-darwin") {
+   }) //
+   (lib.optionalAttrs (cfg.enable && pkgs.system == "aarch64-darwin") {
      homebrew.casks = [
        "tailscale"
      ];
-   })
-  ]);
+  });
 }
