@@ -3,7 +3,7 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; 
-    nixpkgs-stable.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";
     # Home manager
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -20,7 +20,7 @@
     # Impermanance
     impermanence.url = "github:nix-community/impermanence";
     # Disko
-    disko.url = "https://flakehub.com/f/nix-community/disko/1.1.0.tar.gz";
+    disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = { nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
