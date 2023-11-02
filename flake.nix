@@ -21,6 +21,7 @@
     impermanence.url = "github:nix-community/impermanence";
     # Disko
     disko.url = "https://flakehub.com/f/nix-community/disko/1.1.0.tar.gz";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = { nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
   {

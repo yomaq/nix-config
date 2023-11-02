@@ -46,7 +46,9 @@
     },
     "disko": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1695039393,
@@ -156,36 +158,6 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1694948089,
-        "narHash": "sha256-d2B282GmQ9o8klc22/Rbbbj6r99EnELQpOQjWMyv0rU=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "5148520bfab61f99fd25fb9ff7bfbb50dad3c9db",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs-stable": {
-      "locked": {
-        "lastModified": 1698696950,
-        "narHash": "sha256-FHFL58t6lMumvWqwundC8fDDDLOIvc+JJBNIAlPjrDY=",
-        "rev": "017ef2132a5bda50bd713aeabce8f918502d4ec1",
-        "revCount": 491985,
-        "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2305.491985%2Brev-017ef2132a5bda50bd713aeabce8f918502d4ec1/018b8a8a-ea4e-72f1-acda-91be59ef25a5/source.tar.gz"
-      },
-      "original": {
-        "type": "tarball",
-        "url": "https://flakehub.com/f/NixOS/nixpkgs/%2A.tar.gz"
-      }
-    },
-    "nixpkgs_2": {
-      "locked": {
         "lastModified": 1698611440,
         "narHash": "sha256-jPjHjrerhYDy3q9+s5EAsuhyhuknNfowY6yt6pjn9pc=",
         "owner": "nixos",
@@ -200,13 +172,27 @@
         "type": "github"
       }
     },
+    "nixpkgs-stable": {
+      "locked": {
+        "lastModified": 1698846319,
+        "narHash": "sha256-4jyW/dqFBVpWFnhl0nvP6EN4lP7/ZqPxYRjl6var0Oc=",
+        "rev": "34bdaaf1f0b7fb6d9091472edc968ff10a8c2857",
+        "revCount": 492026,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2305.492026%2Brev-34bdaaf1f0b7fb6d9091472edc968ff10a8c2857/018b8da1-3980-751f-84e4-d1c0bb1427f4/source.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://flakehub.com/f/NixOS/nixpkgs/%2A.tar.gz"
+      }
+    },
     "nur": {
       "locked": {
-        "lastModified": 1698878866,
-        "narHash": "sha256-hHHSoV7IBQHQeSSEQ6WtlSlzhH66TDeAMhNB9ZHlFzA=",
+        "lastModified": 1698890329,
+        "narHash": "sha256-jfLe7E18aaOR0UPfXwoHjjkbHI1AXtXKPMpQI1DHFx4=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "a63b970f2be77e0416b7db7d7f2c4cbfc7319a7c",
+        "rev": "6cc87c1234748574a5303912d6b4326089e3ebbd",
         "type": "github"
       },
       "original": {
@@ -223,7 +209,7 @@
         "impermanence": "impermanence",
         "nix-darwin": "nix-darwin",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
         "nur": "nur"
       }
