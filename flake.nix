@@ -61,10 +61,10 @@
       yomaq = import ./modules/shared;
     };
     nixosModules = {
-      yomaq = import ./modules/nixos ./modules/shared/nixos.nix;
+      yomaq = import ./modules/nixos;
     };
     darwinModules = {
-      yomaq = import ./modules/nix-darwin ./modules/shared/darwin.nix;
+      yomaq = import ./modules/nix-darwin;
     };
     homeManagerModules = {
       yomaq = import ./modules/home-manager;
