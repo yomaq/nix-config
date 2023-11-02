@@ -61,7 +61,7 @@
       yomaq = import ./modules/hosts/nixos.nix;
     };
     darwinModules = {
-      yomaq = import ./modules/nix-darwin;
+      yomaq = import ./modules/hosts/darwin.nix;
     };
     homeManagerModules = {
       yomaq = import ./modules/home-manager;
