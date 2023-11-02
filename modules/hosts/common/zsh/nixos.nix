@@ -1,9 +1,4 @@
-{ config, pkgs, ... }:
-
-{
-
-  # Set default shell
+{ config, pkgs, ... }:{
   programs.zsh.enable = true;
   environment.shells = with pkgs; [ zsh];
-
 }
