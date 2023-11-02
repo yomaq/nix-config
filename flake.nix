@@ -24,9 +24,9 @@
   };
   outputs = { nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
   {
-
+### Overlays
+    overlays = import ./modules/overlays {inherit inputs;};
 ### Host outputs
-
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild switch --flake .#your-hostname'
     nixosConfigurations = {

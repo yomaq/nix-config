@@ -34,6 +34,7 @@
     };
   };
   nixpkgs = {
+    overlays = [ inputs.self.overlays.nixpkgs-stable ];
     # Configure your nixpkgs instance
     config = {
       # Disable if you don't want unfree packages

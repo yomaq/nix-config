@@ -1,5 +1,6 @@
-{ inputs, config, lib, pkgs, pkgs-stable, ... }: {
+{ inputs, config, lib, pkgs, outputs, ... }: {
   config = {
+  nixpkgs.overlays = [ inputs.self.overlays.nixpkgs-stable ];
     home = {
       packages = [
         pkgs.tailscale
@@ -7,7 +8,7 @@
         pkgs.vscode
         pkgs.alacritty
         pkgs.vim
-        #pkgs.talosctl
+        pkgs.stable.talosctl
         pkgs.kubectl
         pkgs.nerdfonts
         pkgs.chezmoi
