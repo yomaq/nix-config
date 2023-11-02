@@ -27,7 +27,7 @@ in
           yabai -m config active_window_opacity        1.0
           yabai -m config normal_window_opacity        0.90
           yabai -m config auto_balance                 off
-          yabai -m config mouse_modifier               super
+          yabai -m config mouse_modifier               fn
           yabai -m config mouse_action1                move
           yabai -m config mouse_action2                resize
           yabai -m config mouse_drop_action            swap
