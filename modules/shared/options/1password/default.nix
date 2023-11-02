@@ -14,14 +14,14 @@ in
   };
 
  config = lib.mkIf cfg.enable (
-   (lib.optionalAttrs pkgs.system == "x86_64-linux" {
+   (lib.optionalAttrs (pkgs.system == "x86_64-linux") {
     programs._1password.enable = true;
     programs._1password-gui = {
       enable = true;
       polkitPolicyOwners = config.yomaq.primaryUser.users;
     };
    }) //
-   (lib.optionalAttrs pkgs.system == "aarch64-darwin" {
+   (lib.optionalAttrs (pkgs.system == "aarch64-darwin") {
     homebrew.casks = [
       "1password"
       "1password-cli"
