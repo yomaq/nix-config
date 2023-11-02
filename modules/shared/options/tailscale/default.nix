@@ -36,26 +36,26 @@ in
       '';
     };
   };
- config = lib.mkIf cfg.enable (
-   (lib.optionalAttrs (pkgs.system == "x86_64-linux") {
-     services.tailscale = {
-       enable = true;
-       authKeyFile = config.age.secrets.tailscaleKey.path;
-       extraUpFlags = cfg.extraUpFlags;
-       useRoutingFeatures = cfg.useRoutingFeatures;
-     };
-     environment.persistence."/nix/persistent" = {
-       hideMounts = true;
-       directories = [
-         "/var/lib/tailscale"
-       ];
-     };
-     age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
-   }) //
-   (lib.optionalAttrs (pkgs.system == "aarch64-darwin") {
-     homebrew.casks = [
-       "tailscale"
-     ];
-   })
-  );
+#  config = lib.mkIf cfg.enable (
+#    (lib.optionalAttrs (pkgs.system == "x86_64-linux") {
+#      services.tailscale = {
+#        enable = true;
+#        authKeyFile = config.age.secrets.tailscaleKey.path;
+#        extraUpFlags = cfg.extraUpFlags;
+#        useRoutingFeatures = cfg.useRoutingFeatures;
+#      };
+#      environment.persistence."/nix/persistent" = {
+#        hideMounts = true;
+#        directories = [
+#          "/var/lib/tailscale"
+#        ];
+#      };
+#      age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
+#    }) //
+#    (lib.optionalAttrs (pkgs.system == "aarch64-darwin") {
+#      homebrew.casks = [
+#        "tailscale"
+#      ];
+#    })
+#   );
 }
