@@ -38,7 +38,7 @@ in
   };
 
  config =
-   (lib.optionalAttrs (cfg.enable && pkgs.system == "x86_64-linux") {
+   (optionalAttrs (cfg.enable && pkgs.system == "x86_64-linux") {
      services.tailscale = {
        enable = true;
        authKeyFile = config.age.secrets.tailscaleKey.path;
@@ -53,7 +53,7 @@ in
      };
      age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
    }) //
-   (lib.optionalAttrs (cfg.enable && pkgs.system == "aarch64-darwin") {
+   (optionalAttrs (cfg.enable && pkgs.system == "aarch64-darwin") {
      homebrew.casks = [
        "tailscale"
      ];
