@@ -52,7 +52,7 @@ in
        ];
      };
      age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
-   }) #//
+   }); #//
 #    (optionalAttrs (cfg.enable && pkgs.system == "aarch64-darwin") {
 #      homebrew.casks = [
 #        "tailscale"
