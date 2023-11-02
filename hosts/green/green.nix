@@ -3,7 +3,6 @@
   imports =[
     # import custom modules
     inputs.self.nixosModules.yomaq
-    inputs.self.sharedModules.yomaq
     # import users
     (inputs.self + /users/admin)
   ];
