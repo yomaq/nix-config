@@ -53,7 +53,7 @@
       midnight = nix-darwin.lib.darwinSystem {
         specialArgs = { inherit inputs; };
         system = "aarch64-darwin"; 
-        modules = [ ./nix-darwin/hosts/midnight.nix ];
+        modules = [ ./hosts/midnight ];
       };
     };
 ### Module outputs

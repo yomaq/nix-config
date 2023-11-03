@@ -5,6 +5,7 @@ in
 {
   imports = [
     inputs.home-manager.darwinModules.home-manager
+    inputs.self.darwinModules.yomaq
     {home-manager.useUserPackages = true;}
   ];
 
@@ -28,6 +29,11 @@ in
         # Import your home-manager configuration
         carln = import ../../home-manager/users/carln/carlnMidnight.nix;
       };
+    };
+    yomaq = {
+      yabai.enable = true;
+      tailscale.enable = true;
+      _1password.enable = true;
     };
   };
 }
