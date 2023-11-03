@@ -3,6 +3,7 @@
   nixpkgs.overlays = [ inputs.self.overlays.nixpkgs-stable ];
     home = {
       packages = [
+    ### nixos + darwin packages
         pkgs.tailscale
         pkgs.discord
         pkgs.vscode
@@ -17,32 +18,14 @@
         pkgs.agenix
         pkgs.git
         pkgs.gh
+      ] ++ mkIf (cfg.enable && pkgs.system != "aarch64-darwin") [
+    ### nixos specific packages
+        pkgs.trayscale
+        pkgs.spotify
+        pkgs.steam
+        pkgs.moonlight-qt
       ];
       stateVersion = "23.05";
-    };
-    programs = {
-     tmux = {
-        enable = true;
-        shell = "/etc/profiles/per-user/carln/bin/zsh";
-      };
-      bash = {
-        enable = true;
-        enableCompletion = true;
-        initExtra = "[ -f $HOME/.bashrc2 ] && . $HOME/.bashrc2";
-      };
-      zsh = {
-        enable = true;
-        enableAutosuggestions = true;
-        enableCompletion = true;
-        initExtra = "for FILE in ~/.zshrcs/*; do source $FILE; done";
-        oh-my-zsh = {
-          enable = true;
-          theme = "darkblood";
-          plugins = [
-            "kubectl" 
-          ];
-        };
-      };
     };
   };
 }

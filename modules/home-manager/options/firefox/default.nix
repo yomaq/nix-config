@@ -1,8 +1,25 @@
-{ inputs, config, lib, pkgs, ... }: {
-  imports = [
-    inputs.nur.nixosModules.nur
-  ];
-  config = {
+### Does not work on darwin
+### Will expand with more options as I use different css
+
+
+{ options, config, lib, pkgs, ... }:
+
+with lib;
+let
+  cfg = config.yomaq.firefox;
+in
+{
+  options.yomaq.firefox = {
+    enable = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        enable custom firefox module
+      '';
+    };
+  };
+
+  config = mkIf (cfg.enable && pkgs.system != "aarch64-darwin") {
     nixpkgs.overlays = [inputs.nur.overlay];
     programs.firefox = {
       package = pkgs.firefox.override {

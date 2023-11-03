@@ -1,6 +1,3 @@
-{ inputs, config, lib, pkgs, ... }: {
-  config = {
-
 ### To configure Gnome, the documentation is poor.
 ### First open a terminal and run "dconf watch /" and then manually make the change in gnome you are wanting to set.
 ### Use the output in the terminal to tell you what information to put here.
@@ -21,10 +18,29 @@
 
 
 
+### Will expact to have more options to customize different themes etc as I use them.
+
+{ options, config, lib, pkgs, ... }:
+
+with lib;
+let
+  cfg = config.yomaq.gnomeOptions;
+in
+{
+  options.yomaq.gnomeOptions = {
+    enable = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        enable custom gnome module
+      '';
+    };
+  };
 
 
-### Keyboard Shortcuts
-    # Edit default gnome keyboard shortcuts:
+
+
+  config = mkIf cfg.enable {
     dconf.settings = {
       "org/gnome/desktop/wm/keybindings" = {
         close = [ "<Super>q" ];
