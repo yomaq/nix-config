@@ -5,6 +5,7 @@
     inputs.self.nixosModules.yomaq
     # import users
     (inputs.self + /users/admin)
+    (inputs.self + /users/carln)
   ];
   config = {
     networking.hostName = "green";

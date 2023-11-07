@@ -8,7 +8,7 @@ let
 
 in
 {
-  "carln.age".publicKeys = [ agenix carln ];
+  "carln.age".publicKeys = [ agenix carln green];
   "encrypt.age".publicKeys = [ agenix carln ];
   "tailscaleKey.age".publicKeys = [ agenix carln green];
 

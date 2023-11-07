@@ -56,6 +56,15 @@
         modules = [ ./hosts/midnight ];
       };
     };
+    # Standalone home-manager configuration entrypoint
+    # Available through 'home-manager --flake .#your-username@your-hostname'
+    homeConfigurations = {
+      "carln@hostname" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        extraSpecialArgs = {inherit inputs;};
+        modules = [./users/carln/homeManager];
+      };
+    };
 ### Module outputs
     nixosModules = {
       yomaq = import ./modules/hosts/nixos.nix;
