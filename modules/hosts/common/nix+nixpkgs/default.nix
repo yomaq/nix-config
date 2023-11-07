@@ -29,7 +29,10 @@
     };
   };
   nixpkgs = {
-    overlays = [ inputs.self.overlays.nixpkgs-stable ];
+    overlays = [ 
+      inputs.self.overlays.nixpkgs-stable
+      inputs.agenix.overlays.default
+       ];
     # Configure your nixpkgs instance
     config = {
       # Disable if you don't want unfree packages

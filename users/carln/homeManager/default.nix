@@ -8,7 +8,7 @@ let
   # Recursively constructs an attrset of a given folder, value of attrs is the filetype
   getDir = dir: mapAttrs
     (file: type:
-      if type == "directory" then null else type
+      if type == "directory" then getDir "${dir}/${file}" else type
     )
     (builtins.readDir dir);
 

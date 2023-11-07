@@ -2,15 +2,15 @@
 
 with lib;
 let
-  cfg = config.yomaq.gnomeOptions;
+  cfg = config.yomaq.zsh;
 in
 {
-  options.yomaq.gnomeOptions = {
+  options.yomaq.zsh = {
     enable = mkOption {
       type = types.bool;
       default = false;
       description = ''
-        enable custom gnome module
+        enable custom zsh module
       '';
     };
   };
