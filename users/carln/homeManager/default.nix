@@ -1,37 +1,39 @@
-{ lib, ... }:
-
-## Import all modules inside this folder recursively.
-## from: https://github.com/evanjs/nixos_cfg/blob/4bb5b0b84a221b25cf50853c12b9f66f0cad3ea4/config/new-modules/default.nix
-
-with lib;
-let
-  # Recursively constructs an attrset of a given folder, value of attrs is the filetype
-  getDir = dir: mapAttrs
-    (file: type:
-      if type == "directory" then getDir "${dir}/${file}" else type
-    )
-    (builtins.readDir dir);
-
-  # Collects all files of a directory as a list of strings of paths
-  files = dir: collect isString (mapAttrsRecursive (path: type: concatStringsSep "/" path) (getDir dir));
-
-  # Filters out directories that don't end with .nix or are this file, also makes the strings absolute
-  validFiles = dir: map
-    (file: ./. + "/${file}")
-    (filter
-      (file: hasSuffix ".nix" file
-        # Exclude this file
-        && file != "default.nix" 
-        # how to exclude a path
-        # && ! lib.hasPrefix "exclude/path/" file 
-        # how to exclude a group of files
-        # && ! lib.hasSuffix "-ex.nix" file
-        )
-      (files dir));
-
-in
-{
-
-  imports = validFiles ./.;
-
+{ inputs, lib, config, pkgs, ... }: {
+  imports = [
+    inputs.self.homeManagerModules.yomaq
+    ./dotfiles
+    ];
+  config = {
+  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
+    home.stateVersion = "23.05";
+    home.packages = [
+  ### nixos + darwin packages
+      pkgs.tailscale
+      pkgs.discord
+      pkgs.vscode
+      pkgs.alacritty
+      pkgs.vim
+      pkgs.stable.talosctl
+      pkgs.kubectl
+      pkgs.nerdfonts
+      pkgs.chezmoi
+      pkgs.tmuxinator
+      pkgs.kubernetes-helm
+      pkgs.agenix
+      pkgs.git
+      pkgs.gh
+    ] ++ lib.mkIf (pkgs.system != "aarch64-darwin") [
+  ### nixos specific packages
+      pkgs.trayscale
+      pkgs.spotify
+      pkgs.steam
+      pkgs.moonlight-qt
+    ];
+    yomaq = {
+      # zsh.enable = true;
+      # vscode.enable = true;
+      # gnomeOptions.enable = true;
+      # firefox.enable = true;
+    };
+  };
 }

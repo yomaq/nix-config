@@ -7,5 +7,5 @@ in
     [
       inputs.agenix.darwinModules.default
     ];
-    age.identityPaths = [ "/etc/ssh/${hostName}" ];
+    age.identityPaths = [ "/etc/ssh/${localHostName}" ];
 }

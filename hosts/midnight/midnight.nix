@@ -27,7 +27,7 @@ in
       extraSpecialArgs = { inherit inputs; };
       users = {
         # Import your home-manager configuration
-        carln = import ../../home-manager/users/carln/carlnMidnight.nix;
+        carln = import (inputs.self + /users/carln/homeManager);
       };
     };
     yomaq = {
