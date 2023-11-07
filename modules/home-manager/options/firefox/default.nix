@@ -20,7 +20,6 @@ in
   };
 
   config = mkIf (cfg.enable && pkgs.system != "aarch64-darwin") {
-    nixpkgs.overlays = [inputs.nur.overlay];
     programs.firefox = {
       package = pkgs.firefox.override {
         extraPolicies = {

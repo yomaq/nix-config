@@ -3,8 +3,7 @@
    programs = {
      tmux = {
        enable = true;
-       shell = lib.mkIf (pkgs ? zsh) "\${pkgs.zsh}/bin/zsh"
-                lib.mkIf (!(pkgs ? zsh)) "\${pkgs.bash}/bin/bash";
+       shell = if pkgs ? zsh then "${pkgs.zsh}/bin/zsh" else "${pkgs.bash}/bin/bash";
      };
    };
  };

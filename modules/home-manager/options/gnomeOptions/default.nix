@@ -40,7 +40,7 @@ in
 
 
 
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.enable && pkgs.system != "aarch64-darwin") {
     dconf.settings = {
       "org/gnome/desktop/wm/keybindings" = {
         close = [ "<Super>q" ];
