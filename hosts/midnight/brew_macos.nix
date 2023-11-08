@@ -11,8 +11,11 @@
         "altserver"
         "spotify"
       ];
-      taps = [];
-      brews = ["pulumi"];
+      taps = ["pulumi/tap"];
+      brews = [
+        "pulumi"
+        "pulumi/tap/crd2pulumi"
+        ];
     };
 #User specific settings, eventually plan to create the user account itself through Nix as well
     users = {
