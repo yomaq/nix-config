@@ -12,6 +12,7 @@
         "spotify"
       ];
       taps = [];
+      brews = ["pulumi"];
     };
 #User specific settings, eventually plan to create the user account itself through Nix as well
     users = {
