@@ -4,7 +4,6 @@
     [
       inputs.home-manager.nixosModules.home-manager
     ];
-  age.identityPaths = [ "/home/carln/.ssh/agenix" ];
   age.secrets.carln.file = (inputs.self + /secrets/carln.age);
 
   users.mutableUsers = false;
