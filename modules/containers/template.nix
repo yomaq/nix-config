@@ -75,7 +75,7 @@ in
         "TS_HOSTNAME" =cfg.TShostname;
         "TS_STATE_DIR"= "/var/lib/tailscale";
         "TS_EXTRA_ARGS" = cfg.tailscaleArgs;
-        "TS_ACCEPT_DNS" = "true"
+        "TS_ACCEPT_DNS" = "true";
         };
         environmentFiles = [
           # need to set "TS_AUTHKEY=key" in agenix and import here
