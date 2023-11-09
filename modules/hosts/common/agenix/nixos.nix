@@ -8,7 +8,7 @@ in
       inputs.agenix.nixosModules.default
     ];
   environment.persistence."/nix/persistent" = {
-    hideMounts = true;
+    # hideMounts = true;
     directories = [
       { directory = "/run/agenix"; mode = "0700"; }
     ];
