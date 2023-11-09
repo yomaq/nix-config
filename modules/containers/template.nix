@@ -69,7 +69,7 @@ in
       "d ${cfg.volumeLocation}/dev-net-tun 0755 root root"
     ];
     virtualisation.oci-containers.containers = {
-      pihole = {
+      "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
         environment = {
