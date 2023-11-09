@@ -57,7 +57,7 @@ in
 
   config = mkIf cfg.enable {
     ### agenix secrets for container
-    age.secrets.${NAME}EnvFile.file = cfg.agenixSecret;
+    age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
 
   # make the directories where the volumes are stored
   # it says "tmpfiles" but we don't add rules to remove the tmp file, so its... not tmp?
@@ -79,7 +79,7 @@ in
         };
         environmentFiles = [
           # need to set "TS_AUTHKEY=key" in agenix and import here
-          config.age.secrets.${NAME}EnvFile.path
+          config.age.secrets."${NAME}EnvFile".path
         ];
         volumes = [
           "${cfg.volumeLocation}/data-lib:/var/lib"
