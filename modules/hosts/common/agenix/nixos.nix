@@ -9,15 +9,15 @@ in
     ];
   environment.persistence."/nix/persistent" = {
     hideMounts = true;
-    # directories = [
-    #   { directory = "/run/agenix";}
-    # ];
+    directories = [
+      { directory = "/run/agenix";}
+    ];
     files = [
       { file = "/etc/ssh/${hostName}"; }
     ];
   
   };
     age.identityPaths = [ "/etc/ssh/${hostName}" ];
-    age.secretsDir = "/nix/persistent/run/agenix";
+    # age.secretsDir = "/nix/persistent/run/agenix";
     age.secretsMountPoint = "/nix/persistent/run/agenix/secret-generations";
 }
