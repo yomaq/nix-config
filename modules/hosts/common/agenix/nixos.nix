@@ -8,10 +8,10 @@ in
       inputs.agenix.nixosModules.default
     ];
   environment.persistence."/nix/persistent" = {
-    # hideMounts = true;
-    directories = [
-      { directory = "/run/agenix"; mode = "0700"; }
-    ];
+    hideMounts = true;
+    # directories = [
+    #   { directory = "/run/agenix"; mode = "0700"; }
+    # ];
     files = [
       { file = "/etc/ssh/${hostName}"; }
     ];
