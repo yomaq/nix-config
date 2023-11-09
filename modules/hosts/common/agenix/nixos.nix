@@ -11,7 +11,7 @@ in
     hideMounts = true;
     directories = [
       { directory = "/run/agenix.d";}
-      { directory = "/run/agenix";}
+      # { directory = "/run/agenix";}
     ];
     files = [
       { file = "/etc/ssh/${hostName}"; }
@@ -19,6 +19,6 @@ in
   
   };
     age.identityPaths = [ "/etc/ssh/${hostName}" ];
-    # age.secretsDir = "/nix/agenix";
+    age.secretsDir = "/nix/agenix";
     # age.secretsMountPoint = "/nix/agenix/secret-generations";
 }
