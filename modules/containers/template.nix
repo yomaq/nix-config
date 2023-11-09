@@ -74,7 +74,7 @@ in
         environment = {
         "TS_HOSTNAME" =cfg.TShostname;
         "TS_STATE_DIR"= "/var/lib/tailscale";
-        "TS_EXTRA_ARGS" = cfg.tailscaleArgs;
+        "TS_EXTRA_ARGS" = cfg.TSargs;
         "TS_ACCEPT_DNS" = "true";
         };
         environmentFiles = [
