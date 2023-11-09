@@ -15,6 +15,7 @@
       brews = [
         "pulumi"
         "pulumi/tap/crd2pulumi"
+        "pulumi/tap/kube2pulumi"
         ];
     };
 #User specific settings, eventually plan to create the user account itself through Nix as well
