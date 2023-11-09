@@ -3,7 +3,7 @@
 with lib;
 let
   ### Set container name
-  NAME = tailscale;
+  NAME = "tailscale";
   cfg = config.yomaq.pods.${NAME};
 in
 {
