@@ -25,6 +25,8 @@ in
       extensions = [
         pkgs.vscode-extensions.dracula-theme.theme-dracula
         pkgs.vscode-extensions.bbenoist.nix
+        pkgs.vscode-extensions.github.copilot
+        pkgs.vscode-extensions.ms-python.python
       ];
       userSettings = {
         "[nix]"."editor.tabSize" = 2;
