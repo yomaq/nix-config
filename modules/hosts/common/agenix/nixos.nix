@@ -9,9 +9,9 @@ in
     ];
   environment.persistence."/nix/persistent" = {
     hideMounts = true;
-    # directories = [
-    #   { directory = "/run/agenix"; mode = "0700"; }
-    # ];
+    directories = [
+      { directory = "/run/agenix";}
+    ];
     files = [
       { file = "/etc/ssh/${hostName}"; }
     ];
