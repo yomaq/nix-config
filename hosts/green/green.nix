@@ -19,7 +19,7 @@
       _1password.enable = true;
       tailscale.enable = true;
       gnome.enable = true;
-      pod.tailscale.enable = true;
+      pods.tailscale.enable = true;
     };
   };
 }
