@@ -8,9 +8,10 @@ let
 
 in
 {
-  "carln.age".publicKeys = [ agenix carln green];
+  "carln.age".publicKeys = [ agenix carln green ];
   "encrypt.age".publicKeys = [ agenix carln ];
-  "tailscaleKey.age".publicKeys = [ agenix carln green];
+  "tailscaleKey.age".publicKeys = [ agenix carln green ];
+  "tailscaleEnvFile.age".publicKeys = [ agenix green ];
 
   #example for calling groups
   #"secret2.age".publicKeys = users ++ systems;

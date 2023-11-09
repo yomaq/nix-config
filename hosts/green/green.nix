@@ -16,9 +16,9 @@
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
       _1password.enable = true;
-      tailscale = {
-        enable = true;
-      };
+      tailscale.enable = true;
+      gnome.enable = true;
+      pod.tailscale.enable = true;
     };
   };
 }

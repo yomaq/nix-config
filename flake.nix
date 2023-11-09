@@ -66,6 +66,8 @@
       };
     };
 ### Module outputs
+    # custom container modules
+    nixosModules.yomaq.pods = import ./modules/containers;
     nixosModules = {
       yomaq = import ./modules/hosts/nixos.nix;
     };
