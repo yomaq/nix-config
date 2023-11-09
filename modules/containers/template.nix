@@ -4,6 +4,7 @@ with lib;
 let
   ### Set container name
   NAME = "tailscale";
+  IMAGE = "tailscale/tailscale";
   cfg = config.yomaq.pods.${NAME};
 in
 {
@@ -69,7 +70,7 @@ in
     ];
     virtualisation.oci-containers.containers = {
       pihole = {
-        image = "pihole/pihole:${cfg.imageVersion}";
+        image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
         environment = {
         "TS_HOSTNAME" =cfg.TShostname;
