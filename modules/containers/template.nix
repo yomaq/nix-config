@@ -16,8 +16,8 @@ in
       '';
     };
     agenixSecret = mkOption {
-      type = types.str;
-      default = "(inputs.self + /secrets/${NAME}EnvFile.age)";
+      type = types.path;
+      default = (inputs.self + /secrets/${NAME}EnvFile.age);
       description = ''
         path to agenix secret file
       '';
