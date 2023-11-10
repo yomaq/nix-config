@@ -20,6 +20,7 @@
       tailscale.enable = true;
       gnome.enable = true;
       pods.tailscale.enable = true;
+      impermanence.backup = "/nix/persistent";
     };
   };
 }
