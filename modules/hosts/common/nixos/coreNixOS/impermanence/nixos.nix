@@ -13,7 +13,7 @@ with lib;
     };
     dontBackup = mkOption {
       type = types.str;
-      default = "/nix/persestent/dontBackup";
+      default = "/nix/persistent/dontBackup";
       description = "The persistent directory to not backup";
     };
   };
