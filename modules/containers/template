@@ -3,8 +3,8 @@
 with lib;
 let
   ### Set container name
-  NAME = "tailscale";
-  IMAGE = "ghcr.io/tailscale/tailscale";
+  NAME = "name";
+  IMAGE = "image/image";
   cfg = config.yomaq.pods.${NAME};
 in
 {
@@ -37,18 +37,11 @@ in
         container image version
       '';
     };
-    TSargs = mkOption {
+    environment = mkOption {
       type = types.str;
       default = "";
       description = ''
-        TS_Extra_ARGS env var
-      '';
-    };
-    TShostname = mkOption {
-      type = types.str;
-      default = "tailscale";
-      description = ''
-        TS_HOSTNAME env var
+        environment variables to pass to container
       '';
     };
   };
@@ -72,12 +65,7 @@ in
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
-        environment = {
-        "TS_HOSTNAME" =cfg.TShostname;
-        "TS_STATE_DIR"= "/var/lib/tailscale";
-        "TS_EXTRA_ARGS" = cfg.TSargs;
-        "TS_ACCEPT_DNS" = "true";
-        };
+        environment = cfg.environment;
         environmentFiles = [
           # need to set "TS_AUTHKEY=key" in agenix and import here
           config.age.secrets."${NAME}EnvFile".path
@@ -89,8 +77,6 @@ in
         extraOptions = [
           "--pull=newer"
           "--network=host"
-          "--cap-add=NET_ADMIN"
-          "--cap-add=NET_RAW"
         ];
       };
     };
