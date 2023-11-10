@@ -9,10 +9,6 @@ in
     ];
   environment.persistence."/nix/persistent" = {
     hideMounts = true;
-    directories = [
-      # { directory = "/run/agenix.d";}
-      # { directory = "/run/agenix";}
-    ];
     files = [
       { file = "/etc/ssh/${hostName}"; }
     ];
@@ -24,6 +20,4 @@ in
       "/nix/persistent/etc/ssh/${hostName}"
       "/etc/ssh/${hostName}"
       ];
-    # age.secretsDir = "/nix/agenix/secrets";
-    # age.secretsMountPoint = "/nix/agenix/secret-generations";
 }
