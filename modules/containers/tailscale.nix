@@ -28,7 +28,7 @@ in
     };
     volumeLocation = mkOption {
       type = types.str;
-      default = "${config.yomaq.impermanence.backup}containers/${NAME}";
+      default = "${config.yomaq.impermanence.backup}/containers/${NAME}";
       description = ''
         path to store container volumes
       '';
