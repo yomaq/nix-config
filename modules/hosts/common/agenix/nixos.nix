@@ -17,7 +17,7 @@ environment.persistence."${config.yomaq.impermanence.dontBackup}" = {
   age.identityPaths = [ 
     # with impermanence, on host reboot agenix tries to decript before /etc is created.
     # to fix we use the persistent location for the identityPaths
-    "/nix/persistent/etc/ssh/${hostName}"
+    "${config.yomaq.impermanence.dontBackup}/etc/ssh/${hostName}"
     "/etc/ssh/${hostName}"
   ];
 }
