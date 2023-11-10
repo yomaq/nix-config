@@ -10,7 +10,7 @@
       defaultNetwork.settings.dns_enabled = true;
     };
   };
-  environment.persistence."${config.yomaq.impermanence.dontbackup}" = {
+  environment.persistence."${config.yomaq.impermanence.dontBackup}" = {
     directories = [
       "/var/lib/containers/storage"
     ];
