@@ -19,6 +19,6 @@ in
   
   };
     age.identityPaths = [ "/etc/ssh/${hostName}" ];
-    age.secretsDir = "/nix/agenix/secrets";
-    age.secretsMountPoint = "/nix/agenix/secret-generations";
+    # age.secretsDir = "/nix/agenix/secrets";
+    # age.secretsMountPoint = "/nix/agenix/secret-generations";
 }
