@@ -4,7 +4,7 @@ with lib;
 let
   ### Set container name
   NAME = "tailscale";
-  IMAGE = "tailscale/tailscale";
+  IMAGE = "ghcr.io/tailscale/tailscale";
   cfg = config.yomaq.pods.${NAME};
 in
 {
