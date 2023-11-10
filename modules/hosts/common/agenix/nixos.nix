@@ -7,17 +7,17 @@ in
     [
       inputs.agenix.nixosModules.default
     ];
-  environment.persistence."/nix/persistent" = {
+environment.persistence."${config.yomaq.impermanence.dontBackup}" = {
     hideMounts = true;
     files = [
       { file = "/etc/ssh/${hostName}"; }
     ];
   
   };
-    age.identityPaths = [ 
-      # with impermanence, on host reboot agenix tries to decript before /etc is created.
-      # to fix we use the persistent location for the identityPaths
-      "/nix/persistent/etc/ssh/${hostName}"
-      "/etc/ssh/${hostName}"
-      ];
+  age.identityPaths = [ 
+    # with impermanence, on host reboot agenix tries to decript before /etc is created.
+    # to fix we use the persistent location for the identityPaths
+    "/nix/persistent/etc/ssh/${hostName}"
+    "/etc/ssh/${hostName}"
+  ];
 }

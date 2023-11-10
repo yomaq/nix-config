@@ -13,7 +13,7 @@ in
       extraUpFlags = cfg.extraUpFlags;
       useRoutingFeatures = cfg.useRoutingFeatures;
     };
-    environment.persistence."/nix/persistent" = {
+    environment.persistence."${config.yomaq.impermanence.dontBackup}" = {
       hideMounts = true;
       directories = [
         "/var/lib/tailscale"
