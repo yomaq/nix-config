@@ -11,8 +11,8 @@
     };
   };
   environment.persistence."${config.yomaq.impermanence.dontbackup}" = {
-    directories = {
+    directories = [
       "/var/lib/containers/storage"
-    };
+    ];
   };
 }
