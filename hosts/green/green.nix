@@ -18,7 +18,7 @@
       primaryUser.users = [ "admin" ];
       _1password.enable = true;
       tailscale.enable = true;
-      gnome.enable = true;
+      # gnome.enable = true;
       pods.tailscale.enable = true;
       impermanence.backup = "/nix/persistent";
     };
