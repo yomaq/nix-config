@@ -17,7 +17,7 @@ trap cleanup EXIT
 install -d -m755 "$temp $persistentDir/etc/ssh/"
 
 # Obtain your private key for agenix from the password store and copy it to the temporary directory
-op read op:"//nix/$hostname/private key" > "$temp/etc/ssh/$hostname"
+op read op:"//nix/$hostname/private key" > "$temp $persistentDir/etc/ssh/$hostname"
 
 # Set the correct permissions so sshd will accept the key
 chmod 600 "$temp $persistentDir/etc/ssh/$hostname"
