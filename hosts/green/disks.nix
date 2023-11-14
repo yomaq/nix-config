@@ -15,20 +15,20 @@ in
   # Needed for impermanance 
   boot.initrd.systemd.enable = true;
 
-  # setup initrd ssh to unlock the encripted drive
-  boot.initrd.network.enable = true;
-  boot.initrd.availableKernelModules = [ "e1000e" ];
-  boot.kernelParams = [ "ip=dhcp" ];
-  boot.initrd.network.ssh = {
-    enable = true;
-    port = 22;
-    shell = "/bin/cryptsetup-askpass";
-    authorizedKeys = [ 
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI" 
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYSJ9ywFRJ747tkhvYWFkx/Y9SkLqv3rb7T1UuXVBWo"
-      ];
-    hostKeys = [ "${config.yomaq.impermanence.dontBackup}/etc/ssh/${hostName}" ];
-  };
+  # # setup initrd ssh to unlock the encripted drive
+  # boot.initrd.network.enable = true;
+  # boot.initrd.availableKernelModules = [ "e1000e" ];
+  # boot.kernelParams = [ "ip=dhcp" ];
+  # boot.initrd.network.ssh = {
+  #   enable = true;
+  #   port = 22;
+  #   shell = "/bin/cryptsetup-askpass";
+  #   authorizedKeys = [ 
+  #     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI" 
+  #     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYSJ9ywFRJ747tkhvYWFkx/Y9SkLqv3rb7T1UuXVBWo"
+  #     ];
+  #   hostKeys = [ "${config.yomaq.impermanence.dontBackup}/etc/ssh/${hostName}" ];
+  # };
 
 
   environment.persistence."/nix/persistent" = {
