@@ -15,7 +15,7 @@ trap cleanup EXIT
 # Create the directory where sshd expects to find the host keys
 install -d -m755 "$temp/etc/ssh"
 
-# Decrypt your private key for agenix from the password store and copy it to the temporary directory
+# Obtain your private key for agenix from the password store and copy it to the temporary directory
 op read op:"//nix/$hostname/private key" > "$temp/etc/ssh/$hostname"
 
 # Set the correct permissions so sshd will accept the key
