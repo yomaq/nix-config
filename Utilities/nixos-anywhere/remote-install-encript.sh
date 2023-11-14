@@ -22,5 +22,5 @@ op read op:"//nix/$hostname/private key" > "$temp/etc/ssh/$hostname"
 chmod 600 "$temp/etc/ssh/$hostname"
 
 # Install NixOS to the host system with our secrets and encription
-nix run github:numtide/nixos-anywhere -- --extra-files "$temp" \
+nix run github:numtide/nixos-anywhere -- --build-on-remote --extra-files "$temp" \
   --disk-encryption-keys /tmp/disk-1.key <(op read op://nix/$hostname/encryption) --flake ..#$hostname root@$ipaddress
