@@ -89,11 +89,17 @@ in
                 randomEncryption = true;
               };
             };
-            zfs = {
+            luks = {
               size = "100%";
               content = {
+                type = "luks";
+                name = "crypted";
+                settings.allowDiscards = true;
+                passwordFile = "/tmp/secret.key";
+                content = {
                 type = "zfs";
                 pool = "zroot";
+                };
               };
             };
           };
@@ -120,19 +126,11 @@ in
           checksum = "edonr";
           compression = "zstd";
           dnodesize = "auto";
-          encryption = "aes-256-gcm";
-          # if you want to use the key for interactive login be sure there is no trailing newline
-          # for example use `echo -n "password" > /tmp/secret.key`
-          keylocation = "file:///tmp/secret.key";
-          keyformat = "passphrase";
           mountpoint = "none";
           normalization = "formD";
           relatime = "on";
           "com.sun:auto-snapshot" = "false";
         };
-        postCreateHook = ''
-          zfs set keylocation="prompt" $name;
-        '';
         options = {
           ashift = "12";
           autotrim = "on";
@@ -153,14 +151,14 @@ in
             type = "zfs_fs";
             options.mountpoint = "legacy";
             mountpoint = "/home";
-            options."com.sun:auto-snapshot" = "true";
+            options."com.sun:auto-snapshot" = "false";
             postCreateHook = "zfs snapshot zroot/home@empty";
           };
           persist = {
             type = "zfs_fs";
             options.mountpoint = "legacy";
             mountpoint = "/persist";
-            options."com.sun:auto-snapshot" = "true";
+            options."com.sun:auto-snapshot" = "false";
             postCreateHook = "zfs snapshot zroot/persist@empty";
           };
           nix = {
@@ -170,7 +168,7 @@ in
             options = {
               atime = "off";
               canmount = "on";
-              "com.sun:auto-snapshot" = "true";
+              "com.sun:auto-snapshot" = "false";
             };
             postCreateHook = "zfs snapshot zroot/nix@empty";
           };
@@ -180,7 +178,6 @@ in
             mountpoint = "/";
             postCreateHook = ''
               zfs snapshot zroot/root@empty
-              zfs snapshot zroot/root@lastboot
             '';
           };
         };
