@@ -44,11 +44,11 @@ in
   };
 
 
-### enable swap
- swapDevices = [ {
-    device = "/nix/swapfile";
-    size = 4*1024;
-  } ];
+# ### enable swap
+#  swapDevices = [ {
+#     device = "/nix/swapfile";
+#     size = 4*1024;
+#   } ];
 
 
 
@@ -84,26 +84,43 @@ in
               content = {
                 type = "luks";
                 name = "crypted";
-                settings.allowDiscards = true;
-                passwordFile = "/tmp/secret.key";
+                # disable settings.keyFile if you want to use interactive password entry
+                passwordFile = "/tmp/secret.key"; # Interactive
+                settings = {
+                  allowDiscards = true;
+                  # keyFile = "/tmp/secret.key";
+                };
                 content = {
-                  type = "filesystem";
-                  format = "ext4";
-                  mountpoint = "/nix";
+                  type = "btrfs";
+                  extraArgs = [ "-f" ];
+                  subvolumes = {
+                    "/etc/ssh" = {
+                      mountpoint = "/etc/ssh";
+                      mountOptions = [ "compress=zstd" "noatime" ];
+                    };
+                    "/nix" = {
+                      mountpoint = "/nix";
+                      mountOptions = [ "compress=zstd" "noatime" ];
+                    };
+                    "/swap" = {
+                      mountpoint = "/.swapvol";
+                      swap.swapfile.size = 4*1024;
+                    };
+                  };
                 };
               };
             };
           };
         };
+        nodev = {
+          "/" = {
+            fsType = "tmpfs";
+            mountOptions = [
+              "defaults" "size=5G" "mode=755"
+            ];
+          };
+        };
       };
-    };
-    nodev = {
-      "/" = {
-        fsType = "tmpfs";
-        mountOptions = [
-          "defaults" "size=5G" "mode=755"
-        ];
-      };
-    };
+    }
   };
 }
