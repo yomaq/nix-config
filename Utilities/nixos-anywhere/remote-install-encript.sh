@@ -26,4 +26,4 @@ chmod 600 "$temp $persistentDir/etc/ssh/$hostname"
 
 # Install NixOS to the host system with our secrets and encription
 nix run github:numtide/nixos-anywhere -- --build-on-remote --no-reboot --extra-files "$temp" \
-  --disk-encryption-keys /tmp/disk-1.key <(op read op://nix/$hostname/encryption) --flake ..#$hostname root@$ipaddress
+  --disk-encryption-keys /tmp/secret.key <(op read op://nix/$hostname/encryption) --flake ..#$hostname root@$ipaddress
