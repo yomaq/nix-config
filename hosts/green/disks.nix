@@ -154,6 +154,13 @@ in
             options."com.sun:auto-snapshot" = "false";
             postCreateHook = "zfs snapshot zroot/home@empty";
           };
+          etcssh = {
+            type = "zfs_fs";
+            options.mountpoint = "legacy";
+            mountpoint = "/etc/ssh";
+            options."com.sun:auto-snapshot" = "false";
+            postCreateHook = "zfs snapshot zroot/home@empty";
+          };
           persist = {
             type = "zfs_fs";
             options.mountpoint = "legacy";
