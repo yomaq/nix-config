@@ -1,7 +1,7 @@
 #! /run/current-system/sw/bin/bash
 
-ipaddress=$1
-hostname=$2
+ipaddress=$2
+hostname=$1
 
 # Create a temporary directory
 temp=$(mktemp -d)
