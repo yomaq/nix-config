@@ -16,7 +16,7 @@
     yomaq = {
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
-      # _1password.enable = true;
+      _1password.enable = true;
       tailscale.enable = true;
       # gnome.enable = true;
       pods.tailscale.enable = true;
