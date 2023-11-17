@@ -3,6 +3,8 @@
 ipaddress=$2
 hostname=$1
 
+eval $(op signin)
+
 # Create a temporary directory
 temp=$(mktemp -d)
 
