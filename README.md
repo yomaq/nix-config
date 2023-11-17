@@ -15,8 +15,7 @@ Nix flake trying to focus on:
 
 * boot the host into a nixos installer, and set the root password
 * complete the following steps on a different x86_64 machine with nix installed, and signed into 1password
-* run the script found at utilities/nixos-anywhere/ :
-* ./remote-install-encrypt.sh HOSTNAME IPADDRESS-OF-TARGET
+* run the script `utilities/nixos-anywhere/remote-install-encrypt.sh HOSTNAME IPADDRESS-OF-TARGET`
 * let the install complete, then unlock the drive manually (initrd ssh will not work yet)
 * hit * to ignore the error after unlocking
 * remake the /etc/ssh/initrd host key and rebuild the nixos configuration
