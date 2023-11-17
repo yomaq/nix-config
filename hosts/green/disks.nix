@@ -13,7 +13,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   # Needed for impermanance 
-  # boot.initrd.systemd.enable = true;
+  boot.initrd.systemd.enable = true;
 
   # setup initrd ssh to unlock the encripted drive
   boot.initrd.network.enable = true;
@@ -34,10 +34,10 @@ in
     "/etc/ssh/${hostName}-initrd.pub" = "/etc/ssh/${hostName}-initrd.pub";
   };
   boot.initrd.systemd.users.root.shell = "/bin/cryptsetup-askpass";
-  # users.users.root.openssh.authorizedKeys.keys = [ 
-  #   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI" 
-  #   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYSJ9ywFRJ747tkhvYWFkx/Y9SkLqv3rb7T1UuXVBWo"
-  # ];
+  users.users.root.openssh.authorizedKeys.keys = [ 
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI" 
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYSJ9ywFRJ747tkhvYWFkx/Y9SkLqv3rb7T1UuXVBWo"
+  ];
  fileSystems."/etc/ssh".neededForBoot = true;
 
   environment.persistence."/nix/persistent" = {
