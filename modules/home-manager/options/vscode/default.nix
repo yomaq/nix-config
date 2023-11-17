@@ -27,6 +27,7 @@ in
         pkgs.vscode-extensions.bbenoist.nix
         pkgs.vscode-extensions.github.copilot
         pkgs.vscode-extensions.ms-python.python
+        pkgs.vscode-extensions.github.copilot-chat
       ];
       userSettings = {
         "[nix]"."editor.tabSize" = 2;
