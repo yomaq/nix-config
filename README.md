@@ -4,7 +4,6 @@ Nix flake trying to focus on:
 * Making installing NixOS convenient and consistent. [Partitioning disks declaritavely](https://github.com/nix-community/disko/tree/master), and installing NixOS with [a single ssh command](https://github.com/nix-community/nixos-anywhere/tree/main).
 * Managing the entire system including [secrets](https://github.com/ryantm/agenix/tree/main)  through the flake.
 * Conveniently modularizing the flake so that it is easy to add to, and all host outputs whether NixOS or MacOS look as similar as possible.
-* Making it possible to deploy configured systems with services and containers that start on their own upon the system's first boot allowing for full system configuration without ever signing into or otherwise pushing commands to the system.
 * Automatically updating every system to the flake hourly, keeping all hosts in sync and identical as possible.
 
 
