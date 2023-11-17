@@ -10,8 +10,10 @@ Nix flake trying to focus on:
 
 <details>
   <summary>Build on NixOS</summary>
-Select the hostname to select the config
 
+
+
+Update the system:  
 ```
 nixos-rebuild switch --flake github:yomaq/nix-config#HOSTNAME
 ```
