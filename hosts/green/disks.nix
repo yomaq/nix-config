@@ -30,7 +30,7 @@ in
     hostKeys = [ "/etc/ssh/${hostName}-initrd" ];
   };
   boot.initrd.secrets = {
-    "/etc/ssh/${hostName}-initrd" = "/etc/ssh/${hostName}";
+    "/etc/ssh/${hostName}-initrd" = "/etc/ssh/${hostName}-initrd";
     "/etc/ssh/${hostName}-initrd.pub" = "/etc/ssh/${hostName}-initrd.pub";
   };
   # boot.initrd.network.postCommands = lib.mkAfter ''/bin/ash'';
