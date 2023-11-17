@@ -22,7 +22,7 @@ in
   boot.initrd.network.ssh = {
     enable = true;
     port = 2222;
-    shell = "/bin/cryptsetup-askpass";
+    # shell = "/bin/cryptsetup-askpass";
     authorizedKeys = [ 
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI" 
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYSJ9ywFRJ747tkhvYWFkx/Y9SkLqv3rb7T1UuXVBWo"
@@ -33,8 +33,11 @@ in
     "/etc/ssh/${hostName}-initrd" = "/etc/ssh/${hostName}-initrd";
     "/etc/ssh/${hostName}-initrd.pub" = "/etc/ssh/${hostName}-initrd.pub";
   };
-  # boot.initrd.network.postCommands = lib.mkAfter ''/bin/ash'';
-  # boot.initrd.systemd.users.root.shell = "/bin/cryptsetup-askpass";
+  boot.initrd.systemd.users.root.shell = "/bin/cryptsetup-askpass";
+  users.users.root.openssh.authorizedKeys.keys = [ 
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI" 
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYSJ9ywFRJ747tkhvYWFkx/Y9SkLqv3rb7T1UuXVBWo"
+  ];
 
 
   environment.persistence."/nix/persistent" = {
