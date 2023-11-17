@@ -159,7 +159,7 @@ in
             options.mountpoint = "legacy";
             mountpoint = "/etc/ssh";
             options."com.sun:auto-snapshot" = "false";
-            postCreateHook = "zfs snapshot zroot/home@empty";
+            postCreateHook = "zfs snapshot zroot/etcssh@empty";
           };
           persist = {
             type = "zfs_fs";
