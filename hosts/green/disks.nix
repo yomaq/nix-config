@@ -29,7 +29,7 @@ in
       ];
     hostKeys = [ "/etc/ssh/${hostName}-initrd.key" ];
   };
-  boot.initrd.network.secrets = {
+  boot.initrd.secrets = {
     "/etc/ssh/${hostName}-initrd.key" = "/etc/ssh/${hostName}-initrd.key";
     "/etc/ssh/${hostName}-initrd.pub" = "/etc/ssh/${hostName}-initrd.pub";
   };
