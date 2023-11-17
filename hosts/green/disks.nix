@@ -168,6 +168,13 @@ in
             options."com.sun:auto-snapshot" = "false";
             postCreateHook = "zfs snapshot zroot/persist@empty";
           };
+          persistSave = {
+            type = "zfs_fs";
+            options.mountpoint = "legacy";
+            mountpoint = "/persist";
+            options."com.sun:auto-snapshot" = "false";
+            postCreateHook = "zfs snapshot zroot/persistSave@empty";
+          };
           nix = {
             type = "zfs_fs";
             options.mountpoint = "legacy";
@@ -182,6 +189,7 @@ in
           root = {
             type = "zfs_fs";
             options.mountpoint = "legacy";
+            options."com.sun:auto-snapshot" = "false";
             mountpoint = "/";
             postCreateHook = ''
               zfs snapshot zroot/root@empty
