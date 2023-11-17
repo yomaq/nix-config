@@ -13,7 +13,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   # Needed for impermanance 
-  # boot.initrd.systemd.enable = true;
+  boot.initrd.systemd.enable = true;
 
   # setup initrd ssh to unlock the encripted drive
   boot.initrd.network.enable = true;
