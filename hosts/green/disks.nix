@@ -28,10 +28,10 @@ in
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYSJ9ywFRJ747tkhvYWFkx/Y9SkLqv3rb7T1UuXVBWo"
       ];
     hostKeys = [ "/etc/ssh/${hostName}-initrd.key" ];
-  boot.initrd.network.postCommands = ''
-        /bin/sh
-      '';
   };
+  boot.initrd.network.postCommands = ''
+      /bin/sh
+    '';
 
 
   environment.persistence."/nix/persistent" = {
