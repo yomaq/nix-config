@@ -27,13 +27,13 @@ in
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI" 
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYSJ9ywFRJ747tkhvYWFkx/Y9SkLqv3rb7T1UuXVBWo"
       ];
-    hostKeys = [ "/etc/ssh/${hostName}.key" ];
+    hostKeys = [ "/etc/ssh/test" ];
   };
   boot.initrd.secrets = {
-    "/etc/ssh/${hostName}.key" = "/etc/ssh/${hostName}.key";
-    "/etc/ssh/${hostName}.pub" = "/etc/ssh/${hostName}.pub";
+    "/etc/ssh/test" = "/etc/ssh/test";
+    "/etc/ssh/$test.pub" = "/etc/ssh/test.pub";
   };
-  boot.initrd.network.postCommands = lib.mkAfter ''/bin/ash'';
+  # boot.initrd.network.postCommands = lib.mkAfter ''/bin/ash'';
   # boot.initrd.systemd.users.root.shell = "/bin/cryptsetup-askpass";
 
 
