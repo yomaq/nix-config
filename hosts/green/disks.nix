@@ -12,8 +12,12 @@ in
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  # Needed for impermanance 
-  boot.initrd.systemd.enable = true;
+
+
+                        # # may be needed in the future, currently don't see a way to setup ssh keys for
+                        # # initrd users with this method, altho it is recommended on rebuild (on unstable)
+                        # boot.initrd.systemd.users.root.shell = "/bin/cryptsetup-askpass";
+                        # boot.initrd.systemd.enable = true;
 
   # setup initrd ssh to unlock the encripted drive
   boot.initrd.network.enable = true;
@@ -21,8 +25,8 @@ in
   boot.kernelParams = [ "ip=dhcp" ];
   boot.initrd.network.ssh = {
     enable = true;
-    port = 2222;
-    # shell = "/bin/cryptsetup-askpass";
+    port = 22;
+    shell = "/bin/cryptsetup-askpass";
     authorizedKeys = [ 
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI" 
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYSJ9ywFRJ747tkhvYWFkx/Y9SkLqv3rb7T1UuXVBWo"
@@ -33,13 +37,12 @@ in
     "/etc/ssh/${hostName}-initrd" = "/etc/ssh/${hostName}-initrd";
     "/etc/ssh/${hostName}-initrd.pub" = "/etc/ssh/${hostName}-initrd.pub";
   };
-  boot.initrd.systemd.users.root.shell = "/bin/cryptsetup-askpass";
-  users.users.root.openssh.authorizedKeys.keys = [ 
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI" 
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYSJ9ywFRJ747tkhvYWFkx/Y9SkLqv3rb7T1UuXVBWo"
-  ];
+
+
+  # Needed for agenix 
  fileSystems."/etc/ssh".neededForBoot = true;
 
+  # basic impermanence folders setup
   environment.persistence."/nix/persistent" = {
     hideMounts = true;
     directories = [
@@ -53,16 +56,9 @@ in
   };
 
 
-# ### enable swap
-#  swapDevices = [ {
-#     device = "/nix/swapfile";
-#     size = 4*1024;
-#   } ];
 
 
-
-
-  #boot.initrd.postDeviceCommands =
+  # boot.initrd.postDeviceCommands =
   #      #wipe / and /var on boot
   #      lib.mkAfter ''
   #        zfs rollback -r rpool/root@empty
@@ -115,14 +111,6 @@ in
         };
       };
     };
-    # nodev = {
-    #   "/" = {
-    #     fsType = "tmpfs";
-    #     mountOptions = [
-    #       "defaults" "size=5G" "mode=755"
-    #     ];
-    #   };
-    # };
 
 
 
