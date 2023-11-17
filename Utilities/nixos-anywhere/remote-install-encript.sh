@@ -26,7 +26,6 @@ op read op:"//nix/$hostname-initrd/public key" > "$temp/etc/ssh/$hostname-initrd
 # Set the correct permissions so sshd will accept the key
 chmod 600 "$temp/etc/ssh/$hostname"
 chmod 600 "$temp/etc/ssh/$hostname-initrd.key"
-chmod 600 "$temp/etc/ssh/$hostname-initrd.pub"
 
 # Install NixOS to the host system with our secrets and encription
 nix run github:numtide/nixos-anywhere -- --extra-files "$temp"  \
