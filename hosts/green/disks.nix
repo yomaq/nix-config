@@ -21,7 +21,7 @@ in
   boot.kernelParams = [ "ip=dhcp" ];
   boot.initrd.network.ssh = {
     enable = true;
-    port = 22;
+    port = 2222;
     shell = "/bin/cryptsetup-askpass";
     authorizedKeys = [ 
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI" 
