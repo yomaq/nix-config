@@ -11,9 +11,20 @@ Nix flake trying to focus on:
 <details>
   <summary>Build on NixOS</summary>
 
+**Install a host that already has configuration:**
+
+* boot the host into a nixos installer, and set the root password
+* complete the following steps on a different x86_64 machine with nix installed, and signed into 1password
+* run the script found at utilities/nixos-anywhere/ :
+* ./remote-install-encrypt.sh HOSTNAME IPADDRESS-OF-TARGET
+* let the install complete, then unlock the drive manually (initrd ssh will not work yet)
+* hit * to ignore the error after unlocking
+* remake the /etc/ssh/initrd host key and rebuild the nixos configuration
+* now upon rebooting, the system will have normal behavior and initrd ssh will function
 
 
-Update the system:  
+
+**Update the system(rebuild)**:  
 ```
 nixos-rebuild switch --flake github:yomaq/nix-config#HOSTNAME
 ```
