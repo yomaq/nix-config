@@ -22,7 +22,7 @@ in
   # setup initrd ssh to unlock the encripted drive
   boot.initrd.network.enable = true;
   boot.initrd.availableKernelModules = [ "e1000e" ];
-  boot.kernelParams = [ "ip=::::${hostName}-Initrd::dhcp" ];
+  boot.kernelParams = [ "ip=::::${hostName}-initrd::dhcp" ];
   boot.initrd.network.ssh = {
     enable = true;
     port = 22;
