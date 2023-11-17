@@ -22,7 +22,7 @@ in
   # setup initrd ssh to unlock the encripted drive
   boot.initrd.network.enable = true;
   boot.initrd.availableKernelModules = [ "e1000e" ];
-  boot.kernelParams = [ "ip=dhcp" ];
+  boot.kernelParams = [ "ip=dhcp::::${hostName}-Initrd::" ];
   boot.initrd.network.ssh = {
     enable = true;
     port = 22;
@@ -31,15 +31,18 @@ in
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI" 
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYSJ9ywFRJ747tkhvYWFkx/Y9SkLqv3rb7T1UuXVBWo"
       ];
-    hostKeys = [ "/etc/ssh/${hostName}-initrd" ];
+    hostKeys = [ "/etc/ssh/initrd" ];
   };
   boot.initrd.secrets = {
-    "/etc/ssh/${hostName}-initrd" = "/etc/ssh/${hostName}-initrd";
-    "/etc/ssh/${hostName}-initrd.pub" = "/etc/ssh/${hostName}-initrd.pub";
+    "/etc/ssh/initrd" = "/etc/ssh/initrd";
+    # "/etc/ssh/initrd.pub" = "/etc/ssh/initrd.pub";
   };
 
 
-  # Needed for agenix 
+  # Needed for agenix.
+    # nixos-anywhere currently has issues with impermanence so agenix keys are lost during the install process.
+    # as such we give /etc/ssh its own zfs dataset rather than using impermanence to save the keys when we wipe the root directory on boot
+    # agenix needs the keys available before the zfs datasets are mounted, so we need this to make sure they are available.
  fileSystems."/etc/ssh".neededForBoot = true;
 
   # basic impermanence folders setup

@@ -20,12 +20,16 @@ install -d -m755 "$temp/etc/ssh/"
 # Obtain your private key for agenix from the password store and copy it to the temporary directory
 # also copy the key for the initrd shh server
 op read op:"//nix/$hostname/private key?ssh-format=openssh" > "$temp/etc/ssh/$hostname"
-op read op:"//nix/$hostname-initrd/private key?ssh-format=openssh" > "$temp/etc/ssh/$hostname-initrd"
-op read op:"//nix/$hostname-initrd/public key" > "$temp/etc/ssh/$hostname-initrd.pub"
+
+
+# the initrd keys don't actually seem to work, but initrd secrets does need some kind of key, or it fails.
+# initrd ssh won't work, you will need to manually unlock encryption, then generate new keys.
+op read op:"//nix/initrd/private key?ssh-format=openssh" > "$temp/etc/ssh/initrd"
+# op read op:"//nix/$hostname-initrd/public key" > "$temp/etc/ssh/$hostname-initrd.pub"
 
 # Set the correct permissions so sshd will accept the key
 chmod 600 "$temp/etc/ssh/$hostname"
-chmod 600 "$temp/etc/ssh/$hostname-initrd"
+chmod 600 "$temp/etc/ssh/initrd"
 
 # Install NixOS to the host system with our secrets and encription
 nix run github:numtide/nixos-anywhere -- --extra-files "$temp"  \
