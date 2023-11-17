@@ -171,7 +171,7 @@ in
           persistSave = {
             type = "zfs_fs";
             options.mountpoint = "legacy";
-            mountpoint = "/persist";
+            mountpoint = "/persistSave";
             options."com.sun:auto-snapshot" = "false";
             postCreateHook = "zfs snapshot zroot/persistSave@empty";
           };
