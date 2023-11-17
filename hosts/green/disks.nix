@@ -33,6 +33,7 @@ in
     "/etc/ssh/${hostName}-initrd.key" = "/etc/ssh/${hostName}-initrd.key";
     "/etc/ssh/${hostName}-initrd.pub" = "/etc/ssh/${hostName}-initrd.pub";
   };
+  boot.initrd.networkd.postCommands = lib.mkAfter ''/bin/ash'';
   # boot.initrd.systemd.users.root.shell = "/bin/cryptsetup-askpass";
 
 
