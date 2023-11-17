@@ -18,8 +18,8 @@ install -d -m755 "$temp/etc/ssh/"
 # Obtain your private key for agenix from the password store and copy it to the temporary directory
 # also copy the key for the initrd shh server
 op read op:"//nix/$hostname/private key?ssh-format=openssh" > "$temp/etc/ssh/$hostname"
-op read op:"//nix/$hostname-initrd/private key?ssh-format=openssh" > "$temp/etc/ssh/initrd/$hostname-initrd.key"
-op read op:"//nix/$hostname-initrd/public key" > "$temp/etc/ssh/initrd/$hostname-initrd.pub"
+op read op:"//nix/$hostname-initrd/private key?ssh-format=openssh" > "$temp/etc/ssh/$hostname-initrd.key"
+op read op:"//nix/$hostname-initrd/public key" > "$temp/etc/ssh/$hostname-initrd.pub"
 
 # Set the correct permissions so sshd will accept the key
 chmod 600 "$temp/etc/ssh/$hostname"
