@@ -5,6 +5,7 @@
 { config, lib, pkgs, modulesPath, inputs, ... }:
 let
   inherit (config.networking) hostName;
+  inherit (config.yomaq.impermanence) dontBackup;
 in
 {
   imports =[];
@@ -46,7 +47,7 @@ in
  fileSystems."/etc/ssh".neededForBoot = true;
 
   # basic impermanence folders setup
-  environment.persistence."/nix/persistent" = {
+  environment.persistence."${dontBackup}" = {
     hideMounts = true;
     directories = [
       "/var/lib/bluetooth"

@@ -3,6 +3,7 @@
 with lib;
 let
   cfg = config.yomaq.ssh;
+  inherit (config.networking) hostName;
 in
 {
   options.yomaq.ssh = {
@@ -26,21 +27,9 @@ in
       };
       hostKeys = [
         {
-          path = "/etc/ssh/ssh_host_ed25519_key";
+          path = "/etc/ssh/${hostName}";
           type = "ed25519";
         }
-        {
-          path = "/etc/ssh/ssh_host_rsa_key";
-          type = "rsa";
-          bits = 4096;
-        }
-      ];
-    };
-    environment.persistence."/nix/persistent" = {
-      hideMounts = true;
-      files = [
-        { file = "/etc/ssh/ssh_host_ed25519_key"; }
-        { file = "/etc/ssh/ssh_host_rsa_key"; }
       ];
     };
   };

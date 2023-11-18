@@ -8,12 +8,12 @@ with lib;
   options.yomaq.impermanence = {
     backup = mkOption {
       type = types.str;
-      default = "/nix/persistent/backup";
+      default = "/persistSave";
       description = "The persistent directory to backup";
     };
     dontBackup = mkOption {
       type = types.str;
-      default = "/nix/persistent/dontBackup";
+      default = "/persist";
       description = "The persistent directory to not backup";
     };
   };
