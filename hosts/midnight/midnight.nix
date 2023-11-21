@@ -34,6 +34,7 @@ in
       yabai.enable = true;
       tailscale.enable = true;
       _1password.enable = true;
+      scripts.enable = true;
     };
   };
 }

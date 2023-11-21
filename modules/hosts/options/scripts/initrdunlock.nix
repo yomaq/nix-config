@@ -1,3 +1,7 @@
+{ pkgs, ... }:
+
+pkgs.writeShellScriptBin "initrd-unlock" ''
+
 #provide host name
 hostname=$1
 
@@ -27,3 +31,4 @@ if [ $? -eq 0 ]; then
 else
   echo "Could not reach $hostname-initrd"
 fi
+''
