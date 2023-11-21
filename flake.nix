@@ -36,11 +36,6 @@
         specialArgs = { inherit inputs; }; 
         modules = [ ./nixos/hosts/blue ];
       };
-      nixos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; }; 
-        modules = [ ./nixos/hosts/nixos-test/nixostest.nix ];
-      };
       green = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; }; 
