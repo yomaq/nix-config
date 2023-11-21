@@ -17,7 +17,7 @@ in
 
  config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
-      (import (inputs.self + /modules/scripts/initrdunlock.nix) {inherit pkgs;})
+      (import (inputs.self + /modules/scripts/initrdunlock.nix) {inherit pkgs inputs;})
     ];
  };
 }
