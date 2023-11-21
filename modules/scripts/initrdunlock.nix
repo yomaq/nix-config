@@ -1,15 +1,27 @@
 { pkgs, ... }:
+let
+    nixosHostnames = builtins.attrNames inputs.self.nixosConfigurations;
+in
+
 
 pkgs.writeShellScriptBin "initrd-unlock" ''
 
-#provide host name
-hostname=$1
+# Check if any arguments were provided
+if [ $# -eq 0 ]; then
+ # If no arguments were provided, use a default hostname
+ hostnames=${nixosHostnames}
+else
+ # If arguments were provided, use them as the hostnames
+ hostnames="$@"
+fi
 
-# Ping the host
-ping -c 1 "$hostname-initrd" > /dev/null 2>&1
+# Iterate over each hostname
+for hostname in $hostnames; do
+ # Ping the host
+ ping -c 1 "$hostname-initrd" > /dev/null 2>&1
 
-# Check if the ping was successful
-if [ $? -eq 0 ]; then
+ # Check if the ping was successful
+ if [ $? -eq 0 ]; then
 
     #sign into 1password and get the secret
     eval $(op signin)
@@ -28,7 +40,9 @@ if [ $? -eq 0 ]; then
     else
         echo "Successfully unlocked"
     fi
-else
+ else
   echo "Could not reach $hostname-initrd"
-fi
+ fi
+done
+
 ''
