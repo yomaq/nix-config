@@ -6,6 +6,7 @@
 let
   # Set to your disk name
   disk = "nvme0n1";
+  disk2 = "nvme1n1";
   # set swap size
   swapSize = "16G";
   # set hostID (8 random hex digits)
@@ -79,7 +80,7 @@ in
 
   disko.devices = {
     disk = {
-      sda = {
+      one = {
         type = "disk";
         device = "/dev/${disk}";
         content = {
@@ -122,6 +123,28 @@ in
           };
         };
       };
+      two = {
+        type = "disk";
+        device = "/dev/${disk2}";
+        content = {
+          type = "gpt";
+          partitions = {
+            luks = {
+              size = "100%";
+              content = {
+                type = "luks";
+                name = "crypted";
+                settings.allowDiscards = true;
+                passwordFile = "/tmp/secret.key";
+                content = {
+                type = "zfs";
+                pool = "zroot";
+                };
+              };
+            };
+          };
+        };
+      };
     };
 
 
@@ -129,7 +152,7 @@ in
     zpool = {
       zroot = {
         type = "zpool";
-        #mode = "mirror";
+        mode = "mirror";
         rootFsOptions = {
           canmount = "off";
           checksum = "edonr";
