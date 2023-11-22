@@ -59,7 +59,7 @@ in
       };
       TSargs = mkOption {
         type = types.str;
-        default = "--exit-node=us-den-wg-102.mullvad.ts.net";
+        default = "--exit-node=100.120.178.99";
         description = ''
           TS_Extra_ARGS env var
         '';
