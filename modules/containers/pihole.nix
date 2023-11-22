@@ -59,10 +59,7 @@ in
       };
       TSargs = mkOption {
         type = types.str;
-        default = ''
-         --exit-node=us-den-wg-102.mullvad.ts.net
-         serve <https+insecure://localhost:80>
-         '';
+        default = "--exit-node=us-den-wg-102.mullvad.ts.net";
         description = ''
           TS_Extra_ARGS env var
         '';
@@ -82,7 +79,7 @@ in
 
   config = mkIf cfg.enable {
 
-  networking.firewall.allowedTCPPorts = [53];
+  networking.firewall.allowedTCPPorts = [53 80];
   networking.firewall.allowedUDPPorts = [53];
 
     ### agenix secrets for container
