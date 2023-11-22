@@ -2,7 +2,7 @@
 
 with lib;
 let
-  cfg = config.yomaq.ssh;
+  cfg = config.yomaq.gnome;
 in
 {
   options.yomaq.gnome = {
