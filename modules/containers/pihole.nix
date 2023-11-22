@@ -104,26 +104,6 @@ in
 
 
     virtualisation.oci-containers.containers = {
-### pihole container
-      "${NAME}" = {
-        image = "${IMAGE}:${cfg.imageVersion}";
-        autoStart = true;
-        environment = {
-          "TZ" = "America/Chicago";
-        };
-        environmentFiles = [
-           # need to set "WEBPASSWORD=password" in agenix and import here
-          config.age.secrets."${NAME}EnvFile".path
-        ];
-        volumes = [
-          "${cfg.volumeLocation}/etc-pihole:/etc/pihole"
-          "${cfg.volumeLocation}/etc-dnsmasq.d:/etc/dnsmasq.d"
-        ];
-        extraOptions = [
-          "--pull=newer"
-          "--network=container:TS${NAME}"
-        ];
-      };
 ### tailscale container
       "TS${NAME}" = {
         image = "${tailscaleIMAGE}:${cfg.tailscale.imageVersion}";
@@ -147,6 +127,28 @@ in
           "--network=host"
           "--cap-add=NET_ADMIN"
           "--cap-add=NET_RAW"
+        ];
+      };
+
+
+### pihole container
+      "${NAME}" = {
+        image = "${IMAGE}:${cfg.imageVersion}";
+        autoStart = true;
+        environment = {
+          "TZ" = "America/Chicago";
+        };
+        environmentFiles = [
+           # need to set "WEBPASSWORD=password" in agenix and import here
+          config.age.secrets."${NAME}EnvFile".path
+        ];
+        volumes = [
+          "${cfg.volumeLocation}/etc-pihole:/etc/pihole"
+          "${cfg.volumeLocation}/etc-dnsmasq.d:/etc/dnsmasq.d"
+        ];
+        extraOptions = [
+          "--pull=newer"
+          "--network=container:TS${NAME}"
         ];
       };
     };
