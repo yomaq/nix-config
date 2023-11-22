@@ -1,7 +1,7 @@
 { options, config, lib, pkgs, ... }:
 {
   programs.ssh.knownHosts = {
-    # using the agenix key as the known host key for devices we unencrypt with initrd ssh
-    "green".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA+JAQVPpnno4PNYWSoTIbpNTkJ8EZDPobKFv0oL7tpu";
+    "green".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICWw4+s+Og4ASHmpP5s03O+mww5y1aPa9fE1rZHP1KDD";
+    "green-initrd".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHXJChTqiVIusv+GZ65vK8Uq9f4e4UDgaD3b2AEH6xh1";
     };
 }
