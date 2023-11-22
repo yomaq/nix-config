@@ -8,7 +8,7 @@ with lib;
   options.yomaq.impermanence = {
     backup = mkOption {
       type = types.str;
-      default = "/persistSave";
+      default = "/persist/save";
       description = "The persistent directory to backup";
     };
     dontBackup = mkOption {

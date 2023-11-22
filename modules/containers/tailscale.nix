@@ -9,6 +9,7 @@ let
 
   cfg = config.yomaq.pods.${NAME};
   inherit (config.networking) hostName;
+  inherit (config.yomaq.impermanence) dontBackup;
 in
 {
   options.yomaq.pods.${NAME} = {
@@ -28,7 +29,7 @@ in
     };
     volumeLocation = mkOption {
       type = types.str;
-      default = "${config.yomaq.impermanence.backup}/containers/${NAME}";
+      default = "${dontBackup}/containers/${NAME}";
       description = ''
         path to store container volumes
       '';
