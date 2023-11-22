@@ -11,6 +11,8 @@ let
   swapSize = "16G";
   # set hostID (8 random hex digits)
   hostID = "2C2883D7";
+  # ethernet kernel driver (run "lspci -v | grep -iA8 'network\|ethernet'")
+  ethernetDriver = "r8169";
 
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) dontBackup;
@@ -31,7 +33,7 @@ in
 
   # setup initrd ssh to unlock the encripted drive
   boot.initrd.network.enable = true;
-  boot.initrd.availableKernelModules = [ "e1000e" ];
+  boot.initrd.availableKernelModules = [ "${ethernetDriver}" ];
   boot.kernelParams = [ "ip=::::${hostName}-initrd::dhcp" ];
   boot.initrd.network.ssh = {
     enable = true;
