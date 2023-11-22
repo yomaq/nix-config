@@ -50,7 +50,7 @@ in
     };
     TShostname = mkOption {
       type = types.str;
-      default = "${hostName}_tailscale_container";
+      default = "${hostName}-TS-Container";
       description = ''
         TS_HOSTNAME env var
       '';
