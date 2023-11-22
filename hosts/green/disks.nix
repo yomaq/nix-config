@@ -4,8 +4,17 @@
 
 { config, lib, pkgs, modulesPath, inputs, ... }:
 let
+  # Set to your disk name
+  disk = "nvme0n1";
+  disk2 = "nvme1n1";
+  # set swap size
+  swapSize = "16G";
+  # set hostID (8 random hex digits)
+  hostId = "2C2883D7";
+
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) dontBackup;
+
 in
 {
   imports =[];
@@ -59,21 +68,21 @@ in
     ];
   };
 
+  # needed to use zfs
+  networking.hostId = hostID;
 
-
-
-  # boot.initrd.postDeviceCommands =
-  #      #wipe / and /var on boot
-  #      lib.mkAfter ''
-  #        zfs rollback -r rpool/root@empty
-  #    '';
+  boot.initrd.postDeviceCommands =
+       #wipe / and /var on boot
+       lib.mkAfter ''
+         zfs rollback -r zroot/root@empty
+     '';
 
 
   disko.devices = {
     disk = {
-      sda = {
+      one = {
         type = "disk";
-        device = "/dev/nvme0n1";
+        device = "/dev/${disk}";
         content = {
           type = "gpt";
           partitions = {
@@ -92,7 +101,7 @@ in
               };
             };
             swap = {
-              size = "8G";
+              size = "${swapSize}";
               content = {
                 type = "swap";
                 randomEncryption = true;
@@ -114,6 +123,28 @@ in
           };
         };
       };
+      # two = {
+      #   type = "disk";
+      #   device = "/dev/${disk2}";
+      #   content = {
+      #     type = "gpt";
+      #     partitions = {
+      #       luks = {
+      #         size = "100%";
+      #         content = {
+      #           type = "luks";
+      #           name = "crypted";
+      #           settings.allowDiscards = true;
+      #           passwordFile = "/tmp/secret.key";
+      #           content = {
+      #           type = "zfs";
+      #           pool = "zroot";
+      #           };
+      #         };
+      #       };
+      #     };
+      #   };
+      # };
     };
 
 
@@ -172,7 +203,7 @@ in
           persistSave = {
             type = "zfs_fs";
             options.mountpoint = "legacy";
-            mountpoint = "/persistSave";
+            mountpoint = "/persist/save";
             options."com.sun:auto-snapshot" = "false";
             postCreateHook = "zfs snapshot zroot/persistSave@empty";
           };
@@ -201,4 +232,3 @@ in
     };
   };
 }
-
