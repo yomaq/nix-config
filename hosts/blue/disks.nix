@@ -53,7 +53,10 @@ in
     # nixos-anywhere currently has issues with impermanence so agenix keys are lost during the install process.
     # as such we give /etc/ssh its own zfs dataset rather than using impermanence to save the keys when we wipe the root directory on boot
     # agenix needs the keys available before the zfs datasets are mounted, so we need this to make sure they are available.
- fileSystems."/etc/ssh".neededForBoot = true;
+  fileSystems."/etc/ssh".neededForBoot = true;
+
+  # Needed for impermanence, because we mount /persist/save on /persist, we need to make sure /persist is mounted before /persist/save
+  fileSystems."/persist".neededForBoot = true;
 
   # basic impermanence folders setup
   environment.persistence."${dontBackup}" = {
