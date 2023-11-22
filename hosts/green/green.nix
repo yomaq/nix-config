@@ -6,7 +6,6 @@
     inputs.self.nixosModules.pods
     # import users
     (inputs.self + /users/admin)
-    (inputs.self + /users/carln)
   ];
   config = {
     networking.hostName = "green";
@@ -18,8 +17,7 @@
       primaryUser.users = [ "admin" ];
       _1password.enable = true;
       tailscale.enable = true;
-      # gnome.enable = true;
-      pods.tailscale.enable = true;
+      #pods.tailscale.enable = true;
     };
   };
 }
