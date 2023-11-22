@@ -4,7 +4,7 @@ with lib;
 let
   ### Set container name and image
   NAME = "pihole";
-  IMAGE = "pihole/pihole";
+  IMAGE = "docker.io/pihole/pihole";
   tailscaleIMAGE = "ghcr.io/tailscale/tailscale";
 
 
