@@ -6,6 +6,8 @@ let
 in
 
 
+### I don't use pkgs._1password because I don't use it on macos, and I want the script to work on both
+
 pkgs.writeShellScriptBin "initrd-unlock" ''
 
 if [ "$1" = "--up" ]; then
