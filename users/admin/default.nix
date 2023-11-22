@@ -1,4 +1,7 @@
 { config, lib, pkgs, modulesPath, inputs, ... }:
+let
+  inherit (config.yomaq.impermanence) dontBackup;
+in
 {
   imports =
     [];
@@ -34,7 +37,7 @@
     agenix
     tailscale
   ];
-  environment.persistence."/nix/persistent" = {
+  environment.persistence."${dontBackup}" = {
     users.admin = {
       directories = [
         "nix"
