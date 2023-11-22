@@ -18,6 +18,7 @@
       _1password.enable = true;
       tailscale.enable = true;
       #pods.tailscale.enable = true;
+      pods.pihole.enable = true;
     };
   };
 }

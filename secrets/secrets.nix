@@ -12,6 +12,7 @@ in
   "encrypt.age".publicKeys = [ agenix carln ];
   "tailscaleKey.age".publicKeys = [ agenix carln green ];
   "tailscaleEnvFile.age".publicKeys = [ agenix green ];
+  "piholeEnvFile.age".publicKeys = [ agenix green ];
 
   #example for calling groups
   #"secret2.age".publicKeys = users ++ systems;

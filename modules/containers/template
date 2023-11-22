@@ -2,10 +2,14 @@
 
 with lib;
 let
-  ### Set container name
-  NAME = "name";
-  IMAGE = "image/image";
+  ### Set container name and image
+  NAME = "";
+  IMAGE = "ghcr.io/";
+
+
   cfg = config.yomaq.pods.${NAME};
+  inherit (config.networking) hostName;
+  inherit (config.yomaq.impermanence) dontBackup;
 in
 {
   options.yomaq.pods.${NAME} = {
@@ -25,7 +29,7 @@ in
     };
     volumeLocation = mkOption {
       type = types.str;
-      default = "${config.yomaq.impermanence.backup}containers/${NAME}";
+      default = "${dontBackup}/containers/${NAME}";
       description = ''
         path to store container volumes
       '';
@@ -35,13 +39,6 @@ in
       default = "latest";
       description = ''
         container image version
-      '';
-    };
-    environment = mkOption {
-      type = types.str;
-      default = "";
-      description = ''
-        environment variables to pass to container
       '';
     };
   };
@@ -65,18 +62,21 @@ in
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
-        environment = cfg.environment;
+        environment = {
+
+        };
         environmentFiles = [
           # need to set "TS_AUTHKEY=key" in agenix and import here
           config.age.secrets."${NAME}EnvFile".path
         ];
         volumes = [
-          "${cfg.volumeLocation}/data-lib:/var/lib"
-          "${cfg.volumeLocation}/dev-net-tun:/dev/net/tun"
+          "${cfg.volumeLocation}"
+          "${cfg.volumeLocation}"
         ];
         extraOptions = [
           "--pull=newer"
           "--network=host"
+
         ];
       };
     };
