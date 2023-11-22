@@ -66,7 +66,7 @@ in
       };
       TShostname = mkOption {
         type = types.str;
-        default = "${hostName}_TS_${NAME}";
+        default = "${hostName}-TS-${NAME}";
         description = ''
           TS_HOSTNAME env var
         '';
