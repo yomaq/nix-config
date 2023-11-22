@@ -10,7 +10,7 @@ let
   # set swap size
   swapSize = "16G";
   # set hostID (8 random hex digits)
-  hostId = "2C2883D7";
+  hostID = "2C2883D7";
 
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) dontBackup;
