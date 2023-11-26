@@ -12,7 +12,7 @@ let
   # set hostID (8 random hex digits)
   hostID = "CF3C23BE";
   # ethernet kernel driver (run "lspci -v | grep -iA8 'network\|ethernet'")
-  ethernetDriver = "r8169";
+  ethernetDriver = ["r8169" "xhci_pci" "i2c_piix4"];
 
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) dontBackup;
@@ -33,7 +33,7 @@ in
 
   # setup initrd ssh to unlock the encripted drive
   boot.initrd.network.enable = true;
-  boot.initrd.availableKernelModules = [ "${ethernetDriver}" ];
+  boot.initrd.availableKernelModules = ethernetDriver;
   boot.kernelParams = [ "ip=::::${hostName}-initrd::dhcp" ];
   boot.initrd.network.ssh = {
     enable = true;
