@@ -18,7 +18,7 @@
       _1password.enable = true;
       tailscale.enable = true;
       gnome.enable = true;
-      scripts.enable = true;
+      #scripts.enable = true;
     };
   };
 }
