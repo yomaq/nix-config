@@ -9,7 +9,7 @@
   ];
   config = {
     networking.hostName = "blue";
-    system.stateVersion = "23.11";
+    system.stateVersion = "23.05";
     networking.useDHCP = lib.mkDefault true;
 
     yomaq = {
