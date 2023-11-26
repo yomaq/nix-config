@@ -4,8 +4,7 @@ let
   green = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGDIHB7suLTRA3Ao/KZmcyCe5ojYAQ72EYoCbkdqlROT";
   blue = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK/3xL59H/gxyf/zNwM9d0KlovD3GfSGHKgCbmloiGCR";
 
-  #example for making groups
-  #users = [ user1 user2 ];
+  # keys to work for all secrets
   all = [ agenix carln blue ];
 
 in
