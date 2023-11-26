@@ -3,6 +3,7 @@
 with lib;
 let
   cfg = config.yomaq.flatpak;
+  inherit (config.yomaq.impermanence) dontBackup;
 in
 {
   options.yomaq.flatpak = {
