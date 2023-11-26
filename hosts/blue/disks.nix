@@ -12,7 +12,7 @@ let
   # set hostID (8 random hex digits)
   hostID = "CF3C23BE";
   # ethernet kernel driver (run "lspci -v | grep -iA8 'network\|ethernet'")
-  ethernetDriver = "e1000e";
+  ethernetDriver = "r8169";
 
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) dontBackup;

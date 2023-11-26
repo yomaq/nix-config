@@ -13,7 +13,7 @@
     networking.useDHCP = lib.mkDefault true;
 
     yomaq = {
-      autoUpgrade.enable = true;
+      #autoUpgrade.enable = true;
       primaryUser.users = [ "carln" "admin" ];
       _1password.enable = true;
       tailscale.enable = true;
