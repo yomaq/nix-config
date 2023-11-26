@@ -138,7 +138,7 @@ in
               size = "100%";
               content = {
                 type = "luks";
-                name = "crypted";
+                name = "crypted2";
                 settings.allowDiscards = true;
                 passwordFile = "/tmp/secret.key";
                 content = {
