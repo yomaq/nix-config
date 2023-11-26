@@ -26,7 +26,7 @@
     pkgs.trayscale
     pkgs.spotify
     pkgs.steam
-    pkgs.moonlight-qt
+    # pkgs.moonlight-qt
   ]);
   yomaq = {
     zsh.enable = true;
