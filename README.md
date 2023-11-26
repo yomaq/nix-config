@@ -1,10 +1,12 @@
-Nix flake trying to focus on:
+Nix flake with the following features:
 
-* Wiping root on every reboot for a clean system, while to [maintaining](https://github.com/nix-community/impermanence) specified files across boots.
-* Making installing NixOS convenient and consistent. [Partitioning disks declaritavely](https://github.com/nix-community/disko/tree/master), and installing NixOS with [a single ssh command](https://github.com/nix-community/nixos-anywhere/tree/main).
-* Managing the entire system including [secrets](https://github.com/ryantm/agenix/tree/main)  through the flake.
-* Conveniently modularizing the flake so that it is easy to add to, and all host outputs whether NixOS or MacOS look as similar as possible.
-* Automatically updating every system to the flake hourly, keeping all hosts in sync and identical as possible.
+* Ensures a clean system on every reboot by wiping root (rolling back an empty zfs snapshot), while [preserving](https://github.com/nix-community/impermanence) specified files across reboots.
+* The files that are designated to persist are all stored in a single location, simplifying the process of creating backups that only include important files.
+* The installation of NixOS is made convenient and consistent through [declarative partitioning of disks](https://github.com/nix-community/disko/tree/master), and [a single install ssh command](https://github.com/nix-community/nixos-anywhere/tree/main) ( + additional setups if encrypted).
+* The flake manages the entire system, including [secrets](https://github.com/ryantm/agenix/tree/main).
+* The flake is designed to be modular, making it easy to add to, and ensuring that all host outputs, whether NixOS or MacOS, look as similar as possible.
+* All NixOS systems are set to automatically check for updates every hour, keeping all hosts in sync and identical as possible.
+
 
 
 <details>
@@ -16,7 +18,7 @@ Nix flake trying to focus on:
 * complete the following steps on a different x86_64 machine with nix installed, and signed into 1password
 * run the script `utilities/nixos-anywhere/remote-install-encrypt.sh HOSTNAME IPADDRESS-OF-TARGET`
 * let the install complete, then unlock the drive manually (initrd ssh will not work yet)
-* hit * to ignore the error after unlocking
+* hit * to ignore the error after unlocking if needed
 * remake the /etc/ssh/initrd host key and rebuild the nixos configuration
 * now upon rebooting, the system will have normal behavior and initrd ssh will function
 
@@ -24,7 +26,7 @@ Nix flake trying to focus on:
 
 **Update the system(rebuild)**:  
 ```
-nixos-rebuild switch --flake github:yomaq/nix-config#HOSTNAME
+nixos-rebuild switch --flake github:yomaq/nix-config
 ```
 </details>
 
@@ -83,14 +85,13 @@ darwin-rebuild switch --flake github:yomaq/nix-config
 <details>
   <summary>ToDo</summary>
 
-* Detail nixOS install + new device setup
+* Create a module to automatically backup every NixOS machine's /presist/save directories to a signle NixOS nas
+* Detail new device setup
 * Setup WSL ideally with the option to have nix configured GUI applications as well
 * Create Sunshine NixOS module for remote desktop
 * Work on module to declare non-NixOS vms in NixOS similar to KubeVirt
 * Build a stripped down Template for getting started
 * Decide how to manage a kubernetes cluster alongside my nix hosts
-* Setup Nix Hydra to automatically test new configurations before deploying
-* Setup nixDarwin to auto update?
 
 
 </details>
