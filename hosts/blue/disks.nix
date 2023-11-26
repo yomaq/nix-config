@@ -77,11 +77,11 @@ in
   # needed to use zfs
   networking.hostId = hostID;
 
-  # boot.initrd.postDeviceCommands =
-  #      #wipe / and /var on boot
-  #      lib.mkAfter ''
-  #        zfs rollback -r zroot/root@empty
-  #    '';
+  boot.initrd.postDeviceCommands =
+       #wipe / and /var on boot
+       lib.mkAfter ''
+         zfs rollback -r zroot/root@empty
+     '';
 
 
   disko.devices = {
