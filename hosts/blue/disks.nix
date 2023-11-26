@@ -34,7 +34,7 @@ in
   # setup initrd ssh to unlock the encripted drive
   boot.initrd.network.enable = true;
   boot.initrd.availableKernelModules = ethernetDriver;
-  boot.initrd.kernelModules = "r8169";
+  boot.initrd.kernelModules = ["r8169"];
   boot.kernelParams = [ "ip=::::${hostName}-initrd::dhcp" ];
   boot.initrd.network.ssh = {
     enable = true;
