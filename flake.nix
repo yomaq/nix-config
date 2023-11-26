@@ -16,7 +16,7 @@
     # Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     # Nix User Repository
-    nur.url = github:nix-community/NUR;
+    nur.url = "github:nix-community/NUR";
     # Impermanance
     impermanence.url = "github:nix-community/impermanence";
     # Disko
