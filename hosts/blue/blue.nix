@@ -2,7 +2,7 @@
 {
   imports =[
     # import custom modules
-    inputs.self.nixosModules.yomaq
+    #inputs.self.nixosModules.yomaq
     # import users
     #(inputs.self + /users/admin)
     #(inputs.self + /users/carln)
