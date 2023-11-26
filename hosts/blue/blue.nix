@@ -19,6 +19,7 @@
       tailscale.enable = true;
       gnome.enable = true;
       scripts.enable = true;
+      flatpak.enable = true;
     };
   };
 }
