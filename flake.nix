@@ -34,7 +34,7 @@
       blue = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; }; 
-        modules = [ ./nixos/blue ];
+        modules = [ ./hosts/blue ];
       };
       green = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
