@@ -24,7 +24,7 @@
   ] ++ (lib.optionals (pkgs.system != "aarch64-darwin") [
 ### nixos specific packages
     pkgs.trayscale
-    pkgs.stable.spotify
+    pkgs.spotify
     pkgs.steam
     # pkgs.moonlight-qt
   ]);

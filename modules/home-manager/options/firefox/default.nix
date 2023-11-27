@@ -21,7 +21,7 @@ in
 
   config = mkIf (cfg.enable && pkgs.system != "aarch64-darwin") {
     programs.firefox = {
-      package = pkgs.stable.firefox.override {
+      package = pkgs.firefox.override {
         extraPolicies = {
           CaptivePortal = false;
           DisableFirefoxStudies = true;
