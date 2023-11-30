@@ -6,7 +6,7 @@
   # home manager overlays
   nixpkgs = {
     overlays = [ 
-      inputs.self.overlays.nixpkgs-stable
+      inputs.self.overlays.nixpkgs-unstable
       inputs.agenix.overlays.default
       inputs.nur.overlay
       ];

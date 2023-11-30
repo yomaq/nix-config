@@ -30,7 +30,7 @@
   };
   nixpkgs = {
     overlays = [ 
-      inputs.self.overlays.nixpkgs-stable
+      inputs.self.overlays.nixpkgs-unstable
       inputs.agenix.overlays.default
        ];
     # Configure your nixpkgs instance

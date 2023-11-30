@@ -12,7 +12,7 @@
     pkgs.vscode
     pkgs.alacritty
     pkgs.vim
-    pkgs.stable.talosctl
+    pkgs.talosctl
     pkgs.kubectl
     pkgs.nerdfonts
     pkgs.chezmoi
