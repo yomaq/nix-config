@@ -59,6 +59,10 @@ in
           command = "alacritty";
           name = "alacritty"; 
       };
+      # lock computer
+      "org/gnome/settings-daemon/plugins/media-keys/screensaver" = {
+          binding = "<Alt><Super>l";
+      };
     };
 
 
