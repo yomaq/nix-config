@@ -2,6 +2,15 @@
 ### Will expand with more options as I use different css
 
 
+
+
+
+
+
+### currently broken
+
+
+
 { options, config, lib, pkgs, ... }:
 
 with lib;
@@ -23,9 +32,9 @@ in
     programs.firefox = {
       package = pkgs.firefox.override {
         extraPolicies = {
-          CaptivePortal = false;
+          # CaptivePortal = false;
           DisableFirefoxStudies = true;
-          DisablePocket = true;
+          # DisablePocket = true;
           DisableTelemetry = true;
           DisableFirefoxAccounts = true;
           NoDefaultBookmarks = true;

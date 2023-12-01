@@ -26,12 +26,11 @@
     pkgs.trayscale
     pkgs.spotify
     pkgs.steam
-    # pkgs.moonlight-qt
+    pkgs.brave
   ]);
   yomaq = {
     zsh.enable = true;
     vscode.enable = true;
     gnomeOptions.enable = true;
-    firefox.enable = true;
   };
 }
