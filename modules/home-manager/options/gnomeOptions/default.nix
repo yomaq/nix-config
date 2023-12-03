@@ -84,7 +84,6 @@ in
       gnomeExtensions.forge
       gnomeExtensions.appindicator
       gnomeExtensions.rounded-window-corners
-      gnomeExtensions.tailscale-status
       # gnome themes
       fluent-gtk-theme
       fluent-icon-theme
@@ -108,7 +107,6 @@ in
             "user-theme@gnome-shell-extensions.gcampax.github.com" 
             "blur-my-shell@aunetx"
             "rounded-window-corners@yilozt"
-            "tailscale-status@maxgallup.github.com"
           ];
         };
     # Configure the extensions settings
