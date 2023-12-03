@@ -41,6 +41,11 @@
         specialArgs = { inherit inputs; }; 
         modules = [ ./hosts/green ];
       };
+      azure = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; }; 
+        modules = [ ./hosts/azure ];
+      };
     };
     # Nix-darwin configuration entrypoint
     # Available through 'darwin-rebuild switch --flake .#your-hostname'
