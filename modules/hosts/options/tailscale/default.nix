@@ -17,7 +17,7 @@ in
     };
     extraUpFlags = mkOption {
       type = types.listOf types.str;
-      default = [" --ssh=true --reset=true --accept-dns=true "];
+      default = ["--ssh=true" "--reset=true" "--accept-dns=true"];
       description = ''
         Extra flags to pass to tailscale up.
       '';
