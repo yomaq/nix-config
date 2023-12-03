@@ -7,8 +7,8 @@ let
   # Set to your disk name
   disk = "nvme0n1";
   disk2 = "nvme1n1";
-  disk3 = "hda";
-  disk4 = "hdb";
+  disk3 = "sda";
+  disk4 = "sdb";
   # set hostID (8 random hex digits)
   hostID = "49e95c43";
   # ethernet kernel driver (run "lspci -v | grep -iA8 'network\|ethernet'")
@@ -77,8 +77,7 @@ in
   boot.initrd.postDeviceCommands =
        #wipe / and /var on boot
        lib.mkAfter ''
-         zfs rollback -r zroot/root@empty /n
-          zfs rollback -r zroot/home@empty /n
+         zfs rollback -r zroot/root@empty
      '';
 
 
@@ -208,6 +207,24 @@ in
           ashift = "12";
           autotrim = "on";
         };
+        datasets = {
+          # zfs uses cow free space to delete files when the disk is completely filled
+          reserved = {
+            options = {
+              canmount = "off";
+              mountpoint = "none";
+              reservation = "5GiB";
+            };
+            type = "zfs_fs";
+          };
+          storage = {
+            type = "zfs_fs";
+            options.mountpoint = "legacy";
+            mountpoint = "/storage";
+            options."com.sun:auto-snapshot" = "false";
+            postCreateHook = "zfs snapshot zstorage/storage@empty";
+          };
+        };
       };
       zroot = {
         type = "zpool";
@@ -237,13 +254,6 @@ in
               reservation = "5GiB";
             };
             type = "zfs_fs";
-          };
-          home = {
-            type = "zfs_fs";
-            options.mountpoint = "legacy";
-            mountpoint = "/home";
-            options."com.sun:auto-snapshot" = "false";
-            postCreateHook = "zfs snapshot zroot/home@empty";
           };
           etcssh = {
             type = "zfs_fs";
