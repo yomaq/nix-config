@@ -13,7 +13,7 @@ in
   "carln.age".publicKeys = [ green ] ++ all;
   "encrypt.age".publicKeys = all;
   "tailscaleKey.age".publicKeys = [ green azure ] ++ all;
-  "tailscaleEnvFile.age".publicKeys = [ green ] ++ all;
+  "tailscaleEnvFile.age".publicKeys = [ green azure ] ++ all;
   "piholeEnvFile.age".publicKeys = [ green ] ++ all;
 
   #example for calling groups

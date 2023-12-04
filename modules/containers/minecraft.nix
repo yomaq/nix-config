@@ -3,8 +3,8 @@
 with lib;
 let
   ### Set container name and image
-  NAME = "pihole";
-  IMAGE = "docker.io/pihole/pihole";
+  NAME = "minecraft";
+  IMAGE = "docker.io/itzg/minecraft-bedrock-server";
   tailscaleIMAGE = "ghcr.io/tailscale/tailscale";
 
 
@@ -21,13 +21,13 @@ in
         enable custom ${NAME} container module
       '';
     };
-    agenixSecret = mkOption {
-      type = types.path;
-      default = (inputs.self + /secrets/${NAME}EnvFile.age);
-      description = ''
-        path to agenix secret file
-      '';
-    };
+    # agenixSecret = mkOption {
+    #   type = types.path;
+    #   default = (inputs.self + /secrets/${NAME}EnvFile.age);
+    #   description = ''
+    #     path to agenix secret file
+    #   '';
+    # };
     volumeLocation = mkOption {
       type = types.str;
       default = "${dontBackup}/containers/${NAME}";
@@ -59,14 +59,14 @@ in
       };
       TSargs = mkOption {
         type = types.str;
-        default = "--exit-node=100.120.178.99";
+        default = "--ssh=true";
         description = ''
           TS_Extra_ARGS env var
         '';
       };
       TShostname = mkOption {
         type = types.str;
-        default = "${hostName}-TS-${NAME}";
+        default = "${hostName}-${NAME}";
         description = ''
           TS_HOSTNAME env var
         '';
@@ -79,11 +79,8 @@ in
 
   config = mkIf cfg.enable {
 
-  networking.firewall.allowedTCPPorts = [53];
-  networking.firewall.allowedUDPPorts = [53 67];
-
     ### agenix secrets for container
-    age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
+    # age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
     age.secrets."tailscaleEnvFile".file = cfg.tailscale.agenixSecret;
 
   # make the directories where the volumes are stored
@@ -92,8 +89,7 @@ in
   # storing volumes in the nix directory because we assume impermanance is wiping root
     systemd.tmpfiles.rules = [
       # pihole
-      "d ${cfg.volumeLocation}/etc-pihole 0755 root root"
-      "d ${cfg.volumeLocation}/etc-dnsmasq.d 0755 root root"
+      "d ${cfg.volumeLocation}/data 0755 root root"
       # tailscale
       "d ${cfg.volumeLocation}/TSdata-lib 0755 root root"
       "d ${cfg.volumeLocation}/TSdev-net-tun 0755 root root"
@@ -128,20 +124,25 @@ in
       };
 
 
-### pihole container
+### minecraft container
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
         environment = {
-          "TZ" = "America/Chicago";
+          "EULA" = "TRUE";
+          "gamemode" = "survival";
+          "difficulty" = "hard";
+          "allow-cheats" = "true";
+          "max-players" = "10";
+          "view-distance" = "50";
+          "tick-distance" = "4";
+          "TEXTUREPACK_REQUIRED" = "true";
         };
-        environmentFiles = [
-           # need to set "WEBPASSWORD=password" in agenix and import here
-          config.age.secrets."${NAME}EnvFile".path
-        ];
+        # environmentFiles = [
+        #   config.age.secrets."${NAME}EnvFile".path
+        # ];
         volumes = [
-          "${cfg.volumeLocation}/etc-pihole:/etc/pihole"
-          "${cfg.volumeLocation}/etc-dnsmasq.d:/etc/dnsmasq.d"
+          "${cfg.volumeLocation}/data:/data"
         ];
         extraOptions = [
           "--pull=newer"

@@ -8,20 +8,15 @@
     (inputs.self + /users/admin)
   ];
   config = {
-    networking.hostName = "green";
-    system.stateVersion = "23.05";
+    networking.hostName = "azure";
+    system.stateVersion = "23.11";
     networking.useDHCP = lib.mkDefault true;
 
     yomaq = {
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
-      _1password = {
-        enable = true;
-        extraUpFlags = ["--ssh=true" "--reset=true" "--accept-dns=true" "--advertise-exit-node=true" ];
-      };
       tailscale.enable = true;
-      pods.tailscale.enable = true;
-      pods.pihole.enable = true;
+      pods.minecraft.enable = true;
     };
   };
 }
