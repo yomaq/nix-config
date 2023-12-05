@@ -80,7 +80,18 @@ in
          zfs rollback -r zroot/root@empty
      '';
 
+  # snapshots
+  yomaq.sanoid.enable = true;
+  services.sanoid = {
+    datasets = {
+      "zroot/persist".useTemplate = [ "default" ];
+      "zroot/persistSave".useTemplate = [ "default" ];
+      "zstorage/storage".useTemplate = [ "default" ];
+    };
+  };
+    
 
+  # Disco configuration.
   disko.devices = {
     disk = {
       one = {
