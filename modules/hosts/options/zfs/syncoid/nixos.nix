@@ -17,11 +17,6 @@ let
         recvOptions = "c";
         };
       };
-      "${thisHost}Save" = {
-        source = "zpool/persistSave";
-        target = "zstorage/backups/${thisHost}Save";
-        recvOptions = "c";
-      };
     };
     services.sanoid = {
       datasets."zstorage/backups/${hostName}Save" = {
