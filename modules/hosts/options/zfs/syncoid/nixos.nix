@@ -5,7 +5,7 @@ let
   cfg = config.yomaq.syncoid;
   thisHost =  config.networking.hostName;
   allNixosHosts = builtins.attrNames inputs.self.nixosConfigurations;
-  nixosHosts = builtins.filter (host: host != thisHost) allNixosHosts;
+  nixosHosts = builtins.filter (host: host != thisHost && host != cfg.isBackupServer.exclude) allNixosHosts;
 in
 {
   options.yomaq.syncoid = {
@@ -23,13 +23,20 @@ in
         will run syncoid and backup other nixos hosts
       '';
     };
+    isBackupServer.exclude = mkOption {
+      type = types.listOf types.str;
+      default = [];
+      description = ''
+        exclude these hosts from being backed up
+      '';
+    };
   };
 
   config = ( mkIf config.yomaq.sanoid.enable {
     # enable syncoid by default on all systems
     services.syncoid.enable = true;
-  # backup all nixos hosts that are not the backup server and have syncoid enabled
-  }) // (mkIf config.yomaq.syncoid.isBackupServer (map ( hostName: optionalAttrs inputs.self.nixosConfigurations.${hostName}.config.syncoid.enable {
+  # backup all nixos hosts that are not the backup server or the excluded hosts
+  }) // (mkIf config.yomaq.syncoid.isBackupServer (map ( hostName: {
     services.syncoid = {
       commands = {
         "${hostName}Save" = {
