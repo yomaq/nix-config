@@ -29,7 +29,7 @@ in
     # enable syncoid by default on all systems
     services.syncoid.enable = true;
   # backup all nixos hosts that are not the backup server and have syncoid enabled
-  }) // (mkIf config.yomaq.syncoid.isBackupServer map ( hostName: optionalAttrs inputs.self.nixosConfigurations.${hostName}.config.syncoid.enable {
+  }) // (mkIf config.yomaq.syncoid.isBackupServer (map ( hostName: optionalAttrs inputs.self.nixosConfigurations.${hostName}.config.syncoid.enable {
     services.syncoid = {
       commands = {
         "${hostName}Save" = {
@@ -76,5 +76,5 @@ in
           yearly = 1;
       };
     };
-  });
+  }));
 }
