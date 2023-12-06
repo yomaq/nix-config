@@ -61,7 +61,7 @@ in
           yearly = 1;
       };
     };
-  }) nixosHosts
+  })) nixosHosts
   # backup the backup server's PersistSave dataset
   ) // (mkIf config.yomaq.syncoid.isBackupServer {
     services.syncoid = {
@@ -83,5 +83,5 @@ in
           yearly = 1;
       };
     };
-  }));
+  });
 }
