@@ -4,7 +4,8 @@ with lib;
 let
   cfg = config.yomaq.syncoid;
   thisHost =  config.networking.hostName;
-  nixosHosts = builtins.attrNames inputs.self.nixosConfigurations;
+  # nixosHosts = builtins.attrNames inputs.self.nixosConfigurations;
+  nixosHosts = ["test" "test2"];
 
 
   configToMap = mkIf config.yomaq.syncoid.isBackupServer && hostName != thisHost {
