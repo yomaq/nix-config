@@ -35,14 +35,14 @@ in
         "${hostName}Save" = {
         source = "syncoid@${hostName}:zpool/persistSave";
         target = "zstorage/backups/${hostName}Save";
-        rcvOptions = "c";
+        recvOptions = "c";
         };
       };
-        "${thisHost}Save" = {
-          source = "zpool/persistSave";
-          target = "zstorage/backups/${thisHost}Save";
-          rcvOptions = "c";
-        };
+      "${thisHost}Save" = {
+        source = "zpool/persistSave";
+        target = "zstorage/backups/${thisHost}Save";
+        recvOptions = "c";
+      };
     };
     services.sanoid = {
       datasets."zstorage/backups/${hostName}Save" = {
@@ -63,7 +63,7 @@ in
       commands."${thisHost}Save" = {
         source = "zpool/persistSave";
         target = "zstorage/backups/${thisHost}Save";
-        rcvOptions = "c";
+        recvOptions = "c";
       };
     };
     services.sanoid = {
