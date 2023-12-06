@@ -6,11 +6,6 @@ let
   thisHost =  config.networking.hostName;
   allNixosHosts = builtins.attrNames inputs.self.nixosConfigurations;
   nixosHosts = builtins.filter (host: host != thisHost && host != cfg.exclude) allNixosHosts;
-
-  syncoidServices = 
-
-
-
 in
 {
   options.yomaq.syncoid = {
