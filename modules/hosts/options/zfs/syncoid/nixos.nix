@@ -30,7 +30,7 @@ let
     };
   };
 
-  mappedConfig = builtins.mapAttrs (hostName: configToMap) nixosHosts;
+  mappedConfig = builtins.map (hostName: configToMap) nixosHosts;
 
 in
 {
