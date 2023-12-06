@@ -7,7 +7,7 @@ let
   nixosHosts = builtins.attrNames inputs.self.nixosConfigurations;
 
 
-  mappedConfig = map ( hostName: mkIf config.yomaq.syncoid.isBackupServer && hostName != thisHost && !builtins.elem hostName cfg.exclude {
+  mappedConfig = map ( hostName: mkIf config.yomaq.syncoid.isBackupServer && hostName != thisHost {
     services.syncoid = {
       commands = {
         "${hostName}Save" = {
