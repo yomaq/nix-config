@@ -31,7 +31,7 @@ in
   # backup all nixos hosts that are not the backup server and have syncoid enabled
   }) // (mkIf config.yomaq.syncoid.isBackupServer map ( hostName: optionalAttrs inputs.self.nixosConfigurations.${hostName}.config.syncoid.enable {
     services.syncoid = {
-      commands. = {
+      commands = {
         "${hostName}Save" = {
         source = "syncoid@${hostName}:zpool/persistSave";
         target = "zstorage/backups/${hostName}Save";
@@ -60,7 +60,7 @@ in
     services.syncoid = {
       enable = true;
       interval = "daily";
-      "${thisHost}Save" = {
+      commands."${thisHost}Save" = {
         source = "zpool/persistSave";
         target = "zstorage/backups/${thisHost}Save";
         rcvOptions = "c";
