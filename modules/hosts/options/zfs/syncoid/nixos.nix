@@ -7,7 +7,7 @@ let
   nixosHosts = builtins.attrNames inputs.self.nixosConfigurations;
 
 
-  mappedConfig = map ( hostName: mkIf config.yomaq.syncoid.isBackupServer && hostName != thisHost {
+  configToMap = mkIf config.yomaq.syncoid.isBackupServer && hostName != thisHost {
     services.syncoid = {
       commands = {
         "${hostName}Save" = {
@@ -32,9 +32,9 @@ let
           yearly = 1;
       };
     };
-  }) nixosHosts;
+  };
 
-
+  mappedConfig = lib.attrsets.mapAttrs (hostName: _: configToMap) hostNames;
 
 in
 {
