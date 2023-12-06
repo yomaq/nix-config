@@ -4,8 +4,7 @@ with lib;
 let
   cfg = config.yomaq.syncoid;
   thisHost =  config.networking.hostName;
-  allNixosHosts = builtins.attrNames inputs.self.nixosConfigurations;
-  nixosHosts = builtins.filter (host: host != cfg.exclude) allNixosHosts;
+  nixosHosts = builtins.attrNames inputs.self.nixosConfigurations;
 
 
   mappedConfig = map ( hostName: (mkIf config.yomaq.syncoid.isBackupServer && hostName != thisHost && !builtins.elem hostName cfg.exclude {
