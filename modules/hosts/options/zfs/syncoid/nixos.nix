@@ -36,7 +36,7 @@ in
     # enable syncoid by default on all systems
     services.syncoid.enable = true;
   # backup all nixos hosts that are not the backup server or the excluded hosts
-  }) // (map ( hostName: mkIf config.yomaq.syncoid.isBackupServer {
+  }) // (map ( hostName: optionalAttrs config.yomaq.syncoid.isBackupServer {
     services.syncoid = {
       commands = {
         "${hostName}Save" = {
