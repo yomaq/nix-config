@@ -6,6 +6,11 @@ let
   thisHost =  config.networking.hostName;
   allNixosHosts = builtins.attrNames inputs.self.nixosConfigurations;
   nixosHosts = builtins.filter (host: host != thisHost && host != cfg.exclude) allNixosHosts;
+
+  syncoidServices = 
+
+
+
 in
 {
   options.yomaq.syncoid = {
@@ -36,7 +41,7 @@ in
     # enable syncoid by default on all systems
     services.syncoid.enable = true;
   # backup all nixos hosts that are not the backup server or the excluded hosts
-  }) // (map ( hostName: optionalAttrs config.yomaq.syncoid.isBackupServer {
+  }) // (map ( hostName: mkIf config.yomaq.syncoid.isBackupServer {
     services.syncoid = {
       commands = {
         "${hostName}Save" = {
@@ -61,7 +66,8 @@ in
           yearly = 1;
       };
     };
-  })) nixosHosts
+  })nixosHosts
+  )
   # backup the backup server's PersistSave dataset
   // (mkIf config.yomaq.syncoid.isBackupServer {
     services.syncoid = {
