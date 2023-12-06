@@ -5,7 +5,7 @@ let
   cfg = config.yomaq.syncoid;
   thisHost =  config.networking.hostName;
   allNixosHosts = builtins.attrNames inputs.self.nixosConfigurations;
-  nixosHosts = builtins.filter (host: host != thisHost && host != cfg.isBackupServer.exclude) allNixosHosts;
+  nixosHosts = builtins.filter (host: host != thisHost && host != cfg.exclude) allNixosHosts;
 in
 {
   options.yomaq.syncoid = {
@@ -23,7 +23,7 @@ in
         will run syncoid and backup other nixos hosts
       '';
     };
-    isBackupServer.exclude = mkOption {
+    exclude = mkOption {
       type = types.listOf types.str;
       default = [];
       description = ''
