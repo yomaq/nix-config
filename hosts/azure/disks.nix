@@ -84,8 +84,6 @@ in
   yomaq.sanoid.enable = true;
   services.sanoid = {
     datasets = {
-      "zroot/persist".useTemplate = [ "default" ];
-      "zroot/persistSave".useTemplate = [ "default" ];
       "zstorage/storage".useTemplate = [ "default" ];
     };
   };

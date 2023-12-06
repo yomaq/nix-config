@@ -8,7 +8,7 @@ in
   options.yomaq.sanoid = {
     enable = mkOption {
       type = types.bool;
-      default = false;
+      default = true;
       description = ''
         enable custom sanoid, zfs-snapshot module
       '';
@@ -28,6 +28,10 @@ in
           monthly = 1;
           yearly = 1;
         };
+      };
+      datasets = {
+        "zroot/persist".useTemplate = [ "default" ];
+        "zroot/persistSave".useTemplate = [ "default" ];
       };
     };
   };

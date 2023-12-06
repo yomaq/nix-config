@@ -19,4 +19,4 @@ Ssh keys in this case are not handled by nix, but by the tailnet
 
 
 # TODO 
-currently services.syncoid.enable is enabled by default on all hosts in the syncoid module, when I change from using common modules to using suites, this should move to a suite and should be disabled by default here.
+currently yomaq.syncoid.enable and yomaq.sanoid.enable is enabled by default on all hosts in the syncoid and sanoid modules, when I change from using common modules to using suites, this should move to a suite and should be disabled by default here.
