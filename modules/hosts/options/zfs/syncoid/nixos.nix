@@ -30,7 +30,7 @@ let
     };
   };
 
-  mappedConfig = lib.attrsets.mapAttrs (hostName: _: configToMap) hostNames;
+  mappedConfig = lib.attrsets.mapAttrs (hostName: _: configToMap) nixosHosts;
 
 in
 {
