@@ -51,7 +51,7 @@ in
     };
   };
   config = mkMerge [
-    (mkIf config.yomaq.sandoid.enable {services.syncoid.enable = true;})
+    (mkIf config.yomaq.syncoid.enable {services.syncoid.enable = true;})
     (mkIf config.yomaq.syncoid.isBackupServer {
       services.syncoid = {
         enable = true;
