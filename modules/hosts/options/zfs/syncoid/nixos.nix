@@ -8,7 +8,7 @@ let
   nixosHosts = ["test" "test2"];
 
 
-  configToMap = mkIf config.yomaq.syncoid.isBackupServer && !builtins.elem hostName cfg.exclude {
+  configToMap = (mkIf config.yomaq.syncoid.isBackupServer && !builtins.elem hostName cfg.exclude {
     services.syncoid = {
       commands = {
         "${hostName}Save" = {
@@ -28,7 +28,7 @@ let
           yearly = 1;
       };
     };
-  };
+  });
 
   mappedConfig = builtins.map (hostName: configToMap) nixosHosts;
 
