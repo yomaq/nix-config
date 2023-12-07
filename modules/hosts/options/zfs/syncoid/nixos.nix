@@ -10,28 +10,28 @@ let
   nixosHosts = lists.subraction exclude allNixosHosts;
 
 
-  configToMap = (mkIf config.yomaq.syncoid.isBackupServer && !builtins.elem hostName cfg.exclude {
-    services.syncoid = {
-      commands = {
-        "${hostName}Save" = {
-        source = "syncoid@${hostName}:zpool/persistSave";
-        target = "zstorage/backups/${hostName}Save";
-        recvOptions = "c";
-        };
-      };
-    };
-    services.sanoid = {
-      datasets."zstorage/backups/${hostName}Save" = {
-          autosnap = false;
-          autoprune = true;
-          hourly = 0;
-          daily = 14;
-          monthly = 6;
-          yearly = 1;
-      };
-    };
-  });
-  mappedConfig = builtins.map (hostName: configToMap) nixosHosts;
+  # configToMap = (mkIf config.yomaq.syncoid.isBackupServer && !builtins.elem hostName cfg.exclude {
+  #   services.syncoid = {
+  #     commands = {
+  #       "${hostName}Save" = {
+  #       source = "syncoid@${hostName}:zpool/persistSave";
+  #       target = "zstorage/backups/${hostName}Save";
+  #       recvOptions = "c";
+  #       };
+  #     };
+  #   };
+  #   services.sanoid = {
+  #     datasets."zstorage/backups/${hostName}Save" = {
+  #         autosnap = false;
+  #         autoprune = true;
+  #         hourly = 0;
+  #         daily = 14;
+  #         monthly = 6;
+  #         yearly = 1;
+  #     };
+  #   };
+  # });
+  # mappedConfig = builtins.map (hostName: configToMap) nixosHosts;
 in
 {
   options.yomaq.syncoid = {
@@ -93,5 +93,5 @@ in
             yearly = 1;
         };
       };
-    }))hostNames);
+    }))nixosHosts);
 }
