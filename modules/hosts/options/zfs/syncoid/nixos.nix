@@ -29,9 +29,7 @@ let
       };
     };
   });
-
   mappedConfig = builtins.map (hostName: configToMap) nixosHosts;
-
 in
 {
   options.yomaq.syncoid = {
@@ -57,9 +55,8 @@ in
       '';
     };
   };
-
   config = mkMerge [
-    (mkMerge mappedConfig)
+    mappedConfig ++
     (mkIf config.yomaq.sandoid.enable {services.syncoid.enable = true;})
     (mkIf config.yomaq.syncoid.isBackupServer {
       services.syncoid = {
