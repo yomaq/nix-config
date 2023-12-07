@@ -6,7 +6,7 @@ let
   thisHost =  config.networking.hostName;
   allNixosHosts = builtins.attrNames inputs.self.nixosConfigurations;
   #allNixosHosts = ["test" "test2" "test3" "test4"];
-  exclude = [];
+  exclude = ["azure"];
   nixosHosts = lists.subtractLists exclude allNixosHosts;
 
 in
