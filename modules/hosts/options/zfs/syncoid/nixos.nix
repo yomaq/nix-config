@@ -8,7 +8,7 @@ let
   nixosHosts = ["test" "test2"];
 
 
-  configToMap = mkIf config.yomaq.syncoid.isBackupServer && hostName != thisHost && !builtins.elem hostName cfg.exclude {
+  configToMap = mkIf config.yomaq.syncoid.isBackupServer && !builtins.elem hostName cfg.exclude {
     services.syncoid = {
       commands = {
         "${hostName}Save" = {
@@ -51,7 +51,7 @@ in
     };
     exclude = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ "${thisHost}" ];
       description = ''
         exclude these hosts from being backed up
       '';
