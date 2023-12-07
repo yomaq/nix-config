@@ -50,7 +50,7 @@ in
       '';
     };
   };
-  config = (mkMerge [
+  config = mkMerge [
     (mkIf config.yomaq.sandoid.enable {services.syncoid.enable = true;})
     (mkIf config.yomaq.syncoid.isBackupServer {
       services.syncoid = {
@@ -72,8 +72,8 @@ in
             yearly = 1;
         };
       };
-    })]) ++
-    mkIf config.yomaq.syncoid.isBackupServer mkMerge (map ( hostName: {
+    })
+    (mkIf config.yomaq.syncoid.isBackupServer mkMerge (map ( hostName: {
       services.syncoid = {
         commands = {
           "${hostName}Save" = {
@@ -93,5 +93,5 @@ in
             yearly = 1;
         };
       };
-    })nixosHosts);
+    })nixosHosts))];
 }
