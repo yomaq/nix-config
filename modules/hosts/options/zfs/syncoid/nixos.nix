@@ -73,7 +73,7 @@ in
         };
       };
     })
-    (mkIf config.yomaq.syncoid.isBackupServer mkMerge (map ( hostName: {
+    (mkIf config.yomaq.syncoid.isBackupServer (mkMerge (map ( hostName: {
       services.syncoid = {
         commands = {
           "${hostName}Save" = {
@@ -93,5 +93,5 @@ in
             yearly = 1;
         };
       };
-    })nixosHosts))];
+    })nixosHosts)))];
 }
