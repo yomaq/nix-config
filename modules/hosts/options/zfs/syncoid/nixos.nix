@@ -7,7 +7,7 @@ let
   # allNixosHosts = builtins.attrNames inputs.self.nixosConfigurations;
   allNixosHosts = ["test" "test2" "test3" "test4"];
   exclude = ["test4" "test3"];
-  nixosHosts = lists.subraction exclude allNixosHosts;
+  nixosHosts = lists.subtractLists exclude allNixosHosts;
 
 
   # configToMap = (mkIf config.yomaq.syncoid.isBackupServer && !builtins.elem hostName cfg.exclude {
