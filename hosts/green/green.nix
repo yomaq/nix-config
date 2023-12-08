@@ -15,11 +15,11 @@
     yomaq = {
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
-      _1password = {
+      tailscale = {
         enable = true;
         extraUpFlags = ["--ssh=true" "--reset=true" "--accept-dns=true" "--advertise-exit-node=true" ];
       };
-      tailscale.enable = true;
+      _1password.enable = true;
       pods.tailscale.enable = true;
       pods.pihole.enable = true;
     };
