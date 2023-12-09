@@ -50,8 +50,7 @@ in
         };
       };
     })
-    (mkIf config.yomaq.syncoid.isBackupServer (mkMerge (map ( hostName: {
-      services.syncoid = {
+    {services.syncoid = mkIf config.yomaq.syncoid.isBackupServer (mkMerge (map ( hostName: {
         commands = {
           "${hostName}Save" = {
           source = "syncoid@${hostName}:zpool/persistSave";
@@ -59,8 +58,8 @@ in
           recvOptions = "c";
           };
         };
-      };
-      services.sanoid = {
+      })nixosHosts));
+      services.sanoid = mkIf config.yomaq.syncoid.isBackupServer (mkMerge (map ( hostName: {
         datasets."zstorage/backups/${hostName}Save" = {
             autosnap = false;
             autoprune = true;
@@ -69,6 +68,6 @@ in
             monthly = 6;
             yearly = 1;
         };
-      };
-    })nixosHosts)))];
+      })nixosHosts));}
+  ];
 }
