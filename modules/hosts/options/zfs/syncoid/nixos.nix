@@ -5,10 +5,7 @@ let
   cfg = config.yomaq.syncoid;
   thisHost =  config.networking.hostName;
   allNixosHosts = builtins.attrNames inputs.self.nixosConfigurations;
-  #allNixosHosts = ["test" "test2" "test3" "test4"];
-  #exclude = ["azure"];
   nixosHosts = lists.subtractLists (cfg.exclude ++ [thisHost]) allNixosHosts;
-
 in
 {
   options.yomaq.syncoid = {
