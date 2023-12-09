@@ -6,8 +6,8 @@ let
   thisHost =  config.networking.hostName;
   allNixosHosts = builtins.attrNames inputs.self.nixosConfigurations;
   #allNixosHosts = ["test" "test2" "test3" "test4"];
-  exclude = ["azure"];
-  nixosHosts = lists.subtractLists exclude allNixosHosts;
+  #exclude = ["azure"];
+  nixosHosts = lists.subtractLists (cfg.exclude ++ thisHost) allNixosHosts;
 
 in
 {
@@ -24,6 +24,13 @@ in
       default = false;
       description = ''
         will run syncoid and backup other nixos hosts
+      '';
+    };
+    exclude = mkOption {
+      type = types.listOf types.str;
+      default = [];
+      description = ''
+        exclude hosts from backup
       '';
     };
   };
@@ -68,6 +75,7 @@ in
             monthly = 6;
             yearly = 1;
         };
-      })nixosHosts));}
+      })nixosHosts));
+    }
   ];
 }
