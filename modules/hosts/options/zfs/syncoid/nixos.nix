@@ -80,8 +80,8 @@ in
           serviceConfig = {
             Type = "oneshot";
             ExecStart = concatStringsSep " \\\n  " ([
-              "${pkgs.zfs}/bin/zfs list zstorage/backups/${hostName} ||"
-              "${pkgs.zfs}/bin/zfs create -o mountpoint=legacy zstorage/backups/${hostName}"
+              "zfs list zstorage/backups/${hostName} ||"
+              "zfs create -o mountpoint=legacy zstorage/backups/${hostName}"
             ]);
           };
         };
