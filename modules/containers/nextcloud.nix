@@ -125,6 +125,9 @@ in
     systemd.tmpfiles.rules = [
       # main container
       "d ${cfg.volumeLocation}/data 0755 root root"
+      "d ${cfg.volumeLocation}/var-www-html 0755 root root"
+      # database container
+      "d ${cfg.database.volumeLocation}/var-lib-mysql 0755 root root"
       # tailscale
       "d ${cfg.tailscale.volumeLocation}/TSdata-lib 0755 root root"
       "d ${cfg.tailscale.volumeLocation}/TSdev-net-tun 0755 root root"
