@@ -76,7 +76,7 @@ in
       systemd.services = mkIf config.yomaq.syncoid.isBackupServer (mkMerge (map ( hostName: {
         "${hostName}Save-create-dataset" = {
           description = "create zfs dataset ${hostName}Save";
-          wantedBy = [ "syncoid-${hostName}Save" ];
+          wantedBy = [ "syncoid-${hostName}Save.service" ];
           serviceConfig = {
             Type = "oneshot";
             ExecStart = concatStringsSep " \\\n  " ([
