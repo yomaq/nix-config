@@ -169,7 +169,7 @@ in
       "DB${NAME}" = {
         image = "${dbIMAGE}:${cfg.database.imageVersion}";
         autoStart = true;
-        cmd = ["--transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW"];
+        cmd = ["--transaction-isolation=READ-COMMITTED" "--log-bin=binlog" "--binlog-format=ROW"];
         environment = {
         };
         environmentFiles = [
