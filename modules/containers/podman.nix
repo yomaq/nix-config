@@ -16,10 +16,10 @@ let
         default = "${name}-pod";
       };
       wantedBy = mkOption {
-        description = "What podman containers require this pod";
+        description = "What systemd services require this pod";
         type = with types; listOf str;
         default = [];
-        example = [ "pod-redis" "pod" ];
+        example = [ "podman-pod-redis.service" "podman-pod.service" ];
       };
       ports = mkOption {
         description = "List of ports to forward from the container to host";
