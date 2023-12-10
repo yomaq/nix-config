@@ -39,12 +39,12 @@ in
         interval = "daily";
         commands."${thisHost}Save" = {
           source = "zpool/persistSave";
-          target = "zstorage/backups/${thisHost}Save";
+          target = "zstorage/backups/${thisHost}";
           recvOptions = "c";
         };
       };
       services.sanoid = {
-        datasets."zstorage/backups/${thisHost}Save" = {
+        datasets."zstorage/backups/${thisHost}" = {
             autosnap = false;
             autoprune = true;
             hourly = 0;
@@ -58,13 +58,13 @@ in
         commands = {
           "${hostName}Save" = {
           source = "syncoid@${hostName}:zpool/persistSave";
-          target = "zstorage/backups/${hostName}Save";
+          target = "zstorage/backups/${hostName}";
           recvOptions = "c";
           };
         };
       })nixosHosts));
       services.sanoid = mkIf config.yomaq.syncoid.isBackupServer (mkMerge (map ( hostName: {
-        datasets."zstorage/backups/${hostName}Save" = {
+        datasets."zstorage/backups/${hostName}" = {
             autosnap = false;
             autoprune = true;
             hourly = 0;
@@ -75,13 +75,13 @@ in
       })nixosHosts));
       systemd.services = mkIf config.yomaq.syncoid.isBackupServer (mkMerge (map ( hostName: {
         "${hostName}Save-create-dataset" = {
-          description = "create zfs dataset ${hostName}Save";
+          description = "create zfs dataset ${hostName}";
           wantedBy = [ "syncoid-${hostName}Save.service" ];
           serviceConfig = {
             Type = "oneshot";
             ExecStart = concatStringsSep " \\\n  " ([
-              "${pkgs.zfs}/bin/zfs list zstorage/backups/${hostName}Save ||"
-              "${pkgs.zfs}/bin/zfs create -o mountpoint=legacy zstorage/backups/${hostName}Save"
+              "${pkgs.zfs}/bin/zfs list zstorage/backups/${hostName} ||"
+              "${pkgs.zfs}/bin/zfs create -o mountpoint=legacy zstorage/backups/${hostName}"
             ]);
           };
         };
