@@ -18,6 +18,7 @@
       tailscale.enable = true;
       pods.minecraft.enable = true;
       syncoid.isBackupServer = true;
+      syncoid.exclude = ["blue"];
     };
   };
 }

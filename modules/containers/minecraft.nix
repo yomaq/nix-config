@@ -10,6 +10,7 @@ let
 
   cfg = config.yomaq.pods.${NAME};
   inherit (config.networking) hostName;
+  inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.impermanence) dontBackup;
 in
 {
@@ -30,7 +31,7 @@ in
     # };
     volumeLocation = mkOption {
       type = types.str;
-      default = "${dontBackup}/containers/${NAME}";
+      default = "${backup}/containers/${NAME}";
       description = ''
         path to store container volumes
       '';
@@ -71,6 +72,13 @@ in
           TS_HOSTNAME env var
         '';
       };
+      volumeLocation = mkOption {
+        type = types.str;
+        default = "${dontBackup}/containers/${NAME}";
+        description = ''
+          path to store container volumes
+        '';
+      };
     };
   };
 
@@ -88,11 +96,11 @@ in
   # https://discourse.nixos.org/t/creating-directories-and-files-declararively/9349
   # storing volumes in the nix directory because we assume impermanance is wiping root
     systemd.tmpfiles.rules = [
-      # pihole
+      # main container
       "d ${cfg.volumeLocation}/data 0755 root root"
       # tailscale
-      "d ${cfg.volumeLocation}/TSdata-lib 0755 root root"
-      "d ${cfg.volumeLocation}/TSdev-net-tun 0755 root root"
+      "d ${cfg.tailscale.volumeLocation}/TSdata-lib 0755 root root"
+      "d ${cfg.tailscale.volumeLocation}/TSdev-net-tun 0755 root root"
     ];
 
 
@@ -112,8 +120,8 @@ in
           config.age.secrets."tailscaleEnvFile".path
         ];
         volumes = [
-          "${cfg.volumeLocation}/TSdata-lib:/var/lib"
-          "${cfg.volumeLocation}/TSdev-net-tun:/dev/net/tun"
+          "${cfg.tailscale.volumeLocation}/TSdata-lib:/var/lib"
+          "${cfg.tailscale.volumeLocation}/TSdev-net-tun:/dev/net/tun"
         ];
         extraOptions = [
           "--pull=newer"
@@ -124,7 +132,7 @@ in
       };
 
 
-### minecraft container
+### main container
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
