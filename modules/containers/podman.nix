@@ -44,7 +44,6 @@ in {
       type = types.bool;
       default = true;
     };
-
     pods = mkOption {
       description = "List of pods to create";
       type = with types; attrsOf (submodule podOptions);

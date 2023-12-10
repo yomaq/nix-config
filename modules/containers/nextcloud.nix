@@ -131,6 +131,9 @@ in
     ];
 
 
+
+    yomaq.podman.pods.${NAME}.wantedBy = [ "podman-${NAME}.service" "podman-DB${NAME}.service" ];
+
     virtualisation.oci-containers.containers = {
 ### tailscale container
       "TS${NAME}" = {
@@ -178,7 +181,6 @@ in
         ];
         extraOptions = [
           "--pull=newer"
-          "--pod ${NAME}"
         ];
       };
 
@@ -201,7 +203,6 @@ in
         ];
         extraOptions = [
           "--pull=newer"
-          "--pod ${NAME}"
           "--network=container:TS${NAME}"
         ];
       };
