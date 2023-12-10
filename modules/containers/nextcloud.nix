@@ -181,6 +181,7 @@ in
         ];
         extraOptions = [
           "--pull=newer"
+          "--pod=${NAME}"
         ];
       };
 
@@ -204,6 +205,7 @@ in
         extraOptions = [
           "--pull=newer"
           "--network=container:TS${NAME}"
+          "--pod=${NAME}"
         ];
       };
     };
