@@ -15,7 +15,10 @@ in
   "tailscaleKey.age".publicKeys = [ green azure ] ++ all;
   "tailscaleEnvFile.age".publicKeys = [ green azure ] ++ all;
   "piholeEnvFile.age".publicKeys = [ green ] ++ all;
+  "nextcloudEnvFile.age".publicKeys = [ azure ] ++ all;
+  "nextcloudDBEnvFile.age".publicKeys = [ azure ] ++ all;
+
 
   #example for calling groups
   #"secret2.age".publicKeys = users ++ systems;
-}
+} 
