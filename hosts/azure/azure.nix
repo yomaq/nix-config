@@ -16,7 +16,10 @@
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
       tailscale.enable = true;
-      pods.minecraft.enable = true;
+      pods = {
+        minecraft.enable = true;
+        nextcloud.enable = true;
+      };
       syncoid.isBackupServer = true;
       syncoid.exclude = ["blue"];
     };
