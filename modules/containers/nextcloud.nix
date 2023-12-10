@@ -161,7 +161,7 @@ in
           "--network=host"
           "--cap-add=NET_ADMIN"
           "--cap-add=NET_RAW"
-          "--pod=${NAME}"
+          "--pod=${NAME}-pod"
         ];
       };
 
@@ -185,7 +185,7 @@ in
         ];
         extraOptions = [
           "--pull=newer"
-          "--pod=${NAME}"
+          "--pod=${NAME}-pod"
         ];
       };
 
@@ -209,7 +209,7 @@ in
         extraOptions = [
           "--pull=newer"
           "--network=container:TS${NAME}"
-          "--pod=${NAME}"
+          "--pod=${NAME}-pod"
         ];
       };
     };
