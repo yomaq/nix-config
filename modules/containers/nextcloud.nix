@@ -3,7 +3,7 @@
 with lib;
 let
   ### Set container name and image
-  NAME = "minecraft";
+  NAME = "nextcloud";
   IMAGE = "docker.io/nextcloud";
   tailscaleIMAGE = "ghcr.io/tailscale/tailscale";
   dbIMAGE = "docker.io/mariadb";
