@@ -13,7 +13,7 @@ let
       name = mkOption {
         description = "Name of pod to create";
         type = types.str;
-        default = "${name}";
+        default = "${name}-pod";
       };
       wantedBy = mkOption {
         description = "What podman containers require this pod";
