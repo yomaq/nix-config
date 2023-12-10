@@ -38,7 +38,7 @@ in
         enable = true;
         interval = "daily";
         commands."${thisHost}Save" = {
-          source = "zpool/persistSave";
+          source = "zroot/persistSave";
           target = "zstorage/backups/${thisHost}";
           recvOptions = "c";
         };
@@ -57,7 +57,7 @@ in
     {services.syncoid = mkIf config.yomaq.syncoid.isBackupServer (mkMerge (map ( hostName: {
         commands = {
           "${hostName}Save" = {
-          source = "syncoid@${hostName}:zpool/persistSave";
+          source = "syncoid@${hostName}:zroot/persistSave";
           target = "zstorage/backups/${hostName}";
           recvOptions = "c";
           };
