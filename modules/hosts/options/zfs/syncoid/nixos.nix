@@ -77,15 +77,10 @@ in
         "${hostName}Save-create-dataset" = {
           description = "create zfs dataset ${hostName}";
           wantedBy = [ "syncoid-${hostName}Save.service" ];
-          serviceConfig = {
-            Type = "oneshot";
-            ExecStart = concatStringsSep " \\\n  " ([
-              "${pkgs.zfs}/bin/zfs list zstorage/backups/${hostName} ||"
-              "${pkgs.zfs}/bin/zfs create"
-              "-o mountpoint=legacy"
-              "zstorage/backups/${hostName}"
-            ]);
-          };
+          serviceConfig.Type = "oneshot";
+          script = ''
+            ${pkgs.zfs}/bin/zfs list zstorage/backups/${hostName} || ${pkgs.zfs}/bin/zfs create -o mountpoint=legacy zstorage/backups/${hostName}
+            '';
         };
       })(nixosHosts++[thisHost])));
     }
