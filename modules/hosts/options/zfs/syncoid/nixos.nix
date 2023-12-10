@@ -73,16 +73,6 @@ in
             yearly = 1;
         };
       })nixosHosts));
-      # systemd.services = mkIf config.yomaq.syncoid.isBackupServer (mkMerge (map ( hostName: {
-      #   "${hostName}Save-create-dataset" = {
-      #     description = "create zfs dataset ${hostName}";
-      #     wantedBy = [ "syncoid-${hostName}Save.service" ];
-      #     serviceConfig.Type = "oneshot";
-      #     script = ''
-      #       ${pkgs.zfs}/bin/zfs list zstorage/backups/${hostName} || ${pkgs.zfs}/bin/zfs create -o mountpoint=legacy zstorage/backups/${hostName}
-      #       '';
-      #   };
-      # })(nixosHosts++[thisHost])));
     }
   ];
 }
