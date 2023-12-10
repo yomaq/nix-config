@@ -13,16 +13,18 @@ let
       name = mkOption {
         description = "Name of pod to create";
         type = types.str;
-        default = "podman-${name}-pod";
+        default = "${name}";
       };
       wantedBy = mkOption {
         description = "What podman containers require this pod";
         type = with types; listOf str;
-        example = [ "nitter-redis" "nitter" ];
+        default = [];
+        example = [ "pod-redis" "pod" ];
       };
       ports = mkOption {
         description = "List of ports to forward from the container to host";
         type = with types; listOf str;
+        default = [];
         example = [ "2020:8000" "4000:8001" ];
       };
     };
