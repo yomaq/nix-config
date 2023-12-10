@@ -81,7 +81,8 @@ in
             Type = "oneshot";
             ExecStart = concatStringsSep " \\\n  " ([
               "${pkgs.zfs}/bin/zfs list zstorage/backups/${hostName} ||"
-              "${pkgs.zfs}/bin/zfs create -o mountpoint=legacy zstorage/backups/${hostName}"
+              "${pkgs.zfs}/bin/zfs create -u zstorage/backups/${hostName}"
+              "${pkgs.zfs}/bin/zfs set -o mountpoint=legacy zstorage/backups/${hostName}"
             ]);
           };
         };
