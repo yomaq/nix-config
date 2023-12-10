@@ -85,7 +85,7 @@ in
             ]);
           };
         };
-      })nixosHosts));
+      })(nixosHosts++[thisHost])));
     }
   ];
 }
