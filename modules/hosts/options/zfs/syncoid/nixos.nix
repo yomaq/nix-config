@@ -58,7 +58,7 @@ in
         options.mountpoint = "legacy";
         mountpoint = "none";
         options."com.sun:auto-snapshot" = "false";
-      }
+      };
     })
     {services.syncoid = mkIf config.yomaq.syncoid.isBackupServer (mkMerge (map ( hostName: {
         commands = {
