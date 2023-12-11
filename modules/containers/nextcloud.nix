@@ -215,7 +215,7 @@ in
           "--pull=newer"
           "--network=container:TS${NAME}"
           "--pod=${NAME}-pod"
-          "--dns=8.8.8.8"
+          # "--dns=8.8.8.8"
         ];
       };
     };
