@@ -3,7 +3,7 @@
   imports =[
     # import custom modules
     inputs.self.nixosModules.yomaq
-    inputs.self.nixosModules.pods
+    # inputs.self.nixosModules.pods
     # import users
     (inputs.self + /users/admin)
   ];
