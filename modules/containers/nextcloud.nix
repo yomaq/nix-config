@@ -136,7 +136,7 @@ in
     networking.firewall.allowedTCPPorts = [ 8181 ];
 
     yomaq.podman.pods.${NAME} = {
-      ports = ["8181:80"];
+      # ports = ["8181:80"];
       wantedBy = [ "podman-${NAME}.service" "podman-DB${NAME}.service" ];
     };
 
@@ -196,6 +196,7 @@ in
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
+        ports = ["8181:80"];
         environment = {
         };
         environmentFiles = [
