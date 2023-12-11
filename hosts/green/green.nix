@@ -23,6 +23,7 @@
       podman.enable = true;
       pods.tailscale.enable = true;
       pods.pihole.enable = true;
+      pods.nextcloud.enable = true;
     };
   };
 }
