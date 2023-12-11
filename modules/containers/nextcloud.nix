@@ -151,7 +151,7 @@ in
         "TS_STATE_DIR"= "/var/lib/tailscale";
         "TS_EXTRA_ARGS" = cfg.tailscale.TSargs;
         "TS_ACCEPT_DNS" = "true";
-        "TS_USERSPACE" = "true";
+        # "TS_USERSPACE" = "true";
         };
         environmentFiles = [
           # need to set "TS_AUTHKEY=key" in agenix and import here
@@ -167,6 +167,7 @@ in
           "--cap-add=NET_ADMIN"
           "--cap-add=NET_RAW"
           "--pod=${NAME}-pod"
+          "-d /dev/net/tun:/dev/net/tun"
         ];
       };
 
