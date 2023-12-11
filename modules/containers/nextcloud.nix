@@ -143,33 +143,33 @@ in
 
     virtualisation.oci-containers.containers = {
 ## tailscale container
-      "TS${NAME}" = {
-        image = "${tailscaleIMAGE}:${cfg.tailscale.imageVersion}";
-        autoStart = true;
-        environment = {
-        "TS_HOSTNAME" =cfg.tailscale.TShostname;
-        "TS_STATE_DIR"= "/var/lib/tailscale";
-        "TS_EXTRA_ARGS" = cfg.tailscale.TSargs;
-        "TS_ACCEPT_DNS" = "true";
-        # "TS_USERSPACE" = "true";
-        };
-        environmentFiles = [
-          # need to set "TS_AUTHKEY=key" in agenix and import here
-          config.age.secrets."tailscaleEnvFile".path
-        ];
-        volumes = [
-          "${cfg.tailscale.volumeLocation}/TSdata-lib:/var/lib"
-          "${cfg.tailscale.volumeLocation}/TSdev-net-tun:/dev/net/tun"
-        ];
-        extraOptions = [
-          "--pull=newer"
-          # "--network=host"
-          "--cap-add=NET_ADMIN"
-          "--cap-add=NET_RAW"
-          "--pod=${NAME}-pod"
-          "-d /dev/net/tun:/dev/net/tun"
-        ];
-      };
+      # "TS${NAME}" = {
+      #   image = "${tailscaleIMAGE}:${cfg.tailscale.imageVersion}";
+      #   autoStart = true;
+      #   environment = {
+      #   "TS_HOSTNAME" =cfg.tailscale.TShostname;
+      #   "TS_STATE_DIR"= "/var/lib/tailscale";
+      #   "TS_EXTRA_ARGS" = cfg.tailscale.TSargs;
+      #   "TS_ACCEPT_DNS" = "true";
+      #   # "TS_USERSPACE" = "true";
+      #   };
+      #   environmentFiles = [
+      #     # need to set "TS_AUTHKEY=key" in agenix and import here
+      #     config.age.secrets."tailscaleEnvFile".path
+      #   ];
+      #   volumes = [
+      #     "${cfg.tailscale.volumeLocation}/TSdata-lib:/var/lib"
+      #     "${cfg.tailscale.volumeLocation}/TSdev-net-tun:/dev/net/tun"
+      #   ];
+      #   extraOptions = [
+      #     "--pull=newer"
+      #     # "--network=host"
+      #     "--cap-add=NET_ADMIN"
+      #     "--cap-add=NET_RAW"
+      #     "--pod=${NAME}-pod"
+      #     "-d /dev/net/tun:/dev/net/tun"
+      #   ];
+      # };
 
 
 ### DB container
@@ -215,7 +215,7 @@ in
         extraOptions = [
           "--pull=newer"
           "--network=container:TS${NAME}"
-          "--pod=${NAME}-pod"
+          # "--pod=${NAME}-pod"
           # "--dns=8.8.8.8"
         ];
       };
