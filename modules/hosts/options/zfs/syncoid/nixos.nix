@@ -53,10 +53,10 @@ in
             yearly = 1;
         };
       };
-      disko.devices.zpool.datasets.backups = {
+      disko.devices.zpool.zstorage.datasets.backups = {
         type = "zfs_fs";
         options.mountpoint = "legacy";
-        mountpoint = "none";
+        # mountpoint = "none";
         options."com.sun:auto-snapshot" = "false";
       };
     })
