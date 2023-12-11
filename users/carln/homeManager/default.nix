@@ -27,6 +27,7 @@
     #pkgs.spotify
     pkgs.steam
     pkgs.brave
+    pkgs.obsidian
   ]);
   yomaq = {
     zsh.enable = true;

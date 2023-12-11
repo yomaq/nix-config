@@ -10,6 +10,7 @@
         "linearmouse"
         "altserver"
         "spotify"
+        "obsidian"
       ];
       taps = ["pulumi/tap"];
       brews = [
