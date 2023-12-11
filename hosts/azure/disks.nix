@@ -64,8 +64,8 @@ in
     directories = [
       "/var/lib/bluetooth"
       "/var/lib/nixos"
-      "/var/lib/systemd/coredump"
-      "/etc/NetworkManager/system-connections"
+      # "/var/lib/systemd/coredump"
+      # "/etc/NetworkManager/system-connections"
     ];
     files = [
     ];
