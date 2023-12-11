@@ -133,7 +133,7 @@ in
       "d ${cfg.tailscale.volumeLocation}/TSdev-net-tun 0755 root root"
     ];
 
-
+    networking.firewall.allowedTCPPorts = [ 8181 ];
 
     yomaq.podman.pods.${NAME} = {
       ports = ["8181:80"];
