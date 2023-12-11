@@ -214,8 +214,8 @@ in
         ];
         extraOptions = [
           "--pull=newer"
-          "--network=container:TS${NAME}"
-          # "--pod=${NAME}-pod"
+          # "--network=container:TS${NAME}"
+          "--pod=${NAME}-pod"
           # "--dns=8.8.8.8"
         ];
       };
