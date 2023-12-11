@@ -49,6 +49,7 @@ in {
     pods = mkOption {
       description = "List of pods to create";
       type = with types; attrsOf (submodule podOptions);
+      default = {};
       example = {
         minecraft = {
           wantedBy = [ "podman-minecraft.service" "podman-dbforsomereason.service" ];
