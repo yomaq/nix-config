@@ -210,7 +210,7 @@ in
         ];
         volumes = [
           "${cfg.volumeLocation}/var-www-html:/var/www/html"
-          "${cfg.volumeLocation}/data:/etc"
+          "${cfg.volumeLocation}/data:/data"
         ];
         extraOptions = [
           "--pull=newer"
