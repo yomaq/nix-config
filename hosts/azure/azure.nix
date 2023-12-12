@@ -3,7 +3,7 @@
   imports =[
     # import custom modules
     inputs.self.nixosModules.yomaq
-    # inputs.self.nixosModules.pods
+    inputs.self.nixosModules.pods
     # import users
     (inputs.self + /users/admin)
   ];
@@ -16,11 +16,11 @@
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
       tailscale.enable = true;
-      # podman.enable = true;
-      # pods = {
-      #   minecraft.enable = true;
-      #   nextcloud.enable = true;
-      # };
+      podman.enable = true;
+      pods = {
+        minecraft.enable = true;
+        # nextcloud.enable = true;
+      };
       syncoid.isBackupServer = true;
       syncoid.exclude = ["blue"];
     };
