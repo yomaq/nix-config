@@ -24,5 +24,7 @@
       syncoid.isBackupServer = true;
       syncoid.exclude = ["blue"];
     };
+    virtualisation.oci-containers.backend = "docker";
+    virtualisation.docker.enable = true;
   };
 }

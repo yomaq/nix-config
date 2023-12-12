@@ -44,7 +44,7 @@ in {
     enable = mkOption {
       description = "Enable podman";
       type = types.bool;
-      default = true;
+      default = false;
     };
     pods = mkOption {
       description = "List of pods to create";
