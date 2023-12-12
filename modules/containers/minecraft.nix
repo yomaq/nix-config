@@ -128,7 +128,6 @@ in
           "--network=host"
           "--cap-add=NET_ADMIN"
           "--cap-add=NET_RAW"
-          "--restart=unless-stopped"
         ];
       };
 
@@ -155,7 +154,6 @@ in
         ];
         extraOptions = [
           "--pull=always"
-          "--restart=unless-stopped"
           "--network=container:TS${NAME}"
         ];
       };
