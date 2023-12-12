@@ -207,6 +207,7 @@ in
         ];
         extraOptions = [
           "--pull=always"
+          "--link=DB${NAME}:DB${NAME}"
         ];
       };
     };
