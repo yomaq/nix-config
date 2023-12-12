@@ -116,7 +116,7 @@ in
 
     ### agenix secrets for container
     age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
-    age.secrets."tailscaleEnvFile".file = cfg.tailscale.agenixSecret;
+    # age.secrets."tailscaleEnvFile".file = cfg.tailscale.agenixSecret;
     age.secrets."${NAME}DBEnvFile".file = cfg.database.agenixSecret;
 
   # make the directories where the volumes are stored
@@ -129,17 +129,10 @@ in
       "d ${cfg.volumeLocation}/var-www-html 0755 root root"
       # database container
       "d ${cfg.database.volumeLocation}/var-lib-mysql 0755 root root"
-      # tailscale
-      "d ${cfg.tailscale.volumeLocation}/TSdata-lib 0755 root root"
-      "d ${cfg.tailscale.volumeLocation}/TSdev-net-tun 0755 root root"
+      # # tailscale
+      # "d ${cfg.tailscale.volumeLocation}/TSdata-lib 0755 root root"
+      # "d ${cfg.tailscale.volumeLocation}/TSdev-net-tun 0755 root root"
     ];
-
-    networking.firewall.allowedTCPPorts = [ 8181 ];
-
-    yomaq.podman.pods.${NAME} = {
-      ports = ["8181:80"];
-      wantedBy = [ "podman-${NAME}.service" "podman-DB${NAME}.service" ];
-    };
 
     virtualisation.oci-containers.containers = {
 ## tailscale container
@@ -190,8 +183,7 @@ in
           "${cfg.database.volumeLocation}/var-lib-mysql:/var/lib/mysql"
         ];
         extraOptions = [
-          "--pull=newer"
-          "--pod=${NAME}-pod"
+          "--pull=always"
         ];
       };
 
@@ -208,15 +200,13 @@ in
               #  MYSQL_USER=nextcloud
               #  MYSQL_HOST=db
         ];
+        ports = ["8181:80"];
         volumes = [
           "${cfg.volumeLocation}/var-www-html:/var/www/html"
           "${cfg.volumeLocation}/data:/data"
         ];
         extraOptions = [
-          "--pull=newer"
-          # "--network=container:TS${NAME}"
-          "--pod=${NAME}-pod"
-          "--dns=1.1.1.1"
+          "--pull=always"
         ];
       };
     };
