@@ -37,7 +37,7 @@ in {
       };
     })
     # enable and configure traefik
-    (mkif (cfg.traefik) {
+    (mkIf (cfg.traefik) {
       services.traefik = {
         enable =true;
         group = "docker";
