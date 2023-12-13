@@ -20,6 +20,7 @@
       pods = {
         minecraft.enable = true;
         nextcloud.enable = true;
+        traefik.enable = true;
       };
       syncoid.isBackupServer = true;
       syncoid.exclude = ["blue"];
