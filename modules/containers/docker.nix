@@ -1,37 +1,82 @@
-
-### service that creates podman pods taken from the nixos discord from a deleted user
-# https://discord.com/channels/568306982717751326/1138571694466936852/1138826346345279609
-
 { pkgs, config, lib, ... }:
 with lib;
 
 let
-  cfg = config.yomaq.podman;
+  cfg = config.yomaq.docker;
 
 in {
-  options.yomaq.podman = {
+  options.yomaq.docker = {
     enable = mkOption {
       description = "Enable podman";
+      type = types.bool;
+      default = false;
+    };
+    traefik = mkOption {
+      description = "Enable traefik for docker with tailscale tls certificates";
       type = types.bool;
       default = false;
     };
   };
 
 
-  config = mkIf (cfg.enable) {
-    virtualisation.oci-containers.backend = "docker";
-    virtualisation = {
-      docker = {
-        enable = true;
-        autoPrune.enable = true;
+  config = mkMerge [
+    # enable and configure docker 
+    (mkIf (cfg.enable) {
+      virtualisation.oci-containers.backend = "docker";
+      virtualisation = {
+        docker = {
+          enable = true;
+          autoPrune.enable = true;
 
+        };
       };
-    };
-    environment.persistence."${config.yomaq.impermanence.dontBackup}" = {
-      directories = [
-        "/var/lib/containers/storage"
-      ];
-    };
-
-  };
+      environment.persistence."${config.yomaq.impermanence.dontBackup}" = {
+        directories = [
+          "/var/lib/containers/storage"
+        ];
+      };
+    })
+    # enable and configure traefik
+    (mkif (cfg.traefik) {
+      services.traefik = {
+        enable =true;
+        group = "docker";
+        staticConfigOptions = {
+          global = {
+            checkNewVersion = false;
+            sendAnonymousUsage = false;
+          };
+          entryPoints = {
+            http = {
+              address = ":80";
+              http = {
+                redirections = {
+                  entryPoint = {
+                    to = "https";
+                    scheme = "https";
+                  };
+                };
+              };
+            };
+            https = {
+              address = ":443";
+            };
+          };
+          providers = {
+            docker = {
+              endpoint = "unix:///var/run/docker.sock";
+              exposedByDefault = false;
+            };
+          };
+          certificatesResolvers.tailscale.tailscale = {};
+        };
+      };
+      environment.persistence."${dontBackup}" = {
+        hideMounts = true;
+        directories = [
+          "/var/lib/traefik"
+        ];
+      };
+    })
+  ];
 }

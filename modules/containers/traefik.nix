@@ -1,3 +1,10 @@
+
+
+
+#### realized this would only work if it was running in the same container with tailscale to get the certs I think, probably dead right now, but I might revisit.
+
+
+
 { options, config, lib, pkgs, inputs, ... }:
 
 with lib;
@@ -96,13 +103,13 @@ in
   # it says "tmpfiles" but we don't add rules to remove the tmp file, so its... not tmp?
   # https://discourse.nixos.org/t/creating-directories-and-files-declararively/9349
   # storing volumes in the nix directory because we assume impermanance is wiping root
-    systemd.tmpfiles.rules = [
-      # main container
-      "d ${cfg.volumeLocation}/data 0755 root root"
-      # tailscale
-      "d ${cfg.tailscale.volumeLocation}/TSdata-lib 0755 root root"
-      "d ${cfg.tailscale.volumeLocation}/TSdev-net-tun 0755 root root"
-    ];
+    # systemd.tmpfiles.rules = [
+    #   # main container
+    #   "d ${cfg.volumeLocation}/data 0755 root root"
+    #   # tailscale
+    #   "d ${cfg.tailscale.volumeLocation}/TSdata-lib 0755 root root"
+    #   "d ${cfg.tailscale.volumeLocation}/TSdev-net-tun 0755 root root"
+    # ];
 
 
     virtualisation.oci-containers.containers = {
@@ -134,35 +141,35 @@ in
 
 
 ### main container
-      "${NAME}" = {
-        image = "${IMAGE}:${cfg.imageVersion}";
-        autoStart = true;
-        environment = {
-        };
-        cmd = [
-          # certificat resolvers
-          "--certificatesresolvers.tailscale.tailscale=true"
-          # docker provider
-          "--providers.docker=true"
-          "--providers.docker.exposedbydefault=false"
-          #entrypoints and redirections
-          "--entrypoints.web.address=:80"
-          "--entrypoints.web.http.redirections.entryPoint.to=websecure"
-          "--entrypoints.web.http.redirections.entryPoint.scheme=https"
-          "--entrypoints.websecure.address=:443"
-        ];
-        ports = [
-          "80:80"
-          "443:443"
-        ];
-        volumes = [
-          "/var/run/docker.sock:/var/run/docker.sock:ro"
-        ];
-        extraOptions = [
-          "--pull=always"
-          # "--network=container:TS${NAME}"
-        ];
-      };
+      # "${NAME}" = {
+      #   image = "${IMAGE}:${cfg.imageVersion}";
+      #   autoStart = true;
+      #   environment = {
+      #   };
+      #   cmd = [
+      #     # certificat resolvers
+      #     "--certificatesresolvers.tailscale.tailscale=true"
+      #     # docker provider
+      #     "--providers.docker=true"
+      #     "--providers.docker.exposedbydefault=false"
+      #     #entrypoints and redirections
+      #     "--entrypoints.web.address=:80"
+      #     "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      #     "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      #     "--entrypoints.websecure.address=:443"
+      #   ];
+      #   ports = [
+      #     "80:80"
+      #     "443:443"
+      #   ];
+      #   volumes = [
+      #     "/var/run/docker.sock:/var/run/docker.sock:ro"
+      #   ];
+      #   extraOptions = [
+      #     "--pull=always"
+      #     # "--network=container:TS${NAME}"
+      #   ];
+      # };
       "${NAME}test" = {
         image = "traefik/whoami:latest";
         autoStart = true;
