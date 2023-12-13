@@ -35,5 +35,12 @@ in
         When set to `server` or `both`, IP forwarding will be enabled.
       '';
     };
+    tailnetName = mkOption {
+      type = types.str;
+      default = "sable-chimaera";
+      description = ''
+        The name of the tailnet
+      '';
+    };
   };
 }
