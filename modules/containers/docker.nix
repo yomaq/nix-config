@@ -71,7 +71,7 @@ in {
           certificatesResolvers.tailscale.tailscale = {};
         };
       };
-      environment.persistence."${dontBackup}" = {
+      environment.persistence."${config.yomaq.impermanence.dontBackup}" = {
         hideMounts = true;
         directories = [
           "/var/lib/traefik"
