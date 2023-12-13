@@ -18,7 +18,7 @@
       tailscale.enable = true;
       docker = {
         enable = true;
-        traefik.enable = true;
+        traefik = true;
       };
       pods = {
         minecraft.enable = true;
