@@ -1,5 +1,10 @@
 # This file defines overlays
-{inputs, ...}: {
+{inputs, ...}: 
+let
+  finalSystem = toString final.system;
+in
+
+{
   ## When applied, the stable nixpkgs set (declared in the flake inputs) will
   ## be accessible through 'pkgs.stable'
   # nixpkgs-stable = final: _prev: {
@@ -13,6 +18,12 @@
   pkgs-unstable = final: _prev: {
     unstable = import inputs.nixpkgs-unstable {
       system = final.system;
+      config.allowUnfree = true;
+    };
+  };
+  pkgs-yomaq = final: _prev: {
+    yomaq = import inputs.nixpkgs-unstable {
+      system = finalSystem;
       config.allowUnfree = true;
     };
   };
