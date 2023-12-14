@@ -26,7 +26,7 @@
       # pods.nextcloud.enable = true;
     };
     environment.systemPackages = [
-      inputs.self.packages.traefik-test
+      pkgs.traefik-test
     ];
   };
 }
