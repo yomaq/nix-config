@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, self, ... }:
+{ config, lib, pkgs, inputs, ... }:
 {
   imports =[
     # import custom modules
