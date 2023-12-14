@@ -17,7 +17,7 @@
     };
   };
   pkgs-yomaq = final: _prev: {
-    unstable = import inputs.self.packages {
+    yomaq = import inputs.self.packages {
       system = final.system;
       config.allowUnfree = true;
     };
