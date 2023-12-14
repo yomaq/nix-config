@@ -19,9 +19,6 @@
     };
   };
   pkgs-yomaq = final: _prev: {
-    yomaq = import inputs.self.packages {
-      system = (toString final.system);
-      config.allowUnfree = true;
-    };
+    yomaq = import inputs.self.packages { };
   };
 }
