@@ -141,35 +141,36 @@ in
 
 
 ### main container
-      # "${NAME}" = {
-      #   image = "${IMAGE}:${cfg.imageVersion}";
-      #   autoStart = true;
-      #   environment = {
-      #   };
-      #   cmd = [
-      #     # certificat resolvers
-      #     "--certificatesresolvers.tailscale.tailscale=true"
-      #     # docker provider
-      #     "--providers.docker=true"
-      #     "--providers.docker.exposedbydefault=false"
-      #     #entrypoints and redirections
-      #     "--entrypoints.web.address=:80"
-      #     "--entrypoints.web.http.redirections.entryPoint.to=websecure"
-      #     "--entrypoints.web.http.redirections.entryPoint.scheme=https"
-      #     "--entrypoints.websecure.address=:443"
-      #   ];
-      #   ports = [
-      #     "80:80"
-      #     "443:443"
-      #   ];
-      #   volumes = [
-      #     "/var/run/docker.sock:/var/run/docker.sock:ro"
-      #   ];
-      #   extraOptions = [
-      #     "--pull=always"
-      #     # "--network=container:TS${NAME}"
-      #   ];
-      # };
+      "${NAME}" = {
+        image = "${IMAGE}:${cfg.imageVersion}";
+        autoStart = true;
+        environment = {
+        };
+        cmd = [
+          # certificat resolvers
+          "--certificatesresolvers.tailscale.tailscale=true"
+          # docker provider
+          "--providers.docker=true"
+          "--providers.docker.exposedbydefault=false"
+          #entrypoints and redirections
+          "--entrypoints.web.address=:80"
+          "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+          "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+          "--entrypoints.websecure.address=:443"
+        ];
+        ports = [
+          "80:80"
+          "443:443"
+        ];
+        volumes = [
+          "/var/run/docker.sock:/var/run/docker.sock:ro"
+          "/var/run/tailscale/tailscaled.sock:/var/run/tailscale/tailscaled.sock:ro"
+        ];
+        extraOptions = [
+          "--pull=always"
+          # "--network=container:TS${NAME}"
+        ];
+      };
       "${NAME}test" = {
         image = "traefik/whoami:latest";
         autoStart = true;

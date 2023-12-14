@@ -38,46 +38,46 @@ in {
     })
     # enable and configure traefik
     (mkIf (cfg.traefik) {
-      services.traefik = {
-        package = inputs.self.packages.x86_64-linux.traefik-test;
-        enable =true;
-        group = "docker";
-        staticConfigOptions = {
-          global = {
-            checkNewVersion = false;
-            sendAnonymousUsage = false;
-          };
-          entryPoints = {
-            http = {
-              address = ":80";
-              http = {
-                redirections = {
-                  entryPoint = {
-                    to = "https";
-                    scheme = "https";
-                  };
-                };
-              };
-            };
-            https = {
-              address = ":443";
-            };
-          };
-          providers = {
-            docker = {
-              endpoint = "unix:///var/run/docker.sock";
-              exposedByDefault = false;
-            };
-          };
-          certificatesResolvers.tailscale.tailscale = {};
-        };
-      };
-      environment.persistence."${config.yomaq.impermanence.dontBackup}" = {
-        hideMounts = true;
-        directories = [
-          "/var/lib/traefik"
-        ];
-      };
+      # services.traefik = {
+      #   package = inputs.self.packages.x86_64-linux.traefik-test;
+      #   enable =true;
+      #   group = "docker";
+      #   staticConfigOptions = {
+      #     global = {
+      #       checkNewVersion = false;
+      #       sendAnonymousUsage = false;
+      #     };
+      #     entryPoints = {
+      #       http = {
+      #         address = ":80";
+      #         http = {
+      #           redirections = {
+      #             entryPoint = {
+      #               to = "https";
+      #               scheme = "https";
+      #             };
+      #           };
+      #         };
+      #       };
+      #       https = {
+      #         address = ":443";
+      #       };
+      #     };
+      #     providers = {
+      #       docker = {
+      #         endpoint = "unix:///var/run/docker.sock";
+      #         exposedByDefault = false;
+      #       };
+      #     };
+      #     certificatesResolvers.tailscale.tailscale = {};
+      #   };
+      # };
+      # environment.persistence."${config.yomaq.impermanence.dontBackup}" = {
+      #   hideMounts = true;
+      #   directories = [
+      #     "/var/lib/traefik"
+      #   ];
+      # };
     })
   ];
 }
