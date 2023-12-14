@@ -1,8 +1,5 @@
 # This file defines overlays
 {inputs, ...}: 
-let
-  finalSystem = toString config.system;
-in
 
 {
   ## When applied, the stable nixpkgs set (declared in the flake inputs) will
@@ -23,7 +20,7 @@ in
   };
   pkgs-yomaq = final: _prev: {
     yomaq = import inputs.nixpkgs-unstable {
-      system = finalSystem;
+      system = (toString final.system);
       config.allowUnfree = true;
     };
   };
