@@ -20,10 +20,10 @@
         extraUpFlags = ["--ssh=true" "--reset=true" "--accept-dns=true" "--advertise-exit-node=true" ];
       };
       _1password.enable = true;
-      podman.enable = true;
-      pods.tailscale.enable = true;
-      pods.pihole.enable = true;
-      pods.nextcloud.enable = true;
+      # docker.enable = true;
+      # pods.tailscale.enable = true;
+      # pods.pihole.enable = true;
+      # pods.nextcloud.enable = true;
     };
     environment.systemPackages = [
       inputs.self.packages.traefik-test
