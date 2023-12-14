@@ -39,6 +39,7 @@ in {
     # enable and configure traefik
     (mkIf (cfg.traefik) {
       services.traefik = {
+        package = inputs.self.packages.x86_64-linux.traefik-test;
         enable =true;
         group = "docker";
         staticConfigOptions = {
