@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, self, ... }:
 {
   imports =[
     # import custom modules
@@ -26,7 +26,7 @@
       # pods.nextcloud.enable = true;
     };
     environment.systemPackages = [
-      pkgs.traefik-test
+      self.packages.x86_64-linux.traefik-test
     ];
   };
 }
