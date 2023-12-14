@@ -28,6 +28,7 @@
     environment.systemPackages = [
       # inputs.self.packages.x86_64-linux.traefik-test
       pkgs.yomaq.traefik-test
+      pkgs.unstable.cowsay
     ];
   };
 }
