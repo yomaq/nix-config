@@ -1,7 +1,7 @@
 # This file defines overlays
 {inputs, ...}: 
 let
-  finalSystem = toString final.system;
+  finalSystem = toString config.system;
 in
 
 {
