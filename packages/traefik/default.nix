@@ -2,7 +2,7 @@
 
 buildGoModule rec {
   pname = "traefik";
-  version = "2.10.6";
+  version = "v3.0.0-beta5";
 
   # Archive with static assets for webui
   src = fetchzip {
