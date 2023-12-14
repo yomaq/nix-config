@@ -23,7 +23,7 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs = { nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
+  outputs = { self, nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
     let
       inherit (self) outputs;
       forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
