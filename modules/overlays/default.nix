@@ -19,7 +19,6 @@
   pkgs-yomaq = final: _prev: {
     yomaq = import inputs.self.packages {
       system = final.system;
-      config.allowUnfree = true;
     };
   };
 }
