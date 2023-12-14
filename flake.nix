@@ -36,7 +36,7 @@
     in
   {
     inherit lib;
-    packages = forEachSystem (pkgs: import ./packages { inherit inputs; });
+    packages = forEachSystem (pkgs: import ./packages { inherit pkgs; });
     overlays = import ./modules/overlays {inherit inputs;};
 ### Host outputs
     # NixOS configuration entrypoint
