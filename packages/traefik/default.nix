@@ -7,7 +7,7 @@ buildGoModule rec {
   # Archive with static assets for webui
   src = fetchzip {
     url = "https://github.com/traefik/traefik/releases/download/v${version}/traefik-v${version}.src.tar.gz";
-    hash = "sha256-1qhiwp3ygg03lvp6gaqz4im4xmhgrqyhy1ls1i99gmbbbwc30k3w";
+    hash = "sha256-0mjw4zld9hzv21rh74r42239cnklan9yjj1hmfk4ra9szs74fmhv";
     stripRoot = false;
   };
 
