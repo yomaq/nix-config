@@ -24,8 +24,11 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = { nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
+    let
+      forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
+    in
   {
-### Overlays
+    packages = forEachSystem (pkgs: import ./packages { inherit inputs; });
     overlays = import ./modules/overlays {inherit inputs;};
 ### Host outputs
     # NixOS configuration entrypoint
