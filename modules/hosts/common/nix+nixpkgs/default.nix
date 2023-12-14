@@ -31,7 +31,6 @@
   nixpkgs = {
     overlays = [ 
       inputs.self.overlays.pkgs-unstable
-      inputs.self.overlays.pkgs-yomaq
       inputs.agenix.overlays.default
        ];
     # Configure your nixpkgs instance

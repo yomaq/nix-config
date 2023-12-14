@@ -26,8 +26,7 @@
       # pods.nextcloud.enable = true;
     };
     environment.systemPackages = [
-      # inputs.self.packages."${config.system}".traefik-test
-      pkgs.yomaq.traefik-test
+      inputs.self.packages.x86_64-linux.traefik-test
     ];
   };
 }
