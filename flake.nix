@@ -25,9 +25,11 @@
   };
   outputs = { nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
     let
+      inherit (self) outputs;
       forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
     in
   {
+    inherit lib;
     packages = forEachSystem (pkgs: import ./packages { inherit inputs; });
     overlays = import ./modules/overlays {inherit inputs;};
 ### Host outputs
