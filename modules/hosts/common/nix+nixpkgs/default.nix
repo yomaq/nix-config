@@ -30,7 +30,7 @@
   };
   nixpkgs = {
     overlays = [ 
-      inputs.self.overlays.nixpkgs-unstable
+      inputs.self.overlays.pkgs-unstable
       inputs.self.overlays.pkgs-yomaq
       inputs.agenix.overlays.default
        ];
