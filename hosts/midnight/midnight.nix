@@ -35,6 +35,10 @@ in
       tailscale.enable = true;
       _1password.enable = true;
       scripts.enable = true;
+      suites = {
+        basics.enable = true;
+        foundation.enable = true;
+      };
     };
   };
 }

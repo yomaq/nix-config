@@ -3,6 +3,6 @@
   imports =
     [
       ./options/darwin.nix
-      ./common/darwin.nix
+      # ./common/darwin.nix
     ];
 }
