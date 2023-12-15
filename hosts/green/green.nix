@@ -20,6 +20,11 @@
         extraUpFlags = ["--ssh=true" "--reset=true" "--accept-dns=true" "--advertise-exit-node=true" ];
       };
       _1password.enable = true;
+      timezone.central= true;
+      suites = {
+        basics.enable = true;
+        foundation.enable = true;
+      };
     };
   };
 }

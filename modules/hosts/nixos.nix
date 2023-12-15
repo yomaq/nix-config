@@ -3,6 +3,6 @@
   imports =
     [
       ./options/nixos.nix
-      ./common/nixos.nix
+      # ./common/nixos.nix
     ];
 }
