@@ -15,7 +15,7 @@ in
   };
 
   config = mkMerge [
-      (mkIf cfg.enable {
+      (mkIf cfg.central {
       # Set your time zone.
       time.timeZone = "America/Chicago";
       # Select internationalisation properties.
