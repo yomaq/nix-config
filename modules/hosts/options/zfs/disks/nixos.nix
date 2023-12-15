@@ -241,7 +241,7 @@ in
           type = "zfs";
           pool = "zroot";
         };
-      }
+      };
     })
     (mkIf cfg.zfs.root.enable {
       disko.devices = {
