@@ -20,6 +20,11 @@
       gnome.enable = true;
       scripts.enable = true;
       flatpak.enable = true;
+      timezone.central= true;
+      suites = {
+        basics.enable = true;
+        foundation.enable = true;
+      };
     };
   };
 }

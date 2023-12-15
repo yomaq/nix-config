@@ -26,6 +26,11 @@
       };
       syncoid.isBackupServer = true;
       syncoid.exclude = ["blue"];
+      timezone.central= true;
+      suites = {
+        basics.enable = true;
+        foundation.enable = true;
+      };
     };
   };
 }
