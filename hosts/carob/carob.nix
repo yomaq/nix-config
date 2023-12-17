@@ -27,6 +27,22 @@
         basics.enable = true;
         foundation.enable = true;
       };
+      # disk configuration
+      disks = {
+        enable = true;
+        systemd-boot.enable = true;
+        zfs = {
+          enable = true;
+          hostID = "7CEA7619";
+          root = {
+            enable = true;
+            encrypt.enable = false;
+            disk1 = "mmcblk0";
+            impermanenceRoot = true;
+            impermanenceHome = true;
+          };
+        };
+      };
     };
   };
 }

@@ -53,6 +53,8 @@ in
             yearly = 1;
         };
       };
+    })    
+    (mkIf (config.yomaq.syncoid.isBackupServer && !cfg.zfs.storage.amReinstalling) {
       disko.devices.zpool.zstorage.datasets.backups = {
         type = "zfs_fs";
         options.mountpoint = "legacy";

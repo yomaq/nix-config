@@ -45,7 +45,7 @@ in
         type = types.listOf types.str;
         default = [];
         description = ''
-          ethernet drivers to load
+          ethernet drivers to load: (run "lspci -v | grep -iA8 'network\|ethernet'")
         '';
       };
      };
@@ -123,6 +123,13 @@ in
         };
       };
       storage = {
+        enable = mkOption {
+          type = types.bool;
+          default = false;
+          description = ''
+            enable zfs root
+          '';
+        };
         amReinstalling = mkOption {
           type = types.bool;
           default = false;
@@ -163,12 +170,12 @@ in
   };
 
   config = mkMerge [ 
-    (mkIf cfg.enable && cfg.systemd-boot {
+    (mkIf (cfg.enable && cfg.systemd-boot) {
       # setup systemd-boot
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
     })
-    (mkIf cfg.enable && cfg.initrd-ssh.enable {
+    (mkIf (cfg.enable && cfg.initrd-ssh.enable) {
       # setup initrd ssh to unlock the encripted drive
       boot.initrd.network.enable = true;
       boot.initrd.availableKernelModules = [ "${ethernetDrivers}" ];
@@ -219,7 +226,7 @@ in
         trim.enable = true;
       };
     })
-    (mkIf cfg.zfs.root.enable && cfg.zfs.root.encrypt {
+    (mkIf (cfg.zfs.root.enable && cfg.zfs.root.encrypt) {
       disko.devices.disk.one.content.partitions.luks = {
         size = "100%";
         content = {
@@ -234,7 +241,7 @@ in
         };
       };
     })
-    (mkIf cfg.zfs.root.enable && !cfg.zfs.root.encrypt {
+    (mkIf (cfg.zfs.root.enable && !cfg.zfs.root.encrypt) {
       disko.devices.disk.one.content.partitions.zfs = {
         size = "100%";
         content = {
@@ -350,7 +357,7 @@ in
       # Needed for impermanence, because we mount /persist/save on /persist, we need to make sure /persist is mounted before /persist/save
       fileSystems."/persist".neededForBoot = true;
     })
-    (mkIf cfg.zfs.enable && cfg.zfs.root.mainDisk2 !== "" {
+    (mkIf (cfg.zfs.enable && cfg.zfs.root.mainDisk2 != "") {
       yomaq.disks.zfs.root.encrypt = mkDefault true;
       disko.devices.disk.two = {
         type = "disk";
@@ -375,24 +382,24 @@ in
         };
       };
     })
-    (mkIf cfg.zfs.enable && cfg.zfs.root.mirror && cfg.zfs.root.disk2 !== "" {
+    (mkIf (cfg.zfs.enable && cfg.zfs.root.mirror && cfg.zfs.root.disk2 != "") {
       disko.devices.zpool.zroot.mode = "mirror";
     })
-    (mkIf cfg.zfs.root.enable && cfg.zfs.root.impermanence {
+    (mkIf (cfg.zfs.root.enable && cfg.zfs.root.impermanence) {
       boot.initrd.postDeviceCommands =
         #wipe / and /var on boot
         lib.mkAfter ''
           zfs rollback -r zroot/root@empty
       '';
     })
-    (mkIf cfg.zfs.root.enable && cfg.zfs.root.impermanenceHome {
+    (mkIf (cfg.zfs.root.enable && cfg.zfs.root.impermanenceHome) {
       #wipe /home on boot
       boot.initrd.postDeviceCommands =
         lib.mkAfter ''
           zfs rollback -r zroot/home@empty
       '';
     })
-    (mkIf cfg.zfs.storage.enable {
+    (mkIf (cfg.zfs.storage.enable && !cfg.zfs.storage.amReinstalling) {
       disko.devices = {
         disk = {
           one = {
@@ -460,7 +467,7 @@ in
         };
       };
     })
-    (mkIf cfg.zfs.storage.enable && cfg.zfs.storage.disk2 !== "" {
+    (mkIf (cfg.zfs.storage.enable && cfg.zfs.storage.disk2 != "" && !cfg.zfs.storage.amReinstalling) {
       disko.devices.disk.two = {
         type = "disk";
         device = "/dev/${zfs.storage.disk2}";
@@ -484,7 +491,7 @@ in
         };
       };
     })
-    (mkIf cfg.zfs.storage.enable && cfg.zfs.storage.mirror && cfg.zfs.storage.disk2 !== "" {
+    (mkIf (cfg.zfs.storage.enable && cfg.zfs.storage.mirror && cfg.zfs.storage.disk2 != "" && !cfg.zfs.storage.amReinstalling) {
       disko.devices.zpool.zstorage.mode = "mirror";
     })
   ];
