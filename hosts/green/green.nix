@@ -29,8 +29,10 @@
       disks = {
         enable = true;
         systemd-boot.enable = true;
-        initd-ssh.enable = true;
-        ethernetDrivers = ["e1000e"];
+        initrd-ssh.enable = {
+          enable = true;
+          ethernetDrivers = ["e1000e"];
+        };
         zfs = {
           enable = true;
           hostID = "2C2883D7";
