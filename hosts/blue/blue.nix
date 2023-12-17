@@ -12,13 +12,15 @@
     system.stateVersion = "23.05";
     networking.useDHCP = lib.mkDefault true;
 
+
     yomaq = {
       autoUpgrade.enable = true;
       primaryUser.users = [ "carln" "admin" ];
       _1password.enable = true;
       tailscale = {
         enable = true;
-        extraUpFlags = ["--ssh=true" "--reset=true" ];
+        extraUpFlags = ["--ssh=true" "--reset=true" "--exit-node=100.82.151.77" "--exit-node-allow-lan-access=true" ];
+        useRoutingFeatures = "client";
       };
       gnome.enable = true;
       scripts.enable = true;

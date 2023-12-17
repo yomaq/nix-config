@@ -18,7 +18,8 @@
     yomaq = {
       tailscale = {
         enable = true;
-        extraUpFlags = ["--ssh=true" "--reset=true" ];
+        extraUpFlags = ["--ssh=true" "--reset=true" "--exit-node=100.82.151.77" "--exit-node-allow-lan-access=true" ];
+        useRoutingFeatures = "client";
       };
       _1password.enable = true;
       adguardhome.enable = true;

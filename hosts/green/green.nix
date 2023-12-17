@@ -18,6 +18,7 @@
       tailscale = {
         enable = true;
         extraUpFlags = ["--ssh=true" "--reset=true" "--accept-dns=true" "--advertise-exit-node=true" ];
+        useRoutingFeatures = "server";
       };
       _1password.enable = true;
       timezone.central= true;
