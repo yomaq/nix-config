@@ -11,6 +11,8 @@ let
   inherit (config.yomaq.impermanence) dontBackup;
 in
 {
+
+
   options.yomaq.disks = {
     enable = mkOption {
       type = types.bool;
@@ -226,36 +228,12 @@ in
         trim.enable = true;
       };
     })
-    (mkIf (cfg.zfs.root.enable && cfg.zfs.root.encrypt) {
-      disko.devices.disk.one.content.partitions.luks = {
-        size = "100%";
-        content = {
-          type = "luks";
-          name = "crypted1";
-          settings.allowDiscards = true;
-          passwordFile = "/tmp/secret.key";
-          content = {
-            type = "zfs";
-            pool = "zroot";
-          };
-        };
-      };
-    })
-    (mkIf (cfg.zfs.root.enable && !cfg.zfs.root.encrypt) {
-      disko.devices.disk.one.content.partitions.notluks = {
-        size = "100%";
-        content = {
-          type = "zfs";
-          pool = "zroot";
-        };
-      };
-    })
     (mkIf cfg.zfs.root.enable {
       disko.devices = {
         disk = {
           one = {
             type = "disk";
-            device = "/dev/${zfs.root.disk1}";
+            device = "/dev/${cfg.zfs.root.disk1}";
             content = {
               type = "gpt";
               partitions = {
@@ -273,6 +251,48 @@ in
                     ];
                   };
                 };
+                luks = mkIf cfg.zfs.root.encrypt {
+                  size = "100%";
+                  content = {
+                    type = "luks";
+                    name = "crypted1";
+                    settings.allowDiscards = true;
+                    passwordFile = "/tmp/secret.key";
+                    content = {
+                      type = "zfs";
+                      pool = "zroot";
+                    };
+                  };
+                };
+                notluks = mkIf (!cfg.zfs.root.encrypt) {
+                  size = "100%";
+                  content = {
+                    type = "zfs";
+                    pool = "zroot";
+                  };
+                };
+              };
+            };
+          };
+          two = mkIf (cfg.zfs.root.disk2 != "null") {
+            type = "disk";
+            device = "/dev/${zfs.root.disk2}";
+            content = {
+              type = "gpt";
+              partitions = {
+                luks = {
+                  size = "100%";
+                  content = {
+                    type = "luks";
+                    name = "crypted2";
+                    settings.allowDiscards = true;
+                    passwordFile = "/tmp/secret.key";
+                    content = {
+                      type = "zfs";
+                      pool = "zroot";
+                    };
+                  };
+                };
               };
             };
           };
@@ -280,6 +300,7 @@ in
         zpool = {
           zroot = {
             type = "zpool";
+            mode = mkIf (cfg.zfs.root.mirror && cfg.zfs.root.disk2 != "null") "mirror";
             rootFsOptions = {
               canmount = "off";
               checksum = "edonr";
@@ -300,7 +321,7 @@ in
                 options = {
                   canmount = "off";
                   mountpoint = "none";
-                  reservation = "${zfs.root.reservation}";
+                  reservation = "${cfg.zfs.root.reservation}";
                 };
                 type = "zfs_fs";
               };
@@ -357,35 +378,7 @@ in
       # Needed for impermanence, because we mount /persist/save on /persist, we need to make sure /persist is mounted before /persist/save
       fileSystems."/persist".neededForBoot = true;
     })
-    (mkIf (cfg.zfs.enable && cfg.zfs.root.disk2 != "null") {
-      yomaq.disks.zfs.root.encrypt = mkDefault true;
-      disko.devices.disk.two = {
-        type = "disk";
-        device = "/dev/${zfs.root.disk2}";
-        content = {
-          type = "gpt";
-          partitions = {
-            luks = {
-              size = "100%";
-              content = {
-                type = "luks";
-                name = "crypted2";
-                settings.allowDiscards = true;
-                passwordFile = "/tmp/secret.key";
-                content = {
-                  type = "zfs";
-                  pool = "zroot";
-                };
-              };
-            };
-          };
-        };
-      };
-    })
-    (mkIf (cfg.zfs.enable && cfg.zfs.root.mirror && cfg.zfs.root.disk2 != "null") {
-      disko.devices.zpool.zroot.mode = "mirror";
-    })
-    (mkIf (cfg.zfs.root.enable && cfg.zfs.root.impermanence) {
+    (mkIf (cfg.zfs.root.enable && cfg.zfs.root.impermanenceRoot) {
       boot.initrd.postDeviceCommands =
         #wipe / and /var on boot
         lib.mkAfter ''

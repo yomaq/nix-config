@@ -10,7 +10,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
   config = {
-    networking.hostName = "green";
+    networking.hostName = "carob";
     system.stateVersion = "23.11";
     networking.useDHCP = lib.mkDefault true;
     boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
@@ -19,6 +19,7 @@
     yomaq = {
       tailscale.enable = true;
       _1password.enable = true;
+      ssh.enable = true;
 
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
@@ -30,7 +31,7 @@
       # disk configuration
       disks = {
         enable = true;
-        systemd-boot.enable = true;
+        systemd-boot = true;
         zfs = {
           enable = true;
           hostID = "7CEA7619";
