@@ -18,8 +18,8 @@ in
 
   config = mkIf cfg.enable {
     environment.persistence."${backup}" = {
-      directories = [
-        { directory = "/var/lib/AdGuardHome"; user = "adguardhome"; group = "adguardhome"; mode = "u=rwx,g=rx,o="; }
+      files = [
+        { file = "/var/lib/AdGuardHome/AdGuardHome.yaml"; parentDirectory = { mode = "u=rwx,g=,o="; }; }
       ];
     };
     services.adguardhome = {
