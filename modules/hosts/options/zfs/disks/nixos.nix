@@ -350,7 +350,7 @@ in
       # Needed for impermanence, because we mount /persist/save on /persist, we need to make sure /persist is mounted before /persist/save
       fileSystems."/persist".neededForBoot = true;
     })
-    (mkIf cfg.zfs.enable && cfg.zfs.root.mainDisk2 != "" {
+    (mkIf cfg.zfs.enable && cfg.zfs.root.mainDisk2 !== "" {
       yomaq.disks.zfs.root.encrypt = mkDefault true;
       disko.devices.disk.two = {
         type = "disk";
@@ -375,7 +375,7 @@ in
         };
       };
     })
-    (mkIf cfg.zfs.enable && cfg.zfs.root.mirror && cfg.zfs.root.disk2 != "" {
+    (mkIf cfg.zfs.enable && cfg.zfs.root.mirror && cfg.zfs.root.disk2 !== "" {
       disko.devices.zpool.zroot.mode = "mirror";
     })
     (mkIf cfg.zfs.root.enable && cfg.zfs.root.impermanence {
@@ -460,7 +460,7 @@ in
         };
       };
     })
-    (mkIf cfg.zfs.storage.enable && cfg.zfs.storage.disk2 != "" {
+    (mkIf cfg.zfs.storage.enable && cfg.zfs.storage.disk2 !== "" {
       disko.devices.disk.two = {
         type = "disk";
         device = "/dev/${zfs.storage.disk2}";
@@ -484,7 +484,7 @@ in
         };
       };
     })
-    (mkIf cfg.zfs.storage.enable && cfg.zfs.storage.mirror && cfg.zfs.storage.disk2 != "" {
+    (mkIf cfg.zfs.storage.enable && cfg.zfs.storage.mirror && cfg.zfs.storage.disk2 !== "" {
       disko.devices.zpool.zstorage.mode = "mirror";
     })
   ];
