@@ -1,12 +1,12 @@
 { options, config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.yomaq.adGuardHome;
+  cfg = config.yomaq.adguardhome;
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
 in
 {
-  options.yomaq.adGuardHome = {
+  options.yomaq.adguardhome = {
     enable = mkOption {
       type = types.bool;
       default = false;

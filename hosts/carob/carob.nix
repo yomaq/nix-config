@@ -3,7 +3,6 @@
   imports =[
     # import custom modules
     inputs.self.nixosModules.yomaq
-    inputs.self.nixosModules.pods
     # import users
     (inputs.self + /users/admin)
     # hardware
@@ -17,9 +16,12 @@
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
     yomaq = {
-      tailscale.enable = true;
+      tailscale = {
+        enable = true;
+        extraUpFlags = ["--ssh=true" "--reset=true" "--accept-dns=true" ];
+      };
       _1password.enable = true;
-      ssh.enable = true;
+      adguardhome.enable = true;
 
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
