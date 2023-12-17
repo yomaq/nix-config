@@ -16,7 +16,10 @@
       autoUpgrade.enable = true;
       primaryUser.users = [ "carln" "admin" ];
       _1password.enable = true;
-      tailscale.enable = true;
+      tailscale = {
+        enable = true;
+        extraUpFlags = ["--ssh=true" "--reset=true" ];
+      };
       gnome.enable = true;
       scripts.enable = true;
       flatpak.enable = true;
