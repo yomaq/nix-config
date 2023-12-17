@@ -180,7 +180,7 @@ in
     (mkIf (cfg.enable && cfg.initrd-ssh.enable) {
       # setup initrd ssh to unlock the encripted drive
       boot.initrd.network.enable = true;
-      boot.initrd.availableKernelModules = [ "${ethernetDrivers}" ];
+      boot.initrd.availableKernelModules = [ "${cfg.initrd-ssh.ethernetDrivers}" ];
       boot.kernelParams = [ "ip=::::${hostName}-initrd::dhcp" ];
       boot.initrd.network.ssh = {
         enable = true;
