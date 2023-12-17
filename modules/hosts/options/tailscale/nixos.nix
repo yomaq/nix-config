@@ -9,7 +9,7 @@ in
  config = lib.mkIf cfg.enable {
     services.tailscale = {
       enable = true;
-      authKeyFile = config.age.secrets.tailscaleKey.path;
+      authKeyFile = cfg.authKeyFile;
       extraUpFlags = cfg.extraUpFlags;
       useRoutingFeatures = cfg.useRoutingFeatures;
     };
