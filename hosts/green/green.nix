@@ -28,7 +28,7 @@
       # disk configuration
       disks = {
         enable = true;
-        systemd-boot.enable = true;
+        systemd-boot = true;
         initrd-ssh.enable = {
           enable = true;
           ethernetDrivers = ["e1000e"];
