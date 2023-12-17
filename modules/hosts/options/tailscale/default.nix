@@ -43,7 +43,7 @@ in
       '';
     };
     authKeyFile = mkOption {
-      type = types.path;
+      type = types.nullOr types.path;
       default = "${config.age.secrets.tailscaleKey.path}";
       description = ''
         allow you to specify a key, or set null to disable
