@@ -20,9 +20,10 @@ in
     services.adguardhome = {
       enable = true;
       # allowDHCP = true;
-      # settings = ();
+      # settings = (
+      # );
   };
-  # environment.persistence."${backup}".directories = [ "/var/lib/AdGuardHome" ];
+  environment.persistence."${backup}".directories = [ "/var/lib/AdGuardHome" ];
   };
 }
 
