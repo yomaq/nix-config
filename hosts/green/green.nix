@@ -30,7 +30,7 @@
         enable = true;
         systemd-boot.enable = true;
         initd-ssh.enable = true;
-        ethernetDriver = "e1000e";
+        ethernetDrivers = "e1000e";
         zfs = {
           enable = true;
           hostID = "2C2883D7";
