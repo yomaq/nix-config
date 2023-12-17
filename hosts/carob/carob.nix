@@ -21,7 +21,7 @@
         extraUpFlags = ["--ssh=true" "--reset=true" "--accept-dns=true" ];
       };
       _1password.enable = true;
-      # adguardhome.enable = true;
+      adguardhome.enable = true;
 
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];

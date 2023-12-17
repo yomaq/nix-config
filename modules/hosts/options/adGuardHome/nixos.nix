@@ -22,7 +22,7 @@ in
       # allowDHCP = true;
       # settings = ();
   };
-  environment.persistence."${backup}".file = [ "/var/lib/AdGuardHome/AdGuardHome.yaml" ];
+  environment.persistence."${backup}".directories = [ "/var/lib/AdGuardHome" ];
   };
 }
 
