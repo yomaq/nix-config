@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, modulesPath, ... }:
 {
   imports =[
     # import custom modules
@@ -36,7 +36,7 @@
           hostID = "7CEA7619";
           root = {
             enable = true;
-            encrypt.enable = false;
+            encrypt = false;
             disk1 = "mmcblk0";
             impermanenceRoot = true;
             impermanenceHome = true;

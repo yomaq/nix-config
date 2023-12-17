@@ -88,7 +88,7 @@ in
         };
         disk2 = mkOption {
           type = types.str;
-          default = "";
+          default = "null";
           description = ''
             device name
           '';
@@ -146,7 +146,7 @@ in
         };
         disk2 = mkOption {
           type = types.str;
-          default = "";
+          default = "null";
           description = ''
             device name
           '';
@@ -235,14 +235,14 @@ in
           settings.allowDiscards = true;
           passwordFile = "/tmp/secret.key";
           content = {
-          type = "zfs";
-          pool = "zroot";
+            type = "zfs";
+            pool = "zroot";
           };
         };
       };
     })
     (mkIf (cfg.zfs.root.enable && !cfg.zfs.root.encrypt) {
-      disko.devices.disk.one.content.partitions.zfs = {
+      disko.devices.disk.one.content.partitions.notluks = {
         size = "100%";
         content = {
           type = "zfs";
@@ -357,7 +357,7 @@ in
       # Needed for impermanence, because we mount /persist/save on /persist, we need to make sure /persist is mounted before /persist/save
       fileSystems."/persist".neededForBoot = true;
     })
-    (mkIf (cfg.zfs.enable && cfg.zfs.root.mainDisk2 != "") {
+    (mkIf (cfg.zfs.enable && cfg.zfs.root.disk2 != "null") {
       yomaq.disks.zfs.root.encrypt = mkDefault true;
       disko.devices.disk.two = {
         type = "disk";
@@ -382,7 +382,7 @@ in
         };
       };
     })
-    (mkIf (cfg.zfs.enable && cfg.zfs.root.mirror && cfg.zfs.root.disk2 != "") {
+    (mkIf (cfg.zfs.enable && cfg.zfs.root.mirror && cfg.zfs.root.disk2 != "null") {
       disko.devices.zpool.zroot.mode = "mirror";
     })
     (mkIf (cfg.zfs.root.enable && cfg.zfs.root.impermanence) {
@@ -467,7 +467,7 @@ in
         };
       };
     })
-    (mkIf (cfg.zfs.storage.enable && cfg.zfs.storage.disk2 != "" && !cfg.zfs.storage.amReinstalling) {
+    (mkIf (cfg.zfs.storage.enable && cfg.zfs.storage.disk2 != "null" && !cfg.zfs.storage.amReinstalling) {
       disko.devices.disk.two = {
         type = "disk";
         device = "/dev/${zfs.storage.disk2}";
@@ -491,7 +491,7 @@ in
         };
       };
     })
-    (mkIf (cfg.zfs.storage.enable && cfg.zfs.storage.mirror && cfg.zfs.storage.disk2 != "" && !cfg.zfs.storage.amReinstalling) {
+    (mkIf (cfg.zfs.storage.enable && cfg.zfs.storage.mirror && cfg.zfs.storage.disk2 != "null" && !cfg.zfs.storage.amReinstalling) {
       disko.devices.zpool.zstorage.mode = "mirror";
     })
   ];
