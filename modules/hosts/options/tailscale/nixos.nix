@@ -20,5 +20,7 @@ in
       ];
     };
     age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
+    # required for tailscale exit nodes
+    networking.firewall.checkReversePath = "loose";
  };
 }
