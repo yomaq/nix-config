@@ -15,6 +15,8 @@
     boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
+    networking.firewall.checkReversePath = "loose";
+
     yomaq = {
       tailscale = {
         enable = true;
