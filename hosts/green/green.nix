@@ -36,7 +36,6 @@
           hostID = "2C2883D7";
           root = {
             enable = true;
-            encrypt = false;
             disk1 = "nvme0n1";
             disk2 = "nvme1n1";
             impermanenceRoot = true;
