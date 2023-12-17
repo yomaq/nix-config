@@ -377,6 +377,7 @@ in
       fileSystems."/etc/ssh".neededForBoot = true;
       # Needed for impermanence, because we mount /persist/save on /persist, we need to make sure /persist is mounted before /persist/save
       fileSystems."/persist".neededForBoot = true;
+      fileSystems."/persist/save".neededForBoot = true;
     })
     (mkIf (cfg.zfs.root.enable && cfg.zfs.root.impermanenceRoot) {
       boot.initrd.postDeviceCommands =
