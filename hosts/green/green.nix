@@ -29,7 +29,7 @@
       disks = {
         enable = true;
         systemd-boot = true;
-        initrd-ssh.enable = {
+        initrd-ssh = {
           enable = true;
           ethernetDrivers = ["e1000e"];
         };
