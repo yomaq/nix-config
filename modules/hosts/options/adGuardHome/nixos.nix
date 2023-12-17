@@ -17,6 +17,10 @@ in
   };
 
   config = mkIf cfg.enable {
+  environment.persistence."${backup}" = {
+    directories = [
+      { directory = "/var/lib/AdGuardHome"; user = "adguardhome"; group = "adguardhome"; mode = "u=rwx,g=rx,o="; }
+    ];
     services.adguardhome = {
       enable = true;
       allowDHCP = true;
