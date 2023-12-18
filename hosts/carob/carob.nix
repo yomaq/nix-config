@@ -18,7 +18,7 @@
     yomaq = {
       tailscale = {
         enable = true;
-        extraUpFlags = ["--ssh=true" "--reset=true" "--exit-node=100.117.182.70" "--exit-node-allow-lan-access=true" ];
+        extraUpFlags = ["--ssh=true" "--reset=true" "--accept-dns=false" ];
         useRoutingFeatures = "client";
         authKeyFile = null;
       };
