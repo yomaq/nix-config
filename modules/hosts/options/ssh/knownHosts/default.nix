@@ -9,5 +9,8 @@
 
     "azure".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJyHQ6+BRqbiqsK50g5mwkhDHUbh0KVkA6W32UDqV9OD";
     "azure-initrd".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFww5QBVekBnv+NMzRK6L+MIS8XrE6UMVK1xSUv/cHds";
+
+    "teal".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK7JriToIhfbruPxV0TJI9SF2nTKINmlsnSoyDdAVVoY";
+    "teal-initrd".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBX5raO/z+XWBKjOU4JwGvquTMYSgxcg+tCFU3ok5s6H";
     };
 }
