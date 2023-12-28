@@ -40,7 +40,6 @@
           root = {
             enable = true;
             disk1 = "nvme0n1";
-            disk2 = "nvme1n1";
             impermanenceRoot = true;
             impermanenceHome = true;
           };
