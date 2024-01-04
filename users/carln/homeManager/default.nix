@@ -18,7 +18,7 @@
     pkgs.chezmoi
     pkgs.tmuxinator
     pkgs.kubernetes-helm
-    pkgs.agenix
+    # pkgs.agenix
     pkgs.git
     pkgs.gh
   ] ++ (lib.optionals (pkgs.system != "aarch64-darwin") [

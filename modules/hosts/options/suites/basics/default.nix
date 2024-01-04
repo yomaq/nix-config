@@ -22,7 +22,7 @@ in
     environment.systemPackages = with pkgs; [
       vim
       git
-      agenix
+      # agenix
     ];
   };
 }

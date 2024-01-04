@@ -39,6 +39,7 @@ in
         basics.enable = true;
         foundation.enable = true;
       };
+      agenix.enable = lib.mkDefault false;
     };
   };
 }

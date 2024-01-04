@@ -15,6 +15,9 @@
     boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
+    # enable a desktop environment so I can set 1password ssh agent
+    xserver.desktopManager.mate.enable = true;
+
     yomaq = {
       tailscale = {
         enable = true;
