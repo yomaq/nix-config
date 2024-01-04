@@ -16,7 +16,7 @@
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
     # enable a desktop environment so I can set 1password ssh agent
-    services.xserver.desktopManager.mate.enable;
+    services.xserver.desktopManager.mate.enable = true;
 
     yomaq = {
       tailscale = {
