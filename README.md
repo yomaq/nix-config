@@ -35,6 +35,7 @@ nixos-rebuild switch --flake github:yomaq/nix-config
 
 Install Nix on MacOS:
 https://nixos.org/download.html#nix-install-macos
+(not tested, but likely better https://zero-to-nix.com/concepts/nix-installer)
 
 ```
 sh <(curl -L https://nixos.org/nix/install)
