@@ -418,10 +418,33 @@ in
               };
             };
           };
+          two = mkIf (cfg.zfs.storage.disk2 != "null") {
+            type = "disk";
+            device = "/dev/${zfs.storage.disk2}";
+            content = {
+              type = "gpt";
+              partitions = {
+                luks = {
+                  size = "100%";
+                  content = {
+                    type = "luks";
+                    name = "crypted4";
+                    settings.allowDiscards = true;
+                    passwordFile = "/tmp/secret.key";
+                    content = {
+                      type = "zfs";
+                      pool = "zstorage";
+                    };
+                  };
+                };
+              };
+            };
+          };
         };
         zpool = {
           zstorage = {
             type = "zpool";
+            mode = mkIf (cfg.zfs.storage.mirror && cfg.zfs.storage.disk2 != "null") "mirror";
             rootFsOptions = {
               canmount = "off";
               checksum = "edonr";
@@ -448,7 +471,6 @@ in
               };
               storage = {
                 type = "zfs_fs";
-                options.mountpoint = "legacy";
                 mountpoint = "/storage";
                 options = {
                   atime = "off";
@@ -460,33 +482,6 @@ in
           };
         };
       };
-    })
-    (mkIf (cfg.zfs.storage.enable && cfg.zfs.storage.disk2 != "null" && !cfg.zfs.storage.amReinstalling) {
-      disko.devices.disk.two = {
-        type = "disk";
-        device = "/dev/${zfs.storage.disk2}";
-        content = {
-          type = "gpt";
-          partitions = {
-            luks = {
-              size = "100%";
-              content = {
-                type = "luks";
-                name = "crypted4";
-                settings.allowDiscards = true;
-                passwordFile = "/tmp/secret.key";
-                content = {
-                  type = "zfs";
-                  pool = "zstorage";
-                };
-              };
-            };
-          };
-        };
-      };
-    })
-    (mkIf (cfg.zfs.storage.enable && cfg.zfs.storage.mirror && cfg.zfs.storage.disk2 != "null" && !cfg.zfs.storage.amReinstalling) {
-      disko.devices.zpool.zstorage.mode = "mirror";
     })
   ];
 }

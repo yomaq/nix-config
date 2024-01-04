@@ -16,7 +16,6 @@ in
   #Nix Store config, hard linking identical dependancies etc.
       settings = {
         auto-optimise-store = true;
-        sandbox = true;
         allowed-users = [
           "carln"
         ];
