@@ -34,6 +34,7 @@ in
   config = mkMerge [
     (mkIf config.yomaq.syncoid.enable {
       services.syncoid.enable = true;
+      # I believe I need to create the login shell as I am not using the default method of enabling ssh for the user (using tailscale ssh auth instead)
       users.users.syncoid.shell = pkgs.bash;
     })
     (mkIf config.yomaq.syncoid.isBackupServer {
