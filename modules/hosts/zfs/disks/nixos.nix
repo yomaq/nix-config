@@ -223,7 +223,7 @@ in
     })
     (mkIf cfg.zfs.root.enable {
       disko.devices = {
-        disk = (mkIf (cfg.zfs.storage.disks != []) (mkMerge (map ( diskname: {
+        disk = mkMerge [ (mkIf (cfg.zfs.storage.disks != []) (mkMerge (map ( diskname: {
             "${diskname}" = {
               type = "disk";
               device = "/dev/${diskname}";
@@ -292,7 +292,7 @@ in
           };
           two = mkIf (cfg.zfs.root.disk2 != "null") {
             type = "disk";
-            device = "/dev/${zfs.root.disk2}";
+            device = "/dev/${cfg.zfs.root.disk2}";
             content = {
               type = "gpt";
               partitions = {
@@ -311,7 +311,7 @@ in
                 };
               };
             };
-          };});
+          };})];
         zpool = {
           zroot = {
             type = "zpool";
