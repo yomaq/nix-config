@@ -386,7 +386,7 @@ in
           };
           zstorage = mkIf (cfg.zfs.storage.enable && !cfg.zfs.storage.amReinstalling) {
             type = "zpool";
-            mode = mkIf (cfg.zfs.storage.mirror && cfg.zfs.storage.disk2 != "null") "mirror";
+            mode = mkIf (cfg.zfs.storage.mirror) "mirror";
             rootFsOptions = {
               canmount = "off";
               checksum = "edonr";
