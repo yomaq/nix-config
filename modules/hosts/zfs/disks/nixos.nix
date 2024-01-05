@@ -141,7 +141,7 @@ in
         };
         disks = mkOption {
           type = types.listOf types.str;
-          default = "";
+          default = [];
           description = ''
             device names
           '';
