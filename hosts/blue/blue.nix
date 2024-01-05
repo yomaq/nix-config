@@ -24,7 +24,7 @@
       _1password.enable = true;
       tailscale = {
         enable = true;
-        extraUpFlags = ["--ssh=true" "--reset=true" "--exit-node=100.82.151.77" "--exit-node-allow-lan-access=true" ];
+        extraUpFlags = ["--ssh=true" "--reset=true" ];
         useRoutingFeatures = "client";
       };
       gnome.enable = true;
