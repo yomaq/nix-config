@@ -223,7 +223,7 @@ in
     })
     (mkIf cfg.zfs.root.enable {
       disko.devices = {
-        disk = mkMerge (map ( diskname: {
+        disk = (mkMerge (map ( diskname: {
             "${diskname}" = {
               type = "disk";
               device = "/dev/${diskname}";
@@ -246,7 +246,7 @@ in
                 };
               };
             };
-          })cfg.zfs.storage.disks) ++
+          })cfg.zfs.storage.disks)) ++
           ({one = {
             type = "disk";
             device = "/dev/${cfg.zfs.root.disk1}";
