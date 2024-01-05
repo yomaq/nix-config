@@ -223,30 +223,30 @@ in
     })
     (mkIf cfg.zfs.root.enable {
       disko.devices = {
-        disk = (mkMerge (map ( diskname: {
-            "${diskname}" = {
-              type = "disk";
-              device = "/dev/${diskname}";
-              content = {
-                type = "gpt";
-                partitions = {
-                  luks = {
-                    size = "100%";
-                    content = {
-                      type = "luks";
-                      name = "${diskname}";
-                      settings.allowDiscards = true;
-                      passwordFile = "/tmp/secret.key";
-                      content = {
-                        type = "zfs";
-                        pool = "zstorage";
-                      };
-                    };
-                  };
-                };
-              };
-            };
-          })cfg.zfs.storage.disks)) ++
+        disk = #(mkMerge (map ( diskname: {
+          #   "${diskname}" = {
+          #     type = "disk";
+          #     device = "/dev/${diskname}";
+          #     content = {
+          #       type = "gpt";
+          #       partitions = {
+          #         luks = {
+          #           size = "100%";
+          #           content = {
+          #             type = "luks";
+          #             name = "${diskname}";
+          #             settings.allowDiscards = true;
+          #             passwordFile = "/tmp/secret.key";
+          #             content = {
+          #               type = "zfs";
+          #               pool = "zstorage";
+          #             };
+          #           };
+          #         };
+          #       };
+          #     };
+          #   };
+          # })cfg.zfs.storage.disks)) ++
           ({one = {
             type = "disk";
             device = "/dev/${cfg.zfs.root.disk1}";
