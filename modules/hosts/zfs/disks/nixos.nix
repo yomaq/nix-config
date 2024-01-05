@@ -139,18 +139,11 @@ in
             am I reinstalling and want to save the storage pool
           '';
         };
-        disk1 = mkOption {
-          type = types.str;
+        disks = mkOption {
+          type = types.listOf types.str;
           default = "";
           description = ''
-            device name
-          '';
-        };
-        disk2 = mkOption {
-          type = types.str;
-          default = "null";
-          description = ''
-            device name
+            device names
           '';
         };
         reservation = mkOption {
@@ -230,8 +223,8 @@ in
     })
     (mkIf cfg.zfs.root.enable {
       disko.devices = {
-        disk = {
-          one = {
+        disk = mkMerge [
+          ({one = {
             type = "disk";
             device = "/dev/${cfg.zfs.root.disk1}";
             content = {
@@ -295,12 +288,35 @@ in
                 };
               };
             };
-          };
-        };
+          };})
+          (map ( diskname: {
+            "${diskname}" = {
+              type = "disk";
+              device = "/dev/${diskname}";
+              content = {
+                type = "gpt";
+                partitions = {
+                  luks = {
+                    size = "100%";
+                    content = {
+                      type = "luks";
+                      name = "${diskname}";
+                      settings.allowDiscards = true;
+                      passwordFile = "/tmp/secret.key";
+                      content = {
+                        type = "zfs";
+                        pool = "zstorage";
+                      };
+                    };
+                  };
+                };
+              };
+            };
+          })cfg.zfs.storage.disks)];
         zpool = {
           zroot = {
             type = "zpool";
-            mode = mkIf (cfg.zfs.root.mirror && cfg.zfs.root.disk2 != "null") "mirror";
+            mode = mkIf cfg.zfs.root.mirror "mirror";
             rootFsOptions = {
               canmount = "off";
               checksum = "edonr";
@@ -368,81 +384,7 @@ in
               };
             };
           };
-        };
-      };
-      # Needed for agenix.
-        # nixos-anywhere currently has issues with impermanence so agenix keys are lost during the install process.
-        # as such we give /etc/ssh its own zfs dataset rather than using impermanence to save the keys when we wipe the root directory on boot
-        # agenix needs the keys available before the zfs datasets are mounted, so we need this to make sure they are available.
-      fileSystems."/etc/ssh".neededForBoot = true;
-      # Needed for impermanence, because we mount /persist/save on /persist, we need to make sure /persist is mounted before /persist/save
-      fileSystems."/persist".neededForBoot = true;
-      fileSystems."/persist/save".neededForBoot = true;
-    })
-    (mkIf (cfg.zfs.root.enable && cfg.zfs.root.impermanenceRoot) {
-      boot.initrd.postDeviceCommands =
-        #wipe / and /var on boot
-        lib.mkAfter ''
-          zfs rollback -r zroot/root@empty
-      '';
-    })
-    (mkIf (cfg.zfs.root.enable && cfg.zfs.root.impermanenceHome) {
-      #wipe /home on boot
-      boot.initrd.postDeviceCommands =
-        lib.mkAfter ''
-          zfs rollback -r zroot/home@empty
-      '';
-    })
-    (mkIf (cfg.zfs.storage.enable && !cfg.zfs.storage.amReinstalling) {
-      disko.devices = {
-        disk = {
-          one = {
-            type = "disk";
-            device = "/dev/${zfs.storage.disk1}";
-            content = {
-              type = "gpt";
-              partitions = {
-                luks = {
-                  size = "100%";
-                  content = {
-                    type = "luks";
-                    name = "crypted3";
-                    settings.allowDiscards = true;
-                    passwordFile = "/tmp/secret.key";
-                    content = {
-                      type = "zfs";
-                      pool = "zstorage";
-                    };
-                  };
-                };
-              };
-            };
-          };
-          two = mkIf (cfg.zfs.storage.disk2 != "null") {
-            type = "disk";
-            device = "/dev/${zfs.storage.disk2}";
-            content = {
-              type = "gpt";
-              partitions = {
-                luks = {
-                  size = "100%";
-                  content = {
-                    type = "luks";
-                    name = "crypted4";
-                    settings.allowDiscards = true;
-                    passwordFile = "/tmp/secret.key";
-                    content = {
-                      type = "zfs";
-                      pool = "zstorage";
-                    };
-                  };
-                };
-              };
-            };
-          };
-        };
-        zpool = {
-          zstorage = {
+          zstorage = mkIf (cfg.zfs.storage.enable && !cfg.zfs.storage.amReinstalling) {
             type = "zpool";
             mode = mkIf (cfg.zfs.storage.mirror && cfg.zfs.storage.disk2 != "null") "mirror";
             rootFsOptions = {
@@ -478,10 +420,41 @@ in
                   "com.sun:auto-snapshot" = "false";
                 };
               };
+              backups = mkIf config.yomaq.syncoid.isBackupServer {
+                type = "zfs_fs";
+                mountpoint = "/backups";
+                options = {
+                  atime = "off";
+                  canmount = "on";
+                  "com.sun:auto-snapshot" = "false";
+                };
+              };
             };
           };
         };
       };
+      # Needed for agenix.
+        # nixos-anywhere currently has issues with impermanence so agenix keys are lost during the install process.
+        # as such we give /etc/ssh its own zfs dataset rather than using impermanence to save the keys when we wipe the root directory on boot
+        # agenix needs the keys available before the zfs datasets are mounted, so we need this to make sure they are available.
+      fileSystems."/etc/ssh".neededForBoot = true;
+      # Needed for impermanence, because we mount /persist/save on /persist, we need to make sure /persist is mounted before /persist/save
+      fileSystems."/persist".neededForBoot = true;
+      fileSystems."/persist/save".neededForBoot = true;
+    })
+    (mkIf (cfg.zfs.root.enable && cfg.zfs.root.impermanenceRoot) {
+      boot.initrd.postDeviceCommands =
+        #wipe / and /var on boot
+        lib.mkAfter ''
+          zfs rollback -r zroot/root@empty
+      '';
+    })
+    (mkIf (cfg.zfs.root.enable && cfg.zfs.root.impermanenceHome) {
+      #wipe /home on boot
+      boot.initrd.postDeviceCommands =
+        lib.mkAfter ''
+          zfs rollback -r zroot/home@empty
+      '';
     })
   ];
 }

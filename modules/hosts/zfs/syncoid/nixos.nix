@@ -58,14 +58,6 @@ in
         };
       };
     })    
-    (mkIf (config.yomaq.syncoid.isBackupServer && !config.yomaq.disks.zfs.storage.amReinstalling) {
-      disko.devices.zpool.zstorage.datasets.backups = {
-        type = "zfs_fs";
-        options.mountpoint = "legacy";
-        # mountpoint = "none";
-        options."com.sun:auto-snapshot" = "false";
-      };
-    })
     {services.syncoid = mkIf config.yomaq.syncoid.isBackupServer (mkMerge (map ( hostName: {
         commands = {
           "${hostName}Save" = {
