@@ -1,9 +1,10 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, modulesPath, ... }:
 {
   imports =[
     # import custom modules
     inputs.self.nixosModules.yomaq
     # import hardware
+    (modulesPath + "/installer/scan/not-detected.nix")
     inputs.nixos-hardware.nixosModules.lenovo-legion-15ach6
     # import users
     (inputs.self + /users/admin)
