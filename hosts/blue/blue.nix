@@ -52,7 +52,7 @@
             reservation = "200G";
             mirror = true;
             impermanenceRoot = true;
-            impermanenceHome = true;
+            # impermanenceHome = true;
           };
         };
       };
