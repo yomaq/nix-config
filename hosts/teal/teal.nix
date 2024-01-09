@@ -5,7 +5,6 @@
     inputs.self.nixosModules.yomaq
     # import users
     (inputs.self + /users/admin)
-    (inputs.self + /users/carln)
     # hardware
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-cpu-intel-cpu-only
@@ -18,16 +17,13 @@
     yomaq = {
       autoUpgrade.enable = true;
       primaryUser.users = [ "carln" "admin" ];
-      _1password.enable = true;
       tailscale = {
         enable = true;
-        extraUpFlags = ["--ssh=true" "--reset=true" "--exit-node=100.82.151.77" "--exit-node-allow-lan-access=true" ];
-        useRoutingFeatures = "client";
+        extraUpFlags = ["--ssh=true" "--reset=true"];
+        useRoutingFeatures = "server";
       };
-      gnome.enable = true;
-      scripts.enable = true;
-      flatpak.enable = true;
       timezone.central= true;
+      syncoid.enable = true;
       suites = {
         basics.enable = true;
         foundation.enable = true;
