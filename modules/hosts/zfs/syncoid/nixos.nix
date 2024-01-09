@@ -45,7 +45,7 @@ in
       users.users.syncoid.shell = pkgs.bash;
       # give syncoid user access to send and hold snapshots
       systemd.services = (mkMerge (map (dataset: {
-          "syncoid-zfs-allow-${dataset}" = {
+          "syncoid-zfs-allow" = {
             serviceConfig.ExecStart = "${pkgs.zfs}/bin/zfs allow -u syncoid send,hold ${dataset}";
           };
         })cfg.datasets));
