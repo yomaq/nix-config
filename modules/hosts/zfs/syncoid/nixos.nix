@@ -37,7 +37,7 @@ in
       # I believe I need to create the login shell as I am not using the default method of enabling ssh for the user (using tailscale ssh auth instead)
       users.users.syncoid.shell = pkgs.bash;
       # give syncoid user access to send and hold snapshots from all datasets (doesnt appear to be a built in way to specify what datasets to allow)
-      services.syncoid.localSourceAllow = ["hold" "send"];
+      services.syncoid.localSourceAllow = ["hold" "send" "snapshot"];
     })
     (mkIf config.yomaq.syncoid.isBackupServer {
       services.syncoid = {
