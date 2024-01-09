@@ -31,6 +31,7 @@
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
       timezone.central= true;
+      syncoid.enable = true;
       suites = {
         basics.enable = true;
         foundation.enable = true;

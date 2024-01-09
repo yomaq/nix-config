@@ -11,7 +11,7 @@ in
   options.yomaq.syncoid = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = false;
       description = ''
         enable zfs syncoid module
       '';
