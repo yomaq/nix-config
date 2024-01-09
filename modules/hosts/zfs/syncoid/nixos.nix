@@ -30,6 +30,13 @@ in
         exclude hosts from backup
       '';
     };
+    datasets = mkOption {
+      type = types.listOf types.str;
+      default = ["zroot/persistSave"];
+      description = ''
+        list of datasets syncoid has access to on client
+      '';
+    };
   };
   config = mkMerge [
     (mkIf config.yomaq.syncoid.enable {
