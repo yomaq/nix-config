@@ -58,6 +58,7 @@ in
       services.syncoid = {
         enable = true;
         interval = "daily";
+        commonArgs = ["--no-sync-snap"];
         commands."${thisHost}Save" = {
           source = "zroot/persistSave";
           target = "zstorage/backups/${thisHost}";
