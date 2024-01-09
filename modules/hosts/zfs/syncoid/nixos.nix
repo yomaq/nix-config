@@ -6,6 +6,7 @@ let
   thisHost =  config.networking.hostName;
   allNixosHosts = builtins.attrNames inputs.self.nixosConfigurations;
   nixosHosts = lists.subtractLists (cfg.exclude ++ [thisHost]) allNixosHosts;
+  replaceChar = str: builtins.replaceStrings ["/"] ["-"] str;
 in
 {
   options.yomaq.syncoid = {
@@ -45,10 +46,10 @@ in
       users.users.syncoid.shell = pkgs.bash;
       # give syncoid user access to send and hold snapshots
       systemd.services = (mkMerge (map (dataset: {
-          "syncoid-zfs-allow" = {
+          "syncoid-zfs-allow-${dataset}" = {
             serviceConfig.ExecStart = "${pkgs.zfs}/bin/zfs allow -u syncoid send,hold ${dataset}";
           };
-        })cfg.datasets));
+        })(map replaceChar cfg.datasets)));
       # # wipe zfs allow permissions
       # systemd.services.syncoid-zfs-unallow 
     })
