@@ -19,7 +19,7 @@
       primaryUser.users = [ "carln" "admin" ];
       tailscale = {
         enable = true;
-        extraUpFlags = ["--ssh=true" "--reset=true"];
+        extraUpFlags = ["--ssh=true" "--reset=true" "--advertise-exit-node"];
         useRoutingFeatures = "server";
       };
       timezone.central= true;
