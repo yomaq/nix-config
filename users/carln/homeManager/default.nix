@@ -1,6 +1,7 @@
 { inputs, lib, config, pkgs, ... }: {
   imports = [
     inputs.self.homeManagerModules.yomaq
+    inputs.nix-index-database.hmModules.nix-index
     ./dotfiles
     ];
 # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
@@ -21,7 +22,6 @@
     # pkgs.agenix
     pkgs.git
     pkgs.gh
-    pkgs.comma
   ] ++ (lib.optionals (pkgs.system != "aarch64-darwin") [
 ### nixos specific packages
     pkgs.trayscale
@@ -30,6 +30,9 @@
     pkgs.brave
     # pkgs.obsidian
   ]);
+  programs = {
+    nix-index-database.comma.enable = true;
+  };
   yomaq = {
     zsh.enable = true;
     vscode.enable = true;
