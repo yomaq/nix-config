@@ -62,21 +62,21 @@ in
         ];
       };
 ### test container
-      "${NAME}test" = {
-        image = "traefik/whoami:latest";
-        autoStart = true;
-        environment = { };
-        cmd = [ ];
-        ports = [];
-        volumes = [ ];
-        extraOptions = [ ];
-        labels = {
-          "traefik.enable" = "true";
-          "traefik.http.routers.whoami.rule" = "Host(`whoami.${hostName}.${tailnetName}.ts.net`)";
-          "traefik.http.routers.whoami.entrypoints" = "websecure";
-          "traefik.http.routers.whoami.tls.certresolver" = "tailscale";
-        };
-      };
+      # "${NAME}test" = {
+      #   image = "traefik/whoami:latest";
+      #   autoStart = true;
+      #   environment = { };
+      #   cmd = [ ];
+      #   ports = [];
+      #   volumes = [ ];
+      #   extraOptions = [ ];
+      #   labels = {
+      #     "traefik.enable" = "true";
+      #     "traefik.http.routers.whoami.rule" = "Host(`whoami.${hostName}.${tailnetName}.ts.net`)";
+      #     "traefik.http.routers.whoami.entrypoints" = "websecure";
+      #     "traefik.http.routers.whoami.tls.certresolver" = "tailscale";
+      #   };
+      # };
     };
   };
 }

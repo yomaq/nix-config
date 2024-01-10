@@ -209,6 +209,12 @@ in
           "--pull=always"
           "--link=DB${NAME}:DB${NAME}"
         ];
+        labels = {
+          "traefik.enable" = "true";
+          "traefik.http.routers.whoami.rule" = "Host(${hostName}.${tailnetName}.ts.net`)";
+          "traefik.http.routers.whoami.entrypoints" = "websecure";
+          "traefik.http.routers.whoami.tls.certresolver" = "tailscale";
+        };
       };
     };
   };
