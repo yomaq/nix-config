@@ -19,6 +19,7 @@ in
         "/var/lib/tailscale"
       ];
     };
+    yomaq.tailscale.tailnetName = "sable-chimaera";
     age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
  };
 }

@@ -37,7 +37,7 @@ in
     };
     tailnetName = mkOption {
       type = types.str;
-      default = "sable-chimaera";
+      default = "";
       description = ''
         The name of the tailnet
       '';
