@@ -24,7 +24,8 @@
       tailscale = {
         enable = true;
         extraUpFlags = ["--ssh=true" "--reset=true" ];
-        useRoutingFeatures = "server";
+        # setting this appears to break docker's dns
+        # useRoutingFeatures = "server";
       };
       docker.enable = true;
       pods = {
