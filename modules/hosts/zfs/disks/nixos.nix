@@ -407,7 +407,7 @@ in
                 options = {
                   canmount = "off";
                   mountpoint = "none";
-                  reservation = "${zfs.storage.reservation}";
+                  reservation = "${cfg.zfs.storage.reservation}";
                 };
                 type = "zfs_fs";
               };
