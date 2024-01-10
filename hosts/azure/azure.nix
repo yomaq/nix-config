@@ -65,8 +65,6 @@
             disks = [ "sda" "sdb" ];
             reservation = "1500G";
             mirror = true;
-            # enable amReinstalling to allow for reinstallation without wiping storage drives
-            # amReinstalling = true;
           };
         };
       };
