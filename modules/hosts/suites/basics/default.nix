@@ -6,7 +6,6 @@ let
 in
 {
   imports = [
-    inputs.nix-index-database.nixosModules.nix-index
   ];
   options.yomaq.suites.basics = {
     enable = mkOption {
