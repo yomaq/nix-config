@@ -32,6 +32,7 @@
       docker.enable = true;
       pods = {
         valheim.enable = true;
+        minecraft.enable = true;
       };
 
       # disk configuration
