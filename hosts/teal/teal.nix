@@ -17,9 +17,7 @@
     networking.useDHCP = lib.mkDefault true;
     boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-
-    environment.systemPackages = with pkgs; [ pkgs."${inputs.self.nixosConfigurations.green.config.yomaq.test.cowsay123}"];
-
+    
     yomaq = {
       autoUpgrade.enable = true;
       primaryUser.users = [ "carln" "admin" ];
