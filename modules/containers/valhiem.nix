@@ -5,7 +5,7 @@ let
   ### Set container name and image
   NAME = "valheim";
   IMAGE = "ghcr.io/lloesche/valheim-server";
-  # tailscaleIMAGE = "ghcr.io/tailscale/tailscale";
+  tailscaleIMAGE = "ghcr.io/tailscale/tailscale";
 
 
   cfg = config.yomaq.pods.${NAME};
@@ -43,43 +43,43 @@ in
         container image version
       '';
     };
-    # tailscale = {
-    #   agenixSecret = mkOption {
-    #     type = types.path;
-    #     default = (inputs.self + /secrets/tailscaleEnvFile.age);
-    #     description = ''
-    #       path to agenix secret file
-    #     '';
-    #   };
-    #   imageVersion = mkOption {
-    #     type = types.str;
-    #     default = "latest";
-    #     description = ''
-    #       container image version
-    #     '';
-    #   };
-    #   TSargs = mkOption {
-    #     type = types.str;
-    #     default = "--ssh=true";
-    #     description = ''
-    #       TS_Extra_ARGS env var
-    #     '';
-    #   };
-    #   TShostname = mkOption {
-    #     type = types.str;
-    #     default = "${hostName}-${NAME}";
-    #     description = ''
-    #       TS_HOSTNAME env var
-    #     '';
-    #   };
-    #   volumeLocation = mkOption {
-    #     type = types.str;
-    #     default = "${dontBackup}/containers/${NAME}";
-    #     description = ''
-    #       path to store container volumes
-    #     '';
-    #   };
-    # };
+    tailscale = {
+      agenixSecret = mkOption {
+        type = types.path;
+        default = (inputs.self + /secrets/tailscaleEnvFile.age);
+        description = ''
+          path to agenix secret file
+        '';
+      };
+      imageVersion = mkOption {
+        type = types.str;
+        default = "latest";
+        description = ''
+          container image version
+        '';
+      };
+      TSargs = mkOption {
+        type = types.str;
+        default = "--ssh=true";
+        description = ''
+          TS_Extra_ARGS env var
+        '';
+      };
+      TShostname = mkOption {
+        type = types.str;
+        default = "${hostName}-${NAME}";
+        description = ''
+          TS_HOSTNAME env var
+        '';
+      };
+      volumeLocation = mkOption {
+        type = types.str;
+        default = "${dontBackup}/containers/${NAME}";
+        description = ''
+          path to store container volumes
+        '';
+      };
+    };
   };
 
 
@@ -89,7 +89,7 @@ in
 
     ### agenix secrets for container
     # age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
-    # age.secrets."tailscaleEnvFile".file = cfg.tailscale.agenixSecret;
+    age.secrets."tailscaleEnvFile".file = cfg.tailscale.agenixSecret;
 
   # make the directories where the volumes are stored
   # it says "tmpfiles" but we don't add rules to remove the tmp file, so its... not tmp?
@@ -100,37 +100,37 @@ in
       "d ${cfg.volumeLocation}/data 0755 root root"
       "d ${cfg.volumeLocation}/config 0755 root root"
       # # tailscale
-      # "d ${cfg.tailscale.volumeLocation}/TSdata-lib 0755 root root"
-      # "d ${cfg.tailscale.volumeLocation}/TSdev-net-tun 0755 root root"
+      "d ${cfg.tailscale.volumeLocation}/TSdata-lib 0755 root root"
+      "d ${cfg.tailscale.volumeLocation}/TSdev-net-tun 0755 root root"
     ];
 
 
     virtualisation.oci-containers.containers = {
 ### tailscale container
-      # "TS${NAME}" = {
-      #   image = "${tailscaleIMAGE}:${cfg.tailscale.imageVersion}";
-      #   autoStart = true;
-      #   environment = {
-      #   "TS_HOSTNAME" =cfg.tailscale.TShostname;
-      #   "TS_STATE_DIR"= "/var/lib/tailscale";
-      #   "TS_EXTRA_ARGS" = cfg.tailscale.TSargs;
-      #   "TS_ACCEPT_DNS" = "true";
-      #   };
-      #   environmentFiles = [
-      #     # need to set "TS_AUTHKEY=key" in agenix and import here
-      #     config.age.secrets."tailscaleEnvFile".path
-      #   ];
-      #   volumes = [
-      #     "${cfg.tailscale.volumeLocation}/TSdata-lib:/var/lib"
-      #     "${cfg.tailscale.volumeLocation}/TSdev-net-tun:/dev/net/tun"
-      #   ];
-      #   extraOptions = [
-      #     "--pull=always"
-      #     "--network=host"
-      #     "--cap-add=NET_ADMIN"
-      #     "--cap-add=NET_RAW"
-      #   ];
-      # };
+      "TS${NAME}" = {
+        image = "${tailscaleIMAGE}:${cfg.tailscale.imageVersion}";
+        autoStart = true;
+        environment = {
+        "TS_HOSTNAME" =cfg.tailscale.TShostname;
+        "TS_STATE_DIR"= "/var/lib/tailscale";
+        "TS_EXTRA_ARGS" = cfg.tailscale.TSargs;
+        "TS_ACCEPT_DNS" = "true";
+        };
+        environmentFiles = [
+          # need to set "TS_AUTHKEY=key" in agenix and import here
+          config.age.secrets."tailscaleEnvFile".path
+        ];
+        volumes = [
+          "${cfg.tailscale.volumeLocation}/TSdata-lib:/var/lib"
+          "${cfg.tailscale.volumeLocation}/TSdev-net-tun:/dev/net/tun"
+        ];
+        extraOptions = [
+          "--pull=always"
+          "--network=host"
+          "--cap-add=NET_ADMIN"
+          "--cap-add=NET_RAW"
+        ];
+      };
 
 
 ### main container
@@ -153,7 +153,7 @@ in
         extraOptions = [
           "--pull=always"
           "--cap-add=sys_nice"
-          # "--network=container:TS${NAME}"
+          "--network=container:TS${NAME}"
         ];
       };
     };
