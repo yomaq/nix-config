@@ -5,6 +5,9 @@ let
   cfg = config.yomaq.suites.basics;
 in
 {
+  imports = [
+    nix-index-database.nixosModules.nix-index
+  ];
   options.yomaq.suites.basics = {
     enable = mkOption {
       type = types.bool;
