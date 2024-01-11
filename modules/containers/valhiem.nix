@@ -153,7 +153,7 @@ in
           "SERVER_NAME" = "itIsValhiem";
           "SERVER_PASS" = "";
           "SERVER_PUBLIC" = "false";
-          "VALHEIM_PLUS" = "true";
+          # "VALHEIM_PLUS" = "true";
         };
         # environmentFiles = [
         #   config.age.secrets."${NAME}EnvFile".path
