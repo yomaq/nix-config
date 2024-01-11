@@ -143,9 +143,9 @@ in
           "SERVER_PUBLIC" = "false";
           "SERVER_ARGS" = "-crossplay";
         };
-        environmentFiles = [
-          config.age.secrets."${NAME}EnvFile".path
-        ];
+        # environmentFiles = [
+        #   config.age.secrets."${NAME}EnvFile".path
+        # ];
         volumes = [
           "${cfg.volumeLocation}/config:/config"
           "${cfg.volumeLocation}/data:/opt/valheim"
