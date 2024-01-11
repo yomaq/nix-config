@@ -4,7 +4,7 @@ with lib;
 let
   ### Set container name and image
   NAME = "valheim";
-  IMAGE = "docker.io/lloesche/valheim-server";
+  IMAGE = "ghcr.io/lloesche/valheim-server";
   # tailscaleIMAGE = "ghcr.io/tailscale/tailscale";
 
 
