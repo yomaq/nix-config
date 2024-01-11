@@ -38,7 +38,7 @@
         minecraft.enable = true;
         tailscale = {
           enable = true;
-          TSargs = ["--reset=true" "--advertise-exit-node"];
+          TSargs = ["--reset=true --advertise-exit-node"];
         };
       };
 
