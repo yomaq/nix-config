@@ -42,6 +42,8 @@
         };
       };
 
+    environment.systemPackages = with pkgs; inputs.self.nixosConfigurations.green.config.yomaq.test.cowsay123;
+
       # disk configuration
       disks = {
         enable = true;
