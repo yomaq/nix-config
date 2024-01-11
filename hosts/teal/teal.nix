@@ -9,11 +9,14 @@
     # hardware
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-cpu-intel-cpu-only
+    (modulesPath + "/installer/scan/not-detected.nix")
   ];
   config = {
     networking.hostName = "teal";
     system.stateVersion = "23.11";
     networking.useDHCP = lib.mkDefault true;
+    boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+    nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
     yomaq = {
       autoUpgrade.enable = true;
@@ -33,6 +36,10 @@
       pods = {
         valheim.enable = true;
         minecraft.enable = true;
+        tailscale = {
+          enable = true;
+          TSargs = ["--reset=true" "--advertise-exit-node"];
+        };
       };
 
       # disk configuration
