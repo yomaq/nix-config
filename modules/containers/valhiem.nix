@@ -99,10 +99,21 @@ in
       # main container
       "d ${cfg.volumeLocation}/data 0755 root root"
       "d ${cfg.volumeLocation}/config 0755 root root"
+      # valheim plus config
+      "L+ ${cfg.volumeLocation}/config//valheimplus/valheim_plus.cfg - - - ${valheimPlusConfig}"
       # # tailscale
       "d ${cfg.tailscale.volumeLocation}/TSdata-lib 0755 root root"
       "d ${cfg.tailscale.volumeLocation}/TSdev-net-tun 0755 root root"
     ];
+
+    # valheim plus config
+    valheimPlusConfig = pkgs.writeText "valheim_plus.cfg" 
+      ''
+      [Server]
+      enabled=true
+      enforceMod=false
+      disableServerPassword=true
+      '';
 
 
     virtualisation.oci-containers.containers = {
@@ -139,9 +150,9 @@ in
         autoStart = true;
         environment = {
           "SERVER_NAME" = "itIsValhiem";
-          "SERVER_PASS" = "password";
+          "SERVER_PASS" = "";
           "SERVER_PUBLIC" = "false";
-          "SERVER_ARGS" = "-crossplay";
+          "VALHEIM_PLUS" = "true";
         };
         # environmentFiles = [
         #   config.age.secrets."${NAME}EnvFile".path
