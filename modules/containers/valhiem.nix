@@ -12,6 +12,7 @@ let
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.impermanence) dontBackup;
+
 in
 {
   options.yomaq.pods.${NAME} = {
@@ -41,6 +42,18 @@ in
       default = "latest";
       description = ''
         container image version
+      '';
+    };
+    valheimPlusConfig = mkOption {
+      type = types.str;
+      default = ''
+        [Server]
+        enabled=true
+        enforceMod=false
+        disableServerPassword=true
+      '';
+      description = ''
+        valheim plus config
       '';
     };
     tailscale = {
@@ -92,28 +105,16 @@ in
     age.secrets."tailscaleEnvFile".file = cfg.tailscale.agenixSecret;
 
   # make the directories where the volumes are stored
-  # it says "tmpfiles" but we don't add rules to remove the tmp file, so its... not tmp?
-  # https://discourse.nixos.org/t/creating-directories-and-files-declararively/9349
-  # storing volumes in the nix directory because we assume impermanance is wiping root
     systemd.tmpfiles.rules = [
       # main container
       "d ${cfg.volumeLocation}/data 0755 root root"
       "d ${cfg.volumeLocation}/config 0755 root root"
       # valheim plus config
-      "L+ ${cfg.volumeLocation}/config//valheimplus/valheim_plus.cfg - - - ${valheimPlusConfig}"
+      "L+ ${cfg.volumeLocation}/config//valheimplus/valheim_plus.cfg - - - ${(pkgs.writeText "valheim_plus.cfg" cfg.valheimPlusConfig)}"
       # # tailscale
       "d ${cfg.tailscale.volumeLocation}/TSdata-lib 0755 root root"
       "d ${cfg.tailscale.volumeLocation}/TSdev-net-tun 0755 root root"
     ];
-
-    # valheim plus config
-    valheimPlusConfig = pkgs.writeText "valheim_plus.cfg" 
-      ''
-      [Server]
-      enabled=true
-      enforceMod=false
-      disableServerPassword=true
-      '';
 
 
     virtualisation.oci-containers.containers = {
