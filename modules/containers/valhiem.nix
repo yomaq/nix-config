@@ -110,7 +110,7 @@ in
       "d ${cfg.volumeLocation}/data 0755 root root"
       "d ${cfg.volumeLocation}/config 0755 root root"
       # valheim plus config
-      "L+ ${cfg.volumeLocation}/config//valheimplus/valheim_plus.cfg - - - ${(pkgs.writeText "valheim_plus.cfg" cfg.valheimPlusConfig)}"
+      "L+ ${cfg.volumeLocation}/config/valheimplus/valheim_plus.cfg - - - ${(pkgs.writeText "valheim_plus.cfg" cfg.valheimPlusConfig)}"
       # # tailscale
       "d ${cfg.tailscale.volumeLocation}/TSdata-lib 0755 root root"
       "d ${cfg.tailscale.volumeLocation}/TSdev-net-tun 0755 root root"
