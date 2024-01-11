@@ -18,6 +18,8 @@
     boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
+    environment.systemPackages = with pkgs; inputs.self.nixosConfigurations.green.config.yomaq.test.cowsay123;
+
     yomaq = {
       autoUpgrade.enable = true;
       primaryUser.users = [ "carln" "admin" ];
@@ -41,8 +43,6 @@
           TSargs = "--reset=true --advertise-exit-node";
         };
       };
-
-    environment.systemPackages = with pkgs; inputs.self.nixosConfigurations.green.config.yomaq.test.cowsay123;
 
       # disk configuration
       disks = {
