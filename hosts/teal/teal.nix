@@ -28,6 +28,11 @@
         basics.enable = true;
         foundation.enable = true;
       };
+      docker.enable = true;
+      pods = {
+        valheim.enable = true;
+      };
+
       # disk configuration
       disks = {
         enable = true;
