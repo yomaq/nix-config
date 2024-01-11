@@ -153,7 +153,6 @@ in
         extraOptions = [
           "--pull=always"
           "--cap-add=sys_nice"
-          "--stop-timeout 120"
           # "--network=container:TS${NAME}"
         ];
       };
