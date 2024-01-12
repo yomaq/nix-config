@@ -153,6 +153,7 @@ in
           "SERVER_NAME" = "itIsValhiem";
           "SERVER_PASS" = "";
           "SERVER_PUBLIC" = "false";
+          "SERVER_ARGS" = "-preset hard -modifiers combat hard deathpenalty casual raids less portals casual resources more";
           # "VALHEIM_PLUS" = "true";
         };
         # environmentFiles = [
