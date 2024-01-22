@@ -1,4 +1,7 @@
 { config, lib, pkgs, modulesPath, inputs, ... }:
+let
+  inherit (config.yomaq.impermanence) dontBackup;
+in
 {
   imports =
     [
@@ -17,6 +20,19 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI"
       ];
     packages = with pkgs; [];
+  };
+
+  environment.persistence."${dontBackup}/carln" = {
+    users.carln = {
+      directories = [
+        "nix"
+        "documents"
+        ".config"
+        ".local"
+        ".vscode"
+        ".1password"
+      ];
+    };
   };
 
   home-manager = {
