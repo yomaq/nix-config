@@ -32,7 +32,6 @@ in
         ".local"
       ];
     files = [
-      ".gitconfig"
     ];
     };
   };
