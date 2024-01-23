@@ -30,9 +30,10 @@ in
         ".var"
         ".config"
         ".local"
-        ".gitconfig"
-        "1password"
       ];
+    files = [
+      ".gitconfig"
+    ];
     };
   };
 
