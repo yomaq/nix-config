@@ -27,6 +27,11 @@ in
       directories = [
         "nix"
         "documents"
+        ".var"
+        ".config"
+        ".local"
+        ".gitconfig"
+        "1password"
       ];
     };
   };
