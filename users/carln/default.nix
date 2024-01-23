@@ -1,5 +1,7 @@
 { config, lib, pkgs, modulesPath, inputs, ... }:
-
+let
+  inherit (config.yomaq.impermanence) dontBackup;
+in
 {
   imports =
     [
@@ -20,7 +22,14 @@
     packages = with pkgs; [];
   };
 
-
+  environment.persistence."${dontBackup}" = {
+    users.carln = {
+      directories = [
+        "nix"
+        "documents"
+      ];
+    };
+  };
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
