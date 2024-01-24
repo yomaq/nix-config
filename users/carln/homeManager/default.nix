@@ -1,7 +1,7 @@
 { inputs, lib, config, pkgs, ... }: {
   imports = [
     inputs.self.homeManagerModules.yomaq
-    inputs.nix-index-database.hmModules.nix-index
+    # inputs.nix-index-database.hmModules.nix-index
     ./dotfiles
     ];
 # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
@@ -31,7 +31,7 @@
     # pkgs.obsidian
   ]);
   programs = {
-    nix-index-database.comma.enable = true;
+    # nix-index-database.comma.enable = true;
     git = {
       enable = true;
       userEmail = "112864332+yomaq@users.noreply.github.com";
