@@ -31,7 +31,6 @@
     # pkgs.obsidian
   ]);
   programs = {
-    # nix-index-database.comma.enable = true;
     git = {
       enable = true;
       userEmail = "112864332+yomaq@users.noreply.github.com";
@@ -42,5 +41,6 @@
     zsh.enable = true;
     vscode.enable = true;
     gnomeOptions.enable = true;
+    comma.enable = true;
   };
 }

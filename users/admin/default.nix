@@ -28,20 +28,20 @@ in
       commands = [ { command = "ALL"; options = [ "NOPASSWD" ]; } ];
     }
   ];
-  # packages to make available to admin
-  users.users.admin.packages = with pkgs; [
-    git
-    vim
-    gh
-    agenix
-    tailscale
-  ];
   environment.persistence."${dontBackup}" = {
     users.admin = {
       directories = [
         "nix"
         "documents"
       ];
+    };
+  };
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      # Import your home-manager configuration
+      admin = import ./homeManager;
     };
   };
 }
