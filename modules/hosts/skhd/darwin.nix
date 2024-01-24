@@ -20,7 +20,7 @@ in
       skhd = {
         enable = true;
         skhdConfig = ''
-          shift + cmd - return  : alacritty
+          alt + cmd - return  : open -na ${pkgs.alacritty}/Applications/Alacritty.app
         '';
       };
     };
