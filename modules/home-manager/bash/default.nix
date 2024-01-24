@@ -18,7 +18,28 @@ in
       bash = {
         enable = true;
         enableCompletion = true;
-        initExtra = "";
+        profileExtra = ''
+        # Commands that should be applied only for interactive shells.
+        [[ $- == *i* ]] || return
+
+        HISTFILESIZE=100000
+        HISTSIZE=10000
+
+        shopt -s histappend
+        shopt -s checkwinsize
+        shopt -s extglob
+        shopt -s globstar
+        shopt -s checkjobs
+
+
+        #defaults
+        export EDITOR=vim
+
+        #auto completion
+        source <(kubectl completion bash)
+        alias k=kubectl
+        complete -o default -F __start_kubectl k
+        '';
       };
     };
  };
