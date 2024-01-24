@@ -3,7 +3,9 @@ let
   inherit (config.yomaq.impermanence) dontBackup;
 in
 {
-  imports = [];
+  imports = [
+    nix-index-database.nixosModules.nix-index
+  ];
 
   yomaq.ssh.enable = true;
   # Force all user accounts to require nix configuration, any manual changes to users will be lost
@@ -36,6 +38,7 @@ in
     agenix
     tailscale
   ];
+  programs.nix-index-database.comma.enable = true;
   environment.persistence."${dontBackup}" = {
     users.admin = {
       directories = [
