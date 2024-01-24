@@ -12,6 +12,7 @@ in
   users.mutableUsers = false;
 
   users.users.carln = {
+    shell = pkgs.zsh;
     isNormalUser = true;
     description = "carln";
     hashedPasswordFile = config.age.secrets.carln.path;
