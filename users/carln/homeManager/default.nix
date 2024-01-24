@@ -41,5 +41,6 @@
     suites.basic.enable = true;
     gnomeOptions.enable = true;
     vscode.enable = true;
+    alacritty.enable = true;
   };
 }
