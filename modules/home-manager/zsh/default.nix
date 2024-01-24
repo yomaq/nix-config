@@ -20,7 +20,7 @@ in
       enable = true;
       enableAutosuggestions = true;
       enableCompletion = true;
-      initExtra = "for FILE in ~/.zshrcs/*; do source $FILE; done";
+      syntaxHighlighting.enable = true;
       oh-my-zsh = {
         enable = true;
         theme = "darkblood";
@@ -28,6 +28,10 @@ in
           "kubectl" 
         ];
       };
+      envExtra = ''
+      EDITOR=vim
+      ${lib.optionals (pkgs.system == "aarch64-darwin") "export PATH=/opt/homebrew/bin:$PATH"}
+      '';
     };
   };
 }
