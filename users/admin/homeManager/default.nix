@@ -18,6 +18,6 @@
     };
   };
   yomaq = {
-    comma.enable = true;
+    suites.basic.enable = true;
   };
 }

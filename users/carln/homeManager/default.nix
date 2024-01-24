@@ -38,9 +38,8 @@
     };
   };
   yomaq = {
-    zsh.enable = true;
-    vscode.enable = true;
+    suites.basic.enable = true;
     gnomeOptions.enable = true;
-    comma.enable = true;
+    vscode.enable = true;
   };
 }
