@@ -29,8 +29,8 @@ in
         ];
       };
       envExtra = ''
-      EDITOR=vim
-      ${lib.optionals (pkgs.system == "aarch64-darwin") "export PATH=/opt/homebrew/bin:$PATH"}
+          EDITOR=vim
+          ${lib.optionalString (pkgs.system == "aarch64-darwin") "export PATH=/opt/homebrew/bin:$PATH"}
       '';
     };
   };
