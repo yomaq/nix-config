@@ -12,6 +12,7 @@ let
 in
 {
   "carln.age".publicKeys = [ green ] ++ all;
+  "ryn.age".publicKeys = [ blue ];
   "encrypt.age".publicKeys = all;
   "tailscaleKey.age".publicKeys = [ green azure ] ++ all;
   "tailscaleEnvFile.age".publicKeys = [ green azure ] ++ all;

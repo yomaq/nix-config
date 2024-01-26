@@ -9,6 +9,7 @@
     # import users
     (inputs.self + /users/admin)
     (inputs.self + /users/carln)
+    (inputs.self + /users/ryn)
   ];
   config = {
     networking.hostName = "blue";
