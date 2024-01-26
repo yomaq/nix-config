@@ -28,6 +28,8 @@ in
         pkgs.vscode-extensions.github.copilot
         pkgs.vscode-extensions.ms-python.python
         pkgs.vscode-extensions.github.copilot-chat
+        pkgs.vscode-extensions.tailscale.vscode-tailscale
+        pkgs.vscode-extensions.eamodio.gitlens
       ];
       userSettings = {
         "[nix]"."editor.tabSize" = 2;
