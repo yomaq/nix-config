@@ -17,7 +17,7 @@ in
 
   config = mkIf cfg.enable {
     programs.vscode = {
-      package = pkgs.vscode;
+      package = pkgs.unstable.vscode;
       enable = true;
       enableUpdateCheck = false;
       enableExtensionUpdateCheck = false;
