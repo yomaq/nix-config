@@ -148,6 +148,10 @@ in
             COMMUNITY = "false"; # Enable this if you want your server to show up in the community servers tab, USE WITH SERVER_PASSWORD!
             SERVER_NAME = "World of Pals";
             SERVER_DESCRIPTION = "Awesome World of Pal";
+            # server settings
+            "DEATH_PENALTY" = "Item";
+            "EXP_RATE" = "2";
+            "DIFFICULTY" = "diffucult";
         };
         environmentFiles = [
           # config.age.secrets."${NAME}EnvFile".path
