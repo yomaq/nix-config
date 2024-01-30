@@ -34,8 +34,9 @@
       };
       docker.enable = true;
       pods = {
-        valheim.enable = true;
-        minecraft.enable = true;
+        # valheim.enable = true;
+        # minecraft.enable = true;
+        palworld.enable = true;
         tailscale = {
           enable = true;
           TSargs = "--reset=true --advertise-exit-node";
