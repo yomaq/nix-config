@@ -194,6 +194,7 @@ in
           "ENABLE_DEFENSE_OTHER_GUILD_PLAYER" = "false";
           "COOP_PLAYER_MAX_NUM" = "6";
           "MAX_PLAYERS" = "6";
+          "PUBLIC_PORT" = "8211";
         };
         environmentFiles = [
           config.age.secrets."${NAME}EnvFile".path
