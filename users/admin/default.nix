@@ -3,7 +3,9 @@ let
   inherit (config.yomaq.impermanence) dontBackup;
 in
 {
-  imports = [];
+  imports = [
+    inputs.self.homeManagerModules.yomaq
+  ];
 
   yomaq.ssh.enable = true;
   # Force all user accounts to require nix configuration, any manual changes to users will be lost
