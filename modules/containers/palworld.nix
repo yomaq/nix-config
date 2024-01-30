@@ -95,7 +95,7 @@ in
   # make the directories where the volumes are stored
     systemd.tmpfiles.rules = [
       # main container
-      "d ${cfg.volumeLocation}/palworld 0755 root root"
+      "d ${cfg.volumeLocation}/palworld 0766 root root"
       # # tailscale
       "d ${cfg.tailscale.volumeLocation}/TSdata-lib 0755 root root"
       "d ${cfg.tailscale.volumeLocation}/TSdev-net-tun 0755 root root"
