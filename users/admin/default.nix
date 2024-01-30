@@ -4,7 +4,7 @@ let
 in
 {
   imports = [
-    inputs.self.homeManagerModules.yomaq
+    inputs.home-manager.nixosModules.home-manager
   ];
 
   yomaq.ssh.enable = true;
