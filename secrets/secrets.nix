@@ -7,18 +7,19 @@ let
   teal = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIQQRdx0vygfX8LZFLq2Dg8X3EGYLIB+hL788x7LP+29";
 
   # keys to work for all secrets
-  all = [ agenix carln blue teal ];
+  all = [ agenix carln blue ];
 
 in
 {
   "carln.age".publicKeys = [ green ] ++ all;
   "ryn.age".publicKeys = [ blue ];
   "encrypt.age".publicKeys = all;
-  "tailscaleKey.age".publicKeys = [ green azure ] ++ all;
-  "tailscaleEnvFile.age".publicKeys = [ green azure ] ++ all;
+  "tailscaleKey.age".publicKeys = [ green azure teal ] ++ all;
+  "tailscaleEnvFile.age".publicKeys = [ green azure teal ] ++ all;
   "piholeEnvFile.age".publicKeys = [ green ] ++ all;
   "nextcloudEnvFile.age".publicKeys = [ azure green ] ++ all;
   "nextcloudDBEnvFile.age".publicKeys = [ azure green ] ++ all;
+  "palworldEnvFile.age".publicKeys = [ teal ] ++ all;
 
 
   #example for calling groups

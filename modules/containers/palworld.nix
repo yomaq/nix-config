@@ -23,13 +23,13 @@ in
         enable custom ${NAME} container module
       '';
     };
-    # agenixSecret = mkOption {
-    #   type = types.path;
-    #   default = (inputs.self + /secrets/${NAME}EnvFile.age);
-    #   description = ''
-    #     path to agenix secret file
-    #   '';
-    # };
+    agenixSecret = mkOption {
+      type = types.path;
+      default = (inputs.self + /secrets/${NAME}EnvFile.age);
+      description = ''
+        path to agenix secret file
+      '';
+    };
     volumeLocation = mkOption {
       type = types.str;
       default = "${backup}/containers/${NAME}";
@@ -89,7 +89,7 @@ in
   config = mkIf cfg.enable {
 
     ### agenix secrets for container
-    # age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
+    age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
     age.secrets."tailscaleEnvFile".file = cfg.tailscale.agenixSecret;
 
   # make the directories where the volumes are stored
@@ -195,9 +195,9 @@ in
           "COOP_PLAYER_MAX_NUM" = "6";
           "MAX_PLAYERS" = "6";
         };
-        # environmentFiles = [
-        #   config.age.secrets."${NAME}EnvFile".path
-        # ];
+        environmentFiles = [
+          config.age.secrets."${NAME}EnvFile".path
+        ];
         volumes = [
           "${cfg.volumeLocation}/palworld:/palworld"
         ];
