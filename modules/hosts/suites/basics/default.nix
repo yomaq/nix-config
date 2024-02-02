@@ -25,6 +25,8 @@ in
       vim
       git
       agenix
+      just
+      nixos-rebuild
     ];
   };
 }
