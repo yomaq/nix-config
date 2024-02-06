@@ -13,7 +13,7 @@
   programs = {
     git = {
       enable = true;
-      userEmail = "112864332+yomaq@users.noreply.github.com";
+      userEmail = "yomaq@bsjm.xyz";
       userName = "yomaq";
     };
   };
