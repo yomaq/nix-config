@@ -27,7 +27,7 @@ rb:
     if [[ "$OSTYPE" == "darwin"* ]]; then \
         darwin-rebuild switch --flake github:yomaq/nix-config ;\
     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then \
-        sudo nixos-rebuild switch --flake github:yomaq/nix-config ;\
+        sudo nixos-rebuild switch --no-eval-cache --flake github:yomaq/nix-config ;\
     else \
         echo "Unsupported OS" ;\
         exit 1 ;\
