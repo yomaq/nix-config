@@ -17,6 +17,8 @@
     networking.useDHCP = lib.mkDefault true;
     boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+
+    virtualisation.podman.enable = true;
     
     yomaq = {
       autoUpgrade.enable = true;
