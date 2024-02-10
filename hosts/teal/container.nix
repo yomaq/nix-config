@@ -12,7 +12,7 @@
     autoStart = true;
 
     #everythi under config is just normal nixos configuration options, like you have for the host
-    config = { config, pkgs, ... }: {
+    config = { config, pkgs, lib, ... }: {
       system.stateVersion = "23.11";
 
       networking = {
@@ -22,7 +22,7 @@
         };
         # Use systemd-resolved inside the container
         # Workaround for bug https://github.com/NixOS/nixpkgs/issues/162686
-        useHostResolvConf = mkForce false;
+        useHostResolvConf = lib.mkForce false;
       };
       services.resolved.enable = true;
 
