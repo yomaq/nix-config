@@ -3,8 +3,6 @@
   networking = {
     bridges.br0.interfaces = [ "eno2" ]; # Replace enp42s0 with the name of your physical interface
     interfaces.br0 = {};
-    defaultGateway = "10.150.10.1"; # The IP address of your default gateway
-    nameservers = [ "10.150.10.1" ]; # List of DNS servers
   };   
 
   containers.devcontainer = {
