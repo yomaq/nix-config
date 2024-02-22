@@ -29,20 +29,8 @@
     nixos-generators.url = "github:nix-community/nixos-generators";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs = { self, nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
-    let
-      inherit (self) outputs;
-      lib = nixpkgs.lib // home-manager.lib;
-      systems = [ "x86_64-linux" "aarch64-linux" ];
-      forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
-      pkgsFor = lib.genAttrs systems (system: import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      });
-    in
+  outputs = { self, nixpkgs, home-manager, nix-darwin, agenix, nixos-generators, ... }@inputs: 
   {
-    inherit lib;
-    packages = forEachSystem (pkgs: import ./packages { inherit pkgs; });
     overlays = import ./modules/overlays {inherit inputs;};
 ### Host outputs
     # NixOS configuration entrypoint
@@ -93,8 +81,9 @@
       };
     };
     # Nixos-generators configuration entrypoints
+    # Available through 'nix build .#your-hostname'
     packages.x86_64-linux = {
-       install-iso = nixos-generators.nixosGenerate {
+      install-iso = nixos-generators.nixosGenerate {
         system = "x86_64-linux";
         format = "install-iso";
         specialArgs = { inherit inputs; };
