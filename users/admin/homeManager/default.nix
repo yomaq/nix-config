@@ -19,5 +19,6 @@
   };
   yomaq = {
     suites.basic.enable = true;
+    nixvim.enable = true;
   };
 }

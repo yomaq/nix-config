@@ -28,6 +28,9 @@
     # nixos generators
     nixos-generators.url = "github:nix-community/nixos-generators";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
+    # nixvim
+    nixvim.url = "github:nix-community/nixvim/nixos-23.11";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = { self, nixpkgs, home-manager, nix-darwin, agenix, nixos-generators, ... }@inputs: 
   {

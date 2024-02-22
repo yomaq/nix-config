@@ -10,6 +10,8 @@
     networking.hostName = "nixos-install";
     networking.useDHCP = lib.mkDefault true;
 
+    services.getty.autologinUser = lib.mkDefault "admin";
+
     yomaq = {
       tailscale = {
         enable = true;
