@@ -25,6 +25,9 @@
     # nix index for comma
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+    # nixos generators
+    nixos-generators.url = "github:nix-community/nixos-generators";
+    nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = { self, nixpkgs, home-manager, nix-darwin, agenix, ... }@inputs: 
     let
@@ -87,6 +90,15 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {inherit inputs;};
         modules = [./users/carln/homeManager];
+      };
+    };
+    # Nixos-generators configuration entrypoints
+    packages.x86_64-linux = {
+       install-iso = nixos-generators.nixosGenerate {
+        system = "x86_64-linux";
+        format = "install-iso";
+        specialArgs = { inherit inputs; };
+        modules = [ ./hosts/install-iso ];
       };
     };
 ### Module outputs
