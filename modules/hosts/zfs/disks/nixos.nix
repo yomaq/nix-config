@@ -231,17 +231,24 @@ in
               content = {
                 type = "gpt";
                 partitions = {
-                  luks = {
+                  # luks = {
+                  #   size = "100%";
+                  #   content = {
+                  #     type = "luks";
+                  #     name = "${diskname}";
+                  #     settings.allowDiscards = true;
+                  #     passwordFile = "/tmp/secret.key";
+                  #     content = {
+                  #       type = "zfs";
+                  #       pool = "zstorage";
+                  #     };
+                  #   };
+                  # };
+                  zfs = {
                     size = "100%";
                     content = {
-                      type = "luks";
-                      name = "${diskname}";
-                      settings.allowDiscards = true;
-                      passwordFile = "/tmp/secret.key";
-                      content = {
-                        type = "zfs";
-                        pool = "zstorage";
-                      };
+                      type = "zfs";
+                      pool = "zstorage";
                     };
                   };
                 };
