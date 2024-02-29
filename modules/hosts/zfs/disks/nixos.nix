@@ -231,26 +231,26 @@ in
               content = {
                 type = "gpt";
                 partitions = {
-                  luks = {
-                    size = "100%";
-                    content = {
-                      type = "luks";
-                      name = "stg${diskname}";
-                      settings.allowDiscards = true;
-                      passwordFile = "/tmp/secret.key";
-                      content = {
-                        type = "zfs";
-                        pool = "zstorage";
-                      };
-                    };
-                  };
-                  # zfs = {
+                  # luks = {
                   #   size = "100%";
                   #   content = {
-                  #     type = "zfs";
-                  #     pool = "zstorage";
+                  #     type = "luks";
+                  #     name = "stg${diskname}";
+                  #     settings.allowDiscards = true;
+                  #     passwordFile = "/tmp/secret.key";
+                  #     content = {
+                  #       type = "zfs";
+                  #       pool = "zstorage";
+                  #     };
                   #   };
                   # };
+                  zfs = {
+                    size = "100%";
+                    content = {
+                      type = "zfs";
+                      pool = "zstorage";
+                    };
+                  };
                 };
               };
             };
@@ -403,6 +403,10 @@ in
               normalization = "formD";
               relatime = "on";
               "com.sun:auto-snapshot" = "false";
+              #encryption
+              encryption = "aes-256-gcm";
+              keyformat = "passphrase";
+              keylocation = "file:///tmp/secret.key";
             };
             options = {
               ashift = "12";
