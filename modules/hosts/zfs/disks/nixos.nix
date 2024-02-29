@@ -235,7 +235,7 @@ in
                     size = "100%";
                     content = {
                       type = "luks";
-                      name = "${diskname}";
+                      name = "stg${diskname}";
                       settings.allowDiscards = true;
                       passwordFile = "/tmp/secret.key";
                       content = {
