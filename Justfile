@@ -55,8 +55,8 @@ rbrl host:
 
 # run nixos-anywhere with encryption
 anywhere host ip:
-    /Utilities/nixos-anywhere/remote-install-encrypt.sh {{host}} {{ip}}
+    ./Utilities/nixos-anywhere/remote-install-encrypt.sh {{host}} {{ip}}
 # run nixos-anywhere without encryption
 anywhere-unencrypted host ip:
-    /Utilities/nixos-anywhere/remote-install.sh {{host}} {{ip}}
+    ./Utilities/nixos-anywhere/remote-install.sh {{host}} {{ip}}
     
