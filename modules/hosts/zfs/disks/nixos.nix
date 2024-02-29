@@ -224,7 +224,7 @@ in
     (mkIf cfg.zfs.root.enable {
       disko.devices = {
         disk = mkMerge [ 
-          (mkIf (cfg.zfs.storage.disks != []) (mkMerge (map ( diskname: {
+          (mkIf (cfg.zfs.storage.disks != [] && !cfg.zfs.storage.amReinstalling) (mkMerge (map ( diskname: {
             "${diskname}" = {
               type = "disk";
               device = "/dev/${diskname}";
