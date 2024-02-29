@@ -403,10 +403,6 @@ in
               normalization = "formD";
               relatime = "on";
               "com.sun:auto-snapshot" = "false";
-              #encryption
-              encryption = "aes-256-gcm";
-              keyformat = "passphrase";
-              keylocation = "file:///tmp/secret.key";
             };
             options = {
               ashift = "12";
@@ -429,6 +425,10 @@ in
                   atime = "off";
                   canmount = "on";
                   "com.sun:auto-snapshot" = "false";
+                  #encryption
+                  encryption = "aes-256-gcm";
+                  keyformat = "passphrase";
+                  keylocation = "file:///tmp/secret.key";
                 };
               };
               backups = mkIf config.yomaq.syncoid.isBackupServer {
@@ -438,6 +438,10 @@ in
                   atime = "off";
                   canmount = "on";
                   "com.sun:auto-snapshot" = "false";
+                  #encryption
+                  encryption = "aes-256-gcm";
+                  keyformat = "passphrase";
+                  keylocation = "file:///tmp/secret.key";
                 };
               };
             };
