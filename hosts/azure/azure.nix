@@ -65,6 +65,7 @@
             disks = [ "sda" "sdb" ];
             reservation = "1500G";
             mirror = true;
+            #amReinstalling = true;
           };
         };
       };
