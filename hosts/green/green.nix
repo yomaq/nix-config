@@ -10,7 +10,6 @@
   config = {
     networking.hostName = "green";
     system.stateVersion = "23.05";
-    networking.useDHCP = lib.mkDefault true;
 
     yomaq = {
       autoUpgrade.enable = true;

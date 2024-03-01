@@ -19,6 +19,7 @@ in
       agenix.enable = true;
       nixSettings.enable = true;
       tailscale.enable = true;
+      network.basics = true;
     };
   };
 }
