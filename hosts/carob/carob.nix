@@ -35,6 +35,7 @@
         basics.enable = true;
         foundation.enable = true;
       };
+      network.basics = lib.mkDefault false;
       # disk configuration
       disks = {
         enable = true;
