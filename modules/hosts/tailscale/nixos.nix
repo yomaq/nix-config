@@ -6,7 +6,8 @@ let
   cfg = config.yomaq.tailscale;
 in
 {
- config = lib.mkIf cfg.enable {
+ config = mkMerge [
+  (lib.mkIf cfg.enable {
     services.tailscale = {
       enable = true;
       authKeyFile = cfg.authKeyFile;
@@ -21,6 +22,8 @@ in
     };
     yomaq.tailscale.tailnetName = "sable-chimaera";
     age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
-    age.secrets.tailscaleKeyAcceptSsh.file = mkIf (cfg.preApprovedSshAuthkey) ( inputs.self + /secrets/tailscaleKeyAcceptSsh.age);
- };
+  })
+  (lib.mkIf cfg.preApprovedSshAuthkey {
+    age.secrets.tailscaleKeyAcceptSsh.file = ( inputs.self + /secrets/tailscaleKeyAcceptSsh.age);
+  })]
 }
