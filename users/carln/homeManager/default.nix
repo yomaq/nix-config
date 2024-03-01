@@ -28,6 +28,8 @@
     #pkgs.spotify
     pkgs.steam
     pkgs.brave
+    #screenshare x11 apps on wayland
+    pkgs.xwaylandvideobridge
     # pkgs.obsidian
   ]);
   programs = {
