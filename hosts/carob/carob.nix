@@ -11,7 +11,7 @@
   config = {
     networking.hostName = "carob";
     system.stateVersion = "23.11";
-    networking.useDHCP = true;
+    networking.useDHCP = lib.mkDefault true;
     boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
