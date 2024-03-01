@@ -49,5 +49,12 @@ in
         allow you to specify a key, or set null to disable
       '';
     };
+    preApprovedSshAuthkey = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        decrypt pre-approved ssh authkey
+      '';
+    };
   };
 }

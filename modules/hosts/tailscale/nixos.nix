@@ -21,6 +21,6 @@ in
     };
     yomaq.tailscale.tailnetName = "sable-chimaera";
     age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
-    age.secrets.tailscaleKeyAcceptSsh.file = ( inputs.self + /secrets/tailscaleKeyAcceptSsh.age);
+    age.secrets.tailscaleKeyAcceptSsh.file = mkIf (cfg.preApprovedSshAuthkey) ( inputs.self + /secrets/tailscaleKeyAcceptSsh.age);
  };
 }

@@ -26,6 +26,8 @@
         enable = true;
         extraUpFlags = ["--ssh=true" "--reset=true" ];
         useRoutingFeatures = "client";
+        # for building iso
+        preApprovedSshAuthkey = true;
       };
       gnome.enable = true;
       scripts.enable = true;
