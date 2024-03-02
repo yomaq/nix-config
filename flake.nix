@@ -64,6 +64,11 @@
         specialArgs = { inherit inputs; }; 
         modules = [ ./hosts/teal ];
       };
+     smalt = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; }; 
+        modules = [ ./hosts/smalt ];
+      };
     };
     # Nix-darwin configuration entrypoint
     # Available through 'darwin-rebuild switch --flake .#your-hostname'
