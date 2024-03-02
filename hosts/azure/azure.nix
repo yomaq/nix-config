@@ -28,7 +28,6 @@
       };
       docker.enable = true;
       pods = {
-        minecraft.enable = true;
         nextcloud.enable = true;
         traefik.enable = true;
       };
