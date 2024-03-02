@@ -12,7 +12,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
   config = {
-    networking.hostName = "smelt";
+    networking.hostName = "smalt";
     system.stateVersion = "23.11";
     boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
