@@ -18,7 +18,7 @@
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     
     yomaq = {
-      autoUpgrade.enable = true;
+      autoUpgrade.enable = false;
       primaryUser.users = [ "admin" ];
       tailscale = {
         enable = true;
