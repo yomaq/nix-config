@@ -34,7 +34,7 @@
       docker.enable = true;
       pods = {
         # valheim.enable = true;
-        # minecraft.enable = true;
+        minecraft.enable = true;
         palworld.enable = true;
         tailscale = {
           enable = true;
