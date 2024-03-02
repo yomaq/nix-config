@@ -139,7 +139,7 @@ in
             PGID = "1000";
             PORT = "8211"; # Optional but recommended
             PLAYERS = "6"; # Optional but recommended
-            SERVER_PASSWORD = "worldofpals"; # Optional but recommended
+            SERVER_PASSWORD = ""; # Optional but recommended
             MULTITHREADING = "true";
             RCON_ENABLED = "true";
             RCON_PORT = "25575";
