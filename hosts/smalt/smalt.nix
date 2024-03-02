@@ -8,22 +8,21 @@
     (inputs.self + /users/admin)
     # hardware
     inputs.nixos-hardware.nixosModules.common-pc
-    inputs.nixos-hardware.nixosModules.common-cpu-intel-cpu-only
+    inputs.nixos-hardware.nixosModules.common-cpu-amd
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
   config = {
-    networking.hostName = "teal";
+    networking.hostName = "smelt";
     system.stateVersion = "23.11";
     boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     
     yomaq = {
       autoUpgrade.enable = true;
-      primaryUser.users = [ "carln" "admin" ];
+      primaryUser.users = [ "admin" ];
       tailscale = {
         enable = true;
-        extraUpFlags = ["--ssh=true" "--reset=true" "--advertise-exit-node"];
-        useRoutingFeatures = "server";
+        extraUpFlags = ["--ssh=true" "--reset=true"];
       };
       timezone.central= true;
       syncoid.enable = true;
@@ -48,11 +47,11 @@
         systemd-boot = true;
         initrd-ssh = {
           enable = true;
-          ethernetDrivers = ["e1000e"];
+          ethernetDrivers = ["igc"];
         };
         zfs = {
           enable = true;
-          hostID = "f572ff3a";
+          hostID = "ab010ea1";
           root = {
             enable = true;
             disk1 = "nvme0n1";
