@@ -29,7 +29,7 @@
       docker.enable = true;
       pods = {
         nextcloud.enable = true;
-        traefik.enable = true;
+        # traefik.enable = true;
       };
       syncoid = { 
         isBackupServer = true;

@@ -201,7 +201,7 @@ in
               #  MYSQL_USER=nextcloud
               #  MYSQL_HOST=db
         ];
-        # ports = ["8181:80"];
+        ports = ["8181:80"];
         volumes = [
           "${cfg.volumeLocation}/var-www-html:/var/www/html"
           "${cfg.volumeLocation}/data:/data"
@@ -211,10 +211,10 @@ in
           "--link=DB${NAME}:DB${NAME}"
         ];
         labels = {
-          "traefik.enable" = "true";
-          "traefik.http.routers.whoami.rule" = "Host(${hostName}.${tailnetName}.ts.net`)";
-          "traefik.http.routers.whoami.entrypoints" = "websecure";
-          "traefik.http.routers.whoami.tls.certresolver" = "tailscale";
+          # "traefik.enable" = "true";
+          # "traefik.http.routers.whoami.rule" = "Host(${hostName}.${tailnetName}.ts.net`)";
+          # "traefik.http.routers.whoami.entrypoints" = "websecure";
+          # "traefik.http.routers.whoami.tls.certresolver" = "tailscale";
         };
       };
     };
