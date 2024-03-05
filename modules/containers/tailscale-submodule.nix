@@ -75,8 +75,8 @@ let
       "TS_STATE_DIR"= "/var/lib/tailscale";
       "TS_EXTRA_ARGS" = cfg.TSargs;
       "TS_ACCEPT_DNS" = "true";
-      } // lib.mkIf (cfg.TSserve != "") {
-        "TS_SERVE_CONFIG" = "config/tailscaleCfg.json";
+      # } // lib.mkIf (cfg.TSserve != "") {
+      #   "TS_SERVE_CONFIG" = "config/tailscaleCfg.json";
       };
     environmentFiles = [
       # need to set "TS_AUTHKEY=key" in agenix and import here
@@ -85,7 +85,7 @@ let
     volumes = [
       "${cfg.volumeLocation}/data-lib:/var/lib"
       "${cfg.volumeLocation}/dev-net-tun:/dev/net/tun"
-      "${cfg.volumeLocation}/config:/config"
+      # "${cfg.volumeLocation}/config:/config"
     ];
     extraOptions = [
       "--pull=always"
@@ -97,26 +97,28 @@ let
   mkTmpfilesRules = name: cfg: [
     "d ${cfg.volumeLocation}/data-lib 0755 root root"
     "d ${cfg.volumeLocation}/dev-net-tun 0755 root root"
-    "L+ ${cfg.volumeLocation}/config/tailscaleCfg.json - - - - ${(pkgs.writeText "${name}TScfg" ''
-      {
-      "TCP": {
-        "443": {
-          "HTTPS": true
-        }
-      },
-      "Web": {
-        "${cfg.TS_CERT_DOMAIN}:443": {
-          "Handlers": {
-            "/": {
-              "Proxy": "${cfg.TSserve}"
-            }
-          }
-        }
-      },
-      "AllowFunnel": {
-        "${cfg.TS_CERT_DOMAIN}:443": false
-      }
-    }'')}"
+    "L+ ${cfg.volumeLocation}/config/tailscaleCfg.json - - - - ${(pkgs.writeText "${name}TScfg" 
+    # ''
+    #   {
+    #   "TCP": {
+    #     "443": {
+    #       "HTTPS": true
+    #     }
+    #   },
+    #   "Web": {
+    #     "${cfg.TS_CERT_DOMAIN}:443": {
+    #       "Handlers": {
+    #         "/": {
+    #           "Proxy": "${cfg.TSserve}"
+    #         }
+    #       }
+    #     }
+    #   },
+    #   "AllowFunnel": {
+    #     "${cfg.TS_CERT_DOMAIN}:443": false
+    #   }
+    # }''
+    )}"
   ];
 in
 {
