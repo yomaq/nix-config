@@ -87,7 +87,7 @@ let
     ];
     volumes = [
       "${cfg.volumeLocation}/data-lib:/var/lib"
-      "/dev/net/tun:/dev/net/tun"
+      # "/dev/net/tun:/dev/net/tun"
       "${cfg.volumeLocation}/config:/config"
     ];
     extraOptions = [
