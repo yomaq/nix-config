@@ -55,6 +55,13 @@ let
         '';
         example = "http://127.0.0.1:9000";
       };
+      TS_CERT_DOMAIN = mkOption {
+        type = types.str;
+        default = "${TShostname}.${yomaq.tailscale.tailnetName}.ts.net";
+        description = ''
+          domain to serve on the tailnet
+        '';
+      };
     };
   };
   # Helper function to create a container configuration from a submodule
