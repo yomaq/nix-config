@@ -18,6 +18,7 @@ in
   "tailscaleKey.age".publicKeys = [ green azure teal smalt ] ++ all;
   "tailscaleKeyAcceptSsh.age".publicKeys = [ ] ++ all;
   "tailscaleEnvFile.age".publicKeys = [ green azure teal smalt ] ++ all;
+  "tailscaleOAuthEnvFile.age".publicKeys = [ green azure teal smalt ] ++ all;
   "piholeEnvFile.age".publicKeys = [ green ] ++ all;
   "nextcloudEnvFile.age".publicKeys = [ azure green ] ++ all;
   "nextcloudDBEnvFile.age".publicKeys = [ azure green ] ++ all;

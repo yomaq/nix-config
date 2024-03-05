@@ -74,7 +74,7 @@ let
     {
         "TS_HOSTNAME" = cfg.TShostname;
         "TS_STATE_DIR" = "/var/lib/tailscale";
-        "TS_EXTRA_ARGS" = cfg.TSargs;
+        "TS_EXTRA_ARGS" = lib.strings.concatStrings [ "--advertise-tags=tag:container" ] + cfg.TSargs;
         "TS_ACCEPT_DNS" = "true";
     }
     (lib.mkIf (cfg.TSserve != "") {
@@ -83,7 +83,7 @@ let
     ];
     environmentFiles = [
       # need to set "TS_AUTHKEY=key" in agenix and import here
-      config.age.secrets."tailscaleEnvFile".path
+      config.age.secrets."tailscaleOAuthEnvFile".path
     ];
     volumes = [
       "${cfg.volumeLocation}/data-lib:/var/lib"
