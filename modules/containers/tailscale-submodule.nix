@@ -56,6 +56,13 @@ let
         '';
         example = "http://127.0.0.1:9000";
       };
+     enableFunnel = mkOption {
+        type = lib.types.enum [ "true" "false" ];
+        default = "false";
+        description = ''
+          if you are sure you want to enable funnel
+        '';
+      };
     };
   };
   # Helper function to create a container configuration from a submodule
@@ -99,13 +106,12 @@ let
             }
           },
           "AllowFunnel": {
-            "${hostName}-${name}.${tailnetName}.ts.net:443": false
+            "${hostName}-${name}.${tailnetName}.ts.net:443": ${cfg.enableFunnel}
           }
         }'')}:/config/tailscaleCfg.json"
     ];
     extraOptions = [
       "--pull=always"
-      # "--network=host"
       "--cap-add=net_admin"
       "--cap-add=sys_module"
     ];
