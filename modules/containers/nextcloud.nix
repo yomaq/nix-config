@@ -167,7 +167,7 @@ in
         ];
         extraOptions = [
           "--pull=always"
-          "--link=DB${NAME}:DB${NAME}"
+          # "--link=DB${NAME}:DB${NAME}"
           "--network=container:TS${NAME}"
           "--network=default"
         ];
