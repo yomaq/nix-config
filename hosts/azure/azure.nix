@@ -31,6 +31,7 @@
         nextcloud.enable = true;
         # traefik.enable = true;
         tailscaled.test.enable = true;
+        tailscale.enable = true;
       };
       syncoid = { 
         isBackupServer = true;
