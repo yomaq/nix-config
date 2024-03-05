@@ -94,9 +94,9 @@ let
     user = "4000";
   };
   mkTmpfilesRules = name: cfg: [
-    "d ${cfg.volumeLocation}/data-lib 0755 root root"
-    "d ${cfg.volumeLocation}/dev-net-tun 0755 root root"
-    "L+ ${cfg.volumeLocation}/config/tailscaleCfg.json - - - - ${(pkgs.writeText "${name}TScfg" ''
+    "d ${cfg.volumeLocation}/data-lib 0755 4000 100"
+    "d ${cfg.volumeLocation}/dev-net-tun 0755 4000 100"
+    "L+ ${cfg.volumeLocation}/config/tailscaleCfg.json - 4000 100 - ${(pkgs.writeText "${name}TScfg" ''
       {
       "TCP": {
         "443": {
