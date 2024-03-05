@@ -40,6 +40,7 @@
           enable = true;
           TSargs = "--reset=true --advertise-exit-node";
         };
+        tailscaled.test.enable = true;
       };
 
       # disk configuration
