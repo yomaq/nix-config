@@ -33,9 +33,7 @@
       };
       docker.enable = true;
       pods = {
-        # valheim.enable = true;
-        # minecraft.enable = true;
-        # palworld.enable = true;
+        nextcloud.enable = true;
         tailscale = {
           enable = true;
           TSargs = "--reset=true --advertise-exit-node";
