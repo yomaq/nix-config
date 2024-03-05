@@ -114,58 +114,19 @@ in
 
 
   config = mkIf cfg.enable {
-
     ### agenix secrets for container
     age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
     # age.secrets."tailscaleEnvFile".file = cfg.tailscale.agenixSecret;
     age.secrets."${NAME}DBEnvFile".file = cfg.database.agenixSecret;
 
-  # make the directories where the volumes are stored
-  # it says "tmpfiles" but we don't add rules to remove the tmp file, so its... not tmp?
-  # https://discourse.nixos.org/t/creating-directories-and-files-declararively/9349
-  # storing volumes in the nix directory because we assume impermanance is wiping root
     systemd.tmpfiles.rules = [
       # main container
       "d ${cfg.volumeLocation}/data 0755 root root"
       "d ${cfg.volumeLocation}/var-www-html 0755 root root"
       # database container
       "d ${cfg.database.volumeLocation}/var-lib-mysql 0755 root root"
-      # # tailscale
-      # "d ${cfg.tailscale.volumeLocation}/TSdata-lib 0755 root root"
-      # "d ${cfg.tailscale.volumeLocation}/TSdev-net-tun 0755 root root"
     ];
-
     virtualisation.oci-containers.containers = {
-## tailscale container
-      # "TS${NAME}" = {
-      #   image = "${tailscaleIMAGE}:${cfg.tailscale.imageVersion}";
-      #   autoStart = true;
-      #   environment = {
-      #   "TS_HOSTNAME" =cfg.tailscale.TShostname;
-      #   "TS_STATE_DIR"= "/var/lib/tailscale";
-      #   "TS_EXTRA_ARGS" = cfg.tailscale.TSargs;
-      #   "TS_ACCEPT_DNS" = "true";
-      #   # "TS_USERSPACE" = "true";
-      #   };
-      #   environmentFiles = [
-      #     # need to set "TS_AUTHKEY=key" in agenix and import here
-      #     config.age.secrets."tailscaleEnvFile".path
-      #   ];
-      #   volumes = [
-      #     "${cfg.tailscale.volumeLocation}/TSdata-lib:/var/lib"
-      #     "${cfg.tailscale.volumeLocation}/TSdev-net-tun:/dev/net/tun"
-      #   ];
-      #   extraOptions = [
-      #     "--pull=newer"
-      #     # "--network=host"
-      #     "--cap-add=NET_ADMIN"
-      #     "--cap-add=NET_RAW"
-      #     "--pod=${NAME}-pod"
-      #     "-d /dev/net/tun:/dev/net/tun"
-      #   ];
-      # };
-
-
 ### DB container
       "DB${NAME}" = {
         image = "${dbIMAGE}:${cfg.database.imageVersion}";
@@ -187,7 +148,6 @@ in
           "--pull=always"
         ];
       };
-
 ### main container
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
@@ -201,7 +161,6 @@ in
               #  MYSQL_USER=nextcloud
               #  MYSQL_HOST=db
         ];
-        ports = ["8181:80"];
         volumes = [
           "${cfg.volumeLocation}/var-www-html:/var/www/html"
           "${cfg.volumeLocation}/data:/data"
@@ -209,14 +168,13 @@ in
         extraOptions = [
           "--pull=always"
           "--link=DB${NAME}:DB${NAME}"
+          "--network=container:TS${NAME}"
         ];
-        labels = {
-          # "traefik.enable" = "true";
-          # "traefik.http.routers.whoami.rule" = "Host(${hostName}.${tailnetName}.ts.net`)";
-          # "traefik.http.routers.whoami.entrypoints" = "websecure";
-          # "traefik.http.routers.whoami.tls.certresolver" = "tailscale";
-        };
       };
+    };
+    yomaq.tailscaled."TS${NAME}" = {
+      enable = true;
+      TSserve = "http://127.0.0.1:80";
     };
   };
 }
