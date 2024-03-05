@@ -47,6 +47,14 @@ let
           TS_HOSTNAME env var
         '';
       };
+      TSserve = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = ''
+          port to serve on the tailnet
+        '';
+        example = "http://127.0.0.1:9000";
+      };
     };
   };
   # Helper function to create a container configuration from a submodule
@@ -54,11 +62,13 @@ let
     image = "${IMAGE}:${cfg.imageVersion}";
     autoStart = true;
     environment = {
-    "TS_HOSTNAME" =cfg.TShostname;
-    "TS_STATE_DIR"= "/var/lib/tailscale";
-    "TS_EXTRA_ARGS" = cfg.TSargs;
-    "TS_ACCEPT_DNS" = "true";
-    };
+      "TS_HOSTNAME" =cfg.TShostname;
+      "TS_STATE_DIR"= "/var/lib/tailscale";
+      "TS_EXTRA_ARGS" = cfg.TSargs;
+      "TS_ACCEPT_DNS" = "true";
+      } // lib.mkIf (cfg.TSserve != null) {
+        "TS_SERVE_CONFIG" = "config/tailscaleCfg.json";
+      };
     environmentFiles = [
       # need to set "TS_AUTHKEY=key" in agenix and import here
       config.age.secrets."tailscaleEnvFile".path
@@ -66,6 +76,7 @@ let
     volumes = [
       "${cfg.volumeLocation}/data-lib:/var/lib"
       "${cfg.volumeLocation}/dev-net-tun:/dev/net/tun"
+      "${cfg.volumeLocation}/config:/config"
     ];
     extraOptions = [
       "--pull=always"
@@ -77,7 +88,28 @@ let
   mkTmpfilesRules = name: cfg: [
     "d ${cfg.volumeLocation}/data-lib 0755 root root"
     "d ${cfg.volumeLocation}/dev-net-tun 0755 root root"
+    "L+ ${cfg.volumeLocation}/config/tailscaleCfg.json - - - - ${(pkgs.writeText "${name}TScfg" TSserveCfg)}"
   ];
+  TSserveCfg = ''
+      {
+      "TCP": {
+        "443": {
+          "HTTPS": true
+        }
+      },
+      "Web": {
+        "${TS_CERT_DOMAIN}:443": {
+          "Handlers": {
+            "/": {
+              "Proxy": "${cfg.TSserve}"
+            }
+          }
+        }
+      },
+      "AllowFunnel": {
+        "${TS_CERT_DOMAIN}:443": false
+      }
+    }'';
 in
 {
   options.yomaq.pods = {
