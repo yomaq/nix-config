@@ -93,8 +93,8 @@ let
     extraOptions = [
       "--pull=always"
       # "--network=host"
-      "--cap-add=NET_ADMIN"
-      "--cap-add=NET_RAW"
+      "--cap-add=net_admin"
+      "--cap-add=sys_module"
     ];
   };
   mkTmpfilesRules = name: cfg: [
