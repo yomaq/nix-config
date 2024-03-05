@@ -88,7 +88,28 @@ let
     volumes = [
       "${cfg.volumeLocation}/data-lib:/var/lib"
       "/dev/net/tun:/dev/net/tun"
-      "${cfg.volumeLocation}/config:/config"
+      # "${cfg.volumeLocation}/config:/config"
+      "${(pkgs.writeText "${name}TScfg" 
+        ''
+          {
+          "TCP": {
+            "443": {
+              "HTTPS": true
+            }
+          },
+          "Web": {
+            "${cfg.TS_CERT_DOMAIN}:443": {
+              "Handlers": {
+                "/": {
+                  "Proxy": "${cfg.TSserve}"
+                }
+              }
+            }
+          },
+          "AllowFunnel": {
+            "${cfg.TS_CERT_DOMAIN}:443": false
+          }
+        }'')}:/config/tailscaleCfg.json"
     ];
     extraOptions = [
       "--pull=always"
@@ -100,27 +121,27 @@ let
   mkTmpfilesRules = name: cfg: [
     "d ${cfg.volumeLocation}/data-lib 0755 root root"
     "d ${cfg.volumeLocation}/dev-net-tun 0755 root root"
-    "L+ ${cfg.volumeLocation}/config/tailscaleCfg.json 0755 root root - ${(pkgs.writeText "${name}TScfg" 
-    ''
-      {
-      "TCP": {
-        "443": {
-          "HTTPS": true
-        }
-      },
-      "Web": {
-        "${cfg.TS_CERT_DOMAIN}:443": {
-          "Handlers": {
-            "/": {
-              "Proxy": "${cfg.TSserve}"
-            }
-          }
-        }
-      },
-      "AllowFunnel": {
-        "${cfg.TS_CERT_DOMAIN}:443": false
-      }
-    }'')}"
+    # "L+ ${cfg.volumeLocation}/config/tailscaleCfg.json 0755 root root - ${(pkgs.writeText "${name}TScfg" 
+    # ''
+    #   {
+    #   "TCP": {
+    #     "443": {
+    #       "HTTPS": true
+    #     }
+    #   },
+    #   "Web": {
+    #     "${cfg.TS_CERT_DOMAIN}:443": {
+    #       "Handlers": {
+    #         "/": {
+    #           "Proxy": "${cfg.TSserve}"
+    #         }
+    #       }
+    #     }
+    #   },
+    #   "AllowFunnel": {
+    #     "${cfg.TS_CERT_DOMAIN}:443": false
+    #   }
+    # }'')}"
   ];
 in
 {
