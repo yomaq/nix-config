@@ -57,7 +57,7 @@ let
       };
       TS_CERT_DOMAIN = mkOption {
         type = types.str;
-        default = "${TShostname}.${yomaq.tailscale.tailnetName}.ts.net";
+        default = "${hostName}-${name}.${config.yomaq.tailscale.tailnetName}.ts.net";
         description = ''
           domain to serve on the tailnet
         '';
