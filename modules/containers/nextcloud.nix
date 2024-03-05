@@ -5,7 +5,7 @@ with lib;
 let
   ### Set container name and image
   NAME = "nextcloud";
-  IMAGE = "docker.io/nextcloud:fpm";
+  IMAGE = "docker.io/nextcloud:stable-fpm";
   tailscaleIMAGE = "ghcr.io/tailscale/tailscale";
   dbIMAGE = "docker.io/mariadb";
 
