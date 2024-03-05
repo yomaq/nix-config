@@ -70,7 +70,7 @@ let
     image = "${IMAGE}:${cfg.imageVersion}";
     autoStart = true;
     hostname = cfg.TShostname;
-    environment = lib.mkMrge ({
+    environment = mkMerge ({
       "TS_HOSTNAME" = cfg.TShostname;
       "TS_STATE_DIR"= "/var/lib/tailscale";
       "TS_EXTRA_ARGS" = cfg.TSargs;
