@@ -41,7 +41,7 @@ in
     };
     imageVersion = mkOption {
       type = types.str;
-      default = "stable-fpm";
+      default = "latest";
       description = ''
         container image version
       '';
@@ -160,6 +160,9 @@ in
               #  MYSQL_DATABASE=nextcloud
               #  MYSQL_USER=nextcloud
               #  MYSQL_HOST=db
+        ];
+        ports = [
+          "9000:80"
         ];
         volumes = [
           "${cfg.volumeLocation}/var-www-html:/var/www/html"
