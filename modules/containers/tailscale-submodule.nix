@@ -87,12 +87,12 @@ let
     ];
     volumes = [
       "${cfg.volumeLocation}/data-lib:/var/lib"
-      # "/dev/net/tun:/dev/net/tun"
+      "/dev/net/tun:/dev/net/tun"
       "${cfg.volumeLocation}/config:/config"
     ];
     extraOptions = [
       "--pull=always"
-      "--network=host"
+      # "--network=host"
       "--cap-add=NET_ADMIN"
       "--cap-add=NET_RAW"
     ];
