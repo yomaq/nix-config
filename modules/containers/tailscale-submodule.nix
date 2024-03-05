@@ -89,7 +89,7 @@ let
     ];
     extraOptions = [
       "--pull=always"
-      # "--network=host"
+      "--network=host"
       "--cap-add=NET_ADMIN"
       "--cap-add=NET_RAW"
     ];
