@@ -91,7 +91,7 @@ let
       "--cap-add=NET_ADMIN"
       "--cap-add=NET_RAW"
     ];
-    user = "docker";
+    user = "4000";
   };
   mkTmpfilesRules = name: cfg: [
     "d ${cfg.volumeLocation}/data-lib 0755 root root"
