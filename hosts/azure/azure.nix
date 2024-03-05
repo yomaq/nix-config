@@ -30,6 +30,7 @@
       pods = {
         nextcloud.enable = true;
         # traefik.enable = true;
+        tailscaled.test.enable = true;
       };
       syncoid = { 
         isBackupServer = true;
