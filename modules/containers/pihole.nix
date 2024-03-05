@@ -144,7 +144,7 @@ in
           "${cfg.volumeLocation}/etc-dnsmasq.d:/etc/dnsmasq.d"
         ];
         extraOptions = [
-          "--pull=newer"
+          "--pull=always"
           "--network=container:TS${NAME}"
         ];
       };
