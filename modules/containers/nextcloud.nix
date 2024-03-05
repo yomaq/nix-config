@@ -172,7 +172,7 @@ in
         ];
       };
     };
-    yomaq.pods.tailscaled."TS${NAME}" = {
+    yomaq.pods.tailscaled."ts${NAME}" = {
       enable = true;
       TSserve = "http://127.0.0.1:80";
     };
