@@ -83,15 +83,15 @@ let
     ];
     volumes = [
       "${cfg.volumeLocation}/data-lib:/var/lib"
-      "${cfg.volumeLocation}/dev-net-tun:/dev/net/tun"
+      "/dev/net/tun:/dev/net/tun"
       "${cfg.volumeLocation}/config:/config"
     ];
     extraOptions = [
       "--pull=always"
-      "--network=host"
       "--cap-add=NET_ADMIN"
       "--cap-add=NET_RAW"
     ];
+    user = "docker";
   };
   mkTmpfilesRules = name: cfg: [
     "d ${cfg.volumeLocation}/data-lib 0755 root root"
@@ -117,26 +117,6 @@ let
       }
     }'')}"
   ];
-  # TSserveCfg = ''
-  #     {
-  #     "TCP": {
-  #       "443": {
-  #         "HTTPS": true
-  #       }
-  #     },
-  #     "Web": {
-  #       "${cfg.TS_CERT_DOMAIN}:443": {
-  #         "Handlers": {
-  #           "/": {
-  #             "Proxy": "${cfg.TSserve}"
-  #           }
-  #         }
-  #       }
-  #     },
-  #     "AllowFunnel": {
-  #       "${cfg.TS_CERT_DOMAIN}:443": false
-  #     }
-  #   }'';
 in
 {
   options.yomaq.pods = {

@@ -7,7 +7,7 @@ let
 in {
   options.yomaq.docker = {
     enable = mkOption {
-      description = "Enable podman";
+      description = "Enable docker";
       type = types.bool;
       default = false;
     };
@@ -27,6 +27,10 @@ in {
       directories = [
         "/var/lib/containers/storage"
       ];
+    };
+    users.users.docker = {
+      isNormalUser = true;
+      uid = 4000;
     };
   };
 }
