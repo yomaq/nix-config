@@ -161,9 +161,6 @@ in
               #  MYSQL_USER=nextcloud
               #  MYSQL_HOST=db
         ];
-        ports = [
-          "9000:80"
-        ];
         volumes = [
           "${cfg.volumeLocation}/var-www-html:/var/www/html"
           "${cfg.volumeLocation}/data:/data"
