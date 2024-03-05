@@ -49,8 +49,8 @@ let
         '';
       };
       TSserve = mkOption {
-        type = types.nullOr types.str;
-        default = null;
+        type = types.str;
+        default = "";
         description = ''
           port to serve on the tailnet
         '';
@@ -74,7 +74,7 @@ let
       "TS_STATE_DIR"= "/var/lib/tailscale";
       "TS_EXTRA_ARGS" = cfg.TSargs;
       "TS_ACCEPT_DNS" = "true";
-      } // lib.mkIf (cfg.TSserve != null) {
+      } // lib.mkIf (cfg.TSserve != "") {
         "TS_SERVE_CONFIG" = "config/tailscaleCfg.json";
       };
     environmentFiles = [
