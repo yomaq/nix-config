@@ -29,6 +29,7 @@
       docker.enable = true;
       pods = {
         nextcloud.enable = true;
+        pihole.enable = true;
       };
       syncoid = { 
         isBackupServer = true;

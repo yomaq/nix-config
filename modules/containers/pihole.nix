@@ -101,31 +101,31 @@ in
 
 
     virtualisation.oci-containers.containers = {
-### tailscale container
-      "TS${NAME}" = {
-        image = "${tailscaleIMAGE}:${cfg.tailscale.imageVersion}";
-        autoStart = true;
-        environment = {
-        "TS_HOSTNAME" =cfg.tailscale.TShostname;
-        "TS_STATE_DIR"= "/var/lib/tailscale";
-        "TS_EXTRA_ARGS" = cfg.tailscale.TSargs;
-        "TS_ACCEPT_DNS" = "true";
-        };
-        environmentFiles = [
-          # need to set "TS_AUTHKEY=key" in agenix and import here
-          config.age.secrets."tailscaleEnvFile".path
-        ];
-        volumes = [
-          "${cfg.volumeLocation}/TSdata-lib:/var/lib"
-          "${cfg.volumeLocation}/TSdev-net-tun:/dev/net/tun"
-        ];
-        extraOptions = [
-          "--pull=newer"
-          "--network=host"
-          "--cap-add=NET_ADMIN"
-          "--cap-add=NET_RAW"
-        ];
-      };
+# ### tailscale container
+#       "TS${NAME}" = {
+#         image = "${tailscaleIMAGE}:${cfg.tailscale.imageVersion}";
+#         autoStart = true;
+#         environment = {
+#         "TS_HOSTNAME" =cfg.tailscale.TShostname;
+#         "TS_STATE_DIR"= "/var/lib/tailscale";
+#         "TS_EXTRA_ARGS" = cfg.tailscale.TSargs;
+#         "TS_ACCEPT_DNS" = "true";
+#         };
+#         environmentFiles = [
+#           # need to set "TS_AUTHKEY=key" in agenix and import here
+#           config.age.secrets."tailscaleEnvFile".path
+#         ];
+#         volumes = [
+#           "${cfg.volumeLocation}/TSdata-lib:/var/lib"
+#           "${cfg.volumeLocation}/TSdev-net-tun:/dev/net/tun"
+#         ];
+#         extraOptions = [
+#           "--pull=newer"
+#           "--network=host"
+#           "--cap-add=NET_ADMIN"
+#           "--cap-add=NET_RAW"
+#         ];
+#       };
 
 
 ### pihole container
@@ -148,6 +148,10 @@ in
           "--network=container:TS${NAME}"
         ];
       };
+    };
+    yomaq.pods.tailscaled."TS${NAME}" = {
+      enable = true;
+      TSserve = "http://127.0.0.1:80";
     };
   };
 }
