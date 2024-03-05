@@ -67,7 +67,6 @@ let
   };
   # Helper function to create a container configuration from a submodule
   mkContainer = name: cfg: {
-    "TS${name}" = {
       image = "${IMAGE}:${cfg.imageVersion}";
       autoStart = true;
       hostname = cfg.TShostname;
@@ -115,7 +114,6 @@ let
         "--cap-add=net_admin"
         "--cap-add=sys_module"
       ];
-    };
   };
   mkTmpfilesRules = name: cfg: [
     "d ${cfg.volumeLocation}/data-lib 0755 root root"
