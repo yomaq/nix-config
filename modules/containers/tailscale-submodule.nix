@@ -87,7 +87,7 @@ let
     ];
     volumes = [
       "${cfg.volumeLocation}/data-lib:/var/lib"
-      "${cfg.volumeLocation}/dev-net-tun:/dev/net/tun"
+      "/dev/net/tun:/dev/net/tun"
       "${cfg.volumeLocation}/config:/config"
     ];
     extraOptions = [
@@ -99,7 +99,7 @@ let
   };
   mkTmpfilesRules = name: cfg: [
     "d ${cfg.volumeLocation}/data-lib 0755 root root"
-    "d ${cfg.volumeLocation}/dev-net-tun 0755 root root"
+    # "d ${cfg.volumeLocation}/dev-net-tun 0755 root root"
     # "L+ ${cfg.volumeLocation}/config/tailscaleCfg.json - - - - ${(pkgs.writeText "${name}TScfg" 
     # ''
     #   {
