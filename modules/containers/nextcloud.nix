@@ -5,7 +5,7 @@ with lib;
 let
   ### Set container name and image
   NAME = "nextcloud";
-  IMAGE = "docker.io/nextcloud:stable-fpm";
+  IMAGE = "docker.io/nextcloud";
   tailscaleIMAGE = "ghcr.io/tailscale/tailscale";
   dbIMAGE = "docker.io/mariadb";
 
@@ -41,7 +41,7 @@ in
     };
     imageVersion = mkOption {
       type = types.str;
-      default = "latest";
+      default = "stable-fpm";
       description = ''
         container image version
       '';
