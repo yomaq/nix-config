@@ -105,7 +105,7 @@ let
         }
       },
       "Web": {
-        "${TS_CERT_DOMAIN}:443": {
+        "${cfg.TS_CERT_DOMAIN}:443": {
           "Handlers": {
             "/": {
               "Proxy": "${cfg.TSserve}"
@@ -114,7 +114,7 @@ let
         }
       },
       "AllowFunnel": {
-        "${TS_CERT_DOMAIN}:443": false
+        "${cfg.TS_CERT_DOMAIN}:443": false
       }
     }'';
 in
