@@ -97,7 +97,7 @@ let
               }
             },
             "Web": {
-              "${cgf.TShostname}.${tailnetName}.ts.net:443": {
+              "${cfg.TShostname}.${tailnetName}.ts.net:443": {
                 "Handlers": {
                   "/": {
                     "Proxy": "${cfg.TSserve}"
