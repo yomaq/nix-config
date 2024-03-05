@@ -100,27 +100,27 @@ let
   mkTmpfilesRules = name: cfg: [
     "d ${cfg.volumeLocation}/data-lib 0755 root root"
     "d ${cfg.volumeLocation}/dev-net-tun 0755 root root"
-    # "L+ ${cfg.volumeLocation}/config/tailscaleCfg.json - - - - ${(pkgs.writeText "${name}TScfg" 
-    # ''
-    #   {
-    #   "TCP": {
-    #     "443": {
-    #       "HTTPS": true
-    #     }
-    #   },
-    #   "Web": {
-    #     "${cfg.TS_CERT_DOMAIN}:443": {
-    #       "Handlers": {
-    #         "/": {
-    #           "Proxy": "${cfg.TSserve}"
-    #         }
-    #       }
-    #     }
-    #   },
-    #   "AllowFunnel": {
-    #     "${cfg.TS_CERT_DOMAIN}:443": false
-    #   }
-    # }'')}"
+    "L+ ${cfg.volumeLocation}/config/tailscaleCfg.json - - - - ${(pkgs.writeText "${name}TScfg" 
+    ''
+      {
+      "TCP": {
+        "443": {
+          "HTTPS": true
+        }
+      },
+      "Web": {
+        "${cfg.TS_CERT_DOMAIN}:443": {
+          "Handlers": {
+            "/": {
+              "Proxy": "${cfg.TSserve}"
+            }
+          }
+        }
+      },
+      "AllowFunnel": {
+        "${cfg.TS_CERT_DOMAIN}:443": false
+      }
+    }'')}"
   ];
 in
 {
