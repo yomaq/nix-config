@@ -6,7 +6,6 @@ let
   ### Set container name and image
   NAME = "nextcloud";
   IMAGE = "docker.io/nextcloud";
-  tailscaleIMAGE = "ghcr.io/tailscale/tailscale";
   dbIMAGE = "docker.io/mariadb";
 
 
@@ -14,7 +13,6 @@ let
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.impermanence) dontBackup;
-  inherit (config.yomaq.tailscale) tailnetName;
 in
 {
   options.yomaq.pods.${NAME} = {
@@ -70,48 +68,7 @@ in
         '';
       };
     };
-### tailscale container
-    tailscale = {
-      agenixSecret = mkOption {
-        type = types.path;
-        default = (inputs.self + /secrets/tailscaleEnvFile.age);
-        description = ''
-          path to agenix secret file
-        '';
-      };
-      imageVersion = mkOption {
-        type = types.str;
-        default = "latest";
-        description = ''
-          container image version
-        '';
-      };
-      TSargs = mkOption {
-        type = types.str;
-        default = "--ssh=true";
-        description = ''
-          TS_Extra_ARGS env var
-        '';
-      };
-      TShostname = mkOption {
-        type = types.str;
-        default = "${hostName}-${NAME}";
-        description = ''
-          TS_HOSTNAME env var
-        '';
-      };
-      volumeLocation = mkOption {
-        type = types.str;
-        default = "${dontBackup}/containers/${NAME}";
-        description = ''
-          path to store container volumes
-        '';
-      };
-    };
   };
-
-
-
 
   config = mkIf cfg.enable {
     ### agenix secrets for container
@@ -167,7 +124,6 @@ in
         ];
         extraOptions = [
           "--pull=always"
-          # "--link=DB${NAME}:DB${NAME}"
           "--network=container:ts${NAME}"
         ];
       };
