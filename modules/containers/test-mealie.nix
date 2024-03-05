@@ -5,8 +5,7 @@ with lib;
 let
   ### Set container name and image
   NAME = "mealie";
-  IMAGE = "docker.io/nextcloud";
-  tailscaleIMAGE = "ghcr.io/mealie-recipes/mealie";
+  IMAGE = "ghcr.io/mealie-recipes/mealie";
 
 
   cfg = config.yomaq.pods.${NAME};
