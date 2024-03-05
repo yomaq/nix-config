@@ -9,6 +9,7 @@ let
   cfg = config.yomaq.pods.tailscaled;
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) dontBackup;
+  inherit (config.yomaq.tailscale) tailnetName;
 
   containerOpts = { name, config, ... }: {
     options = {
@@ -57,7 +58,7 @@ let
       };
       TS_CERT_DOMAIN = mkOption {
         type = types.str;
-        default = "${hostName}-${name}.${config.yomaq.tailscale.tailnetName}.ts.net";
+        default = "${hostName}-${name}.${tailnetName}.ts.net";
         description = ''
           domain to serve on the tailnet
         '';
