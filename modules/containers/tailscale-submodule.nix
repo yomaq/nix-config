@@ -104,7 +104,7 @@ in
   config = mkIf (cfg != {}) {
     age.secrets."tailscaleEnvFile".file = config.yomaq.pods.tailscaleAgenixKey;
 
-    systemd.tmpfiles.rules = lib.concatMapAttrs mkTmpfilesRules config.yomaq.pods.tailscaled;
+    systemd.tmpfiles.rules = lib.concatMapAttrsToList mkTmpfilesRules config.yomaq.pods.tailscaled;
     virtualisation.oci-containers.containers = lib.mapAttrs mkContainer config.yomaq.pods.tailscaled;
   };
 }
