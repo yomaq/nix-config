@@ -135,7 +135,7 @@ in
     };
     tailscaleAgenixKey = mkOption {
       type = types.path;
-      default = (inputs.self + /secrets/tailscaleEnvFile.age);
+      default = (inputs.self + /secrets/tailscaleOAuthEnvFile.age);
       description = ''
         path to agenix secret file
       '';
