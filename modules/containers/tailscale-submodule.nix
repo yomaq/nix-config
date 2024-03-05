@@ -101,7 +101,7 @@ in
 
 
 
-  config = mkIf cfg != {} {
+  config = mkIf (cfg != {}) {
     age.secrets."tailscaleEnvFile".file = config.yomaq.pods.tailscaleAgenixKey;
 
     systemd.tmpfiles.rules = lib.concatMapAttrs mkTmpfilesRules config.example.pods.tailscaled;
