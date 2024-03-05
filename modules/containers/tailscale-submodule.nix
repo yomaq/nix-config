@@ -56,13 +56,6 @@ let
         '';
         example = "http://127.0.0.1:9000";
       };
-      TS_CERT_DOMAIN = mkOption {
-        type = types.str;
-        default = "${hostName}-${name}.${tailnetName}.ts.net";
-        description = ''
-          domain to serve on the tailnet
-        '';
-      };
     };
   };
   # Helper function to create a container configuration from a submodule
@@ -88,7 +81,6 @@ let
     volumes = [
       "${cfg.volumeLocation}/data-lib:/var/lib"
       "/dev/net/tun:/dev/net/tun"
-      # "${cfg.volumeLocation}/config:/config"
       "${(pkgs.writeText "${name}TScfg" 
         ''
           {
@@ -98,7 +90,7 @@ let
             }
           },
           "Web": {
-            "${cfg.TS_CERT_DOMAIN}:443": {
+            "${hostName}-${name}.${tailnetName}.ts.net:443": {
               "Handlers": {
                 "/": {
                   "Proxy": "${cfg.TSserve}"
@@ -107,7 +99,7 @@ let
             }
           },
           "AllowFunnel": {
-            "${cfg.TS_CERT_DOMAIN}:443": false
+            "${hostName}-${name}.${tailnetName}.ts.net:443": false
           }
         }'')}:/config/tailscaleCfg.json"
     ];
@@ -121,27 +113,6 @@ let
   mkTmpfilesRules = name: cfg: [
     "d ${cfg.volumeLocation}/data-lib 0755 root root"
     "d ${cfg.volumeLocation}/dev-net-tun 0755 root root"
-    # "L+ ${cfg.volumeLocation}/config/tailscaleCfg.json 0755 root root - ${(pkgs.writeText "${name}TScfg" 
-    # ''
-    #   {
-    #   "TCP": {
-    #     "443": {
-    #       "HTTPS": true
-    #     }
-    #   },
-    #   "Web": {
-    #     "${cfg.TS_CERT_DOMAIN}:443": {
-    #       "Handlers": {
-    #         "/": {
-    #           "Proxy": "${cfg.TSserve}"
-    #         }
-    #       }
-    #     }
-    #   },
-    #   "AllowFunnel": {
-    #     "${cfg.TS_CERT_DOMAIN}:443": false
-    #   }
-    # }'')}"
   ];
 in
 {
@@ -162,10 +133,6 @@ in
       '';
     };
   };
-
-
-
-
   config = mkIf (cfg != {}) {
     age.secrets."tailscaleOAuthEnvFile".file = config.yomaq.pods.tailscaleAgenixKey;
 
