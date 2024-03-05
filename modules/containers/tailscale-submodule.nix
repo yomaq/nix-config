@@ -85,7 +85,7 @@ let
     volumes = [
       "${cfg.volumeLocation}/data-lib:/var/lib"
       "${cfg.volumeLocation}/dev-net-tun:/dev/net/tun"
-      # "${cfg.volumeLocation}/config:/config"
+      "${cfg.volumeLocation}/config:/config"
     ];
     extraOptions = [
       "--pull=always"
