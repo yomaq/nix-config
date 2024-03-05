@@ -67,6 +67,7 @@ let
   };
   # Helper function to create a container configuration from a submodule
   mkContainer = name: cfg: {
+      name = "TS${name}";
       image = "${IMAGE}:${cfg.imageVersion}";
       autoStart = true;
       hostname = cfg.TShostname;
