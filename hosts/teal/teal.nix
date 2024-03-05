@@ -33,7 +33,6 @@
       };
       docker.enable = true;
       pods = {
-        nextcloud.enable = true;
         tailscale = {
           enable = true;
           TSargs = "--reset=true --advertise-exit-node";
