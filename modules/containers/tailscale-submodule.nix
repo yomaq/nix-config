@@ -97,7 +97,7 @@ let
   mkTmpfilesRules = name: cfg: [
     "d ${cfg.volumeLocation}/data-lib 0755 root root"
     "d ${cfg.volumeLocation}/dev-net-tun 0755 root root"
-    "L+ ${cfg.volumeLocation}/config/tailscaleCfg.json - - - - ${(pkgs.writeText "${name}TScfg" 
+    # "L+ ${cfg.volumeLocation}/config/tailscaleCfg.json - - - - ${(pkgs.writeText "${name}TScfg" 
     # ''
     #   {
     #   "TCP": {
@@ -117,8 +117,7 @@ let
     #   "AllowFunnel": {
     #     "${cfg.TS_CERT_DOMAIN}:443": false
     #   }
-    # }''
-    )}"
+    # }'')}"
   ];
 in
 {
