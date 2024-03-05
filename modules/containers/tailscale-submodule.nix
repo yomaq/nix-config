@@ -70,14 +70,14 @@ let
     image = "${IMAGE}:${cfg.imageVersion}";
     autoStart = true;
     hostname = cfg.TShostname;
-    environment = {
+    environment = mkMrge ({
       "TS_HOSTNAME" = cfg.TShostname;
       "TS_STATE_DIR"= "/var/lib/tailscale";
       "TS_EXTRA_ARGS" = cfg.TSargs;
       "TS_ACCEPT_DNS" = "true";
-      # } // lib.mkIf (cfg.TSserve != "") {
-      #   "TS_SERVE_CONFIG" = "config/tailscaleCfg.json";
-      };
+      })(lib.mkIf (cfg.TSserve != "") {
+        "TS_SERVE_CONFIG" = "config/tailscaleCfg.json";
+      });
     environmentFiles = [
       # need to set "TS_AUTHKEY=key" in agenix and import here
       config.age.secrets."tailscaleEnvFile".path
