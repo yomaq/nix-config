@@ -21,6 +21,13 @@ in
         enable custom disk configuration
       '';
     };
+    amReinstalling = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        am I reinstalling and want to save the storage pool + keep /persist/save unused so I can restore data
+      '';
+    };
     systemd-boot = mkOption {
       type = types.bool;
       default = false;
@@ -132,13 +139,6 @@ in
             enable zfs root
           '';
         };
-        amReinstalling = mkOption {
-          type = types.bool;
-          default = false;
-          description = ''
-            am I reinstalling and want to save the storage pool
-          '';
-        };
         disks = mkOption {
           type = types.listOf types.str;
           default = [];
@@ -224,7 +224,7 @@ in
     (mkIf cfg.zfs.root.enable {
       disko.devices = {
         disk = mkMerge [ 
-          (mkIf (cfg.zfs.storage.disks != [] && !cfg.zfs.storage.amReinstalling) (mkMerge (map ( diskname: {
+          (mkIf (cfg.zfs.storage.disks != [] && !cfg.amReinstalling) (mkMerge (map ( diskname: {
             "${diskname}" = {
               type = "disk";
               device = "/dev/${diskname}";
@@ -392,7 +392,7 @@ in
               };
             };
           };
-          zstorage = mkIf (cfg.zfs.storage.enable && !cfg.zfs.storage.amReinstalling) {
+          zstorage = mkIf (cfg.zfs.storage.enable && !cfg.amReinstalling) {
             type = "zpool";
             mode = mkIf (cfg.zfs.storage.mirror) "mirror";
             rootFsOptions = {
