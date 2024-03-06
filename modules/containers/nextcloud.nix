@@ -124,7 +124,7 @@ in
         ];
         extraOptions = [
           "--pull=always"
-          "--network=container:ts${NAME}"
+          "--network=container:TS${NAME}"
         ];
       };
     };
