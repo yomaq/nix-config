@@ -117,7 +117,7 @@ in
               #  MYSQL_PASSWORD=
               #  MYSQL_DATABASE=nextcloud
               #  MYSQL_USER=nextcloud
-              #  MYSQL_HOST=db
+              #  MYSQL_HOST=127.0.0.1
         ];
         volumes = [
           "${cfg.volumeLocation}/var-www-html:/var/www/html"
