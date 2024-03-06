@@ -17,4 +17,7 @@ with lib;
       description = "The persistent directory to not backup";
     };
   };
+  config = {
+    yomaq.impermanence.backup = mkIf config.yomaq.disks.amReinstalling "/tmp";
+  };
 }
