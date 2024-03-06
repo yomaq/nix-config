@@ -81,7 +81,7 @@ let
       {
           "TS_HOSTNAME" = cfg.TShostname;
           "TS_STATE_DIR" = "/var/lib/tailscale";
-          "TS_EXTRA_ARGS" = lib.strings.concatStrings [ "--advertise-tags=tag:container" ] + cfg.TSargs;
+          "TS_EXTRA_ARGS" = lib.strings.concatStrings [ "--advertise-tags=tag:container " ] + cfg.TSargs;
           "TS_ACCEPT_DNS" = "true";
       }
       (lib.mkIf (cfg.TSserve != "") {
