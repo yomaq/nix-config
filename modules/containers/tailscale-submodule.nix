@@ -11,7 +11,12 @@ let
   inherit (config.yomaq.impermanence) dontBackup;
   inherit (config.yomaq.tailscale) tailnetName;
 
-  containerOpts = { name, config, ... }: {
+  containerOpts = { name, config, ... }: 
+    let
+      startsWithTS = substring 0 2 name == "TS";
+      noTSname = if startsWithTS then substring 2 (-1) name else name;
+    in
+  {
     options = {
       enable = mkOption {
         type = types.bool;
@@ -43,7 +48,7 @@ let
       };
       TShostname = mkOption {
         type = types.str;
-        default = "${hostName}-${substring 2 (-1) name}";
+        default = "${hostName}-${noTSname}";
         description = ''
           TS_HOSTNAME env var
         '';
