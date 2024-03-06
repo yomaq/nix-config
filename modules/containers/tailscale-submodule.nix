@@ -125,7 +125,6 @@ let
   };
   mkTmpfilesRules = name: cfg: [
     "d ${cfg.volumeLocation}/data-lib 0755 4000 4000"
-    "d ${cfg.volumeLocation}/dev-net-tun 0755 4000 4000"
   ];
 in
 {
