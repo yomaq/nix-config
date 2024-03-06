@@ -35,10 +35,6 @@
         # valheim.enable = true;
         minecraft.enable = true;
         palworld.enable = true;
-        tailscale = {
-          enable = true;
-          TSargs = "--reset=true --advertise-exit-node";
-        };
         tailscaled.exitnode.TSargs = "--advertise-exit-node";
       };
 
