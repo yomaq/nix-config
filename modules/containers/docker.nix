@@ -33,7 +33,7 @@ in {
         isNormalUser = true;
         uid = 4000;
       };
-      groups.docker = {
+      groups.dockeruser = {
         gid = 4000;
         members = [ "docker" ];
       };
