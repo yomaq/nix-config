@@ -103,6 +103,7 @@ in
         ];
         extraOptions = [
           "--pull=always"
+          "--network=container:TS${NAME}"
         ];
       };
 ### main container
