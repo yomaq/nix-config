@@ -43,7 +43,7 @@ let
       };
       TShostname = mkOption {
         type = types.str;
-        default = "${hostName}-${substring 2 (-1) ${name}}";
+        default = "${hostName}-${substring 2 (-1) name}";
         description = ''
           TS_HOSTNAME env var
         '';
