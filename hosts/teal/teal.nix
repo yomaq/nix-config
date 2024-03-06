@@ -37,8 +37,6 @@
           enable = true;
           TSargs = "--reset=true --advertise-exit-node";
         };
-        tailscaled.TSsample.enable = true;
-        tailscaled.newsample.enable = true;
       };
 
       # disk configuration

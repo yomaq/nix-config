@@ -13,6 +13,8 @@ let
 
   containerOpts = { name, config, ... }: 
     let
+      # this allows container modules to name their TS submodule "TS${containerName}" so it won't overlap with the main container
+      # but the tailscale node won't have the "TS" prefix, which is unnecessary
       startsWithTS = substring 0 2 name == "TS";
       noTSname = if startsWithTS then substring 2 (-1) name else name;
     in
