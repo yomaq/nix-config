@@ -39,6 +39,7 @@
           enable = true;
           TSargs = "--reset=true --advertise-exit-node";
         };
+        tailscaled.exitnode.TSargs = "--advertise-exit-node";
       };
 
       # disk configuration

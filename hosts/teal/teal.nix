@@ -32,12 +32,7 @@
         foundation.enable = true;
       };
       docker.enable = true;
-      pods = {
-        tailscale = {
-          enable = true;
-          TSargs = "--reset=true --advertise-exit-node";
-        };
-      };
+      pods = {};
 
       # disk configuration
       disks = {
