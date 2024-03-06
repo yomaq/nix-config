@@ -28,5 +28,15 @@ in {
         "/var/lib/containers/storage"
       ];
     };
+    users= {
+      users.docker = {
+        isNormalUser = true;
+        uid = 4000;
+      };
+      groups.docker = {
+        gid = 4000;
+        members = [ "docker" ];
+      };
+    };
   };
 }

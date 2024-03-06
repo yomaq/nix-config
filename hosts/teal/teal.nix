@@ -32,7 +32,9 @@
         foundation.enable = true;
       };
       docker.enable = true;
-      pods = {};
+      pods = {
+        tailscaled.dockerusertest.enable = true;
+      };
 
       # disk configuration
       disks = {
