@@ -78,10 +78,9 @@ in
 
     systemd.tmpfiles.rules = [
       # main container
-      "d ${cfg.volumeLocation}/data 0755 root root"
-      "d ${cfg.volumeLocation}/var-www-html 0755 root root"
+      "d ${cfg.volumeLocation}/var-www-html 0755 4000 4000"
       # database container
-      "d ${cfg.database.volumeLocation}/var-lib-mysql 0755 root root"
+      "d ${cfg.database.volumeLocation}/var-lib-mysql 0755 4000 4000"
     ];
     virtualisation.oci-containers.containers = {
 ### DB container
@@ -105,6 +104,7 @@ in
           "--pull=always"
           "--network=container:TS${NAME}"
         ];
+        user = "4000:4000";
       };
 ### main container
       "${NAME}" = {
@@ -127,6 +127,7 @@ in
           "--pull=always"
           "--network=container:TS${NAME}"
         ];
+        user = "4000:4000";
       };
     };
     yomaq.pods.tailscaled."TS${NAME}".TSserve = "http://127.0.0.1:80";
