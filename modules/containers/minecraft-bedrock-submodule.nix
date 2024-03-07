@@ -95,7 +95,7 @@ in
     };
   };
   config = mkIf (cfg != {}) {
-    yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (container: { tags = ["tag:minecraft"]; });
+    yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (container: { enable = true; });
     systemd.tmpfiles.rules = lib.flatten ( lib.mapAttrsToList (name: cfg: mkTmpfilesRules name cfg) config.yomaq.pods.minecraftBedrock);
     virtualisation.oci-containers.containers = lib.mapAttrs mkContainer config.yomaq.pods.minecraftBedrock;
   };
