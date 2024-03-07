@@ -17,7 +17,7 @@ in
 
   config = mkIf cfg.enable {
     programs.vscode = {
-      package = pkgs.unstable.vscode;
+      package = pkgs.vscode;
       enable = true;
       enableUpdateCheck = false;
       enableExtensionUpdateCheck = false;
@@ -30,6 +30,7 @@ in
         pkgs.vscode-extensions.github.copilot-chat
         pkgs.vscode-extensions.tailscale.vscode-tailscale
         pkgs.vscode-extensions.eamodio.gitlens
+        pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
       ];
       userSettings = {
         "[nix]"."editor.tabSize" = 2;
