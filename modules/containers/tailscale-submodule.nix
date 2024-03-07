@@ -29,7 +29,7 @@ let
       };
       volumeLocation = mkOption {
         type = types.str;
-        default = "${dontBackup}/containers/${name}";
+        default = "${dontBackup}/containers/tailscale/${name}";
         description = ''
           path to store container volumes
         '';
