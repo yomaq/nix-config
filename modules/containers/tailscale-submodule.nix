@@ -70,10 +70,21 @@ let
           if you are sure you want to enable funnel
         '';
       };
+     tags = mkOption {
+        type = lib.listOf lib.str;
+        default = [];
+        description = ''
+          list of tags owned by "container" to assign to the container
+        '';
+      };
     };
   };
   # Helper function to create a container configuration from a submodule
-  mkContainer = name: cfg: {
+  mkContainer = name: cfg: 
+  let
+    formatTags = builtins.concatStringsSep "," (builtins.map (x: ", " + x) cfg.tags);
+  in
+  {
       image = "${IMAGE}:${cfg.imageVersion}";
       autoStart = true;
       hostname = cfg.TShostname;
@@ -81,7 +92,7 @@ let
       {
           "TS_HOSTNAME" = cfg.TShostname;
           "TS_STATE_DIR" = "/var/lib/tailscale";
-          "TS_EXTRA_ARGS" = lib.strings.concatStrings [ "--advertise-tags=tag:container " ] + cfg.TSargs;
+          "TS_EXTRA_ARGS" = "--advertise-tags=tag:container" + formatTags + " " + cfg.TSargs;
           "TS_ACCEPT_DNS" = "true";
       }
       (lib.mkIf (cfg.TSserve != "") {
