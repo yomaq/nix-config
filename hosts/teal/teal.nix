@@ -33,7 +33,7 @@
       };
       docker.enable = true;
       pods = {
-        tailscaled.dockerusertest.enable = true;
+        minecraftBedrock.minecrafttest.enable = true;
       };
 
       # disk configuration
