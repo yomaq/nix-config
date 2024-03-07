@@ -71,7 +71,7 @@ let
         '';
       };
      tags = mkOption {
-        type = lib.listOfStr;
+        type = lib.types.listOf lib.types.str;
         default = [];
         description = ''
           list of tags owned by "container" to assign to the container
