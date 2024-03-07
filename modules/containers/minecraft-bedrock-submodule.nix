@@ -11,10 +11,10 @@ let
   inherit (config.yomaq.impermanence) backup;
 
   containerOpts = { name, config, ... }: 
-    let
-      startsWithminecraft = substring 0 9 name == "minecraft";
-      shortName = if startsWithTS then substring 9 (-1) name else name;
-    in
+  let
+    startsWithminecraft = substring 0 9 name == "minecraft";
+    shortName = if startsWithTS then substring 9 (-1) name else name;
+  in
   {
     options = {
       enable = mkOption {
@@ -36,6 +36,13 @@ let
         default = "latest";
         description = ''
           container image version
+        '';
+      };
+      serverName = mkOption {
+        type = types.str;
+        default = "${shortName}";
+        description = ''
+          serverName
         '';
       };
       envVariables = mkOption {
@@ -61,7 +68,7 @@ let
     autoStart = true;
     environment = lib.mkMerge [
     cfg.envVariables
-    { "SERVER_NAME" = "${shortName}"; }
+    { "SERVER_NAME" = "${cfg.serverName}"; }
     ];
     volumes = ["${cfg.volumeLocation}/data:/data"];
     extraOptions = [
@@ -73,6 +80,7 @@ let
   mkTmpfilesRules = name: cfg: [
     "d ${cfg.volumeLocation}/data 0755 4000 4000"
   ];
+  # this is written oddly, I dont know how to write it differently yet
   mkTailscaledContainer = name: cfg: {enable = true;};
   mapToTailscaled = lib.mapAttrs mkTailscaledContainer config.yomaq.pods.minecraftBedrock;
   formatToTailscaled = lib.foldl' (acc: a: acc // a) {} (lib.attrValues mapToTailscaled);
