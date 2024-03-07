@@ -81,7 +81,8 @@ let
     "d ${cfg.volumeLocation}/data 0755 4000 4000"
   ];
   # this is written oddly, I dont know how to write it differently yet
-  containersList = builtins.attrNames config.yomaq.pods.minecraftBedrock;
+  containersList = attrNames config.yomaq.pods.minecraftBedrock;
+  renameTScontainers = map (a: "TS" + a) containersList;
 in
 {
   options.yomaq.pods = {
@@ -95,7 +96,7 @@ in
     };
   };
   config = mkIf (cfg != {}) {
-    yomaq.pods.tailscaled = lib.genAttrs containersList (container: { enable = true; });
+    yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (container: { enable = true; });
     systemd.tmpfiles.rules = lib.flatten ( lib.mapAttrsToList (name: cfg: mkTmpfilesRules name cfg) config.yomaq.pods.minecraftBedrock);
     virtualisation.oci-containers.containers = lib.mapAttrs mkContainer config.yomaq.pods.minecraftBedrock;
   };
