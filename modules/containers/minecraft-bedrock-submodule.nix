@@ -97,7 +97,7 @@ in
     };
   };
   config = mkIf (cfg != {}) {
-    yomaq.pods.tailscaled = lib.mapAttrs mkTailscaledContainer formatToTailscaled;
+    yomaq.pods.tailscaled = lib.mapAttrs mkTailscaledContainer mapToTailscaled;
     systemd.tmpfiles.rules = lib.flatten ( lib.mapAttrsToList (name: cfg: mkTmpfilesRules name cfg) config.yomaq.pods.minecraftBedrock);
     virtualisation.oci-containers.containers = lib.mapAttrs mkContainer config.yomaq.pods.minecraftBedrock;
   };
