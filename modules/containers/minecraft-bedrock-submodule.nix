@@ -73,7 +73,7 @@ let
   mkTmpfilesRules = name: cfg: [
     "d ${cfg.volumeLocation}/data 0755 4000 4000"
   ];
-  mkTailscaledContainer = name: {
+  mkTailscaledContainer = name: cfg: {
     "TS${name}".enable = true;
   };
 in
