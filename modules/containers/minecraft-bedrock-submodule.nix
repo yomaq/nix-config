@@ -12,8 +12,8 @@ let
 
   containerOpts = { name, config, ... }: 
   let
-    startsWithminecraft = substring 0 9 name == "minecraft";
-    shortName = if startsWithTS then substring 9 (-1) name else name;
+    startsWith = substring 0 9 name == "minecraft";
+    shortName = if startsWith then substring 9 (-1) name else name;
   in
   {
     options = {
