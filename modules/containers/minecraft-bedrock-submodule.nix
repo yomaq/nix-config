@@ -76,6 +76,8 @@ let
   mkTailscaledContainer = name: cfg: {
     "TS${name}".enable = true;
   };
+  mapToTailscaled = lib.mapAttrs mkTailscaledContainer config.yomaq.pods.minecraftBedrock;
+  formatToTailscaled = lib.foldl' (acc: a: acc // a) {} (lib.attrValues mapToTailscaled);
 in
 {
   options.yomaq.pods = {
@@ -89,7 +91,7 @@ in
     };
   };
   config = mkIf (cfg != {}) {
-    yomaq.pods.tailscaled = lib.mapAttrs mkTailscaledContainer config.yomaq.pods.minecraftBedrock;
+    yomaq.pods.tailscaled = lib.mapAttrs mkTailscaledContainer formatToTailscaled;
     systemd.tmpfiles.rules = lib.flatten ( lib.mapAttrsToList (name: cfg: mkTmpfilesRules name cfg) config.yomaq.pods.minecraftBedrock);
     virtualisation.oci-containers.containers = lib.mapAttrs mkContainer config.yomaq.pods.minecraftBedrock;
   };
