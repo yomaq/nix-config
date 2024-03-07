@@ -13,6 +13,7 @@ in
       authKeyFile = cfg.authKeyFile;
       extraUpFlags = cfg.extraUpFlags;
       useRoutingFeatures = cfg.useRoutingFeatures;
+      overrideLocalDns = true;
     };
     environment.persistence."${config.yomaq.impermanence.dontBackup}" = {
       hideMounts = true;
