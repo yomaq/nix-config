@@ -82,7 +82,7 @@ let
   # Helper function to create a container configuration from a submodule
   mkContainer = name: cfg: 
   let
-    formatTags = builtins.concatStringsSep "," (builtins.map (x: ", " + x) cfg.tags);
+    formatTags = builtins.concatStringsSep "" (builtins.map (x: "," + x) cfg.tags);
   in
   {
       image = "${IMAGE}:${cfg.imageVersion}";
