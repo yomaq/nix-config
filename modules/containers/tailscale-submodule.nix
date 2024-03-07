@@ -72,9 +72,9 @@ let
       };
      tags = mkOption {
         type = lib.types.listOf lib.types.str;
-        default = [];
+        default = ["tag:container"];
         description = ''
-          list of tags owned by "container" to assign to the container
+          list of tags owned by "tag:container" to assign to the container
         '';
       };
     };
@@ -82,7 +82,7 @@ let
   # Helper function to create a container configuration from a submodule
   mkContainer = name: cfg: 
   let
-    formatTags = builtins.concatStringsSep "" (builtins.map (x: "," + x) cfg.tags);
+    formatTags = builtins.concatStringsSep "," cfg.tags;
   in
   {
       image = "${IMAGE}:${cfg.imageVersion}";
@@ -92,7 +92,7 @@ let
       {
           "TS_HOSTNAME" = cfg.TShostname;
           "TS_STATE_DIR" = "/var/lib/tailscale";
-          "TS_EXTRA_ARGS" = "--advertise-tags=tag:container" + formatTags + " " + cfg.TSargs;
+          "TS_EXTRA_ARGS" = "--advertise-tags=" + formatTags + " " + cfg.TSargs;
           "TS_ACCEPT_DNS" = "true";
       }
       (lib.mkIf (cfg.TSserve != "") {
