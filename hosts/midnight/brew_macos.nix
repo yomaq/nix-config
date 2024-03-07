@@ -11,7 +11,6 @@
         "altserver"
         "spotify"
         "obsidian"
-        "docker"
       ];
       taps = ["pulumi/tap"];
       brews = [
