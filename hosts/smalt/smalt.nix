@@ -36,6 +36,7 @@
         minecraft.enable = true;
         palworld.enable = true;
         tailscaled.exitnode.TSargs = "--advertise-exit-node";
+        minecraftBedrock.minecrafthome.enable = true;
       };
 
       # disk configuration
