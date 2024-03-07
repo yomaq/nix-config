@@ -81,7 +81,7 @@ let
     "d ${cfg.volumeLocation}/data 0755 4000 4000"
   ];
   # this is written oddly, I dont know how to write it differently yet
-  mkTailscaledContainer = name: cfg: {"TS${name}".enable = true;};
+  mkTailscaledContainer = name: cfg: { "TS${name}" = { enable = true; }; };
   mapToTailscaled = lib.mapAttrs mkTailscaledContainer config.yomaq.pods.minecraftBedrock;
   formatToTailscaled = lib.foldl' (acc: a: acc // a) {} (lib.attrValues mapToTailscaled);
 in
