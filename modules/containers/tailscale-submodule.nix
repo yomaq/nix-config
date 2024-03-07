@@ -72,7 +72,7 @@ let
       };
      tags = mkOption {
         type = lib.types.listOf lib.types.str;
-        default = ["tag:container"];
+        default = ["tag:lockdown"];
         description = ''
           list of tags owned by "tag:container" to assign to the container
         '';
