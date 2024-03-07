@@ -33,8 +33,6 @@
       };
       docker.enable = true;
       pods = {
-        minecraftBedrock.minecrafttest.enable = true;
-        minecraftBedrock.minecraftAnotherOne.enable = true;
       };
 
       # disk configuration

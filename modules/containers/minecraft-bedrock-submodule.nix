@@ -80,8 +80,7 @@ let
   mkTmpfilesRules = name: cfg: [
     "d ${cfg.volumeLocation}/data 0755 4000 4000"
   ];
-  # this is written oddly, I dont know how to write it differently yet
-  containersList = attrNames config.yomaq.pods.minecraftBedrock;
+  containersList = attrNames cfg;
   renameTScontainers = map (a: "TS" + a) containersList;
 in
 {
