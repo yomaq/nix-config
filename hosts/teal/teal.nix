@@ -22,7 +22,7 @@
       primaryUser.users = [ "carln" "admin" ];
       tailscale = {
         enable = true;
-        extraUpFlags = ["--ssh=true" "--reset=true" "--advertise-exit-node"];
+        extraUpFlags = ["--ssh=true" "--reset=true"];
         useRoutingFeatures = "server";
       };
       timezone.central= true;
