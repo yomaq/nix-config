@@ -6,8 +6,9 @@ let
 in
 {
 
-  config = mkIf cfg.basics {
-    networking.networkmanager.enable = true;
+  config = mkMerge [
+    (mkIf cfg.basics {
+      networking.networkmanager.enable = true;
 
       # pulled from https://github.com/nix-community/srvos/blob/main/nixos/common/networking.nix
 
@@ -35,5 +36,30 @@ in
         systemd.services.systemd-networkd.stopIfChanged = false;
         # Services that are only restarted might be not able to resolve when resolved is stopped before
         systemd.services.systemd-resolved.stopIfChanged = false;
-  };
+  })
+  (mkIf cfg.useBr0  {
+    systemd.network = {
+      netdevs = {
+        "20-br0" = {
+          netdevConfig = {
+            Kind = "bridge";
+            Name = "br0";
+          };
+        };
+      };
+      networks = {
+        "30-${cfg.physicalInterfaceName}" = {
+          matchConfig.Name = "${cfg.physicalInterfaceName}";
+          networkConfig.Bridge = "br0";
+          linkConfig.RequiredForOnline = "enslaved";
+        };
+        "40-br0" = {
+          matchConfig.Name = "br0";
+          networkConfig.DHCP = "ipv4";
+          linkConfig.RequiredForOnline = "carrier";
+        };
+      };
+    };
+  })
+  ];
 }

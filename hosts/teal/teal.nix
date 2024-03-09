@@ -25,6 +25,10 @@
         extraUpFlags = ["--ssh=true" "--reset=true"];
         useRoutingFeatures = "server";
       };
+     network = {
+        useBr0 = true;
+        physicalInterfaceName = "eno2";
+      };
       timezone.central= true;
       syncoid.enable = true;
       suites = {
