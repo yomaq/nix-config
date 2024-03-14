@@ -29,6 +29,7 @@
       docker.enable = true;
       pods = {
         nextcloud.enable = true;
+        teslamate.enable = true;
       };
       syncoid = { 
         isBackupServer = true;
