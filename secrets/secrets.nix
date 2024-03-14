@@ -23,6 +23,10 @@ in
   "nextcloudEnvFile.age".publicKeys = [ azure green ] ++ all;
   "nextcloudDBEnvFile.age".publicKeys = [ azure green ] ++ all;
   "palworldEnvFile.age".publicKeys = [ teal smalt ] ++ all;
+  "teslamateEnvFile.age".publicKeys = [ teal azure ] ++ all;
+  "teslamateDBEnvFile.age".publicKeys = [ teal azure ] ++ all;
+  "teslamateGrafanaEnvFile.age".publicKeys = [ teal azure ] ++ all;
+
 
 
   #example for calling groups
