@@ -145,7 +145,7 @@ in
             #  POSTGRES_DB=teslamate
         ];
         volumes = [
-          "${cfg.database.volumeLocation}/teslamate-db:/var/lib/postgresql/"
+          "${cfg.database.volumeLocation}/teslamate-db:/var/lib/postgresql/data"
         ];
         extraOptions = [
           "--pull=always"
