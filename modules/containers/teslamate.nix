@@ -64,7 +64,7 @@ in
       };
       imageVersion = mkOption {
         type = types.str;
-        default = "latest";
+        default = "16";
         description = ''
           container image version
         '';
