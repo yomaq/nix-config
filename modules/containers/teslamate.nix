@@ -156,7 +156,10 @@ in
       "grafana-${NAME}" = {
         image = "${grafanaIMAGE}:${cfg.grafana.imageVersion}";
         autoStart = true;
-        environment = {};
+        environment = {
+           "GF_SERVER_ROOT_URL"= "%(protocol)s://%(domain)s/grafana";
+           "GF_SERVER_SERVE_FROM_SUB_PATH" = "true";
+        };
         environmentFiles = [
           # container listens on port 3000
           config.age.secrets."${NAME}GrafanaEnvFile".path
@@ -220,11 +223,8 @@ in
     };
     yomaq.pods.tailscaled."TS${NAME}" = {
       TSserve = {
-        "/" = "http://127.0.0.1:3000";
-        "/sign_in" = "http://127.0.0.1:4000/sign_in";
-        "/home" = "http://127.0.0.1:4000";
-        "/settings" = "http://127.0.0.1:4000/settings";
-        "/geo-fences" = "http://127.0.0.1:4000/geo-fences";
+        "/" = "http://127.0.0.1:4000";
+        "/grafana" = "http://127.0.0.1:3000/grafana";
       };
       tags = ["tag:teslamate"];
     };
