@@ -218,6 +218,14 @@ in
         ];
       };
     };
-    yomaq.pods.tailscaled."TS${NAME}".TSserve = "http://127.0.0.1:3000";
+    yomaq.pods.tailscaled."TS${NAME}" = {
+      TSserve = {
+        "/" = "http://127.0.0.1:3000";
+        "/sign_in" = "http://127.0.0.1:4000/sign_in";
+        "/home" = "http://127.0.0.1:4000";
+        "/settings" = "http://127.0.0.1:4000/settings";
+        "/geo-fences" = "http://127.0.0.1:4000/geo-fences";
+      };
+      tags = "tag:teslamate"
   };
 }

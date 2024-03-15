@@ -56,16 +56,18 @@ let
         '';
       };
       TSserve = mkOption {
-        type = types.str;
-        default = "";
+        type = with types; attrsOf str;
+        default = {};
         description = ''
-          port to serve on the tailnet
+          paths that should map to ports for tailscale serve
         '';
-        example = "http://127.0.0.1:9000";
+        example = {
+           "/" = "http://127.0.0.1:9000";
+        };
       };
      enableFunnel = mkOption {
-        type = lib.types.enum [ "true" "false" ];
-        default = "false";
+        type = types.bool;
+        default = false;
         description = ''
           if you are sure you want to enable funnel
         '';
@@ -83,6 +85,14 @@ let
   mkContainer = name: cfg: 
   let
     formatTags = builtins.concatStringsSep "," cfg.tags;
+    PathsToMap = a: b:  { Proxy = "${b}"; };
+    Serveconfig = {
+      TCP."443".HTTPS = true;
+      Web."${cfg.TShostname}.${tailnetName}.ts.net:443".Handlers = lib.mapAttrs PathsToMap cfg.TSserve;
+      AllowFunnel = {
+          "${cfg.TShostname}.${tailnetName}.ts.net:443" = cfg.enableFunnel;
+      };
+    };
   in
   {
       image = "${IMAGE}:${cfg.imageVersion}";
@@ -95,7 +105,7 @@ let
           "TS_EXTRA_ARGS" = "--advertise-tags=" + formatTags + " " + cfg.TSargs;
           "TS_ACCEPT_DNS" = "true";
       }
-      (lib.mkIf (cfg.TSserve != "") {
+      (lib.mkIf (cfg.TSserve != {}) {
           "TS_SERVE_CONFIG" = "config/tailscaleCfg.json";
       })
       ];
@@ -106,26 +116,10 @@ let
       volumes = [
         "${cfg.volumeLocation}/data-lib:/var/lib"
         "/dev/net/tun:/dev/net/tun"
-        "${(pkgs.writeText "${name}TScfg" 
-          ''{
-            "TCP": {
-              "443": {
-                "HTTPS": true
-              }
-            },
-            "Web": {
-              "${cfg.TShostname}.${tailnetName}.ts.net:443": {
-                "Handlers": {
-                  "/": {
-                    "Proxy": "${cfg.TSserve}"
-                  }
-                }
-              }
-            },
-            "AllowFunnel": {
-              "${cfg.TShostname}.${tailnetName}.ts.net:443": ${cfg.enableFunnel}
-            }
-          }'')}:/config/tailscaleCfg.json"
+        "${(pkgs.writeTextFile {
+          name = "${name}TScfg";
+          text = builtins.toJSON Serveconfig;
+        })}:/config/tailscaleCfg.json"
       ];
       extraOptions = [
         "--pull=always"
