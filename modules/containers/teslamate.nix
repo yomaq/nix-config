@@ -226,7 +226,7 @@ in
         "/settings" = "http://127.0.0.1:4000/settings";
         "/geo-fences" = "http://127.0.0.1:4000/geo-fences";
       };
-      tags = "tag:teslamate";
+      tags = ["tag:teslamate"];
     };
   };
 }
