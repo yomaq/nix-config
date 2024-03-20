@@ -17,7 +17,17 @@
     boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     
+
+
+
+
     yomaq = {
+      homepage-dashboard = {
+        enable = true;
+        environmentFile = (pkgs.writeText "valheim_plus.cfg" "HOMEPAGE_VAR_NAME=iamanothername");
+      };
+
+
       autoUpgrade.enable = true;
       primaryUser.users = [ "carln" "admin" ];
       tailscale = {
@@ -37,6 +47,7 @@
       };
       docker.enable = true;
       pods = {
+        homepage.enable = true;
       };
 
       # disk configuration
