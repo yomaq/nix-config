@@ -26,11 +26,9 @@ in
     services.adguardhome = {
       enable = true;
       allowDHCP = true;
-      extraArgs = ["--web-addr ${hostName}.${tailnetName}.ts.net:3000"];
     };
     yomaq.homepage.groups.services.utilities = [{
       DNS = {
-        href = "http://${hostName}.${tailnetName}.ts.net:3000";
         icon = "si-adguard";
         widget = {
           type = "adguard";
