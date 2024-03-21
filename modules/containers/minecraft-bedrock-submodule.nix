@@ -89,13 +89,12 @@ let
       "${name}" = {
         icon = "si-minecraft";
         description = "Minecraft Bedrock";
-        href = "udp://${hostName}-${name}.${tailnetName}.ts.net:19132";
-        ping = "${hostName}-${name}.${tailnetName}.ts.net";
+        href = "https://${hostName}-${name}.${tailnetName}.ts.net";
         widget = {
           type = "gamedig";
-          serverType = "mbe";
+          serverType = "minecraftbe";
           url = "udp://${hostName}-${name}.${tailnetName}.ts.net:19132";
-          fields = [ "name" "players" "ping" ];
+          fields = [ "status" "players" "ping" ];
         };
     };
   }];
