@@ -2,9 +2,6 @@
 let
   listOfHosts = lib.attrNames inputs.self.nixosConfigurations;
   cfg = config.yomaq.homepage;
-
-  convertAttrSetToList = attrSet: map (name: { "${name}" = attrSet."${name}"; }) (lib.attrNames attrSet);
-
 in
 {
   options.yomaq.homepage = {
@@ -31,6 +28,36 @@ in
       type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
         freeformType = (pkgs.formats.yaml { }).type;
       }));
+    };
+  };
+  options.yomaq.homepage.groups = {
+    services = {
+      favorites =lib.mkOption {
+        default = null;
+        type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
+          freeformType = (pkgs.formats.yaml { }).type;
+        }));
+      };
+      utilities =lib.mkOption {
+        default = null;
+        type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
+          freeformType = (pkgs.formats.yaml { }).type;
+        }));
+      };
+    };
+    bookmarks = {
+      favorites =lib.mkOption {
+        default = null;
+        type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
+          freeformType = (pkgs.formats.yaml { }).type;
+        }));
+      };
+      utilities =lib.mkOption {
+        default = null;
+        type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
+          freeformType = (pkgs.formats.yaml { }).type;
+        }));
+      };
     };
   };
   config = {
