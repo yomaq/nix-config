@@ -69,8 +69,8 @@ in
     systemd.tmpfiles.rules = [
       # main container
       "d ${cfg.volumeLocation}/config 0755 4000 4000"
-      "f ${cfg.volumeLocation}/config/docker.yaml 755 4000 4000"
-      "f ${cfg.volumeLocation}/config/settings.yaml 755 4000 4000 - ${(pkgs.formats.yaml { }).generate "${NAME}Settings" settings}"
+      # "f ${cfg.volumeLocation}/config/docker.yaml 755 4000 4000"
+      # "f ${cfg.volumeLocation}/config/settings.yaml 755 4000 4000 - ${(pkgs.formats.yaml { }).generate "${NAME}Settings" settings}"
     ];
     virtualisation.oci-containers.containers = {
 ### main container
@@ -78,20 +78,22 @@ in
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
         environment = {
+          "PUID" = "4000";
+          "PGID" = "4000";
         };
         environmentFiles = [
           # config.age.secrets."${NAME}EnvFile".path
         ];
         volumes = [
-          "${cfg.volumeLocation}/logs:/app/config/logs"
-          "${cfg.volumeLocation}/config/docker.yaml:/app/config/docker.yaml"
-          "${cfg.volumeLocation}/config/settings.yaml:/app/config/settings.yaml"
+          "${cfg.volumeLocation}/config:/app/config"
+          # "${cfg.volumeLocation}/config/docker.yaml:/app/config/docker.yaml"
+          # "${cfg.volumeLocation}/config/settings.yaml:/app/config/settings.yaml"
         ];
         extraOptions = [
           "--pull=always"
           "--network=container:TS${NAME}"
         ];
-        user = "4000:4000";
+        # user = "4000:4000";
       };
     };
     yomaq.pods.tailscaled."TS${NAME}".TSserve =  {"/" = "http://127.0.0.1:3000";};

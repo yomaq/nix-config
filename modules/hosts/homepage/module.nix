@@ -45,5 +45,6 @@ in
       bookmarks = lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.bookmarks != null) 
             inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.bookmarks) listOfHosts);
     };
+    services.homepage-dashboard.package = pkgs.unstable.homepage-dashboard;
   };
 }

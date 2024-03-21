@@ -93,9 +93,9 @@ in
       };
       services = lib.mkOption {
         default = null;
-        type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
-            freeformType = (pkgs.formats.yaml { }).type;
-        }));
+      type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
+        freeformType = (pkgs.formats.yaml { }).type;
+      }));
         description = lib.mdDoc ''
           YAML Value configuration for Homepage settings.
           See link for options and how to configure.

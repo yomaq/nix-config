@@ -85,19 +85,20 @@ let
   containersList = attrNames cfg;
   renameTScontainers = map (a: "TS" + a) containersList;
 
-  homepageWidgets = name:  [{
+  homepageServices = name:  [{
       "${name}" = {
         icon = "si-minecraft";
         description = "Minecraft Bedrock";
+        href = "udp://${hostName}-${name}.${tailnetName}.ts.net:19132";
+        ping = "${hostName}-${name}.${tailnetName}.ts.net";
         widget = {
           type = "gamedig";
-          serverType = "minecraftbe";
-          url = "udp://${name}.${tailnetName}.ts.net:19132";
+          serverType = "mbe";
+          url = "udp://${hostName}-${name}.${tailnetName}.ts.net:19132";
           fields = [ "name" "players" "ping" ];
         };
     };
   }];
-  listOfWidgets = lib.flatten (map homepageWidgets containersList);
 in
 {
   options.yomaq.pods = {
@@ -114,6 +115,8 @@ in
     yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (container: { tags = ["tag:minecraft"]; });
     systemd.tmpfiles.rules = lib.flatten ( lib.mapAttrsToList (name: cfg: mkTmpfilesRules name cfg) config.yomaq.pods.minecraftBedrock);
     virtualisation.oci-containers.containers = lib.mapAttrs mkContainer config.yomaq.pods.minecraftBedrock;
-    yomaq.homepage.widgets = listOfWidgets;
+    # yomaq.homepage.widgets = lib.flatten (map homepageWidgets containersList);
+    yomaq.homepage.services = [{minecraft = lib.flatten (map homepageServices containersList);}];
+
   };
 }
