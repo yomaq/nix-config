@@ -26,6 +26,7 @@ in
   "teslamateEnvFile.age".publicKeys = [ teal azure ] ++ all;
   "teslamateDBEnvFile.age".publicKeys = [ teal azure ] ++ all;
   "teslamateGrafanaEnvFile.age".publicKeys = [ teal azure ] ++ all;
+  "homepage.age".publicKeys = [ azure ] ++ all;
 
 
 
