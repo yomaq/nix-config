@@ -32,7 +32,7 @@ in
         icon = "si-adguard";
         widget = {
           type = "adguard";
-          url = "http://${hostName}.${tailnetName}.ts.net";
+          url = "{{HOMEPAGE_VAR_ADGUARD_IP}}";
           username = "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}";
           password = "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}";
         };

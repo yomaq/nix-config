@@ -88,7 +88,6 @@ let
   homepageServices = name:  [{
       "${name}" = {
         icon = "si-minecraft";
-        description = "Minecraft Bedrock";
         href = "https://${hostName}-${name}.${tailnetName}.ts.net";
         widget = {
           type = "gamedig";
