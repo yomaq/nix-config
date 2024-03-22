@@ -35,6 +35,7 @@ in
         };
         color = "slate";
         theme = "dark"; # or light
+        hideVersion = "true";
       };
     };
   };

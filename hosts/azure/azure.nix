@@ -30,6 +30,7 @@
       pods = {
         nextcloud.enable = true;
         teslamate.enable = true;
+        lychee.enable = true;
       };
       syncoid = { 
         isBackupServer = true;

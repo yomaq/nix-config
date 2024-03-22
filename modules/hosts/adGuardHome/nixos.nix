@@ -30,9 +30,10 @@ in
     yomaq.homepage.groups.services.utilities = [{
       DNS = {
         icon = "si-adguard";
+        href = "{{HOMEPAGE_VAR_ADGUARD_IP}}";
         widget = {
           type = "adguard";
-          url = "{{HOMEPAGE_VAR_ADGUARD_IP}}";
+          url = "http://${hostName}.${tailnetName}.ts.net";
           username = "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}";
           password = "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}";
         };
