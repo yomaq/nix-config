@@ -29,7 +29,7 @@ in
         pkgs.vscode-extensions.ms-python.python
         pkgs.vscode-extensions.github.copilot-chat
         pkgs.vscode-extensions.tailscale.vscode-tailscale
-        pkgs.vscode-extensions.eamodio.gitlens
+        # pkgs.vscode-extensions.eamodio.gitlens
         pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
       ];
       userSettings = {
