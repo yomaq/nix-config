@@ -115,6 +115,6 @@ in
     virtualisation.oci-containers.containers = lib.mapAttrs mkContainer config.yomaq.pods.minecraftBedrock;
     # yomaq.homepage.widgets = lib.flatten (map homepageWidgets containersList);
     yomaq.homepage.services = [{minecraft = lib.flatten (map homepageServices containersList);}];
-
+    yomaq.homepage.settings.layout.minecraft.tab = "Services";
   };
 }

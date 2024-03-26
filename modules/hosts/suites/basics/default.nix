@@ -19,6 +19,7 @@ in
   config = mkIf cfg.enable {
     yomaq = {
       zsh.enable =true;
+      glances.enable = true;
     };
     nixpkgs.overlays = [ inputs.agenix.overlays.default ];
     environment.systemPackages = with pkgs; [

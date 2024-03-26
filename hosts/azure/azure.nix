@@ -36,6 +36,7 @@
         isBackupServer = true;
         exclude = ["blue"];
       };
+      homepage-dashboard.enable = true;
       timezone.central= true;
       suites = {
         basics.enable = true;
