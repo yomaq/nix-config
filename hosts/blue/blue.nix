@@ -29,6 +29,7 @@
         # for building iso
         preApprovedSshAuthkey = true;
       };
+      glances.enable = lib.mkForce false;
       gnome.enable = true;
       scripts.enable = true;
       flatpak.enable = true;

@@ -19,6 +19,7 @@
         extraUpFlags = ["--ssh=true" "--reset=true" "--accept-dns=true" "--advertise-exit-node=true" ];
         useRoutingFeatures = "server";
       };
+      glances.enable = lib.mkForce false;
       _1password.enable = true;
       timezone.central= true;
       suites = {
