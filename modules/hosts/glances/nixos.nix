@@ -48,10 +48,11 @@ in
       root = "${dontBackup}/lastUpdate/";
     };
 
-    system.activationScripts.lastUpdate.text = ''
-        echo "{\"date\": \"$(date +"%a %m/%d %H:%M")\"," > ${dontBackup}/lastUpdate/lastUpdate.html
-        echo "\"commit\": \"${inputs.self.shortRev}\"}" >> ${dontBackup}/lastUpdate/lastUpdate.html
-    '';
+    system.activationScripts = lib.mkIf (inputs.self ? rev) {lastUpdate.text =  ''
+          echo "{\"date\": \"$(date +"%a %m/%d %H:%M")\"," > ${dontBackup}/lastUpdate/lastUpdate.html
+          echo "\"commit\": \"${inputs.self.shortRev}\"}" >> ${dontBackup}/lastUpdate/lastUpdate.html
+      '';
+    };
 
 
     ##### Trying to get docker reporting to work, not working yet
@@ -117,7 +118,32 @@ in
           ];
         };
       };}
-    ];}];
+    ];}
+    ];
+    # ++ lib.optional (config.yomaq.homepage-dashboard.enable) {"Flake" = [
+    #   {exmaple={
+    #     widget = {
+    #       type = "customapi";
+    #       url = "https://api.github.com/repos/yomaq/nix-config/commits";
+    #       method = "GET";
+    #       mappings = [
+    #         # {
+    #         #   field = "0.sha";
+    #         #   label = "Latest Commit SHA";
+    #         #   transform = "substring(0, 7)"; # This line is added to transform the full SHA to a short SHA
+    #         # }
+    #         {
+    #           field = "0.commit.message";
+    #           label = "Commit Message";
+    #         }
+    #         # {
+    #         #   field = "0.commit.author.date";
+    #         #   label = "Date";
+    #         #   format = "date";
+    #         # }
+    #       ];
+    #     };
+    #   };}];};
     yomaq.homepage.settings = {
       layout = {
         "${hostName}" = {
