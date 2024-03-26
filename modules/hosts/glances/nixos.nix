@@ -1,12 +1,14 @@
 { config
 , pkgs
 , lib
+, inputs
 , ...
 }:
 let
   cfg = config.yomaq.glances;
 
   inherit (config.networking) hostName;
+  inherit (config.yomaq.impermanence) dontBackup;
   inherit (config.yomaq.tailscale) tailnetName;
 in
 {
@@ -31,8 +33,7 @@ in
         # HOMEPAGE_CONFIG_DIR = "/var/lib/homepage-dashboard";
         # PORT = "${toString cfg.listenPort}";
       };
-
-      serviceConfig = {
+     serviceConfig = {
         Type = "simple";
         DynamicUser = true;
         StateDirectory = "glances";
@@ -40,6 +41,17 @@ in
         Restart = "on-failure";
       };
     };
+
+
+    services.static-web-server = {
+      enable = true;
+      root = "${dontBackup}/lastUpdate/";
+    };
+
+    system.activationScripts.lastUpdate.text = ''
+        echo "{\"date\": \"$(date +"%a %m/%d %H:%M")\"," > ${dontBackup}/lastUpdate/lastUpdate.html
+        echo "\"commit\": \"${inputs.self.shortRev}\"}" >> ${dontBackup}/lastUpdate/lastUpdate.html
+    '';
 
 
     ##### Trying to get docker reporting to work, not working yet
@@ -86,17 +98,37 @@ in
           metric = "process";
         };
       };}
+      {LastUpdate = {
+        href = "http://${hostName}.${tailnetName}.ts.net:8787lastUpdate.html";
+        widget = {
+          type = "customapi";
+          url = "http://${hostName}.${tailnetName}.ts.net:8787/lastUpdate.html";
+          method = "GET";
+          display = "list";
+          mappings = [
+            {
+              field = "date";
+              label = "Last Updated";
+            }
+            {
+              field = "commit";
+              label = "Git Commit";
+            }
+          ];
+        };
+      };}
     ];}];
     yomaq.homepage.settings = {
       layout = {
         "${hostName}" = {
           tab = "Glances";
           style = "row";
-          columns = 4;
+          columns = 5;
         };
       };
     };
     systemd.tmpfiles.rules =  [
+      "d ${dontBackup}/lastUpdate 0755 root root"
       ("L+ /etc/glances/glances.conf 755 root root - ${pkgs.writeText "glances config" ''
                   ##############################################################################
                   # Globals Glances parameters
