@@ -66,91 +66,125 @@ in
     #   propagatedBuildInputs = oldAttrs.propagatedBuildInputs or [] ++ [ python311Packages.docker-py];
     # }));
 
-    yomaq.homepage.services = [{ "${hostName}" =  [
-      {CPU = {
-        href = "http://${hostName}.${tailnetName}.ts.net:61208";
-        widget = {
-          type = "glances";
-          url = "http://${hostName}.${tailnetName}.ts.net:61208";
-          metric = "cpu";
-        };
-      };}
-      {INFO = {
-        href = "http://${hostName}.${tailnetName}.ts.net:61208";
-        widget = {
-          type = "glances";
-          url = "http://${hostName}.${tailnetName}.ts.net:61208";
-          metric = "info";
-        };
-      };}
-      {PersistSave = {
-        href = "http://${hostName}.${tailnetName}.ts.net:61208";
-        widget = {
-          type = "glances";
-          url = "http://${hostName}.${tailnetName}.ts.net:61208";
-          metric = "fs:/persist/save";
-        };
-      };}
-      {Processes = {
-        href = "http://${hostName}.${tailnetName}.ts.net:61208";
-        widget = {
-          type = "glances";
-          url = "http://${hostName}.${tailnetName}.ts.net:61208";
-          metric = "process";
-        };
-      };}
-      {LastUpdate = {
-        href = "http://${hostName}.${tailnetName}.ts.net:8787/lastUpdate.html";
-        widget = {
-          type = "customapi";
-          url = "http://${hostName}.${tailnetName}.ts.net:8787/lastUpdate.html";
-          method = "GET";
-          display = "list";
-          mappings = [
-            {
-              field = "date";
-              label = "Last Updated";
-            }
-            {
-              field = "commit";
-              label = "Git Commit";
-            }
-          ];
-        };
-      };}
-    ];}
+    yomaq.homepage.services = 
+      (lib.optional (config.yomaq.homepage-dashboard.enable) {"Flake" = [
+        {"flake.lock last update"={
+          widget = {
+            type = "customapi";
+            url = "https://gitlab.com/api/v4/projects/56275244/repository/commits?path=flake.lock";
+            method = "GET";
+            mappings = [
+              {
+                field = {"0"="committed_date";};
+                format = "date";
+                style = "short";
+              }
+            ];
+          };
+        };}
+        {"Last Commit"={
+          widget = {
+            type = "customapi";
+            url = "https://gitlab.com/api/v4/projects/56275244/repository/commits?sort=desc&per_page=1";
+            method = "GET";
+            mappings = [
+              {
+                field = {"0"="committed_date";};
+                format = "date";
+                style = "short";
+              }
+            ];
+          };
+        };}
+        {"Update Message"={
+          widget = {
+            type = "customapi";
+            url = "https://gitlab.com/api/v4/projects/56275244/repository/commits?sort=desc&per_page=1";
+            method = "GET";
+            mappings = [
+              {
+                field = {"0" = "message";};
+              }
+            ];
+          };
+        };}
+        {"Current Commit"={
+          widget = {
+            type = "customapi";
+            url = "https://gitlab.com/api/v4/projects/56275244/repository/commits?sort=desc&per_page=1";
+            method = "GET";
+            mappings = [
+              {
+                field = {"0"="short_id";};
+              }
+            ];
+          };
+        };}
+      ];}) ++
+      [{ "${hostName}" =  [
+        {CPU = {
+          href = "http://${hostName}.${tailnetName}.ts.net:61208";
+          widget = {
+            type = "glances";
+            url = "http://${hostName}.${tailnetName}.ts.net:61208";
+            metric = "cpu";
+          };
+        };}
+        {INFO = {
+          href = "http://${hostName}.${tailnetName}.ts.net:61208";
+          widget = {
+            type = "glances";
+            url = "http://${hostName}.${tailnetName}.ts.net:61208";
+            metric = "info";
+          };
+        };}
+        {PersistSave = {
+          href = "http://${hostName}.${tailnetName}.ts.net:61208";
+          widget = {
+            type = "glances";
+            url = "http://${hostName}.${tailnetName}.ts.net:61208";
+            metric = "fs:/persist/save";
+          };
+        };}
+        {Processes = {
+          href = "http://${hostName}.${tailnetName}.ts.net:61208";
+          widget = {
+            type = "glances";
+            url = "http://${hostName}.${tailnetName}.ts.net:61208";
+            metric = "process";
+          };
+        };}
+        {LastUpdate = {
+          href = "http://${hostName}.${tailnetName}.ts.net:8787/lastUpdate.html";
+          widget = {
+            type = "customapi";
+            url = "http://${hostName}.${tailnetName}.ts.net:8787/lastUpdate.html";
+            method = "GET";
+            display = "list";
+            mappings = [
+              {
+                field = "date";
+                label = "Last Updated";
+              }
+              {
+                field = "commit";
+                label = "Commit";
+              }
+            ];
+          };
+        };}
+      ];}
     ];
-    # ++ lib.optional (config.yomaq.homepage-dashboard.enable) {"Flake" = [
-    #   {exmaple={
-    #     widget = {
-    #       type = "customapi";
-    #       url = "https://api.github.com/repos/gethomepage/homepage/commits?sort=committer-date&direction=desc&per_page=1";
-    #       method = "GET";
-    #       headers = {
-    #         Accept = "application/vnd.github+json";
-    #         Authorization = "Bearer _____";
-    #       };
-    #       mappings = [
-    #         # {
-    #         #   field = "sha";
-    #         #   label = "Latest Commit SHA";
-    #         #   # transform = "substring(0, 7)"; # This line is added to transform the full SHA to a short SHA
-    #         # }
-    #         # {
-    #         #   field = {commit = "message";};
-    #         #   label = "Commit Message";
-    #         # }
-    #         # {
-    #         #   field = "0.commit.author.date";
-    #         #   label = "Date";
-    #         #   format = "date";
-    #         # }
-    #       ];
-    #     };
-    #   };}];};
     yomaq.homepage.settings = {
       layout = {
+        Flake = {
+          icon = "si-nixos";
+          tab = "Glances";
+          style = "row";
+          columns = 4;
+        };
         "${hostName}" = {
+          icon = "mdi-server";
           tab = "Glances";
           style = "row";
           columns = 5;
