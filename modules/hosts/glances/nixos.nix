@@ -16,11 +16,6 @@ in
     yomaq.glances = {
       enable = lib.mkEnableOption (lib.mdDoc "Glances Server");
       package = lib.mkPackageOptionMD pkgs "glances" { };
-      # listenPort = lib.mkOption {
-      #   type = lib.types.int;
-      #   default = 8082;
-      #   description = lib.mdDoc "Port for Homepage to bind to.";
-      # };
     };
   };
   config = lib.mkIf cfg.enable {
@@ -30,8 +25,6 @@ in
       wantedBy = [ "multi-user.target" ];
 
       environment = {
-        # HOMEPAGE_CONFIG_DIR = "/var/lib/homepage-dashboard";
-        # PORT = "${toString cfg.listenPort}";
       };
      serviceConfig = {
         Type = "simple";
@@ -52,18 +45,6 @@ in
           echo "{\"date\": \"$(date +"%a %m/%d %H:%M")\", \"commit\": \"${inputs.self.shortRev}\"}" > ${dontBackup}/lastUpdate/lastUpdate.html
       '';
     };
-
-
-    ##### Trying to get docker reporting to work, not working yet
-    # environment.systemPackages = with pkgs; [(glances.overrideAttrs (oldAttrs: {
-    #   buildInputs = oldAttrs.buildInputs ++ [ python311Packages.docker-py ];
-    #   propagatedBuildInputs = oldAttrs.propagatedBuildInputs ++ [python311Packages.docker-py ];
-    # }))];
-
-    # yomaq.glances.package = with pkgs; (glances.overrideAttrs (oldAttrs: {
-    #   buildInputs = oldAttrs.buildInputs or [] ++ [ python311Packages.docker-py ];
-    #   propagatedBuildInputs = oldAttrs.propagatedBuildInputs or [] ++ [ python311Packages.docker-py];
-    # }));
 
     yomaq.homepage.services = 
       (lib.optional (config.yomaq.homepage-dashboard.enable) {"Flake" = [
