@@ -100,7 +100,7 @@ in
         };
       };}
       {LastUpdate = {
-        href = "http://${hostName}.${tailnetName}.ts.net:8787lastUpdate.html";
+        href = "http://${hostName}.${tailnetName}.ts.net:8787/lastUpdate.html";
         widget = {
           type = "customapi";
           url = "http://${hostName}.${tailnetName}.ts.net:8787/lastUpdate.html";
@@ -124,18 +124,22 @@ in
     #   {exmaple={
     #     widget = {
     #       type = "customapi";
-    #       url = "https://api.github.com/repos/yomaq/nix-config/commits";
+    #       url = "https://api.github.com/repos/gethomepage/homepage/commits?sort=committer-date&direction=desc&per_page=1";
     #       method = "GET";
+    #       headers = {
+    #         Accept = "application/vnd.github+json";
+    #         Authorization = "Bearer _____";
+    #       };
     #       mappings = [
     #         # {
-    #         #   field = "0.sha";
+    #         #   field = "sha";
     #         #   label = "Latest Commit SHA";
-    #         #   transform = "substring(0, 7)"; # This line is added to transform the full SHA to a short SHA
+    #         #   # transform = "substring(0, 7)"; # This line is added to transform the full SHA to a short SHA
     #         # }
-    #         {
-    #           field = "0.commit.message";
-    #           label = "Commit Message";
-    #         }
+    #         # {
+    #         #   field = {commit = "message";};
+    #         #   label = "Commit Message";
+    #         # }
     #         # {
     #         #   field = "0.commit.author.date";
     #         #   label = "Date";

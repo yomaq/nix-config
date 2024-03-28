@@ -1,7 +1,9 @@
 { config, lib, pkgs, inputs, modulesPath, ... }:
 let
-  listOfHosts = lib.attrNames inputs.self.nixosConfigurations;
   cfg = config.yomaq.homepage;
+  listOfHosts = lib.attrNames inputs.self.nixosConfigurations;
+  mergeConfig = configKey: lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage."${configKey}" != null) 
+      inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage."${configKey}") listOfHosts);
 in
 {
   options.yomaq.homepage = {
@@ -62,15 +64,11 @@ in
   };
   config = lib.mkIf config.yomaq.homepage-dashboard.enable {
     yomaq.homepage-dashboard = {
-      listenPort = 3000;
-      settings = lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.settings != null) 
-            inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.settings) listOfHosts);
-      widgets = lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.widgets != null) 
-            inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.widgets) listOfHosts);
-      services = lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.services != null) 
-            inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.services) listOfHosts);
-      bookmarks = lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.bookmarks != null) 
-            inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.bookmarks) listOfHosts);
+        listenPort = 3000;
+        settings = mergeConfig "settings";
+        widgets = mergeConfig "widgets";
+        services = mergeConfig "services";
+        bookmarks = mergeConfig "bookmarks";
     };
     services.homepage-dashboard.package = pkgs.unstable.homepage-dashboard;
     age.secrets."homepage".file = (inputs.self + /secrets/homepage.age);
@@ -96,6 +94,30 @@ in
         #     inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks.favorites) listOfHosts);}
         # { utilities =  lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks.utilities != null) 
         #     inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks.utilities) listOfHosts);}
+      ];
+      widgets = [
+        {datetime = {
+            format = {
+              timeStyle = "short";
+            };
+        };}
+        {search = {
+            provider = "brave";
+            focus = true; # Optional, will set focus to the search bar on page load
+            showSearchSuggestions = true; # Optional, will show search suggestions. Defaults to false
+            target = "_blank"; # One of _self, _blank, _parent or _top
+        };}
+        {openmeteo = {
+            label = "Okc"; # optional
+            latitude =   "35.46756";
+            longitude = "-97.51643";
+            timezone = "America/Chicago"; # optional
+            units = "Imperial"; # or "imperial"
+            cache = 5; # Time in minutes to cache API responses, to stay within limits
+            format = { # optional, Intl.NumberFormat options
+              maximumFractionDigits = 1;
+            };
+        };}
       ];
     settings ={
         title = "{{HOMEPAGE_VAR_NAME}}";
