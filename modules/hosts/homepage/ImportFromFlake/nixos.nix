@@ -1,70 +1,50 @@
 { config, lib, pkgs, inputs, modulesPath, ... }:
 let
   cfg = config.yomaq.homepage;
+  settingsFormat = pkgs.formats.yaml { };
   listOfHosts = lib.attrNames inputs.self.nixosConfigurations;
-  mergeConfig = configKey: lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage."${configKey}" != null) 
+  mergeConfig = configKey: lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage."${configKey}" != []) 
       inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage."${configKey}") listOfHosts);
+  mergeServiceGroups = configKey: lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.services."${configKey}" != []) 
+    inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.services."${configKey}") listOfHosts);
+  mergeBookmarksGroups = configKey: lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks"${configKey}" != []) 
+    inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks"${configKey}") listOfHosts);
 in
 {
   options.yomaq.homepage = {
-    settings = lib.mkOption {
-      default = null;
-      type = lib.types.nullOr (lib.types.submodule {
-          freeformType = (pkgs.formats.yaml { }).type;
-      });
-    };
-    widgets = lib.mkOption {
-      default = null;
-      type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
-        freeformType = (pkgs.formats.yaml { }).type;
-      }));
+    bookmarks = lib.mkOption {
+      inherit (settingsFormat) type;
+      default = [ ];
     };
     services = lib.mkOption {
-      default = null;
-      type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
-        freeformType = (pkgs.formats.yaml { }).type;
-      }));
+      inherit (settingsFormat) type;
+      default = [ ];
     };
-    bookmarks = lib.mkOption {
-      default = null;
-      type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
-        freeformType = (pkgs.formats.yaml { }).type;
-      }));
+    widgets = lib.mkOption {
+      inherit (settingsFormat) type;
+      default = [ ];
+    };
+    settings = lib.mkOption {
+      inherit (settingsFormat) type;
+      default = { };
     };
   };
   options.yomaq.homepage.groups = {
     services = {
-      favorites =lib.mkOption {
-        default = null;
-        type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
-          freeformType = (pkgs.formats.yaml { }).type;
-        }));
-      };
-      utilities =lib.mkOption {
-        default = null;
-        type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
-          freeformType = (pkgs.formats.yaml { }).type;
-        }));
+      services =lib.mkOption {
+        inherit (settingsFormat) type;
+        default = [];
       };
     };
     bookmarks = {
       favorites =lib.mkOption {
-        default = null;
-        type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
-          freeformType = (pkgs.formats.yaml { }).type;
-        }));
-      };
-      utilities =lib.mkOption {
-        default = null;
-        type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
-          freeformType = (pkgs.formats.yaml { }).type;
-        }));
+        inherit (settingsFormat) type;
+        default = [];
       };
     };
   };
   config = lib.mkIf config.yomaq.homepage-dashboard.enable {
     yomaq.homepage-dashboard = {
-        listenPort = 3000;
         settings = mergeConfig "settings";
         widgets = mergeConfig "widgets";
         services = mergeConfig "services";
@@ -86,14 +66,10 @@ in
     ### Empty lists will break the config
     ### Also add the layout for the group below.
       services = [
-        { Services =  lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.services.utilities != null) 
-            inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.services.utilities) listOfHosts);}
+        { Services = mergeServiceGroups "services"; }
       ];
       bookmarks = [
-        # { favorites =  lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks.favorites != null) 
-        #     inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks.favorites) listOfHosts);}
-        # { utilities =  lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks.utilities != null) 
-        #     inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks.utilities) listOfHosts);}
+        # { favorites = mergeServiceGroups "favorites"; }
       ];
       widgets = [
         {datetime = {

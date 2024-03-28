@@ -85,7 +85,7 @@ in
       tags = ["tag:generichttps"];
     };
 
-    yomaq.homepage.groups.services.utilities = [{
+    yomaq.homepage.groups.services.services = [{
       Lychee = {
         icon = "si-affinityphoto";
         href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";

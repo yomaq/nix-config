@@ -27,7 +27,7 @@ in
       enable = true;
       allowDHCP = true;
     };
-    yomaq.homepage.groups.services.utilities = [{
+    yomaq.homepage.groups.services.services = [{
       DNS = {
         icon = "si-adguard";
         href = "{{HOMEPAGE_VAR_ADGUARD_IP}}";

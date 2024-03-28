@@ -42,15 +42,14 @@ in
       };
     };
 
-
+    yomaq.glances.package = pkgs.unstable.glances;
     services.static-web-server = {
       enable = true;
       root = "${dontBackup}/lastUpdate/";
     };
 
     system.activationScripts = lib.mkIf (inputs.self ? rev) {lastUpdate.text =  ''
-          echo "{\"date\": \"$(date +"%a %m/%d %H:%M")\"," > ${dontBackup}/lastUpdate/lastUpdate.html
-          echo "\"commit\": \"${inputs.self.shortRev}\"}" >> ${dontBackup}/lastUpdate/lastUpdate.html
+          echo "{\"date\": \"$(date +"%a %m/%d %H:%M")\", \"commit\": \"${inputs.self.shortRev}\"}" > ${dontBackup}/lastUpdate/lastUpdate.html
       '';
     };
 

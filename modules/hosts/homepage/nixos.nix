@@ -3,15 +3,18 @@
 , lib
 , ...
 }:
+
 let
   cfg = config.yomaq.homepage-dashboard;
+  # Define the settings format used for this program
+  settingsFormat = pkgs.formats.yaml { };
 in
 {
   options = {
     yomaq.homepage-dashboard = {
       enable = lib.mkEnableOption (lib.mdDoc "Homepage Dashboard");
 
-      package = lib.mkPackageOptionMD pkgs "homepage-dashboard" { };
+      package = lib.mkPackageOption pkgs "homepage-dashboard" { };
 
       openFirewall = lib.mkOption {
         type = lib.types.bool;
@@ -24,131 +27,217 @@ in
         default = 8082;
         description = lib.mdDoc "Port for Homepage to bind to.";
       };
-      environmentFile = lib.mkOption {
-        type = lib.types.nullOr lib.types.path;
-        default = null;
-        description = lib.mdDoc ''
-          You can include environment variables in your config files to protect sensitive information. Note:
 
-          Environment variables must start with HOMEPAGE_VAR_ or HOMEPAGE_FILE_
-          The value of env var HOMEPAGE_VAR_XXX will replace {{HOMEPAGE_VAR_XXX}} in any config
-          The value of env var HOMEPAGE_FILE_XXX must be a file path, the contents of which will be used to replace {{HOMEPAGE_FILE_XXX}} in any config
+      environmentFile = lib.mkOption {
+        type = lib.types.str;
+        description = ''
+          The path to an environment file that contains environment variables to pass
+          to the homepage-dashboard service, for the purpose of passing secrets to
+          the service.
+
+          See the upstream documentation:
+
           https://gethomepage.dev/latest/installation/docker/#using-environment-secrets
         '';
+        default = "";
       };
-      settings = lib.mkOption {
-        default = null;
-        type = lib.types.nullOr (lib.types.submodule {
-            freeformType = (pkgs.formats.yaml { }).type;
-        });
+
+      customCSS = lib.mkOption {
+        type = lib.types.lines;
         description = lib.mdDoc ''
-          YAML Value configuration for Homepage settings.
-          See link for options and how to configure.
-          https://gethomepage.dev/latest/configs/settings/
+          Custom CSS for styling Homepage.
+
+          See https://gethomepage.dev/latest/configs/custom-css-js/.
         '';
+        default = "";
       };
+
+      customJS = lib.mkOption {
+        type = lib.types.lines;
+        description = lib.mdDoc ''
+          Custom Javascript for Homepage.
+
+          See https://gethomepage.dev/latest/configs/custom-css-js/.
+        '';
+        default = "";
+      };
+
       bookmarks = lib.mkOption {
-        default = null;
-        type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
-            freeformType = (pkgs.formats.yaml { }).type;
-        }));
+        inherit (settingsFormat) type;
         description = lib.mdDoc ''
-          YAML Value configuration for Homepage settings.
-          See link for options and how to configure.
-          https://gethomepage.dev/latest/configs/bookmarks/
+          Homepage bookmarks configuration.
+
+          See https://gethomepage.dev/latest/configs/bookmarks/.
         '';
+        # Defaults: https://github.com/gethomepage/homepage/blob/main/src/skeleton/bookmarks.yaml
+        example = [
+          {
+            Developer = [
+              { Github = [{ abbr = "GH"; href = "https://github.com/"; }]; }
+            ];
+          }
+          {
+            Entertainment = [
+              { YouTube = [{ abbr = "YT"; href = "https://youtube.com/"; }]; }
+            ];
+          }
+        ];
+        default = [ ];
       };
-      docker = lib.mkOption {
-        default = null;
-        type = lib.types.nullOr (lib.types.submodule {
-            freeformType = (pkgs.formats.yaml { }).type;
-        });
-        description = lib.mdDoc ''
-          YAML Value configuration for Homepage settings.
-          See link for options and how to configure.
-          https://gethomepage.dev/latest/configs/docker/
-        '';
-      };
-      kubernetes = lib.mkOption {
-        default = null;
-        type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
-            freeformType = (pkgs.formats.yaml { }).type;
-        }));
-        description = lib.mdDoc ''
-          YAML Value configuration for Homepage settings.
-          See link for options and how to configure.
-          https://gethomepage.dev/latest/configs/kubernetes/
-        '';
-      };
-      widgets = lib.mkOption {
-        default = null;
-        type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
-            freeformType = (pkgs.formats.yaml { }).type;
-        }));
-        description = lib.mdDoc ''
-          YAML Value configuration for Homepage settings.
-          See link for options and how to configure.
-          https://gethomepage.dev/latest/configs/service-widgets/
-        '';
-      };
+
       services = lib.mkOption {
-        default = null;
-      type = lib.types.nullOr (lib.types.listOf (lib.types.submodule {
-        freeformType = (pkgs.formats.yaml { }).type;
-      }));
+        inherit (settingsFormat) type;
         description = lib.mdDoc ''
-          YAML Value configuration for Homepage settings.
-          See link for options and how to configure.
-          https://gethomepage.dev/latest/configs/services/
+          Homepage services configuration.
+
+          See https://gethomepage.dev/latest/configs/services/.
         '';
+        # Defaults: https://github.com/gethomepage/homepage/blob/main/src/skeleton/services.yaml
+        example = [
+          {
+            "My First Group" = [
+              {
+                "My First Service" = {
+                  href = "http://localhost/";
+                  description = "Homepage is awesome";
+                };
+              }
+            ];
+          }
+          {
+            "My Second Group" = [
+              {
+                "My Second Service" = {
+                  href = "http://localhost/";
+                  description = "Homepage is the best";
+                };
+              }
+            ];
+          }
+        ];
+        default = [ ];
       };
-      css = lib.mkOption {
-        default = null;
-        type = lib.types.nullOr lib.types.str;
-        description = lib.mdDoc "custom css for Homepage. See link for how to configure. https://gethomepage.dev/latest/configs/custom-css-js/";
+
+      widgets = lib.mkOption {
+        inherit (settingsFormat) type;
+        description = lib.mdDoc ''
+          Homepage widgets configuration.
+
+          See https://gethomepage.dev/latest/configs/service-widgets/.
+        '';
+        # Defaults: https://github.com/gethomepage/homepage/blob/main/src/skeleton/widgets.yaml
+        example = [
+          {
+            resources = {
+              cpu = true;
+              memory = true;
+              disk = "/";
+            };
+          }
+          {
+            search = {
+              provider = "duckduckgo";
+              target = "_blank";
+            };
+          }
+        ];
+        default = [ ];
       };
-      js = lib.mkOption {
-        default = null;
-        type = lib.types.nullOr lib.types.str;
-        description = lib.mdDoc "custom js for Homepage. See link for how to configure. https://gethomepage.dev/latest/configs/custom-css-js/";
+
+      kubernetes = lib.mkOption {
+        inherit (settingsFormat) type;
+        description = lib.mdDoc ''
+          Homepage kubernetes configuration.
+
+          See https://gethomepage.dev/latest/configs/kubernetes/.
+        '';
+        default = { };
+      };
+
+      docker = lib.mkOption {
+        inherit (settingsFormat) type;
+        description = lib.mdDoc ''
+          Homepage docker configuration.
+
+          See https://gethomepage.dev/latest/configs/docker/.
+        '';
+        default = { };
+      };
+
+      settings = lib.mkOption {
+        inherit (settingsFormat) type;
+        description = lib.mdDoc ''
+          Homepage settings.
+
+          See https://gethomepage.dev/latest/configs/settings/.
+        '';
+        # Defaults: https://github.com/gethomepage/homepage/blob/main/src/skeleton/settings.yaml
+        default = { };
       };
     };
   };
-  config = lib.mkIf cfg.enable {
-    systemd.services.homepage-dashboard = {
-      description = "Homepage Dashboard";
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
 
-      environment = {
-        HOMEPAGE_CONFIG_DIR = "/var/lib/homepage-dashboard";
-        PORT = "${toString cfg.listenPort}";
+  config =
+    let
+      # If homepage-dashboard is enabled, but none of the configuration values have been updated,
+      # then default to "unmanaged" configuration which is manually updated in
+      # var/lib/homepage-dashboard. This is to maintain backwards compatibility, and should be
+      # deprecated in a future release.
+      managedConfig = !(
+        cfg.bookmarks == [ ] &&
+        cfg.customCSS == "" &&
+        cfg.customJS == "" &&
+        cfg.docker == { } &&
+        cfg.kubernetes == { } &&
+        cfg.services == [ ] &&
+        cfg.settings == { } &&
+        cfg.widgets == [ ]
+      );
+
+      configDir = if managedConfig then "/etc/homepage-dashboard" else "/var/lib/homepage-dashboard";
+
+      msg = "using unmanaged configuration for homepage-dashboard is deprecated and will be removed"
+        + " in 24.05. please see the NixOS documentation for `services.homepage-dashboard' and add"
+        + " your bookmarks, services, widgets, and other configuration using the options provided.";
+    in
+    lib.mkIf cfg.enable {
+      warnings = lib.optional (!managedConfig) msg;
+
+      environment.etc = lib.mkIf managedConfig {
+        "homepage-dashboard/custom.css".text = cfg.customCSS;
+        "homepage-dashboard/custom.js".text = cfg.customJS;
+
+        "homepage-dashboard/bookmarks.yaml".source = settingsFormat.generate "bookmarks.yaml" cfg.bookmarks;
+        "homepage-dashboard/docker.yaml".source = settingsFormat.generate "docker.yaml" cfg.docker;
+        "homepage-dashboard/kubernetes.yaml".source = settingsFormat.generate "kubernetes.yaml" cfg.kubernetes;
+        "homepage-dashboard/services.yaml".source = settingsFormat.generate "services.yaml" cfg.services;
+        "homepage-dashboard/settings.yaml".source = settingsFormat.generate "settings.yaml" cfg.settings;
+        "homepage-dashboard/widgets.yaml".source = settingsFormat.generate "widgets.yaml" cfg.widgets;
       };
 
-      serviceConfig = {
-        Type = "simple";
-        DynamicUser = true;
-        StateDirectory = "homepage-dashboard";
-        ExecStart = "${lib.getExe cfg.package}";
-        Restart = "on-failure";
-      } // lib.optionalAttrs (cfg.environmentFile != null) {
-        EnvironmentFile = cfg.environmentFile;
+      systemd.services.homepage-dashboard = {
+        description = "Homepage Dashboard";
+        after = [ "network.target" ];
+        wantedBy = [ "multi-user.target" ];
+
+        environment = {
+          HOMEPAGE_CONFIG_DIR = configDir;
+          PORT = toString cfg.listenPort;
+          LOG_TARGETS = lib.mkIf managedConfig "stdout";
+        };
+
+        serviceConfig = {
+          Type = "simple";
+          DynamicUser = true;
+          EnvironmentFile = lib.mkIf (cfg.environmentFile != null) cfg.environmentFile;
+          StateDirectory = lib.mkIf (!managedConfig) "homepage-dashboard";
+          ExecStart = lib.getExe cfg.package;
+          Restart = "on-failure";
+        };
+      };
+
+      networking.firewall = lib.mkIf cfg.openFirewall {
+        allowedTCPPorts = [ cfg.listenPort ];
       };
     };
-
-    systemd.tmpfiles.rules = lib.flatten [
-      (lib.optional (cfg.settings != null) "L+ /var/lib/homepage-dashboard/settings.yaml 755 root root - ${(pkgs.formats.yaml { }).generate "settings.yaml" cfg.settings}")
-      (lib.optional (cfg.bookmarks != null) "L+ /var/lib/homepage-dashboard/bookmarks.yaml - root root - ${(pkgs.formats.yaml { }).generate "bookmarks.yaml" cfg.bookmarks}")
-      (lib.optional (cfg.docker != null) "L+ /var/lib/homepage-dashboard/docker.yaml - root root - ${(pkgs.formats.yaml { }).generate "docker.yaml" cfg.docker}")
-      (lib.optional (cfg.kubernetes != null) "L+ /var/lib/homepage-dashboard/kubernetes.yaml - root root - ${(pkgs.formats.yaml { }).generate "kubernetes.yaml" cfg.kubernetes}")
-      (lib.optional (cfg.services != null) "L+ /var/lib/homepage-dashboard/services.yaml - root root - ${(pkgs.formats.yaml { }).generate "services.yaml" cfg.services}")
-      (lib.optional (cfg.widgets != null) "L+ /var/lib/homepage-dashboard/widgets.yaml - root root - ${(pkgs.formats.yaml { }).generate "widgets.yaml" cfg.widgets}")
-      (lib.optional (cfg.css != null) "L+ /var/lib/homepage-dashboard/custom.css - root root - ${(pkgs.writeText "custom.css" cfg.css)}")
-      (lib.optional (cfg.js != null) "L+ /var/lib/homepage-dashboard/custom.js - root root - ${(pkgs.writeText "custom.js" cfg.js)}")
-    ];
-
-    networking.firewall = lib.mkIf cfg.openFirewall {
-      allowedTCPPorts = [ cfg.listenPort ];
-    };
-  };
 }
