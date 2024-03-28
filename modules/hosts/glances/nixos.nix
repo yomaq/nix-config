@@ -51,7 +51,7 @@ in
         {"flake.lock last update"={
           widget = {
             type = "customapi";
-            url = "https://gitlab.com/api/v4/projects/56275244/repository/commits?path=flake.lock";
+            url = "https://gitlab.com/api/v4/projects/56279050/repository/commits?path=flake.lock";
             method = "GET";
             mappings = [
               {
@@ -65,7 +65,7 @@ in
         {"Last Commit"={
           widget = {
             type = "customapi";
-            url = "https://gitlab.com/api/v4/projects/56275244/repository/commits?sort=desc&per_page=1";
+            url = "https://gitlab.com/api/v4/projects/56279050/repository/commits?sort=desc&per_page=1";
             method = "GET";
             mappings = [
               {
@@ -79,7 +79,7 @@ in
         {"Update Message"={
           widget = {
             type = "customapi";
-            url = "https://gitlab.com/api/v4/projects/56275244/repository/commits?sort=desc&per_page=1";
+            url = "https://gitlab.com/api/v4/projects/56279050/repository/commits?sort=desc&per_page=1";
             method = "GET";
             mappings = [
               {
@@ -91,7 +91,7 @@ in
         {"Current Commit"={
           widget = {
             type = "customapi";
-            url = "https://gitlab.com/api/v4/projects/56275244/repository/commits?sort=desc&per_page=1";
+            url = "https://gitlab.com/api/v4/projects/56279050/repository/commits?sort=desc&per_page=1";
             method = "GET";
             mappings = [
               {
