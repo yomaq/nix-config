@@ -110,12 +110,12 @@ in
             metric = "cpu";
           };
         };}
-        {INFO = {
+        {MEMORY = {
           href = "http://${hostName}.${tailnetName}.ts.net:61208";
           widget = {
             type = "glances";
             url = "http://${hostName}.${tailnetName}.ts.net:61208";
-            metric = "info";
+            metric = "memory";
           };
         };}
         {PersistSave = {
