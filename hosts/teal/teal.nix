@@ -36,7 +36,8 @@
         foundation.enable = true;
       };
       docker.enable = true;
-      pods = {};
+      pods = {
+      };
 
       # disk configuration
       disks = {
