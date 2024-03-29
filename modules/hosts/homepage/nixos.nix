@@ -219,12 +219,13 @@ in
         description = "Homepage Dashboard";
         after = [ "network.target" ];
         wantedBy = [ "multi-user.target" ];
+        path = [ pkgs.unixtools.ping ]; 
 
         environment = {
           HOMEPAGE_CONFIG_DIR = configDir;
           PORT = toString cfg.listenPort;
           LOG_TARGETS = lib.mkIf managedConfig "stdout";
-          ping = lib.getExe pkgs.unixtools.ping;
+          LOG_LEVEL = "debug";
         };
 
         serviceConfig = {

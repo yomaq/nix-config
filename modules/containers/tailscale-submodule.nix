@@ -133,7 +133,7 @@ let
   ];
   mkHomepageConfig = name: cfg: { " " = { 
     href = "http://${cfg.TShostname}.${tailnetName}.ts.net";
-    # ping = "100.89.20.102";
+    ping = "${cfg.TShostname}.${tailnetName}.ts.net";
     description = "${cfg.TShostname}";
   };};
 in
