@@ -9,7 +9,6 @@ let
   cfg = config.yomaq.pods.${NAME};
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
-  inherit (config.yomaq.impermanence) dontBackup;
   inherit (config.yomaq.tailscale) tailnetName;
 
 in
@@ -20,13 +19,6 @@ in
       default = false;
       description = ''
         enable custom ${NAME} container module
-      '';
-    };
-    agenixSecret = mkOption {
-      type = types.path;
-      default = (inputs.self + /secrets/${NAME}EnvFile.age);
-      description = ''
-        path to agenix secret file
       '';
     };
     volumeLocation = mkOption {
@@ -46,25 +38,13 @@ in
   };
 
   config = mkIf cfg.enable {
-    ### agenix secrets for container
-    # age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
 
-    systemd.tmpfiles.rules = [
-      # main container
-      "d ${cfg.volumeLocation}/data 0755 4000 4000"
-    ];
+    systemd.tmpfiles.rules = ["d ${cfg.volumeLocation}/data 0755 4000 4000"];
+
     virtualisation.oci-containers.containers = {
-### main container
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
-        environmentFiles = [
-          # config.age.secrets."${NAME}EnvFile".path
-        ];
-        # environment = {
-        #   "PUID" = "4000";
-        #   "PGID" = "4000";
-        # };
         volumes = [
           "${cfg.volumeLocation}/data:/data"
         ];
@@ -73,9 +53,10 @@ in
           "--network=container:TS${NAME}"
         ];
         user = "4000:4000";
-        cmd = ["/data" "-A"];
+        cmd = ["/data" "--allow-upload"];
       };
     };
+
     yomaq.pods.tailscaled."TS${NAME}" = {
       TSserve =  {"/" = "http://127.0.0.1:5000";};
       tags = ["tag:generichttps"];
@@ -83,8 +64,9 @@ in
 
     yomaq.homepage.groups.services.services = [{
       "${NAME}" = {
-        icon = "si-affinityphoto";
+        icon = "si-files";
         href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+        siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
       };
     }];
   };

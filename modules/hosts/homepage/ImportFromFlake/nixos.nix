@@ -35,6 +35,10 @@ in
         inherit (settingsFormat) type;
         default = [];
       };
+      "Flake Docker Containers" =lib.mkOption {
+        inherit (settingsFormat) type;
+        default = [];
+      };
     };
     bookmarks = {
       favorites =lib.mkOption {
@@ -67,6 +71,7 @@ in
     ### Also add the layout for the group below.
       services = [
         { Services = mergeServiceGroups "services"; }
+        { "Flake Docker Containers" = mergeServiceGroups "Flake Docker Containers"; }
       ];
       bookmarks = [
         # { favorites = mergeServiceGroups "favorites"; }
@@ -107,6 +112,8 @@ in
         theme = "dark"; # or light
         hideVersion = "true";
         useEqualHeights = true;
+        favicon = "https://azure-dufs.sable-chimaera.ts.net/strawberry/favicon.ico";
+        statusStyle = "dot";
 
 
 
