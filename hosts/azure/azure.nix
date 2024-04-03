@@ -31,6 +31,7 @@
         nextcloud.enable = true;
         teslamate.enable = true;
         dufs.enable = true;
+        semaphore.enable = true;
       };
       syncoid = { 
         isBackupServer = true;
