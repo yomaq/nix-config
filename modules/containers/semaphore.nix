@@ -5,6 +5,7 @@ let
  ### Set container name and image
  NAME = "semaphore";
  IMAGE = "docker.io/semaphoreui/semaphore";
+ DBIMAGE = "docker.io/mysql";
 
  cfg = config.yomaq.pods.${NAME};
  inherit (config.networking) hostName;
@@ -35,9 +36,23 @@ in
         container image version
       '';
     };
+    imageVersionDB = mkOption {
+      type = types.str;
+      default = "8.0";
+      description = ''
+        container image version
+      '';
+    };
     agenixSecret = mkOption {
       type = types.path;
       default = (inputs.self + /secrets/${NAME}EnvFile.age);
+      description = ''
+        path to agenix secret file
+      '';
+    };
+    agenixSecretDB = mkOption {
+      type = types.path;
+      default = (inputs.self + /secrets/${NAME}DBEnvFile.age);
       description = ''
         path to agenix secret file
       '';
@@ -47,32 +62,27 @@ in
  config = mkIf cfg.enable {
 
     age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
+    age.secrets."${NAME}DBEnvFile".file = cfg.agenixSecretDB;
 
     systemd.tmpfiles.rules = [
-      "d ${cfg.volumeLocation}/etc 0755 4000 4000"
       "d ${cfg.volumeLocation}/var 0755 4000 4000"
-      # trying to let it let me use a non-root user
-      "d ${cfg.volumeLocation}/tmp 0755 4000 4000"
       ];
 
     virtualisation.oci-containers.containers = {
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
-        volumes = [
-          "${cfg.volumeLocation}/etc:/etc/semaphore"
-          "${cfg.volumeLocation}/var:/var/lib/semaphore"
-          "${cfg.volumeLocation}/tmp:/tmp/semaphore/"
-        ];
+        volumes = [];
         extraOptions = [
           "--pull=always"
           "--network=container:TS${NAME}"
         ];
-        user = "4000:4000";
         environment = {
-          SEMAPHORE_DB_DIALECT = "bolt";
-          "PUID" = "4000";
-          "PGID" = "4000";          
+          SEMAPHORE_DB_USER = "semaphore";
+          SEMAPHORE_DB_HOST = "127.0.0.1"; 
+          SEMAPHORE_DB_PORT = "3306"; 
+          SEMAPHORE_DB_DIALECT = "mysql";
+          SEMAPHORE_DB = "semaphore";    
         };
         environmentFiles = [
           config.age.secrets."${NAME}EnvFile".path
@@ -81,7 +91,27 @@ in
           # SEMAPHORE_ADMIN_EMAIL = cfg.adminEmail;
           # SEMAPHORE_ADMIN = cfg.adminName;
           # SEMAPHORE_ACCESS_KEY_ENCRYPTION =
+          # SEMAPHORE_DB_PASS = 
         ];
+      };
+      "${NAME}DB" = {
+        image = "${DBIMAGE}:${cfg.imageVersionDB}";
+        autoStart = true;
+        volumes = [
+          "${cfg.volumeLocation}/var:/var/lib/mysql"
+        ];
+        extraOptions = [
+          "--pull=always"
+          "--network=container:TS${NAME}"
+        ];
+        environmentFiles = [
+          config.age.secrets."${NAME}DBEnvFile".path
+            #MYSQL_RANDOM_ROOT_PASSWORD='yes'
+            #MYSQL_DATABASE=semaphore
+            #MYSQL_USER=semaphore
+            #MYSQL_PASSWORD=
+        ];
+        user = "4000:4000";
       };
     };
 
