@@ -22,6 +22,25 @@ in
     };
     yomaq.tailscale.tailnetName = "sable-chimaera";
     age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
+
+    yomaq.homepage.groups.services."Flake Nixos Hosts" = [{
+      "" = {
+        href = "http://${cfg.TShostname}.${tailnetName}.ts.net";
+        ping = "${cfg.TShostname}.${tailnetName}.ts.net";
+        description = "${cfg.TShostname}";
+      };
+    }];
+    yomaq.homepage.settings = {
+      layout = {
+        "Flake Nixos Hosts" = {
+          tab = "Status Monitor";
+          style = "row";
+          columns = 8;
+        };
+      };
+    };
+
+
   })
   (lib.mkIf cfg.preApprovedSshAuthkey {
     age.secrets.tailscaleKeyAcceptSsh.file = ( inputs.self + /secrets/tailscaleKeyAcceptSsh.age);

@@ -39,6 +39,10 @@ in
         inherit (settingsFormat) type;
         default = [];
       };
+      "Flake Nixos Hosts" =lib.mkOption {
+        inherit (settingsFormat) type;
+        default = [];
+      };
     };
     bookmarks = {
       favorites =lib.mkOption {
@@ -49,10 +53,10 @@ in
   };
   config = lib.mkIf config.yomaq.homepage-dashboard.enable {
     yomaq.homepage-dashboard = {
-        settings = mergeConfig "settings";
-        widgets = mergeConfig "widgets";
-        services = mergeConfig "services";
-        bookmarks = mergeConfig "bookmarks";
+      settings = mergeConfig "settings";
+      widgets = mergeConfig "widgets";
+      services = mergeConfig "services";
+      bookmarks = mergeConfig "bookmarks";
     };
     services.homepage-dashboard.package = pkgs.unstable.homepage-dashboard;
     age.secrets."homepage".file = (inputs.self + /secrets/homepage.age);
@@ -72,6 +76,7 @@ in
       services = [
         { Services = mergeServiceGroups "services"; }
         { "Flake Docker Containers" = mergeServiceGroups "Flake Docker Containers"; }
+        { "Flake Nixos Hosts" = mergeServiceGroups "Flake Nixos Hosts"; }
       ];
       bookmarks = [
         # { favorites = mergeServiceGroups "favorites"; }
