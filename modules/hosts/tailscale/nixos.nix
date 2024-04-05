@@ -4,6 +4,8 @@
 with lib;
 let
   cfg = config.yomaq.tailscale;
+
+  inherit (config.networking) hostName;
 in
 {
  config = mkMerge [
@@ -24,10 +26,10 @@ in
     age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
 
     yomaq.homepage.groups.services."Flake Nixos Hosts" = [{
-      "" = {
-        href = "http://${cfg.TShostname}.${tailnetName}.ts.net";
-        ping = "${cfg.TShostname}.${tailnetName}.ts.net";
-        description = "${cfg.TShostname}";
+      " " = {
+        href = "http://${hostName}.${cfg.tailnetName}.ts.net";
+        ping = "${hostName}.${cfg.tailnetName}.ts.net";
+        description = "${hostName}";
       };
     }];
     yomaq.homepage.settings = {
