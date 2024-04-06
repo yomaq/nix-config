@@ -20,7 +20,7 @@ in {
       docker = {
         enable = true;
         autoPrune.enable = true;
-
+        extraOptions = "--dns 100.100.100.100";
       };
     };
     environment.persistence."${config.yomaq.impermanence.dontBackup}" = {
