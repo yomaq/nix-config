@@ -17,9 +17,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    yomaq = {
-      zsh.enable =true;
-    };
     nixpkgs.overlays = [ inputs.agenix.overlays.default ];
     environment.systemPackages = with pkgs; [
       vim

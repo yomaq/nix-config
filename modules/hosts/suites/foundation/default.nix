@@ -16,6 +16,7 @@ in
 
   config = mkIf cfg.enable {
     yomaq = {
+      zsh.enable =true;
       agenix.enable = true;
       nixSettings.enable = true;
       tailscale.enable = true;
