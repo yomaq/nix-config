@@ -3,6 +3,7 @@
   imports =[
     # import custom modules
     inputs.self.nixosModules.yomaq
+    inputs.self.nixosModules.pods
     # import hardware
     (modulesPath + "/installer/scan/not-detected.nix")
     inputs.nixos-hardware.nixosModules.lenovo-legion-15ach6
@@ -29,6 +30,11 @@
         # for building iso
         preApprovedSshAuthkey = true;
       };
+      network = {
+        useBr0 = true;
+        physicalInterfaceName = "enp5s0";
+      };
+      nixos-containers.openvscode.enable = true;
       glances.enable = lib.mkForce false;
       gnome.enable = true;
       scripts.enable = true;

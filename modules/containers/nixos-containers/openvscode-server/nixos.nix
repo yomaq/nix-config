@@ -1,7 +1,9 @@
 { config, lib, pkgs, inputs, modulesPath, ... }:
 let
 
-  NAME = "test";
+  NAME = "openvscode";
+
+  cfg = config.yomaq.nixos-containers.openvscode;
 
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
@@ -10,7 +12,9 @@ let
   inherit (config.system) stateVersion;
 in
 {
-  config = {
+  options.yomaq.nixos-containers.openvscode.enable = lib.mkEnableOption (lib.mdDoc "Openvscode Server");
+
+  config = lib.mkIf cfg.enable {
 
     systemd.tmpfiles.rules = [
       "d ${dontBackup}/nixos-containers/${NAME}/tailscale"
@@ -24,13 +28,15 @@ in
     yomaq.homepage.groups.services.services = [{
       "Code Server" = {
         icon = "si-visualstudiocode";
-        href = "https://${NAME}.${tailnetName}.ts.net";
+        href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+        siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
       };
     }];
 
+    #will still need to set the network device name manually
+    yomaq.network.useBr0 = true;
 
-
-    containers."${NAME}" = {
+    containers."${hostName}-${NAME}" = {
       autoStart = true;
       privateNetwork = true;
       hostBridge = "br0"; # Specify the bridge name
@@ -81,9 +87,7 @@ in
           };
         };
 
-        environment.persistence."${dontBackup}" = {
-          users.admin = lib.mkForce {};
-        };
+        environment.persistence."${dontBackup}".users.admin = lib.mkForce {};
 
         services.openvscode-server = {
           enable = true;
