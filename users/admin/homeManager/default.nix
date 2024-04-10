@@ -9,6 +9,7 @@
     gh
     agenix
     tailscale
+    just
   ];
   programs = {
     git = {
