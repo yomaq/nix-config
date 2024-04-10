@@ -76,10 +76,10 @@ in
           ];
         system.stateVersion = stateVersion;
         age.identityPaths = ["/etc/ssh/${hostName}"];
-        networking.useHostResolvConf = lib.mkForce false;
+
         yomaq = {
           suites = {
-            foundation.enable = true;
+            container.enable = true;
             };
           tailscale = {
             enable = true;
