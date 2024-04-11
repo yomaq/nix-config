@@ -13,6 +13,7 @@ let
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.impermanence) dontBackup;
+  inherit (config.yomaq.tailscale) tailnetName;
 in
 {
   options.yomaq.pods.${NAME} = {
@@ -39,7 +40,7 @@ in
     };
     imageVersion = mkOption {
       type = types.str;
-      default = "latest";
+      default = "28.0.4-apache";
       description = ''
         container image version
       '';
@@ -55,14 +56,14 @@ in
       };
       volumeLocation = mkOption {
         type = types.str;
-        default = "${backup}/containers/${NAME}DB";
+        default = "${backup}/containers/${NAME}/DB";
         description = ''
           path to store container volumes
         '';
       };
       imageVersion = mkOption {
         type = types.str;
-        default = "latest";
+        default = "11.3.2-jammy";
         description = ''
           container image version
         '';
@@ -104,13 +105,28 @@ in
           "--pull=always"
           "--network=container:TS${NAME}"
         ];
-        user = "4000:4000";
+      };
+### Redis container
+      "REDIS${NAME}" = {
+        image = "docker.io/redis:latest";
+        autoStart = true;
+        environment = {
+        };
+        extraOptions = [
+          "--pull=always"
+          "--network=container:TS${NAME}"
+        ];
       };
 ### main container
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
         environment = {
+          "NEXTCLOUD_TRUSTED_DOMAINS" = "${hostName}-${NAME}.${tailnetName}.ts.net";
+          "REDIS_HOST" = "127.0.0.1";
+          "OVERWRITEHOST" = "${hostName}-${NAME}.${tailnetName}.ts.net";
+          "OVERWRITEPROTOCOL" = "https";
+          "TRUSTED_PROXIES" = "127.0.0.1";
         };
         environmentFiles = [
           config.age.secrets."${NAME}EnvFile".path
@@ -127,7 +143,33 @@ in
           "--pull=always"
           "--network=container:TS${NAME}"
         ];
-        user = "4000:4000";
+      };
+### CRON container
+      "CRON${NAME}" = {
+        entrypoint = "/cron.sh";
+        image = "${IMAGE}:${cfg.imageVersion}";
+        autoStart = true;
+        environment = {
+          "NEXTCLOUD_TRUSTED_DOMAINS" = "${NAME}-${hostName}.${tailnetName}.ts.net";
+          "REDIS_HOST" = "127.0.0.1";
+          "OVERWRITEHOST" = "https://${NAME}-${hostName}.${tailnetName}.ts.net";
+          "OVERWRITEPROTOCOL" = "https";
+        };
+        environmentFiles = [
+          config.age.secrets."${NAME}EnvFile".path
+              #  MYSQL_PASSWORD=
+              #  MYSQL_DATABASE=nextcloud
+              #  MYSQL_USER=nextcloud
+              #  MYSQL_HOST=127.0.0.1
+        ];
+        volumes = [
+          "${cfg.volumeLocation}/var-www-html:/var/www/html"
+          "${cfg.volumeLocation}/data:/data"
+        ];
+        extraOptions = [
+          "--pull=always"
+          "--network=container:TS${NAME}"
+        ];
       };
     };
     yomaq.pods.tailscaled."TS${NAME}".TSserve =  {"/" = "http://127.0.0.1:80";};
