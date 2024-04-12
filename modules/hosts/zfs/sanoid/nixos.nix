@@ -12,8 +12,7 @@ in
       description = ''
         enable custom sanoid, zfs-snapshot module
       '';
-    };
-    
+    }; 
   };
 
   config = mkIf cfg.enable {
@@ -32,6 +31,8 @@ in
       datasets = {
         "zroot/persist".useTemplate = [ "default" ];
         "zroot/persistSave".useTemplate = [ "default" ];
+      } // lib.optionalAttrs (config.yomaq.disks.zfs.storage.enable && !config.yomaq.disks.amReinstalling) {
+        "zstorage/storage".useTemplate = [ "default" ];
       };
     };
   };
