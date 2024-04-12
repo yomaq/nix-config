@@ -126,10 +126,10 @@ let
         "--cap-add=net_admin"
         "--cap-add=sys_module"
       ];
-      user = "4000:4000";
+      # user = "4000:4000";
   };
   mkTmpfilesRules = name: cfg: [
-    "d ${cfg.volumeLocation}/data-lib 0755 4000 4000"
+    "d ${cfg.volumeLocation}/data-lib 0755 root root"
   ];
   mkHomepageConfig = name: cfg: { " " = { 
     href = "http://${cfg.TShostname}.${tailnetName}.ts.net";
