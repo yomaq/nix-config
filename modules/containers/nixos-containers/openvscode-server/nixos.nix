@@ -28,8 +28,8 @@ in
     yomaq.homepage.groups.services.services = [{
       "Code Server" = {
         icon = "si-visualstudiocode";
-        href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-        siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+        href = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
+        siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
       };
     }];
 
@@ -99,6 +99,15 @@ in
           userDataDir = "${dontBackup}/nixos-containers/${NAME}/userdata";
           extensionsDir = "${dontBackup}/nixos-containers/${NAME}/extensions";
         };
+
+        services.caddy = {
+          enable = true;
+          virtualHosts."${hostName}-${NAME}.${tailnetName}.ts.net".extraConfig = ''
+            reverse_proxy 127.0.0.1:3000
+          '';
+        };
+
+
       };
     };
   };

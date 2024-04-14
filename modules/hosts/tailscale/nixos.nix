@@ -15,7 +15,9 @@ in
       authKeyFile = cfg.authKeyFile;
       extraUpFlags = cfg.extraUpFlags;
       useRoutingFeatures = cfg.useRoutingFeatures;
+      permitCertUid = "caddy";
     };
+
     environment.persistence."${config.yomaq.impermanence.dontBackup}" = {
       hideMounts = true;
       directories = [
