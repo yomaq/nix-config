@@ -11,7 +11,7 @@
     tailscale
     just
     unstable.pulumi-bin
-    unstable.python312Packages.pulumi
+    python311Packages.pulumi
   ];
   programs = {
     git = {
