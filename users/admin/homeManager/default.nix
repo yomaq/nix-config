@@ -10,6 +10,8 @@
     agenix
     tailscale
     just
+    unstable.pulumi-bin
+    unstable.python312Packages.pulumi
   ];
   programs = {
     git = {
