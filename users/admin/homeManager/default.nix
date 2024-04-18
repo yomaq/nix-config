@@ -10,8 +10,6 @@
     agenix
     tailscale
     just
-    unstable.pulumi-bin
-    python311Packages.pulumi
   ];
   programs = {
     git = {
@@ -19,6 +17,7 @@
       userEmail = "yomaq@bsjm.xyz";
       userName = "yomaq";
     };
+    direnv.enable = true;
   };
   yomaq = {
     suites.basic.enable = true;
