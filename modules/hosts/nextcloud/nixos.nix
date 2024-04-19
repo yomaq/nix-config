@@ -77,7 +77,11 @@ in {
           See <xref linkend="opt-services.nginx.virtualHosts"/> for further information.
         '';
       };
-
+      collaboraHostname = mkOption {
+        type = types.str;
+        default = "";
+        description = "";
+      };
     };
   };
 
@@ -127,6 +131,21 @@ in {
           redir /.well-known/caldav /remote.php/dav 301
           redir /.well-known/* /index.php{uri} 301
           redir /remote/* /remote.php{uri} 301
+
+          @collabora {
+            path /browser/* # Loleaflet is the client part of LibreOffice Online
+            path /hosting/discovery # WOPI discovery URL
+            path /hosting/capabilities # Show capabilities as json
+            path /cool/* # Main websocket, uploads/downloads, presentations
+          }
+          handle @collabora {
+            reverse_proxy https://${cfg.collaboraHostname}:9980 {
+              transport http {
+                  tls_insecure_skip_verify
+                  read_timeout 36000s
+              }
+            }
+          }
 
           header {
             Strict-Transport-Security max-age=31536000

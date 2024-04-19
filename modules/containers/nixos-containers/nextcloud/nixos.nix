@@ -11,7 +11,6 @@ let
   inherit (config.yomaq.tailscale) tailnetName;
   inherit (config.system) stateVersion;
 
-
 in
 {
   options.yomaq.nixos-containers."${NAME}".enable = lib.mkEnableOption (lib.mdDoc "${NAME} Server");
@@ -45,11 +44,11 @@ in
           hostPath = "/etc/ssh/${hostName}";
           isReadOnly = true; 
         };
-        "/var/lib/tailscale/" = {
+        "/var/lib/tailscale" = {
           hostPath = "${dontBackup}/nixos-containers/${NAME}/tailscale";
           isReadOnly = false; 
         };
-        "/var/lib/mysql/" = {
+        "/var/lib/mysql" = {
           hostPath = "${dontBackup}/nixos-containers/${NAME}/db";
           isReadOnly = false; 
         };
@@ -82,6 +81,8 @@ in
           };
         });
 
+        # services.postgresql.package = pkgs.postgresql_16;
+
         # password is only set on creation, cannot reset the password with this (also means you need to reset the password asap)
         environment.etc."nextcloud-admin-pass".text = "asdhasd&!@@SDa";
         services.nextcloud = {
@@ -92,7 +93,9 @@ in
           configureRedis = true;
           # webserver comes from the custom nextcloud module in /modules/hosts/nextcloud/nixos.nix
           webserver = "caddy";
+          collaboraHostname = "${hostName}-collaboracode.${tailnetName}.ts.net";
           https = true;
+          maxUploadSize = "16G";
           notify_push.enable = true;
           autoUpdateApps.enable = true;
           database.createLocally = true;
@@ -101,6 +104,8 @@ in
             default_phone_region = "US";
           };
           logType = "file";
+          extraApps = {};
+          appstoreEnable = true;
           ### will change soon (24.11?)
           config = {
             trustedProxies = ["127.0.0.1"];
@@ -111,5 +116,22 @@ in
         };
       };
     };
+
+    # Default port is 9980
+    virtualisation.oci-containers.containers.collaboraCode = {
+      image = "docker.io/collabora/code";
+      autoStart = true;
+        environment = {
+          # "cert_domain" = "${hostName}-collaboracode.${tailnetName}.ts.net";
+          "server_name" = "${hostName}-${NAME}.${tailnetName}.ts.net";
+          # "extra_params" = "--o:ssl.enable=false";
+          # "aliasgroup1" = "https://${hostName}-${NAME}.${tailnetName}.ts.net:443";
+        };
+      extraOptions = [
+          "--pull=always"
+          "--network=container:TScollaboraCode"
+      ];
+    };
+    yomaq.pods.tailscaled."TScollaboraCode".enable = true;
   };
 }
