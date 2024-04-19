@@ -102,6 +102,7 @@ let
       {
           "TS_HOSTNAME" = cfg.TShostname;
           "TS_STATE_DIR" = "/var/lib/tailscale";
+          "TS_USERSPACE" = "false";
           "TS_EXTRA_ARGS" = "--advertise-tags=" + formatTags + " " + cfg.TSargs;
       }
       (lib.mkIf (cfg.TSserve != {}) {
