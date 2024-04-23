@@ -23,12 +23,9 @@
       tailscale = {
         enable = true;
         extraUpFlags = ["--ssh=true" "--reset=true" ];
-        # setting this appears to break docker's dns
-        # useRoutingFeatures = "server";
       };
       docker.enable = true;
       pods = {
-        nextcloud.enable = true;
         teslamate.enable = true;
         dufs.enable = true;
         semaphore.enable = true;
@@ -38,6 +35,7 @@
           enable = true;
           storage = config.yomaq.impermanence.backupStorage;
         };
+        homepage.enable = true;
       };
       syncoid = { 
         isBackupServer = true;
@@ -47,7 +45,6 @@
         useBr0 = true;
         physicalInterfaceName = "eno1";
       };
-      homepage-dashboard.enable = true;
       timezone.central= true;
       suites = {
         basics.enable = true;

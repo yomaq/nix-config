@@ -12,6 +12,8 @@ let
 in
 {
   options.yomaq.homepage = {
+    enable = lib.mkEnableOption (lib.mdDoc "Homepage Dashboard");
+
     bookmarks = lib.mkOption {
       inherit (settingsFormat) type;
       default = [ ];
@@ -51,7 +53,7 @@ in
       };
     };
   };
-  config = lib.mkIf config.yomaq.homepage-dashboard.enable {
+  config = lib.mkIf cfg.enable {
     yomaq.homepage-dashboard = {
       settings = mergeConfig "settings";
       widgets = mergeConfig "widgets";

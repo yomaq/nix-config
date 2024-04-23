@@ -47,7 +47,7 @@ in
     };
 
     yomaq.homepage.services = 
-      (lib.optional (config.yomaq.homepage-dashboard.enable) {"Flake" = [
+      (lib.optional (config.yomaq.homepage.enable) {"Flake" = [
         {"flake.lock last update"={
           widget = {
             type = "customapi";
