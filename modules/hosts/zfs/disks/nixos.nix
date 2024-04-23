@@ -432,6 +432,19 @@ in
                   # keylocation = "file:///tmp/secret.key";
                 };
               };
+              persistSave = {
+                type = "zfs_fs";
+                mountpoint = "/storage/save";
+                options = {
+                  atime = "off";
+                  canmount = "on";
+                  "com.sun:auto-snapshot" = "false";
+                  # #encryption
+                  # encryption = "aes-256-gcm";
+                  # keyformat = "passphrase";
+                  # keylocation = "file:///tmp/secret.key";
+                };
+              };
               backups = mkIf config.yomaq.syncoid.isBackupServer {
                 type = "zfs_fs";
                 mountpoint = "/backups";

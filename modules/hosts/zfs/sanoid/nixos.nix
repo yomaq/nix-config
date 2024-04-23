@@ -33,6 +33,7 @@ in
         "zroot/persistSave".useTemplate = [ "default" ];
       } // lib.optionalAttrs (config.yomaq.disks.zfs.storage.enable && !config.yomaq.disks.amReinstalling) {
         "zstorage/storage".useTemplate = [ "default" ];
+        "zstorage/persistSave".useTemplate = [ "default" ];
       };
     };
   };

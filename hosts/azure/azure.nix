@@ -33,9 +33,19 @@
         dufs.enable = true;
         semaphore.enable = true;
       };
+      nixos-containers = {
+        nextcloud = {
+          enable = true;
+          storage = config.yomaq.impermanence.backupStorage;
+        };
+      };
       syncoid = { 
         isBackupServer = true;
         exclude = ["blue"];
+      };
+     network = {
+        useBr0 = true;
+        physicalInterfaceName = "eno1";
       };
       homepage-dashboard.enable = true;
       timezone.central= true;

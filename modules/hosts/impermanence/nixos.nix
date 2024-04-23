@@ -11,6 +11,11 @@ with lib;
       default = "/persist/save";
       description = "The persistent directory to backup";
     };
+    backupStorage = mkOption {
+      type = types.str;
+      default = "/persist/save";
+      description = "The persistent directory to backup";
+    };
     dontBackup = mkOption {
       type = types.str;
       default = "/persist";
@@ -19,5 +24,6 @@ with lib;
   };
   config = {
     yomaq.impermanence.backup = mkIf config.yomaq.disks.amReinstalling "/tmp";
+    yomaq.impermanence.backupStorage = mkIf config.yomaq.disks.amReinstalling "/tmp";
   };
 }
