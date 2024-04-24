@@ -19,6 +19,7 @@
     pkgs.tmuxinator
     pkgs.kubernetes-helm
     # pkgs.agenix
+    pkgs.nextcloud-client
     pkgs.git
     pkgs.gh
     pkgs.gitkraken

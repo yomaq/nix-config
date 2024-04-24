@@ -11,6 +11,7 @@
   ] ++ (lib.optionals (pkgs.system != "aarch64-darwin") [
 ### nixos specific packages
     pkgs.trayscale
+    pkgs.nextcloud-client
     pkgs.steam
     pkgs.brave
   ]);
