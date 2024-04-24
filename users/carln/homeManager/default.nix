@@ -19,13 +19,13 @@
     pkgs.tmuxinator
     pkgs.kubernetes-helm
     # pkgs.agenix
-    pkgs.nextcloud-client
     pkgs.git
     pkgs.gh
     pkgs.gitkraken
   ] ++ (lib.optionals (pkgs.system != "aarch64-darwin") [
 ### nixos specific packages
     pkgs.trayscale
+    pkgs.nextcloud-client
     #pkgs.spotify
     pkgs.steam
     pkgs.brave
