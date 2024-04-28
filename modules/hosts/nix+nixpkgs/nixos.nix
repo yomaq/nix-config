@@ -14,5 +14,6 @@ in
         options = "--delete-older-than 30d";
       };
     };
+    systemd.services.nix-daemon.serviceConfig.OOMScoreAdjust = lib.mkDefault 250;
   };
 }
