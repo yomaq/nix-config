@@ -61,12 +61,10 @@
           enable = true;
           hostID = "49e95c43";
           root = {
-            enable = true;
             disk1 = "nvme0n1";
             disk2 = "nvme1n1";
             reservation = "200G";
             impermanenceRoot = true;
-            impermanenceHome = true;
           };
           storage = {
             enable = true;

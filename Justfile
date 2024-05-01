@@ -50,6 +50,8 @@ rbr host:
 # update nixos on a remote machine using local flake
 rbrl host:
     nixos-rebuild  --use-substitutes --no-build-nix --build-host admin@{{host}} --target-host admin@{{host}} --use-remote-sudo switch --flake .#{{host}}
+dry host:
+    nixos-rebuild  --use-substitutes --no-build-nix --build-host admin@{{host}} --target-host admin@{{host}} --use-remote-sudo dry-activate --flake .#{{host}}
 
 ############################################################################
 

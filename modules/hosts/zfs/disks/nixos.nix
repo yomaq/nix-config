@@ -1,6 +1,4 @@
 { options, config, lib, pkgs, inputs, ... }:
-
-with lib;
 let
   authorizedkeys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI" 
@@ -11,47 +9,36 @@ let
   inherit (config.yomaq.impermanence) dontBackup;
 in
 {
-
-
   options.yomaq.disks = {
-    enable = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         enable custom disk configuration
       '';
     };
-    amReinstalling = mkOption {
-      type = types.bool;
+    amReinstalling = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         am I reinstalling and want to save the storage pool + keep /persist/save unused so I can restore data
       '';
     };
-    systemd-boot = mkOption {
-      type = types.bool;
+    systemd-boot = lib.mkOption {
+      type = lib.types.bool;
       default = false;
-      description = ''
-        enable systemd-boot
-      '';
     };
      initrd-ssh = {
-      enable = mkOption {
-        type = types.bool;
+      enable = lib.mkOption {
+        type = lib.types.bool;
         default = false;
-        description = ''
-          enable initrd ssh
-        '';
       };
-      authorizedKeys = mkOption {
-        type = types.listOf types.str;
+      authorizedKeys = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
         default = [];
-        description = ''
-          authorized keys for initrd ssh
-        '';
       };
-      ethernetDrivers = mkOption {
-        type = types.listOf types.str;
+      ethernetDrivers = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
         default = [];
         description = ''
           ethernet drivers to load: (run "lspci -v | grep -iA8 'network\|ethernet'")
@@ -59,102 +46,76 @@ in
       };
      };
      zfs = {
-      enable = mkOption {
-        type = types.bool;
+      enable = lib.mkOption {
+        type = lib.types.bool;
         default = false;
-        description = ''
-          enable zfs
-        '';
       };
-      hostID = mkOption {
-        type = types.str;
+      hostID = lib.mkOption {
+        type = lib.types.str;
         default = "";
-        description = ''
-          host id for zfs
-        '';
       };
       root = {
-        enable = mkOption {
-          type = types.bool;
-          default = false;
-          description = ''
-            enable zfs root
-          '';
-        };
-        encrypt = mkOption {
-          type = types.bool;
+        encrypt = lib.mkOption {
+          type = lib.types.bool;
           default = true;
-          description = ''
-            encrypt the zfs root
-          '';
         };
-        disk1 = mkOption {
-          type = types.str;
+        disk1 = lib.mkOption {
+          type = lib.types.str;
           default = "";
           description = ''
             device name
           '';
         };
-        disk2 = mkOption {
-          type = types.str;
-          default = "null";
+        disk2 = lib.mkOption {
+          type = lib.types.str;
+          default = "";
           description = ''
             device name
           '';
         };
-        reservation = mkOption {
-          type = types.str;
+        reservation = lib.mkOption {
+          type = lib.types.str;
           default = "20GiB";
           description = ''
             zfs reservation
           '';
         };
-        mirror = mkOption {
-          type = types.bool;
+        mirror = lib.mkOption {
+          type = lib.types.bool;
           default = false;
           description = ''
             mirror the zfs pool
           '';
         };
-        impermanenceRoot = mkOption {
-          type = types.bool;
+        impermanenceRoot = lib.mkOption {
+          type = lib.types.bool;
           default = false;
           description = ''
             wipe the root directory on boot
           '';
         };
-        impermanenceHome = mkOption {
-          type = types.bool;
-          default = false;
-          description = ''
-            wipe the home directory on boot
-          '';
-        };
       };
       storage = {
-        enable = mkOption {
-          type = types.bool;
+        enable = lib.mkOption {
+          type = lib.types.bool;
           default = false;
-          description = ''
-            enable zfs root
-          '';
         };
-        disks = mkOption {
-          type = types.listOf types.str;
+        disks = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
           default = [];
           description = ''
             device names
           '';
         };
-        reservation = mkOption {
-          type = types.str;
+        reservation = lib.mkOption {
+          type = lib.types.str;
           default = "20GiB";
           description = ''
             zfs reservation
           '';
         };
-        mirror = mkOption {
-          type = types.bool;
+        mirror = lib.mkOption {
+          type = lib.types.bool;
           default = false;
           description = ''
             mirror the zfs pool
@@ -164,13 +125,13 @@ in
     };
   };
 
-  config = mkMerge [ 
-    (mkIf (cfg.enable && cfg.systemd-boot) {
+  config = lib.mkMerge [ 
+    (lib.mkIf (cfg.enable && cfg.systemd-boot) {
       # setup systemd-boot
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
     })
-    (mkIf (cfg.enable && cfg.initrd-ssh.enable) {
+    (lib.mkIf (cfg.enable && cfg.initrd-ssh.enable) {
       # setup initrd ssh to unlock the encripted drive
       boot.initrd.network.enable = true;
       boot.initrd.availableKernelModules = cfg.initrd-ssh.ethernetDrivers;
@@ -186,7 +147,7 @@ in
         "/etc/ssh/initrd" = "/etc/ssh/initrd";
       };
     })
-    (mkIf cfg.enable {
+    (lib.mkIf cfg.enable {
       # basic impermanence folders setup
       environment.persistence."${dontBackup}" = {
         hideMounts = true;
@@ -198,7 +159,7 @@ in
         ];
       };
     })
-    (mkIf cfg.zfs.enable {
+    (lib.mkIf cfg.zfs.enable {
       networking.hostId = cfg.zfs.hostID;
       environment.systemPackages = [pkgs.zfs-prune-snapshots];
       boot = {
@@ -221,10 +182,10 @@ in
         trim.enable = true;
       };
     })
-    (mkIf cfg.zfs.root.enable {
+    (lib.mkIf cfg.zfs.enable {
       disko.devices = {
-        disk = mkMerge [ 
-          (mkIf (cfg.zfs.storage.disks != [] && !cfg.amReinstalling) (mkMerge (map ( diskname: {
+        disk = lib.mkMerge [ 
+          (lib.mkIf (cfg.zfs.storage.enable && !cfg.amReinstalling) (lib.mkMerge (map ( diskname: {
             "${diskname}" = {
               type = "disk";
               device = "/dev/${diskname}";
@@ -244,18 +205,11 @@ in
                       };
                     };
                   };
-                  # zfs = {
-                  #   size = "100%";
-                  #   content = {
-                  #     type = "zfs";
-                  #     pool = "zstorage";
-                  #   };
-                  # };
                 };
               };
             };
           })cfg.zfs.storage.disks)))
-          ({one = {
+          ({one = lib.mkIf (cfg.zfs.root.disk1 != "") {
             type = "disk";
             device = "/dev/${cfg.zfs.root.disk1}";
             content = {
@@ -276,7 +230,7 @@ in
                     ];
                   };
                 };
-                luks = mkIf cfg.zfs.root.encrypt {
+                luks = lib.mkIf cfg.zfs.root.encrypt {
                   size = "100%";
                   content = {
                     type = "luks";
@@ -289,7 +243,7 @@ in
                     };
                   };
                 };
-                notluks = mkIf (!cfg.zfs.root.encrypt) {
+                notluks = lib.mkIf (!cfg.zfs.root.encrypt) {
                   size = "100%";
                   content = {
                     type = "zfs";
@@ -299,7 +253,7 @@ in
               };
             };
           };
-          two = mkIf (cfg.zfs.root.disk2 != "null") {
+          two = lib.mkIf (cfg.zfs.root.disk2 != "") {
             type = "disk";
             device = "/dev/${cfg.zfs.root.disk2}";
             content = {
@@ -320,11 +274,12 @@ in
                 };
               };
             };
-          };})];
+          };
+        })];
         zpool = {
           zroot = {
             type = "zpool";
-            mode = mkIf cfg.zfs.root.mirror "mirror";
+            mode = lib.mkIf cfg.zfs.root.mirror "mirror";
             rootFsOptions = {
               canmount = "off";
               checksum = "edonr";
@@ -392,9 +347,9 @@ in
               };
             };
           };
-          zstorage = mkIf (cfg.zfs.storage.enable && !cfg.amReinstalling) {
+          zstorage = lib.mkIf (cfg.zfs.storage.enable && !cfg.amReinstalling) {
             type = "zpool";
-            mode = mkIf (cfg.zfs.storage.mirror) "mirror";
+            mode = lib.mkIf (cfg.zfs.storage.mirror) "mirror";
             rootFsOptions = {
               canmount = "off";
               checksum = "edonr";
@@ -426,10 +381,6 @@ in
                   atime = "off";
                   canmount = "on";
                   "com.sun:auto-snapshot" = "false";
-                  # #encryption
-                  # encryption = "aes-256-gcm";
-                  # keyformat = "passphrase";
-                  # keylocation = "file:///tmp/secret.key";
                 };
               };
               persistSave = {
@@ -439,23 +390,15 @@ in
                   atime = "off";
                   canmount = "on";
                   "com.sun:auto-snapshot" = "false";
-                  # #encryption
-                  # encryption = "aes-256-gcm";
-                  # keyformat = "passphrase";
-                  # keylocation = "file:///tmp/secret.key";
                 };
               };
-              backups = mkIf config.yomaq.syncoid.isBackupServer {
+              backups = lib.mkIf config.yomaq.syncoid.isBackupServer {
                 type = "zfs_fs";
                 mountpoint = "/backups";
                 options = {
                   atime = "off";
                   canmount = "on";
                   "com.sun:auto-snapshot" = "false";
-                  # #encryption
-                  # encryption = "aes-256-gcm";
-                  # keyformat = "passphrase";
-                  # keylocation = "file:///tmp/secret.key";
                 };
               };
             };
@@ -471,18 +414,11 @@ in
       fileSystems."/persist".neededForBoot = true;
       fileSystems."/persist/save".neededForBoot = true;
     })
-    (mkIf (cfg.zfs.root.enable && cfg.zfs.root.impermanenceRoot) {
+    (lib.mkIf (cfg.zfs.root.impermanenceRoot) {
       boot.initrd.postDeviceCommands =
         #wipe / and /var on boot
         lib.mkAfter ''
           zfs rollback -r zroot/root@empty
-      '';
-    })
-    (mkIf (cfg.zfs.root.enable && cfg.zfs.root.impermanenceHome) {
-      #wipe /home on boot
-      boot.initrd.postDeviceCommands =
-        lib.mkAfter ''
-          zfs rollback -r zroot/home@empty
       '';
     })
   ];

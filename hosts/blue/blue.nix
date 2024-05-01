@@ -55,13 +55,11 @@
           enable = true;
           hostID = "CF3C23BE";
           root = {
-            enable = true;
             disk1 = "nvme0n1";
             disk2 = "nvme1n1";
             reservation = "200G";
             mirror = true;
             impermanenceRoot = true;
-            # impermanenceHome = true;
           };
         };
       };

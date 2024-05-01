@@ -38,10 +38,8 @@
           enable = true;
           hostID = "2C2883D7";
           root = {
-            enable = true;
             disk1 = "nvme0n1";
             impermanenceRoot = true;
-            impermanenceHome = true;
           };
         };
       };

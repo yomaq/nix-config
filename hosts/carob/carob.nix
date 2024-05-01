@@ -43,11 +43,9 @@
           enable = true;
           hostID = "7CEA7619";
           root = {
-            enable = true;
             encrypt = false;
             disk1 = "mmcblk0";
             impermanenceRoot = true;
-            impermanenceHome = true;
           };
         };
       };

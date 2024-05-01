@@ -50,7 +50,6 @@
           enable = true;
           hostID = "ab010ea1";
           root = {
-            enable = true;
             disk1 = "nvme0n1";
             impermanenceRoot = true;
           };

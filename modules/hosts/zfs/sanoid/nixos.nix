@@ -1,13 +1,11 @@
 { options, config, lib, pkgs, inputs, ... }:
-
-with lib;
 let
   cfg = config.yomaq.sanoid;
 in
 {
   options.yomaq.sanoid = {
-    enable = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = true;
       description = ''
         enable custom sanoid, zfs-snapshot module
@@ -15,7 +13,7 @@ in
     }; 
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     services.sanoid = {
       enable = true;
       templates = {
