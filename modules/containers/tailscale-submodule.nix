@@ -110,6 +110,7 @@ let
           "TS_USERSPACE" = "true";
       })
       (lib.mkIf (cfg.TSserve == {}) {
+        # https://github.com/tailscale/tailscale/issues/11372
            "TS_USERSPACE" = "false";
       })
       ];
