@@ -44,7 +44,7 @@ in
       bindMounts = { 
         "/etc/ssh/${hostName}" = { 
           hostPath = "/etc/ssh/${hostName}";
-          isReadOnly = true; 
+          isReadOnly = false; 
         };
         "/var/lib/tailscale/" = {
           hostPath = "${dontBackup}/nixos-containers/${NAME}/tailscale";
