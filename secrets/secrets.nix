@@ -29,6 +29,9 @@ in
   "semaphoreEnvFile.age".publicKeys = [ teal azure ] ++ all;
   "semaphoreDBEnvFile.age".publicKeys = [ teal azure ] ++ all;
   "homepage.age".publicKeys = [ azure ] ++ all;
+  "linkwardenEnvFile.age".publicKeys = [ teal azure ] ++ all;
+  "linkwardenDBEnvFile.age".publicKeys = [ teal azure ] ++ all;
+
 
 
 
