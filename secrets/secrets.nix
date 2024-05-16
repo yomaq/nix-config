@@ -16,7 +16,7 @@ in
   "ryn.age".publicKeys = [ blue ] ++ all;
   "encrypt.age".publicKeys = all;
   "tailscaleKey.age".publicKeys = [ green azure teal smalt ] ++ all;
-  "tailscaleKeyAcceptSsh.age".publicKeys = [ ] ++ all;
+  "tailscaleOAuthKeyAcceptSsh.age".publicKeys = [ green azure teal smalt ] ++ all;
   "tailscaleEnvFile.age".publicKeys = [ green azure teal smalt ] ++ all;
   "tailscaleOAuthEnvFile.age".publicKeys = [ green azure teal smalt ] ++ all;
   "piholeEnvFile.age".publicKeys = [ green ] ++ all;

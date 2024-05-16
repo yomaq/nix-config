@@ -17,6 +17,8 @@
     boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     
+    yomaq.initrd-tailscale.enable = true;
+
     yomaq = {
       autoUpgrade.enable = true;
       primaryUser.users = [ "carln" "admin" ];
@@ -37,9 +39,9 @@
       };
       docker.enable = true;
       pods = {
-        windows.windowstest.enable = true;
+        # windows.windowstest.enable = true;
       };
-      nixos-containers.nextcloud.enable = true;
+      # nixos-containers.nextcloud.enable = true;
       # disk configuration
       disks = {
         enable = true;
