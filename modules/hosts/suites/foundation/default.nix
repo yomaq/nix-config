@@ -21,6 +21,7 @@ in
       nixSettings.enable = true;
       tailscale.enable = true;
       network.basics = true;
+      initrd-tailscale.enable = true;
     };
   };
 }

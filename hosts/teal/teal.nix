@@ -16,8 +16,6 @@
     system.stateVersion = "23.11";
     boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-    
-    yomaq.initrd-tailscale.enable = true;
 
     yomaq = {
       autoUpgrade.enable = true;

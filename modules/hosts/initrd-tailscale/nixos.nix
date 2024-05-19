@@ -53,8 +53,9 @@ in
           "--disable-shared"
           ];
       });
-    in  
-    mkIf (config.boot.initrd.network.enable && cfg.enable) {
+    in 
+    mkMerge [ 
+    (mkIf (config.boot.initrd.network.enable && !config.yomaq.disks.amReinstalling && cfg.enable) {
 
     boot.initrd.kernelModules = [ "tun" ];
     boot.initrd.availableKernelModules = [
@@ -124,5 +125,11 @@ in
   #     serviceConfig.ExecStart = ".tailscale-wrapped up --auth-key 'file:/etc/authkey' ${escapeShellArgs cfg.extraUpFlags}";
   #     serviceConfig.Type = "notify";
   #   };
-  };
+  })
+  (mkIf (config.boot.initrd.network.enable && cfg.enable) {
+    ### initrd secrets are deployed before agenix sets up keys. So the key needs to exist first, or the build will fail with a missing file error.
+    ### So, on a system install use amReinstalling to disable the above actual deployment of the secret, while still deploying the key here.
+    ## Then when you remove amReinstalling, initrd will see the secret deployed by the previous rebuild.
+    age.secrets.tailscaleOAuthKeyAcceptSsh.file = (inputs.self + /secrets/tailscaleOAuthKeyAcceptSsh.age);
+  })];
 }
