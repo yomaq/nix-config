@@ -47,6 +47,6 @@ in
 
   })
   (lib.mkIf cfg.preApprovedSshAuthkey {
-    age.secrets.tailscaleKeyAcceptSsh.file = ( inputs.self + /secrets/tailscaleKeyAcceptSsh.age);
+    age.secrets.tailscaleOAuthKeyAcceptSsh.file = ( inputs.self + /secrets/tailscaleOAuthKeyAcceptSsh.age);
   })];
 }
