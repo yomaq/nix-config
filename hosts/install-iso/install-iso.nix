@@ -20,7 +20,7 @@
         enable = true;
         extraUpFlags = ["--ssh=true" "--reset=true" ];
         # attempt to write the authkey in clear text into the nix store for the install-iso as it won't have a key to decrypt the secret
-        authKeyFile = (pkgs.writeText "tailscaleAuthKey" (builtins.readFile config.age.secrets.tailscaleKeyAcceptSsh.path));
+        authKeyFile = (pkgs.writeText "tailscaleAuthKey" (builtins.readFile config.age.secrets.tailscaleOAuthKeyAcceptSsh.path));
         preApprovedSshAuthkey = true;
       };
       timezone.central= true;
