@@ -11,6 +11,7 @@ in
  config = mkMerge [
   (lib.mkIf cfg.enable {
     services.tailscale = {
+      package = pkgs.unstable.tailscale;
       enable = true;
       authKeyFile = cfg.authKeyFile;
       extraUpFlags = cfg.extraUpFlags;
