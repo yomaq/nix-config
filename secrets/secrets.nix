@@ -31,6 +31,7 @@ in
   "homepage.age".publicKeys = [ azure ] ++ all;
   "linkwardenEnvFile.age".publicKeys = [ teal azure ] ++ all;
   "linkwardenDBEnvFile.age".publicKeys = [ teal azure ] ++ all;
+  "healthchecks.age".publicKeys = [ azure ] ++ all;
 
 
 
