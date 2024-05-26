@@ -37,6 +37,8 @@
           storage = config.yomaq.impermanence.backupStorage;
         };
         homepage.enable = true;
+        ntfy.enable = true;
+        healthchecks.enable = true;
       };
       syncoid = { 
         isBackupServer = true;
