@@ -28,6 +28,10 @@ in
     yomaq.tailscale.tailnetName = "sable-chimaera";
     age.secrets.tailscaleKey.file = ( inputs.self + /secrets/tailscaleKey.age);
 
+    environment.systemPackages = with pkgs; [
+      unstable.tailscale
+    ];
+
     yomaq.homepage.groups.services."Flake Nixos Hosts" = [{
       " " = {
         href = "http://${hostName}.${cfg.tailnetName}.ts.net";

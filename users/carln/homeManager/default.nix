@@ -12,7 +12,6 @@
     pkgs.discord
     pkgs.alacritty
     pkgs.vim
-    pkgs.talosctl
     pkgs.kubectl
     pkgs.nerdfonts
     pkgs.chezmoi

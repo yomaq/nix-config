@@ -8,7 +8,6 @@
     vim
     gh
     agenix
-    tailscale
     just
   ];
   programs = {
