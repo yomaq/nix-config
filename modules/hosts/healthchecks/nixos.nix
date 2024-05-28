@@ -120,7 +120,7 @@ in
         If the same variable is set in both `settings` and `settingsFile` the value from `settingsFile` has priority.
       '';
       type = types.submodule (settings: {
-        freeformType = types.attrsOf (types.nullOr types.str);
+        freeformType = types.attrsOf types.str;
         options = {
           ALLOWED_HOSTS = lib.mkOption {
             type = types.listOf types.str;
