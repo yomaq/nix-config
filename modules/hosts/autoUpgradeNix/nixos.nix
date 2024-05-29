@@ -41,9 +41,13 @@ in
         ''
       );
       onFailure = ["nixos-upgrade-fail.service"];
+      onSuccess = ["nixos-upgrade-success.service"];
     };
     systemd.services.nixos-upgrade-fail = lib.mkIf config.system.autoUpgrade.enable {
       script = ''${lib.getExe pkgs.curl} -H "t: NixOS Flake host rebuild failure" ${config.yomaq.ntfy.defaultPriority} -d "${hostName} failed to rebuild" ${config.yomaq.ntfy.ntfyUrl}${config.yomaq.ntfy.defaultTopic}'';
+    };
+    systemd.services.nixos-upgrade-success = lib.mkIf config.system.autoUpgrade.enable {
+      script = ''${lib.getExe pkgs.curl} -fsS -m 10 --retry 5 ${config.yomaq.healthcheckUrl.nixos-upgrade."${hostName}"}'';
     };
   };
 }

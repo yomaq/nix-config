@@ -20,6 +20,13 @@ in
         carob = "https://azure-healthchecks.sable-chimaera.ts.net/ping/73e0cf2b-5ccc-40cc-8f9e-badbe053e5b4";
         azure = "https://azure-healthchecks.sable-chimaera.ts.net/ping/53d019ba-c0f5-4354-8335-98eca466e15d";
       };
+      nixos-upgrade = {
+        blue = "https://azure-healthchecks.sable-chimaera.ts.net/ping/9119da9b-5e5c-4bff-9bd5-981a00f05878";
+        smalt = "https://azure-healthchecks.sable-chimaera.ts.net/ping/e3e54e29-93ed-45fd-8dd6-5a99cf5d61ce";
+        azure = "https://azure-healthchecks.sable-chimaera.ts.net/ping/d84050d8-b21f-45e2-b2b1-b009615a441e";
+        carob = "https://azure-healthchecks.sable-chimaera.ts.net/ping/9de5edba-a351-4968-a434-7ee00026a37a";
+        teal = "https://azure-healthchecks.sable-chimaera.ts.net/ping/a0e00318-05d3-4095-8d8b-0944b8d203e0";
+      };
     };
   };
 }
