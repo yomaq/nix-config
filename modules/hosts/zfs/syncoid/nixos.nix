@@ -103,7 +103,7 @@ in
       # syncoid-fail service for all nixosHosts
       systemd.services = lib.mkIf config.yomaq.syncoid.isBackupServer  (lib.mkMerge (map (hostName: {
         "syncoid-${hostName}Save" = {
-          onFailure = ["syncoid-success-${hostName}.service"];
+          onSuccess = ["syncoid-success-${hostName}.service"];
         };
         "syncoid-success-${hostName}" = {
           script = ''${lib.getExe pkgs.curl} -fsS -m 10 --retry 5 ${config.yomaq.healthcheckUrl.syncoid."${hostName}"}'';
