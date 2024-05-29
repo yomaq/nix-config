@@ -99,6 +99,17 @@ in
             yearly = 1;
         };
       })nixosHosts));
+
+      # syncoid-fail service for all nixosHosts
+      systemd.services = lib.mkIf config.yomaq.syncoid.isBackupServer  (lib.mkMerge (map (hostName: {
+        "syncoid-${hostName}Save" = {
+          onFailure = ["syncoid-success-${hostName}.service"];
+        };
+        "syncoid-success-${hostName}" = {
+          script = ''${lib.getExe pkgs.curl} -fsS -m 10 --retry 5 ${config.yomaq.healthcheckUrl.syncoid."${hostName}"}'';
+        };
+      })(nixosHosts ++ [config.networking.hostName])));
+
     }
   ];
 }

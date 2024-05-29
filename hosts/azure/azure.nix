@@ -42,7 +42,7 @@
       };
       syncoid = { 
         isBackupServer = true;
-        exclude = ["blue"];
+        exclude = ["blue" "green"];
       };
      network = {
         useBr0 = true;
