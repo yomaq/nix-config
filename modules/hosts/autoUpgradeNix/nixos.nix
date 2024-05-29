@@ -1,11 +1,12 @@
 { options, config, lib, pkgs, inputs, ... }:
-# from https://github.com/Misterio77/nix-config/blob/main/hosts/common/global/auto-upgrade.nix
+# base around https://github.com/Misterio77/nix-config/blob/main/hosts/common/global/auto-upgrade.nix
 
 with lib;
 let
   cfg = config.yomaq.autoUpgrade;
   # Only enable auto upgrade if current config came from a clean tree
   # This avoids accidental auto-upgrades when working locally.
+  inherit (config.networking) hostName;
   isClean = inputs.self ? rev;
 in
 {
@@ -39,6 +40,10 @@ in
           test "$(lastModified "${config.system.autoUpgrade.flake}")"  -gt "$(lastModified "self")"
         ''
       );
+      onFailure = ["nixos-upgrade-failure.service"];
+    };
+    systemd.services.nixos-upgrade-fail = lib.mkIf config.system.autoUpgrade.enable {
+      script = ''curl -H ${config.yomaq.ntfy.defaultPriority} -d "${hostName} failed to rebuild" ${config.yomaq.ntfy.ntfyUrl}${config.yomaq.ntfy.defaultTopic}'';
     };
   };
 }
