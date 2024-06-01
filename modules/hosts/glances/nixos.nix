@@ -35,7 +35,7 @@ in
       };
     };
 
-    yomaq.glances.package = pkgs.unstable.glances;
+    yomaq.glances.package = pkgs.glances;
     services.static-web-server = {
       enable = true;
       root = "${dontBackup}/lastUpdate/";

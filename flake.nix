@@ -3,9 +3,9 @@
   inputs = {
     # Nixpkgs
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable"; 
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     # Home manager
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     # Nix-Darwin
     nix-darwin.url = "github:LnL7/nix-darwin/master";
@@ -29,7 +29,7 @@
     nixos-generators.url = "github:nix-community/nixos-generators";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
     # nixvim
-    nixvim.url = "github:nix-community/nixvim/nixos-23.11";
+    nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = { self, nixpkgs, home-manager, nix-darwin, agenix, nixos-generators, ... }@inputs: 

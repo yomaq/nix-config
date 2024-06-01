@@ -4,7 +4,9 @@
 ### oauthkeys are currently not working because of trusted CA issues. Currently don't know how to fix for initrd.
 ### oauthkeys would be prefered because they don't need refreshed.
 ### authkeys expired every 3 months and will need to be manually updated.
-### I have had weird results when trying to overwrite existing key files in initrd, often times only re-naming to a fresh file name appears to work.
+
+### https://github.com/NixOS/nixpkgs/pull/306532 Made this more complicated, as it removed tailscale-wrapped.
+### Made an overlay to undo it and add tailscale-wrapped back.
 
 with lib;
 let
@@ -53,29 +55,28 @@ in
           "--disable-shared"
           ];
       });
+
+      # have to undo https://github.com/NixOS/nixpkgs/pull/306532
+      TailscaleWrappedOverlay = self: super: {
+        tailscale-wrapped = super.tailscale.overrideAttrs (oldAttrs: {
+          subPackages = oldAttrs.subPackages ++ [ "cmd/tailscale" ];
+          postInstall = lib.optionalString super.stdenv.isLinux ''
+            wrapProgram $out/bin/tailscaled --prefix PATH : ${lib.makeBinPath [ super.iproute2 super.iptables super.getent super.shadow ]}
+            wrapProgram $out/bin/tailscale --suffix PATH : ${lib.makeBinPath [ super.procps ]}
+          '';
+        });
+      };
+
     in 
     mkMerge [ 
     (mkIf (config.boot.initrd.network.enable && !config.yomaq.disks.amReinstalling && cfg.enable) {
 
+    nixpkgs.overlays = [ TailscaleWrappedOverlay ];
+
+    yomaq.initrd-tailscale.package = pkgs.tailscale-wrapped;
+
     boot.initrd.kernelModules = [ "tun" ];
     boot.initrd.availableKernelModules = [
-      # "ip6_tables"
-      # "ip6t_rpfilter"
-      # "ip_tables"
-      # "ipt_rpfilter"
-      # "libcrc32c"
-      # "nf_conntrack"
-      # "nf_conntrack_netlink"
-      # "nf_defrag_ipv4"
-      # "nf_defrag_ipv6"
-      # "nf_nat"
-      # "nfnetlink"
-      # "nf_reject_ipv4"
-      # "nf_reject_ipv6"
-      # "nf_tables"
-      # "tun"
-      # "x_tables"
-
       "xt_mark"
       "nft_chain_nat"
       "nft_compat"
@@ -108,23 +109,7 @@ in
       .tailscaled-wrapped --state=mem: &
       .tailscale-wrapped up --hostname=${config.networking.hostName}-initrd --auth-key 'file:/etc/tauthkey' ${escapeShellArgs cfg.extraUpFlags} &
     '';
-    # oathkeys need dns and trusted CA's.
-    # echo "nameserver 1.1.1.1" >> /etc/resolv.conf &
 
-  #   boot.initrd.systemd.enable = true;
-  #   boot.initrd.systemd.services.tailscaled = {
-  #     wantedBy = [ "initrd.target" ];
-  #     path = [ pkgs.kmod ];
-  #     after = [ "network.target" "initrd-nixos-copy-secrets.service" ];
-  #     serviceConfig.ExecStart = ".tailscaled-wrapped";
-  #     serviceConfig.Type = "notify";
-  #   };
-  #   boot.initrd.systemd.services.tailscale = {
-  #     wantedBy = [ "initrd.target" ];
-  #     after = [ "tailscaled.service" ];
-  #     serviceConfig.ExecStart = ".tailscale-wrapped up --auth-key 'file:/etc/authkey' ${escapeShellArgs cfg.extraUpFlags}";
-  #     serviceConfig.Type = "notify";
-  #   };
   })
   (mkIf (config.boot.initrd.network.enable && cfg.enable) {
     ### initrd secrets are deployed before agenix sets up keys. So the key needs to exist first, or the build will fail with a missing file error.

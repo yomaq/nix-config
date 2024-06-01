@@ -107,18 +107,17 @@ in
           notify_push.enable = true;
           autoUpdateApps.enable = true;
           database.createLocally = true;
-          extraOptions = {
+          settings = {
             "maintenance_window_start" = 8;
             default_phone_region = "US";
+            trustedProxies = ["127.0.0.1"];
+            logType = "file";
+            overwriteProtocol = "https";
           };
-          logType = "file";
           extraApps = {};
           appstoreEnable = true;
-          ### will change soon (24.11?)
           config = {
-            trustedProxies = ["127.0.0.1"];
             dbtype = "mysql";
-            overwriteProtocol = "https";
             adminuser = "yomaq";
           };
         };

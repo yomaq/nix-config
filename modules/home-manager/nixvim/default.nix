@@ -19,7 +19,7 @@ in
     programs.nixvim = {
       enable = true;
 
-      options = {
+      opts = {
         number = true;
         shiftwidth = 2;
       };
