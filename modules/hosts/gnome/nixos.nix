@@ -27,8 +27,8 @@ in
 
     # Configure keymap in X11
     services.xserver = {
-      layout = "us";
-      xkbVariant = "";
+      xkb.layout = "us";
+      xkb.variant = "";
     };
 
     # Enable sound with pipewire.
@@ -60,7 +60,6 @@ in
       cheese # webcam tool
       gnome-music
       gnome-terminal
-      gedit # text editor
       epiphany # web browser
       geary # email reader
       evince # document viewer

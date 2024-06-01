@@ -36,7 +36,8 @@
       };
       nixos-containers.openvscode.enable = true;
       glances.enable = lib.mkForce false;
-      gnome.enable = true;
+      # gnome.enable = true;
+      kde-plasma.enable = true;
       scripts.enable = true;
       flatpak.enable = true;
       timezone.central= true;
