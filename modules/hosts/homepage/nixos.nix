@@ -1,245 +1,136 @@
-{ config
-, pkgs
-, lib
-, ...
-}:
-
+{ config, lib, pkgs, inputs, modulesPath, ... }:
 let
-  cfg = config.yomaq.homepage-dashboard;
-  # Define the settings format used for this program
+  cfg = config.yomaq.homepage;
   settingsFormat = pkgs.formats.yaml { };
+  listOfHosts = lib.attrNames inputs.self.nixosConfigurations;
+  mergeConfig = configKey: lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage."${configKey}" != []) 
+      inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage."${configKey}") listOfHosts);
+  mergeServiceGroups = configKey: lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.services."${configKey}" != []) 
+    inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.services."${configKey}") listOfHosts);
+  mergeBookmarksGroups = configKey: lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks"${configKey}" != []) 
+    inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks"${configKey}") listOfHosts);
 in
 {
-  options = {
-    yomaq.homepage-dashboard = {
-      enable = lib.mkEnableOption (lib.mdDoc "Homepage Dashboard");
+  options.yomaq.homepage = {
+    enable = lib.mkEnableOption (lib.mdDoc "Homepage Dashboard");
 
-      package = lib.mkPackageOption pkgs "homepage-dashboard" { };
-
-      openFirewall = lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = lib.mdDoc "Open ports in the firewall for Homepage.";
-      };
-
-      listenPort = lib.mkOption {
-        type = lib.types.int;
-        default = 8082;
-        description = lib.mdDoc "Port for Homepage to bind to.";
-      };
-
-      environmentFile = lib.mkOption {
-        type = lib.types.str;
-        description = ''
-          The path to an environment file that contains environment variables to pass
-          to the homepage-dashboard service, for the purpose of passing secrets to
-          the service.
-
-          See the upstream documentation:
-
-          https://gethomepage.dev/latest/installation/docker/#using-environment-secrets
-        '';
-        default = "";
-      };
-
-      customCSS = lib.mkOption {
-        type = lib.types.lines;
-        description = lib.mdDoc ''
-          Custom CSS for styling Homepage.
-
-          See https://gethomepage.dev/latest/configs/custom-css-js/.
-        '';
-        default = "";
-      };
-
-      customJS = lib.mkOption {
-        type = lib.types.lines;
-        description = lib.mdDoc ''
-          Custom Javascript for Homepage.
-
-          See https://gethomepage.dev/latest/configs/custom-css-js/.
-        '';
-        default = "";
-      };
-
-      bookmarks = lib.mkOption {
+    bookmarks = lib.mkOption {
+      inherit (settingsFormat) type;
+      default = [ ];
+    };
+    services = lib.mkOption {
+      inherit (settingsFormat) type;
+      default = [ ];
+    };
+    widgets = lib.mkOption {
+      inherit (settingsFormat) type;
+      default = [ ];
+    };
+    settings = lib.mkOption {
+      inherit (settingsFormat) type;
+      default = { };
+    };
+  };
+  options.yomaq.homepage.groups = {
+    services = {
+      services =lib.mkOption {
         inherit (settingsFormat) type;
-        description = lib.mdDoc ''
-          Homepage bookmarks configuration.
-
-          See https://gethomepage.dev/latest/configs/bookmarks/.
-        '';
-        # Defaults: https://github.com/gethomepage/homepage/blob/main/src/skeleton/bookmarks.yaml
-        example = [
-          {
-            Developer = [
-              { Github = [{ abbr = "GH"; href = "https://github.com/"; }]; }
-            ];
-          }
-          {
-            Entertainment = [
-              { YouTube = [{ abbr = "YT"; href = "https://youtube.com/"; }]; }
-            ];
-          }
-        ];
-        default = [ ];
+        default = [];
       };
-
-      services = lib.mkOption {
+      "Flake Docker Containers" =lib.mkOption {
         inherit (settingsFormat) type;
-        description = lib.mdDoc ''
-          Homepage services configuration.
-
-          See https://gethomepage.dev/latest/configs/services/.
-        '';
-        # Defaults: https://github.com/gethomepage/homepage/blob/main/src/skeleton/services.yaml
-        example = [
-          {
-            "My First Group" = [
-              {
-                "My First Service" = {
-                  href = "http://localhost/";
-                  description = "Homepage is awesome";
-                };
-              }
-            ];
-          }
-          {
-            "My Second Group" = [
-              {
-                "My Second Service" = {
-                  href = "http://localhost/";
-                  description = "Homepage is the best";
-                };
-              }
-            ];
-          }
-        ];
-        default = [ ];
+        default = [];
       };
-
-      widgets = lib.mkOption {
+      "Flake Nixos Hosts" =lib.mkOption {
         inherit (settingsFormat) type;
-        description = lib.mdDoc ''
-          Homepage widgets configuration.
-
-          See https://gethomepage.dev/latest/configs/service-widgets/.
-        '';
-        # Defaults: https://github.com/gethomepage/homepage/blob/main/src/skeleton/widgets.yaml
-        example = [
-          {
-            resources = {
-              cpu = true;
-              memory = true;
-              disk = "/";
-            };
-          }
-          {
-            search = {
-              provider = "duckduckgo";
-              target = "_blank";
-            };
-          }
-        ];
-        default = [ ];
+        default = [];
       };
-
-      kubernetes = lib.mkOption {
+    };
+    bookmarks = {
+      favorites =lib.mkOption {
         inherit (settingsFormat) type;
-        description = lib.mdDoc ''
-          Homepage kubernetes configuration.
-
-          See https://gethomepage.dev/latest/configs/kubernetes/.
-        '';
-        default = { };
-      };
-
-      docker = lib.mkOption {
-        inherit (settingsFormat) type;
-        description = lib.mdDoc ''
-          Homepage docker configuration.
-
-          See https://gethomepage.dev/latest/configs/docker/.
-        '';
-        default = { };
-      };
-
-      settings = lib.mkOption {
-        inherit (settingsFormat) type;
-        description = lib.mdDoc ''
-          Homepage settings.
-
-          See https://gethomepage.dev/latest/configs/settings/.
-        '';
-        # Defaults: https://github.com/gethomepage/homepage/blob/main/src/skeleton/settings.yaml
-        default = { };
+        default = [];
       };
     };
   };
+  config = lib.mkIf cfg.enable {
+    services.homepage-dashboard = {
+      settings = mergeConfig "settings";
+      widgets = mergeConfig "widgets";
+      services = mergeConfig "services";
+      bookmarks = mergeConfig "bookmarks";
+    };
+    services.homepage-dashboard.package = pkgs.unstable.homepage-dashboard;
+    age.secrets."homepage".file = (inputs.self + /secrets/homepage.age);
+    services.homepage-dashboard.environmentFile = "${config.age.secrets."homepage".path}";
 
-  config =
-    let
-      # If homepage-dashboard is enabled, but none of the configuration values have been updated,
-      # then default to "unmanaged" configuration which is manually updated in
-      # var/lib/homepage-dashboard. This is to maintain backwards compatibility, and should be
-      # deprecated in a future release.
-      managedConfig = !(
-        cfg.bookmarks == [ ] &&
-        cfg.customCSS == "" &&
-        cfg.customJS == "" &&
-        cfg.docker == { } &&
-        cfg.kubernetes == { } &&
-        cfg.services == [ ] &&
-        cfg.settings == { } &&
-        cfg.widgets == [ ]
-      );
 
-      configDir = if managedConfig then "/etc/homepage-dashboard" else "/var/lib/homepage-dashboard";
 
-      msg = "using unmanaged configuration for homepage-dashboard is deprecated and will be removed"
-        + " in 24.05. please see the NixOS documentation for `services.homepage-dashboard' and add"
-        + " your bookmarks, services, widgets, and other configuration using the options provided.";
-    in
-    lib.mkIf cfg.enable {
-      warnings = lib.optional (!managedConfig) msg;
+    #####
+    ##### Service configuration
+    #####
 
-      environment.etc = lib.mkIf managedConfig {
-        "homepage-dashboard/custom.css".text = cfg.customCSS;
-        "homepage-dashboard/custom.js".text = cfg.customJS;
 
-        "homepage-dashboard/bookmarks.yaml".source = settingsFormat.generate "bookmarks.yaml" cfg.bookmarks;
-        "homepage-dashboard/docker.yaml".source = settingsFormat.generate "docker.yaml" cfg.docker;
-        "homepage-dashboard/kubernetes.yaml".source = settingsFormat.generate "kubernetes.yaml" cfg.kubernetes;
-        "homepage-dashboard/services.yaml".source = settingsFormat.generate "services.yaml" cfg.services;
-        "homepage-dashboard/settings.yaml".source = settingsFormat.generate "settings.yaml" cfg.settings;
-        "homepage-dashboard/widgets.yaml".source = settingsFormat.generate "widgets.yaml" cfg.widgets;
-      };
-
-      systemd.services.homepage-dashboard = {
-        description = "Homepage Dashboard";
-        after = [ "network.target" ];
-        wantedBy = [ "multi-user.target" ];
-        path = [ pkgs.unixtools.ping ]; 
-
-        environment = {
-          HOMEPAGE_CONFIG_DIR = configDir;
-          PORT = toString cfg.listenPort;
-          LOG_TARGETS = lib.mkIf managedConfig "stdout";
-          LOG_LEVEL = "debug";
+    yomaq.homepage = {
+    ### Bookmark and service groups cannot have the same names.
+    ### Empty lists will break the config
+    ### Also add the layout for the group below.
+      services = [
+        { Services = mergeServiceGroups "services"; }
+        { "Flake Docker Containers" = mergeServiceGroups "Flake Docker Containers"; }
+        { "Flake Nixos Hosts" = mergeServiceGroups "Flake Nixos Hosts"; }
+      ];
+      bookmarks = [
+        # { favorites = mergeServiceGroups "favorites"; }
+      ];
+      widgets = [
+        {datetime = {
+            format = {
+              timeStyle = "short";
+            };
+        };}
+        {search = {
+            provider = "brave";
+            focus = true; # Optional, will set focus to the search bar on page load
+            showSearchSuggestions = true; # Optional, will show search suggestions. Defaults to false
+            target = "_blank"; # One of _self, _blank, _parent or _top
+        };}
+        {openmeteo = {
+            label = "Okc"; # optional
+            latitude =   "35.46756";
+            longitude = "-97.51643";
+            timezone = "America/Chicago"; # optional
+            units = "Imperial"; # or "imperial"
+            cache = 5; # Time in minutes to cache API responses, to stay within limits
+            format = { # optional, Intl.NumberFormat options
+              maximumFractionDigits = 1;
+            };
+        };}
+      ];
+    settings ={
+        title = "{{HOMEPAGE_VAR_NAME}}";
+        background = {
+            blur = "sm"; # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
+            saturate = 50; # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
+            brightness = 50; # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
+            opacity = 50; # 0-100
         };
+        color = "slate";
+        theme = "dark"; # or light
+        hideVersion = "true";
+        useEqualHeights = true;
+        favicon = "https://azure-dufs.sable-chimaera.ts.net/strawberry/favicon.ico";
+        statusStyle = "dot";
 
-        serviceConfig = {
-          Type = "simple";
-          DynamicUser = true;
-          EnvironmentFile = lib.mkIf (cfg.environmentFile != null) cfg.environmentFile;
-          StateDirectory = lib.mkIf (!managedConfig) "homepage-dashboard";
-          ExecStart = lib.getExe cfg.package;
-          Restart = "on-failure";
+
+
+        layout = {
+          Services = {
+            tab = "Services";
+          };
         };
-      };
-
-      networking.firewall = lib.mkIf cfg.openFirewall {
-        allowedTCPPorts = [ cfg.listenPort ];
       };
     };
+
+  };
 }

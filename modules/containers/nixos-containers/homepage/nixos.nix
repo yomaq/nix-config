@@ -62,9 +62,11 @@ in
         yomaq = {
           tailscale.extraUpFlags = ["--ssh=true" "--reset=true"];
           suites.container.enable = true;
-          homepage-dashboard.enable = true;
+          # homepage-dashboard.enable = true;
           homepage.enable = true;
         };
+        services.homepage-dashboard.enable = true;
+
         systemd.tmpfiles.rules = [
           "d /etc/homepage-dashboard/logs"
         ];
