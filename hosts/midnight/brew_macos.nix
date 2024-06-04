@@ -11,6 +11,7 @@
         "altserver"
         "spotify"
         "nextcloud"
+        "brave-browser"
       ];
       taps = ["pulumi/tap"];
       brews = [
