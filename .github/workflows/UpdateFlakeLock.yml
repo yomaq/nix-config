@@ -15,8 +15,6 @@ jobs:
     - uses: actions/checkout@v4
     - name: Set up Nix
       uses: nixbuild/nix-quick-install-action@v28
-      with:
-        extra-options: --experimental-features 'nix-command flakes'
     - name: Run nix flake update
       run: |
         nix flake update
@@ -28,3 +26,5 @@ jobs:
       with:
         commit_message: "Update flake.lock"
         file_pattern: "flake.lock"
+    - name: Trigger Mirror Github Action
+      uses: ./.github/workflows/MirrorToGitlab.yml
