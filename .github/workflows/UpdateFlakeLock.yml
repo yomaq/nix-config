@@ -17,20 +17,12 @@ jobs:
       uses: nixbuild/nix-quick-install-action@v28
       with:
         extra-options: --experimental-features 'nix-command flakes'
-    - name: Extract nixosConfigurations names
-      id: extract_nixos_configs
-      run: |
-        echo "::set-output name=nixos_configs::$(nix eval --raw --expr '(builtins.toJSON (builtins.attrNames (getAttr "nixosConfigurations" (import. {}))))')"
-    - name: Specify darwinConfigurations names
-      id: specify_darwin_configs
-      run: |
-        echo "::set-output name=darwin_configs::'config1 config2'" # Replace 'config1 config2' with actual darwinConfigurations names
     - name: Run nix flake update
       run: |
         nix flake update
     - name: Run nix flake check
       run: |
-        nix flake check --outputs ${{ steps.extract_nixos_configs.outputs.nixos_configs }} ${{ steps.specify_darwin_configs.outputs.darwin_configs }}
+        nix flake check
     - name: Commit and Push flake.lock
       uses: stefanzweifel/git-auto-commit-action@v5
       with:

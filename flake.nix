@@ -96,12 +96,13 @@
     # Nixos-generators configuration entrypoints
     # Available through 'nix build .#your-hostname'
     packages.x86_64-linux = {
-      install-iso = nixos-generators.nixosGenerate {
-        system = "x86_64-linux";
-        format = "install-iso";
-        specialArgs = { inherit inputs; };
-        modules = [ ./hosts/install-iso ];
-      };
+      #### requires --impure, breaks `nix flake check`
+      # install-iso = nixos-generators.nixosGenerate {
+      #   system = "x86_64-linux";
+      #   format = "install-iso";
+      #   specialArgs = { inherit inputs; };
+      #   modules = [ ./hosts/install-iso ];
+      # };
     };
 ### Module outputs
     nixosModules = {
