@@ -1,0 +1,30 @@
+name: Weekly Flake Update and Check
+
+on:
+  schedule:
+    - cron: '0 0 * * 4'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update_and_check_flake:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Nix
+      uses: nixbuild/nix-quick-install-action@v28
+      with:
+        extra-options: --experimental-features 'nix-command flakes'
+    - name: Run nix flake update
+      run: |
+        nix flake update
+    - name: Run nix flake check
+      run: |
+        nix flake check
+    - name: Commit and Push flake.lock
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "Update flake.lock"
+        file_pattern: "flake.lock"
