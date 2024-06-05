@@ -26,7 +26,8 @@ jobs:
       with:
         commit_message: "Update flake.lock"
         file_pattern: "flake.lock"
-    - uses: pixta-dev/repository-mirroring-action@v1
+    - name: Mirror to Gitlab
+      uses: pixta-dev/repository-mirroring-action@v1
       with:
         target_repo_url:
           git@gitlab.com:yomaq2/nix-config.git
