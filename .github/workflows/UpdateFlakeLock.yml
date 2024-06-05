@@ -26,5 +26,9 @@ jobs:
       with:
         commit_message: "Update flake.lock"
         file_pattern: "flake.lock"
-  Trigger-Mirror-Github-Action:
-    uses: ./.github/workflows/MirrorToGitlab.yml
+    - uses: pixta-dev/repository-mirroring-action@v1
+      with:
+        target_repo_url:
+          git@gitlab.com:yomaq2/nix-config.git
+        ssh_private_key:                              # <-- use 'secrets' to pass credential information.
+          ${{ secrets.GITLAB_SSH_PRIVATE_KEY }}
