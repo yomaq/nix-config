@@ -26,5 +26,5 @@ jobs:
       with:
         commit_message: "Update flake.lock"
         file_pattern: "flake.lock"
-    - name: Trigger Mirror Github Action
-      uses: ./.github/workflows/MirrorToGitlab.yml
+  Trigger Mirror Github Action:
+    uses: ./.github/workflows/MirrorToGitlab.yml
