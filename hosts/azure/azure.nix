@@ -39,6 +39,7 @@
         homepage.enable = true;
         ntfy.enable = true;
         healthchecks.enable = true;
+        gatus.enable = true;
       };
       syncoid = { 
         isBackupServer = true;
