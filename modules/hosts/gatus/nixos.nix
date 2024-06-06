@@ -32,15 +32,18 @@ in
         ) listOfHosts);
       };
     };
-    ### example of how to add a gatus monitor in another module
+    ### example of how to add a gatus monitor in another module for use on any host in the flake.
     # yomaq.gatus.endpoints = [{
     #   name = "gatus test test";
     #   group = "webapps";
-    #   url = config.yomaq.gatus.url;
+    #   url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
     #   interval = "5s";
     #   conditions = [
     #     "[CONNECTED] == true"
     #   ];
     # }];
+
+    ### On the Gatus server itself, just set config.yomaq.gatus.enable = true;
+    ### The gatus server will check all nixosConfigurations for all gatus config, and automatically update the server.
   };
 }
