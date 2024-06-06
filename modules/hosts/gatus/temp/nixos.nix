@@ -120,6 +120,7 @@ in
         Group = "gatus";
         Type = "simple";
         Restart = "on-failure";
+        ExecStartPre = "${pkgs.toybox}/bin/sleep 20";
         ExecStart = getExe cfg.package;
         StateDirectory = "gatus";
         SyslogIdentifier = "gatus";

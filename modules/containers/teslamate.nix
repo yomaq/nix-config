@@ -15,6 +15,7 @@ let
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.impermanence) dontBackup;
+  inherit (config.yomaq.tailscale) tailnetName;
 in
 {
   options.yomaq.pods.${NAME} = {
@@ -228,5 +229,31 @@ in
       };
       tags = ["tag:teslamate"];
     };
+
+    yomaq.homepage.groups.services.services = [{
+      "${NAME}" = {
+        icon = "si-tesla";
+        href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+        siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+      };
+    }];
+
+    yomaq.gatus.endpoints = [{
+      name = "${hostName}-${NAME}";
+      group = "webapps";
+      url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
+      interval = "5m";
+      conditions = [
+        "[STATUS] == 200"
+      ];
+      alerts = [
+        {
+          type = "ntfy";
+          failureThreshold = 3;
+          description = "healthcheck failed";
+        }
+      ];
+    }];
+
   };
 }

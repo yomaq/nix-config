@@ -17,8 +17,17 @@ in
   config = lib.mkIf cfg.enable {
 
     systemd.tmpfiles.rules = [
+      "d ${backup}/nixos-containers/${NAME}/data 0755 admin"
       "d ${dontBackup}/nixos-containers/${NAME}/tailscale"
     ];
+
+    yomaq.homepage.groups.services.services = [{
+      "${NAME}" = {
+        icon = "mdi-list-status";
+        href = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
+        siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
+      };
+    }];
 
     #will still need to set the network device name manually
     yomaq.network.useBr0 = true;
@@ -35,6 +44,10 @@ in
         };
         "/var/lib/tailscale/" = {
           hostPath = "${dontBackup}/nixos-containers/${NAME}/tailscale";
+          isReadOnly = false; 
+        };
+        "/var/lib/gatus/data" = {
+          hostPath = "${backup}/nixos-containers/${NAME}/data";
           isReadOnly = false; 
         };
       };
@@ -60,31 +73,66 @@ in
 
         environment.persistence."${dontBackup}".users.admin = lib.mkForce {};
 
+        systemd.tmpfiles.rules = [
+          "d /var/lib/gatus/data 0755 gatus"
+        ];
+
         yomaq.gatus.enable = true;
         services.gatus = {
           enable = true;
           settings ={
             web.port = 8080;
+            storage = {
+              type = "sqlite";
+              path = "/var/lib/gatus/data/data.db";
+            };
             endpoints = [{
-              name = "gatus (placeholder)";
+              name = "gatus";
               group = "webapps";
               url = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-              interval = "5s";
+              interval = "5m";
               conditions = [
                 "[CONNECTED] == true"
               ];
+              # alerts = [
+              #   {
+              #     type = "ntfy";
+              #     failureThreshold = 3;
+              #     description = "default check";
+              #   }
+              # ];
             }];
+            alerting = {
+              ntfy = {
+                url = "${config.yomaq.ntfy.ntfyUrl}";
+                topic = "${config.yomaq.ntfy.defaultTopic}";
+                priority = 3;
+                default-alert = {
+                  enable = true;
+                  failure-threshold = 10;
+                  success-threshold = 10;
+                  send-on-resolved = true;
+                };
+              };
+            };
           };
         };
 
-        ### example of how to add a gatus monitor in another module
+        ## example of how to add a gatus monitor in another module
         # yomaq.gatus.endpoints = [{
         #   name = "gatus test test";
         #   group = "webapps";
-        #   url = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+        #   url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
         #   interval = "5s";
         #   conditions = [
         #     "[CONNECTED] == true"
+        #   ];
+        #   alerts = [
+        #     {
+        #       type = "ntfy";
+        #       failureThreshold = 3;
+        #       description = "healthcheck failed";
+        #     }
         #   ];
         # }];
 

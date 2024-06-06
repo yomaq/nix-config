@@ -45,9 +45,30 @@ in
     };
     systemd.services.nixos-upgrade-fail = lib.mkIf config.system.autoUpgrade.enable {
       script = ''${lib.getExe pkgs.curl} -H "t: NixOS Flake host rebuild failure" ${config.yomaq.ntfy.defaultPriority} -d "${hostName} failed to rebuild" ${config.yomaq.ntfy.ntfyUrl}${config.yomaq.ntfy.defaultTopic}'';
+      #${lib.getExe pkgs.curl} -X POST ${config.yomaq.gatus.url}/api/v1/endpoints/Nixos-Host-Auto-Rebuilds_${hostName}/external?success=true -H "Authorization: Bearer nixos"
+
     };
     systemd.services.nixos-upgrade-success = lib.mkIf config.system.autoUpgrade.enable {
       script = ''${lib.getExe pkgs.curl} -fsS -m 10 --retry 5 ${config.yomaq.healthcheckUrl.nixos-upgrade."${hostName}"}'';
+      # ${lib.getExe pkgs.curl} -X POST ${config.yomaq.gatus.url}/api/v1/endpoints/Nixos-Host-Auto-Rebuilds_${hostName}/external?success=false -H "Authorization: Bearer nixos"
     };
+
+    ### not working, need to test more
+    # yomaq.gatus.externalEndpoints = [{
+    #   name = "${hostName}";
+    #   group = "Nixos Host Auto Rebuilds";
+    #   token = "nixos";
+    #   url = config.yomaq.gatus.url;
+    #   conditions = [
+    #     "[CONNECTED] == true"
+    #   ];
+    #   alerts = [
+    #     {
+    #       type = "ntfy";
+    #       failureThreshold = 1;
+    #       description = "${hostName} rebuild failed";
+    #     }
+    #   ];
+    # }];
   };
 }

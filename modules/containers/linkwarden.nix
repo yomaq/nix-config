@@ -139,5 +139,23 @@ in
         siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
       };
     }];
+
+    yomaq.gatus.endpoints = [{
+      name = "${hostName}-${NAME}";
+      group = "webapps";
+      url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
+      interval = "5m";
+      conditions = [
+        "[STATUS] == 200"
+      ];
+      alerts = [
+        {
+          type = "ntfy";
+          failureThreshold = 3;
+          description = "healthcheck failed";
+        }
+      ];
+    }];
+
   };
 }
