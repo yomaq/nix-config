@@ -8,7 +8,6 @@
     overlays = [ 
       inputs.self.overlays.pkgs-unstable
       inputs.agenix.overlays.default
-      inputs.nur.overlay
       ];
       # Configure your nixpkgs instance
     config = {
