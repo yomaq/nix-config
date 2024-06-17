@@ -19,6 +19,11 @@
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
+    services.sunshine = {
+      enable = true;
+      capSysAdmin = true;
+    };
+
     yomaq = {
       autoUpgrade.enable = true;
       primaryUser.users = [ "carln" "admin" ];
@@ -36,8 +41,7 @@
       };
       nixos-containers.openvscode.enable = true;
       glances.enable = lib.mkForce false;
-      # gnome.enable = true;
-      kde-plasma.enable = true;
+      gnome.enable = true;
       scripts.enable = true;
       flatpak.enable = true;
       timezone.central= true;
