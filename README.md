@@ -8,7 +8,7 @@ Attempting to view the Flake and its nixos hosts as a single logical unit, rathe
 ### Selfhosting
 
 * Homelab/selfhosting focus with multiple docker and nixos container modules for various servers and services.
-* Programmatically configured [Dashboard](https://github.com/gethomepage/homepage)](https://github.com/gethomepage/homepage) that automatically expands as new hosts are added to the flake. Dashboard monitors host status, the current Nix Flake revision installed on each system, and the current revision on Gitlab.
+* Programmatically configured [Dashboard](https://github.com/gethomepage/homepage) that automatically expands as new hosts are added to the flake. Dashboard monitors host status, the current Nix Flake revision installed on each system, and the current revision on Gitlab.
 * Programmatically configured uptime monitoring with [Gatus](https://github.com/TwiN/gatus), no matter which host a new service is deployed on, the Gatus server will automatically update its configuration to include the new service - Homepage dashboard also does the same with links to all current services automatically.
 * Programmatically configured notifications and monitoring for failed Nixos updates and zfs backups, server and service downtime etc with [Ntfy](https://github.com/binwiederhier/ntfy) and [Gatus](https://github.com/TwiN/gatus).
 * Detailed Tailscale modules for general VPN access, initrd ssh access, docker and nixos container configuration etc.
