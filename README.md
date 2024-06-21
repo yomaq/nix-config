@@ -1,16 +1,16 @@
 # Nix Flake 
 
-Flake for my personal desktop and self hosted services.  
-Attempting to view the Flake and it's nixos hosts as a single logical unit, rather than trying to manage a collection of multiple computers.
+Flake for my personal desktop and self-hosted services.  
+Attempting to view the Flake and its nixos hosts as a single logical unit, rather than trying to manage a collection of multiple computers.
 
-# Featues
+# Features
 
 ### Selfhosting
 
 * Homelab/selfhosting focus with multiple docker and nixos container modules for various servers and services.
-* Programatically configured [Dashboard](https://github.com/gethomepage/homepage) that automatically expands as new hosts are added to the flake. Dashboard monitors host status, the current Nix Flake revision installed on each system, and the current revision on Gitlab.
-* Programatically configured uptime monitoring with [Gatus](https://github.com/TwiN/gatus), no matter which host a new service is deployed on, the Gatus server will automatically update its configuration to include the new service - Homepage dashboard also does the same with links to all current services automatically.
-* Programatically configured notifications and monitoring for failed Nixos updates and zfs backups, server and service downtime etc with [Ntfy](https://github.com/binwiederhier/ntfy) and [Gatus](https://github.com/TwiN/gatus).
+* Programmatically configured [Dashboard](https://github.com/gethomepage/homepage)](https://github.com/gethomepage/homepage) that automatically expands as new hosts are added to the flake. Dashboard monitors host status, the current Nix Flake revision installed on each system, and the current revision on Gitlab.
+* Programmatically configured uptime monitoring with [Gatus](https://github.com/TwiN/gatus), no matter which host a new service is deployed on, the Gatus server will automatically update its configuration to include the new service - Homepage dashboard also does the same with links to all current services automatically.
+* Programmatically configured notifications and monitoring for failed Nixos updates and zfs backups, server and service downtime etc with [Ntfy](https://github.com/binwiederhier/ntfy) and [Gatus](https://github.com/TwiN/gatus).
 * Detailed Tailscale modules for general VPN access, initrd ssh access, docker and nixos container configuration etc.
 * All Flake networking is heavily reliant on Tailscale, meaning automatic HTTPS certificates for all services, automatic DNS records, controlled Zero Trust access between all devices, no open ports required on any device. Additionally, no reliance on LAN for networking, so I can move any server to any network without any additional configuration required. Tailscale ACL is configured with Pulumi [here](https://github.com/yomaq/Tailscale-ACL).
 
