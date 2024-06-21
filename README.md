@@ -1,11 +1,36 @@
-Nix flake with the following features:
+# Nix Flake 
 
-* Ensures a clean system on every reboot by wiping root (rolling back an empty zfs snapshot), while [preserving](https://github.com/nix-community/impermanence) specified files across reboots.
-* The files that are designated to persist are all stored in a single location, simplifying the process of creating backups that only include important files.
-* The installation of NixOS is made convenient and consistent through [declarative partitioning of disks](https://github.com/nix-community/disko/tree/master), and [a single install ssh command](https://github.com/nix-community/nixos-anywhere/tree/main) ( + additional setups if encrypted).
-* The flake manages the entire system, including [secrets](https://github.com/ryantm/agenix/tree/main).
-* The flake is designed to be modular, making it easy to add to, and ensuring that all host outputs, whether NixOS or MacOS, look as similar as possible.
+Flake for my personal desktop and self hosted services.  
+Attempting to view the Flake and it's nixos hosts as a single logical unit, rather than trying to manage a collection of multiple computers.
+
+# Featues
+
+### Selfhosting
+
+* Homelab/selfhosting focus with multiple docker and nixos container modules for various servers and services.
+* Programatically configured [Dashboard](https://github.com/gethomepage/homepage) that automatically expands as new hosts are added to the flake. Dashboard monitors host status, the current Nix Flake revision installed on each system, and the current revision on Gitlab.
+* Programatically configured uptime monitoring with [Gatus](https://github.com/TwiN/gatus), no matter which host a new service is deployed on, the Gatus server will automatically update its configuration to include the new service - Homepage dashboard also does the same with links to all current services automatically.
+* Programatically configured notifications and monitoring for failed Nixos updates and zfs backups, server and service downtime etc with [Ntfy](https://github.com/binwiederhier/ntfy) and [Gatus](https://github.com/TwiN/gatus).
+* Detailed Tailscale modules for general VPN access, initrd ssh access, docker and nixos container configuration etc.
+* All Flake networking is heavily reliant on Tailscale, meaning automatic HTTPS certificates for all services, automatic DNS records, controlled Zero Trust access between all devices, no open ports required on any device. Additionally, no reliance on LAN for networking, so I can move any server to any network without any additional configuration required. Tailscale ACL is configured with Pulumi [here](https://github.com/yomaq/Tailscale-ACL).
+
+### Installation and Updates
+
+* The installation of NixOS is made convenient and consistent through [declarative partitioning of disks](https://github.com/nix-community/disko/tree/master), and [a single install ssh command](https://github.com/nix-community/nixos-anywhere/tree/main) (+ additional setups if encrypted).
+* Github Actions automatically updates the flake.lock weekly and run basic checks on the updates.
 * All NixOS systems are set to automatically check for updates every hour, keeping all hosts in sync and identical as possible.
+* The flake is designed to be modular, making it easy to add to, and ensuring that all host outputs, whether NixOS or MacOS, look as similar as possible.
+
+### Backups, File Management and Secrets
+* Ensures a clean system on every reboot by wiping root (rolling back an empty zfs snapshot), while [preserving](https://github.com/nix-community/impermanence) specified files across reboots.
+* The files that are designated to persist are all stored in a single location, enabling automated backups that only include important files.
+* Backup server which automatically schedules new backup tasks as additional hosts are added to the flake by default.
+* The flake manages the entire system, including [secrets](https://github.com/ryantm/agenix/tree/main).
+
+## Host Status Dashboard
+Using the git revision of the flake, you can easily see which hosts are out of date.
+
+![Homepage Dashboard](./Utilities/images/dashboard.png)
 
 
 
@@ -86,13 +111,10 @@ darwin-rebuild switch --flake github:yomaq/nix-config
 <details>
   <summary>ToDo</summary>
 
-* Create a module to automatically backup every NixOS machine's /presist/save directories to a signle NixOS nas
-* Detail new device setup
 * Setup WSL ideally with the option to have nix configured GUI applications as well
-* Create Sunshine NixOS module for remote desktop
-* Work on module to declare non-NixOS vms in NixOS similar to KubeVirt
-* Build a stripped down Template for getting started
-* Decide how to manage a kubernetes cluster alongside my nix hosts
+* Add [Nixvirt](https://github.com/AshleyYakeley/NixVirt) based VMs
+* Test out a self hosted Hydra server
+* Add a self hosted Cachix server
 
 
 </details>
