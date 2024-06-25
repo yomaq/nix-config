@@ -32,24 +32,6 @@ in
       unstable.tailscale
     ];
 
-    yomaq.homepage.groups.services."Flake Nixos Hosts" = [{
-      " " = {
-        href = "http://${hostName}.${cfg.tailnetName}.ts.net";
-        ping = "${hostName}.${cfg.tailnetName}.ts.net";
-        description = "${hostName}";
-      };
-    }];
-    yomaq.homepage.settings = {
-      layout = {
-        "Flake Nixos Hosts" = {
-          tab = "Status Monitor";
-          style = "row";
-          columns = 8;
-        };
-      };
-    };
-
-
   })
   (lib.mkIf cfg.preApprovedSshAuthkey {
     age.secrets.tailscaleOAuthKeyAcceptSsh.file = ( inputs.self + /secrets/tailscaleOAuthKeyAcceptSsh.age);

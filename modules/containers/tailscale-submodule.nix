@@ -137,11 +137,6 @@ let
   mkTmpfilesRules = name: cfg: [
     "d ${cfg.volumeLocation}/data-lib 0755 root root"
   ];
-  mkHomepageConfig = name: cfg: { " " = { 
-    href = "http://${cfg.TShostname}.${tailnetName}.ts.net";
-    ping = "${cfg.TShostname}.${tailnetName}.ts.net";
-    description = "${cfg.TShostname}";
-  };};
 in
 {
   options.yomaq.pods = {
@@ -166,16 +161,5 @@ in
 
     systemd.tmpfiles.rules = lib.flatten ( lib.mapAttrsToList (name: cfg: mkTmpfilesRules name cfg) config.yomaq.pods.tailscaled);
     virtualisation.oci-containers.containers = lib.mapAttrs mkContainer config.yomaq.pods.tailscaled;
-
-    yomaq.homepage.groups.services."Flake Docker Containers" = lib.flatten (lib.mapAttrsToList (name: cfg: mkHomepageConfig name cfg) config.yomaq.pods.tailscaled);
-    yomaq.homepage.settings = {
-      layout = {
-        "Flake Docker Containers" = {
-          tab = "Status Monitor";
-          style = "row";
-          columns = 8;
-        };
-      };
-    };
   };
 }

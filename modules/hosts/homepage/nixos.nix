@@ -37,14 +37,6 @@ in
         inherit (settingsFormat) type;
         default = [];
       };
-      "Flake Docker Containers" =lib.mkOption {
-        inherit (settingsFormat) type;
-        default = [];
-      };
-      "Flake Nixos Hosts" =lib.mkOption {
-        inherit (settingsFormat) type;
-        default = [];
-      };
     };
     bookmarks = {
       favorites =lib.mkOption {
@@ -64,12 +56,9 @@ in
     age.secrets."homepage".file = (inputs.self + /secrets/homepage.age);
     services.homepage-dashboard.environmentFile = "${config.age.secrets."homepage".path}";
 
-
-
     #####
     ##### Service configuration
     #####
-
 
     yomaq.homepage = {
     ### Bookmark and service groups cannot have the same names.
@@ -77,8 +66,6 @@ in
     ### Also add the layout for the group below.
       services = [
         { Services = mergeServiceGroups "services"; }
-        { "Flake Docker Containers" = mergeServiceGroups "Flake Docker Containers"; }
-        { "Flake Nixos Hosts" = mergeServiceGroups "Flake Nixos Hosts"; }
       ];
       bookmarks = [
         # { favorites = mergeServiceGroups "favorites"; }
@@ -121,8 +108,6 @@ in
         useEqualHeights = true;
         favicon = "https://azure-dufs.sable-chimaera.ts.net/strawberry/favicon.ico";
         statusStyle = "dot";
-
-
 
         layout = {
           Services = {
