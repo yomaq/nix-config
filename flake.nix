@@ -42,11 +42,11 @@
         specialArgs = { inherit inputs; }; 
         modules = [ ./hosts/blue ];
       };
-      green = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; }; 
-        modules = [ ./hosts/green ];
-      };
+      # green = nixpkgs.lib.nixosSystem {
+      #   system = "x86_64-linux";
+      #   specialArgs = { inherit inputs; }; 
+      #   modules = [ ./hosts/green ];
+      # };
       azure = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; }; 
