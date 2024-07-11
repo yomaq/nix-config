@@ -16,7 +16,6 @@
       userEmail = "yomaq@bsjm.xyz";
       userName = "yomaq";
     };
-    direnv.enable = true;
   };
   yomaq = {
     suites.basic.enable = true;

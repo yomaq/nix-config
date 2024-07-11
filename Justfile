@@ -1,64 +1,78 @@
-# just is a command runner, Justfile is very similar to Makefile, but simpler.
-
-############################################################################
 #
-#  Nix commands related to the local machine
 #
-############################################################################
+#
+#       Now using the flake's default devenv, devenv config located at ./Utilities/devenv/default.nix
+#       Keeping this handy for a few weeks incase I messed something up on the devenv
+#
+#
+#
 
-default:
-  just --list
 
-# Update the flake
-update:
-  nix flake update
 
-# remove nix system gernerations older than 7 days
-clean:
-  sudo nix profile wipe-history --profile /nix/var/nix/profiles/system  --older-than 7d
 
-# garbage collect all unused nix store entries
-gc:
-  sudo nix store gc --debug
-  sudo nix-collect-garbage --delete-old
+# # just is a command runner, Justfile is very similar to Makefile, but simpler.
 
-# update nixos or nix-darwin from github
-rb:
-    if [[ "$OSTYPE" == "darwin"* ]]; then \
-        darwin-rebuild switch --flake github:yomaq/nix-config ;\
-    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then \
-        sudo nixos-rebuild switch --option eval-cache false --flake github:yomaq/nix-config ;\
-    else \
-        echo "Unsupported OS" ;\
-        exit 1 ;\
-    fi
+# ############################################################################
+# #
+# #  Nix commands related to the local machine
+# #
+# ############################################################################
 
-# update nixos or nix-darwin from local flake
-rbl:
-    if [[ "$OSTYPE" == "darwin"* ]]; then \
-        darwin-rebuild switch --flake . ;\
-    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then \
-        sudo nixos-rebuild switch --flake . ;\
-    else \
-        echo "Unsupported OS" ;\
-        exit 1 ;\
-    fi
+# default:
+#   just --list
 
-# update nixos on a remote machine
-rbr host:
-    nixos-rebuild  --use-substitutes --no-build-nix --build-host admin@{{host}} --target-host admin@{{host}} --use-remote-sudo switch --flake github:yomaq/nix-config#{{host}}
-# update nixos on a remote machine using local flake
-rbrl host:
-    nixos-rebuild  --use-substitutes --no-build-nix --build-host admin@{{host}} --target-host admin@{{host}} --use-remote-sudo switch --flake .#{{host}}
-dry host:
-    nixos-rebuild  --use-substitutes --no-build-nix --build-host admin@{{host}} --target-host admin@{{host}} --use-remote-sudo dry-activate --flake .#{{host}}
+# # Update the flake
+# update:
+#   nix flake update
 
-############################################################################
+# # remove nix system gernerations older than 7 days
+# clean:
+#   sudo nix profile wipe-history --profile /nix/var/nix/profiles/system  --older-than 7d
 
-# run nixos-anywhere with encryption
-anywhere host ip:
-    ./Utilities/nixos-anywhere/remote-install-encrypt.sh {{host}} {{ip}}
-# run nixos-anywhere without encryption
-anywhere-unencrypted host ip:
-    ./Utilities/nixos-anywhere/remote-install.sh {{host}} {{ip}}
+# # garbage collect all unused nix store entries
+# gc:
+#   sudo nix store gc --debug
+#   sudo nix-collect-garbage --delete-old
+
+# # update nixos or nix-darwin from github
+# rb:
+#     if [[ "$OSTYPE" == "darwin"* ]]; then \
+#         darwin-rebuild switch --flake github:yomaq/nix-config ;\
+#     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then \
+#         sudo nixos-rebuild switch --option eval-cache false --flake github:yomaq/nix-config ;\
+#     else \
+#         echo "Unsupported OS" ;\
+#         exit 1 ;\
+#     fi
+
+# # update nixos or nix-darwin from local flake
+# rbl:
+#     if [[ "$OSTYPE" == "darwin"* ]]; then \
+#         darwin-rebuild switch --flake . ;\
+#     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then \
+#         sudo nixos-rebuild switch --flake . ;\
+#     else \
+#         echo "Unsupported OS" ;\
+#         exit 1 ;\
+#     fi
+
+# # update nixos on a remote machine
+# rbr host:
+#     nixos-rebuild  --use-substitutes --no-build-nix --build-host admin@{{host}} --target-host admin@{{host}} --use-remote-sudo switch --flake github:yomaq/nix-config#{{host}}
+# # update nixos on a remote machine using local flake
+# rbrl host:
+#     nixos-rebuild  --use-substitutes --no-build-nix --build-host admin@{{host}} --target-host admin@{{host}} --use-remote-sudo switch --flake .#{{host}}
+# dry host:
+#     nixos-rebuild  --use-substitutes --no-build-nix --build-host admin@{{host}} --target-host admin@{{host}} --use-remote-sudo dry-activate --flake .#{{host}}
+
+# ############################################################################
+
+# These don't work
+
+# # # run nixos-anywhere with encryption
+# # anywhere host ip:
+# #     ./Utilities/nixos-anywhere/remote-install-encrypt.sh {{host}} {{ip}}
+# # # run nixos-anywhere without encryption
+# # anywhere-unencrypted host ip:
+# #     ./Utilities/nixos-anywhere/remote-install.sh {{host}} {{ip}}
     

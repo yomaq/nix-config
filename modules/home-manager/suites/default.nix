@@ -19,6 +19,10 @@ in
       bash.enable = true;
       tmux.enable = true;
       zsh.enable = true;
+      direnv.enable = true;
     };
+    home.packages = with pkgs; [ 
+      devenv 
+    ];
  };
 }
