@@ -1,8 +1,11 @@
-{ pkgs, ... }: 
+{ pkgs, lib, ... }: 
 { 
   env = {
     GREET = "Yomaq's Home Flake";
   };
+
+  # https://github.com/cachix/devenv/issues/528
+  containers = lib.mkForce {};
 
   packages = with pkgs; [
     _1password
