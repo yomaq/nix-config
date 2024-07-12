@@ -5,7 +5,9 @@ let
   cfg = config.yomaq.nixSettings;
 in
 {
-
+  imports = [
+    inputs.lix.darwinModules.default
+  ];
   config = mkIf cfg.enable {
     nix = {
       gc = {
