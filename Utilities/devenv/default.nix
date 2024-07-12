@@ -5,6 +5,7 @@
   };
 
   packages = with pkgs; [
+    _1password
   ];
 
   enterShell = ''
