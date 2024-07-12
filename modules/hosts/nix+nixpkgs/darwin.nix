@@ -6,7 +6,8 @@ let
 in
 {
   imports = [
-    inputs.lix.darwinModules.default
+    # this apparently needs to say nixos instead of darwin
+    inputs.lix.nixosModules.default
   ];
   config = mkIf cfg.enable {
     nix = {
