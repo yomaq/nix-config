@@ -39,7 +39,7 @@
       pods = {
         # windows.windowstest.enable = true;
       };
-      # nixos-containers.nextcloud.enable = true;
+      nixos-containers.jellyfin.enable = true;
       # disk configuration
       disks = {
         enable = true;
