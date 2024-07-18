@@ -20,7 +20,7 @@ jobs:
         nix flake update
     - name: Run nix flake check
       run: |
-        nix flake check
+        nix flake check --impure
     - name: Commit and Push flake.lock
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
