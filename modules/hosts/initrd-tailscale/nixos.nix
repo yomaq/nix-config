@@ -19,7 +19,7 @@ in
         type = types.bool;
         default = false;
         description = lib.mdDoc ''
-          Starts a Tailscale during initrd boot. It can be used to e.g.
+          Starts Tailscale during initrd boot. It can be used to
           remotely accessing the SSH service controlled by
           {option}`boot.initrd.network.ssh` or other network services
           included. Service is killed when stage-1 boot is finished.
@@ -117,4 +117,31 @@ in
     ## Then when you remove amReinstalling, initrd will see the secret deployed by the previous rebuild.
     age.secrets.tailscaleOAuthKeyAcceptSsh.file = (inputs.self + /secrets/tailscaleOAuthKeyAcceptSsh.age);
   })];
+
+  # ### for systemd networking. the old script based initrd network is slowly being phased out
+  # ### not tested yet, just starting to prep what I expect is needed.
+
+  # boot.initrd.systemd.storePaths = [
+  #   "${cfg.package}/bin/.tailscaled-wrapped"
+  #   "${cfg.package}/bin/.tailscale-wrapped"
+  #   "${pkgs.iproute}/bin/ip"
+  #   "${iptables-static}/bin/iptables"
+  #   "${iptables-static}/bin/ip6tables"
+  #   "${iptables-static}/bin/xtables-legacy-multi"
+  #   "${iptables-static}/bin/xtables-nft-multi"
+  # ];
+  # boot.initrd.systemd.services.tailscaled = {
+  #   wantedBy = [ "initrd.target" ];
+  #   path = [ pkgs.iproute iptables-static ];
+  #   after = [ "network.target" "initrd-nixos-copy-secrets.service" ];
+  #   serviceConfig.ExecStart = "${cfg.package}/bin/.tailscaled-wrapped --state=mem:";
+  #   serviceConfig.Type = "notify";
+  # };
+  # boot.initrd.systemd.services.tailscaled = {
+  #   wantedBy = [ "initrd.target" ];
+  #   path = [ pkgs.iproute iptables-static ];
+  #   after = [ "network.target" "initrd-nixos-copy-secrets.service" "tailscaled" ];
+  #   serviceConfig.ExecStart = "${cfg.package}/bin/.tailscale-wrapped up --hostname=${config.networking.hostName}-initrd --auth-key 'file:/etc/tauthkey' ${escapeShellArgs cfg.extraUpFlags}";
+  #   serviceConfig.Type = "notify";
+  # };
 }
