@@ -13,7 +13,7 @@
   config = {
     networking.hostName = "pearl";
     system.stateVersion = "23.11";
-    boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
+    boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" "ufshcd" "ufshcd-pci"];
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
     yomaq = {
