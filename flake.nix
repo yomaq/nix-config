@@ -10,7 +10,7 @@
     # Nix-Darwin
     nix-darwin.url = "github:LnL7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    # Secret Encription
+    # Secret encryption
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     # Hardware
@@ -90,11 +90,11 @@
         #   specialArgs = { inherit inputs; }; 
         #   modules = [ ./hosts/green ];
         # };
-        # pearl = nixpkgs.lib.nixosSystem {
-        #   system = "x86_64-linux";
-        #   specialArgs = { inherit inputs; }; 
-        #   modules = [ ./hosts/pearl ];
-        # };
+        pearl = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; }; 
+          modules = [ ./hosts/pearl ];
+        };
       };
       # Nix-darwin configuration entrypoint
       # Available through 'darwin-rebuild switch --flake .#your-hostname'

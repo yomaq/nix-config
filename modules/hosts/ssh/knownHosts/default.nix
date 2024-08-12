@@ -15,6 +15,8 @@
 
     "carob".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBLSY5QLMJ2LsNNT+PHeo7mA7Izr56evvOqjfFTfGvhz";
 
+    "pearl".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHX2aVm/O7Zs0qWzhU1I2xNH8JNx6q1HTy50epYqEXBI";
+
     "smalt".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILR615VGZfPxDnK6dDumGUByl8n8ZT8hctQ0HzXplxPB";
     "smalt-initrd".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFk1pvG36S3ICyy70Ci3Y5b1/wOEvyfD2hkw6qLhC/LG";
     };
