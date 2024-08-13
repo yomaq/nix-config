@@ -1,12 +1,18 @@
-{ options, config, lib, pkgs, inputs, ... }:
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.scripts;
 in
 {
   options.yomaq.scripts = {
-    enable = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         install custom scripts
@@ -14,10 +20,9 @@ in
     };
   };
 
-
- config = lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
-      (import (inputs.self + /modules/scripts/initrdunlock.nix) {inherit pkgs inputs;})
+      (import (inputs.self + /modules/scripts/initrdunlock.nix) { inherit pkgs inputs; })
     ];
- };
+  };
 }

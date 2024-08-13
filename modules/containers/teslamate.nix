@@ -1,7 +1,11 @@
-
-{ options, config, lib, pkgs, inputs, ... }:
-
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   ### Set container name and image
   NAME = "teslamate";
@@ -9,7 +13,6 @@ let
   dbIMAGE = "docker.io/postgres";
   grafanaIMAGE = "docker.io/teslamate/grafana";
   mqttIMAGE = "docker.io/eclipse-mosquitto";
-
 
   cfg = config.yomaq.pods.${NAME};
   inherit (config.networking) hostName;
@@ -19,93 +22,93 @@ let
 in
 {
   options.yomaq.pods.${NAME} = {
-    enable = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         enable custom ${NAME} container module
       '';
     };
-    agenixSecret = mkOption {
-      type = types.path;
+    agenixSecret = lib.mkOption {
+      type = lib.types.path;
       default = (inputs.self + /secrets/${NAME}EnvFile.age);
       description = ''
         path to agenix secret file
       '';
     };
-    volumeLocation = mkOption {
-      type = types.str;
+    volumeLocation = lib.mkOption {
+      type = lib.types.str;
       default = "${backup}/containers/${NAME}";
       description = ''
         path to store container volumes
       '';
     };
-    imageVersion = mkOption {
-      type = types.str;
+    imageVersion = lib.mkOption {
+      type = lib.types.str;
       default = "latest";
       description = ''
         container image version
       '';
     };
-### database container
+    ### database container
     database = {
-      agenixSecret = mkOption {
-        type = types.path;
+      agenixSecret = lib.mkOption {
+        type = lib.types.path;
         default = (inputs.self + /secrets/${NAME}DBEnvFile.age);
         description = ''
           path to agenix secret file
         '';
       };
-      volumeLocation = mkOption {
-        type = types.str;
+      volumeLocation = lib.mkOption {
+        type = lib.types.str;
         default = "${backup}/containers/${NAME}/DB";
         description = ''
           path to store container volumes
         '';
       };
-      imageVersion = mkOption {
-        type = types.str;
+      imageVersion = lib.mkOption {
+        type = lib.types.str;
         default = "16";
         description = ''
           container image version
         '';
       };
     };
-### grafana container
+    ### grafana container
     grafana = {
-      agenixSecret = mkOption {
-        type = types.path;
+      agenixSecret = lib.mkOption {
+        type = lib.types.path;
         default = (inputs.self + /secrets/${NAME}GrafanaEnvFile.age);
         description = ''
           path to agenix secret file
         '';
       };
-      volumeLocation = mkOption {
-        type = types.str;
+      volumeLocation = lib.mkOption {
+        type = lib.types.str;
         default = "${backup}/containers/${NAME}/Grafana";
         description = ''
           path to store container volumes
         '';
       };
-      imageVersion = mkOption {
-        type = types.str;
+      imageVersion = lib.mkOption {
+        type = lib.types.str;
         default = "latest";
         description = ''
           container image version
         '';
       };
     };
-### mqtt container
+    ### mqtt container
     mqtt = {
-      volumeLocation = mkOption {
-        type = types.str;
+      volumeLocation = lib.mkOption {
+        type = lib.types.str;
         default = "${backup}/containers/${NAME}/mqtt";
         description = ''
           path to store container volumes
         '';
       };
-      imageVersion = mkOption {
-        type = types.str;
+      imageVersion = lib.mkOption {
+        type = lib.types.str;
         default = "2";
         description = ''
           container image version
@@ -114,7 +117,7 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     ### agenix secrets for container
     age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
     age.secrets."${NAME}DBEnvFile".file = cfg.database.agenixSecret;
@@ -132,7 +135,7 @@ in
       # "d ${cfg.mqtt.volumeLocation}/mosquitto-conf 0755 4000 4000"
     ];
     virtualisation.oci-containers.containers = {
-### DB container
+      ### DB container
       "DB${NAME}" = {
         image = "${dbIMAGE}:${cfg.database.imageVersion}";
         autoStart = true;
@@ -141,61 +144,57 @@ in
         };
         environmentFiles = [
           config.age.secrets."${NAME}DBEnvFile".path
-            #  POSTGRES_USER=teslamate 
-            #  POSTGRES_PASSWORD=password #insert your secure database password!
-            #  POSTGRES_DB=teslamate
+          #  POSTGRES_USER=teslamate 
+          #  POSTGRES_PASSWORD=password #insert your secure database password!
+          #  POSTGRES_DB=teslamate
         ];
-        volumes = [
-          "${cfg.database.volumeLocation}/teslamate-db:/var/lib/postgresql/data"
-        ];
+        volumes = [ "${cfg.database.volumeLocation}/teslamate-db:/var/lib/postgresql/data" ];
         extraOptions = [
           "--pull=always"
           "--network=container:TS${NAME}"
         ];
       };
-### Grafana container
+      ### Grafana container
       "grafana-${NAME}" = {
         image = "${grafanaIMAGE}:${cfg.grafana.imageVersion}";
         autoStart = true;
         environment = {
-           "GF_SERVER_ROOT_URL"= "%(protocol)s://%(domain)s/grafana";
-           "GF_SERVER_SERVE_FROM_SUB_PATH" = "true";
+          "GF_SERVER_ROOT_URL" = "%(protocol)s://%(domain)s/grafana";
+          "GF_SERVER_SERVE_FROM_SUB_PATH" = "true";
         };
         environmentFiles = [
           # container listens on port 3000
           config.age.secrets."${NAME}GrafanaEnvFile".path
-              #  DATABASE_USER=teslamate
-              #  DATABASE_PASS=password #insert your secure database password!
-              #  DATABASE_NAME=teslamate
-              #  DATABASE_HOST=database
+          #  DATABASE_USER=teslamate
+          #  DATABASE_PASS=password #insert your secure database password!
+          #  DATABASE_NAME=teslamate
+          #  DATABASE_HOST=database
         ];
-        volumes = [
-          "${cfg.grafana.volumeLocation}/teslamate-grafana-data:/var/lib/grafana"
-        ];
+        volumes = [ "${cfg.grafana.volumeLocation}/teslamate-grafana-data:/var/lib/grafana" ];
         extraOptions = [
           "--pull=always"
           "--network=container:TS${NAME}"
         ];
         user = "4000:4000";
       };
-# ### Mosquitto (MQTT) container
-#       "mqtt-${NAME}" = {
-#         image = "${mqttIMAGE}:${cfg.mqtt.imageVersion}";
-#         autoStart = true;
-#         cmd = ["mosquitto -c /mosquitto-no-auth.conf"];
-#         environment = {
-#         };
-#         environmentFiles = [];
-#         volumes = [
-#           "${cfg.mqtt.volumeLocation}/mosquitto-data:/mosquitto/data"
-#           "${cfg.mqtt.volumeLocation}/mosquitto-conf:/mosquitto/config"
-#         ];
-#         extraOptions = [
-#           "--network=container:TS${NAME}"
-#         ];
-#         user = "4000:4000";
-#       };
-### main container
+      # ### Mosquitto (MQTT) container
+      #       "mqtt-${NAME}" = {
+      #         image = "${mqttIMAGE}:${cfg.mqtt.imageVersion}";
+      #         autoStart = true;
+      #         cmd = ["mosquitto -c /mosquitto-no-auth.conf"];
+      #         environment = {
+      #         };
+      #         environmentFiles = [];
+      #         volumes = [
+      #           "${cfg.mqtt.volumeLocation}/mosquitto-data:/mosquitto/data"
+      #           "${cfg.mqtt.volumeLocation}/mosquitto-conf:/mosquitto/config"
+      #         ];
+      #         extraOptions = [
+      #           "--network=container:TS${NAME}"
+      #         ];
+      #         user = "4000:4000";
+      #       };
+      ### main container
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
@@ -205,16 +204,14 @@ in
         };
         environmentFiles = [
           config.age.secrets."${NAME}EnvFile".path
-              #  ENCRYPTION_KEY=secretkey #replace with a secure key to encrypt your Tesla API tokens
-              #  DATABASE_USER=teslamate
-              #  DATABASE_PASS=password #insert your secure database password!
-              #  DATABASE_NAME=teslamate
-              #  DATABASE_HOST=database
-              #  MQTT_HOST=mosquitto
+          #  ENCRYPTION_KEY=secretkey #replace with a secure key to encrypt your Tesla API tokens
+          #  DATABASE_USER=teslamate
+          #  DATABASE_PASS=password #insert your secure database password!
+          #  DATABASE_NAME=teslamate
+          #  DATABASE_HOST=database
+          #  MQTT_HOST=mosquitto
         ];
-        volumes = [
-          "${cfg.volumeLocation}/import:/opt/app/import"
-        ];
+        volumes = [ "${cfg.volumeLocation}/import:/opt/app/import" ];
         extraOptions = [
           "--cap-drop=all"
           "--pull=always"
@@ -227,33 +224,34 @@ in
         "/" = "http://127.0.0.1:4000";
         "/grafana" = "http://127.0.0.1:3000/grafana";
       };
-      tags = ["tag:teslamate"];
+      tags = [ "tag:teslamate" ];
     };
 
-    yomaq.homepage.groups.services.services = [{
-      "${NAME}" = {
-        icon = "si-tesla";
-        href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-        siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-      };
-    }];
+    yomaq.homepage.groups.services.services = [
+      {
+        "${NAME}" = {
+          icon = "si-tesla";
+          href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+          siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+        };
+      }
+    ];
 
-    yomaq.gatus.endpoints = [{
-      name = "${hostName}-${NAME}";
-      group = "webapps";
-      url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-      interval = "5m";
-      conditions = [
-        "[STATUS] == 200"
-      ];
-      alerts = [
-        {
-          type = "ntfy";
-          failureThreshold = 3;
-          description = "healthcheck failed";
-        }
-      ];
-    }];
-
+    yomaq.gatus.endpoints = [
+      {
+        name = "${hostName}-${NAME}";
+        group = "webapps";
+        url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
+        interval = "5m";
+        conditions = [ "[STATUS] == 200" ];
+        alerts = [
+          {
+            type = "ntfy";
+            failureThreshold = 3;
+            description = "healthcheck failed";
+          }
+        ];
+      }
+    ];
   };
 }

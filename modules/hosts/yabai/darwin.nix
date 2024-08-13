@@ -1,13 +1,17 @@
-{ options, config, lib, pkgs, ... }:
-
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.yomaq.yabai;
 in
 {
   options.yomaq.yabai = {
-    enable = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         enable custom yabai module
@@ -15,9 +19,9 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     services = {
-#config for Yabai Window Manager, really basic config 
+      #config for Yabai Window Manager, really basic config 
       yabai = {
         enable = true;
         extraConfig = ''
@@ -31,7 +35,7 @@ in
           yabai -m config mouse_action1                move
           yabai -m config mouse_action2                resize
           yabai -m config mouse_drop_action            swap
-  
+
           yabai -m config layout                       bsp
           yabai -m config top_padding                  8
           yabai -m config bottom_padding               8
@@ -41,7 +45,7 @@ in
           #yabai -m rule --add app=""                  manage=off
         '';
       };
-#config for skhd keyboard shortcuts for Yabai Window Manager. 
+      #config for skhd keyboard shortcuts for Yabai Window Manager. 
       skhd = {
         enable = true;
         skhdConfig = ''

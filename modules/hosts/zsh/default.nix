@@ -1,12 +1,18 @@
-{ options, config, lib, pkgs, inputs, ... }:
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.zsh;
 in
 {
   options.yomaq.zsh = {
-    enable = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         enable custom zsh module

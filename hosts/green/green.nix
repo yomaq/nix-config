@@ -1,6 +1,12 @@
-{ config, lib, pkgs, inputs, ... }:
 {
-  imports =[
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+{
+  imports = [
     # import custom modules
     inputs.self.nixosModules.yomaq
     inputs.self.nixosModules.pods
@@ -16,12 +22,17 @@
       primaryUser.users = [ "admin" ];
       tailscale = {
         enable = true;
-        extraUpFlags = ["--ssh=true" "--reset=true" "--accept-dns=true" "--advertise-exit-node=true" ];
+        extraUpFlags = [
+          "--ssh=true"
+          "--reset=true"
+          "--accept-dns=true"
+          "--advertise-exit-node=true"
+        ];
         useRoutingFeatures = "server";
       };
       glances.enable = lib.mkForce false;
       _1password.enable = true;
-      timezone.central= true;
+      timezone.central = true;
       suites = {
         basics.enable = true;
         foundation.enable = true;
@@ -32,7 +43,7 @@
         systemd-boot = true;
         initrd-ssh = {
           enable = true;
-          ethernetDrivers = ["e1000e"];
+          ethernetDrivers = [ "e1000e" ];
         };
         zfs = {
           enable = true;

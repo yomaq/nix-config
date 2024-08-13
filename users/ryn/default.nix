@@ -1,12 +1,16 @@
-{ config, lib, pkgs, modulesPath, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  inputs,
+  ...
+}:
 let
   inherit (config.yomaq.impermanence) dontBackup;
 in
 {
-  imports =
-    [
-      inputs.home-manager.nixosModules.home-manager
-    ];
+  imports = [ inputs.home-manager.nixosModules.home-manager ];
   age.secrets.ryn.file = (inputs.self + /secrets/ryn.age);
 
   users.mutableUsers = false;
@@ -16,9 +20,9 @@ in
     isNormalUser = true;
     description = "ryn";
     hashedPasswordFile = config.age.secrets.ryn.path;
-    extraGroups = [];
-    openssh.authorizedKeys.keys = [];
-    packages = with pkgs; [];
+    extraGroups = [ ];
+    openssh.authorizedKeys.keys = [ ];
+    packages = with pkgs; [ ];
   };
 
   environment.persistence."${dontBackup}" = {
@@ -30,13 +34,14 @@ in
         ".config"
         ".local"
       ];
-    files = [
-    ];
+      files = [ ];
     };
   };
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = {
+      inherit inputs;
+    };
     users = {
       # Import your home-manager configuration
       ryn = import ./homeManager;

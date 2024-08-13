@@ -1,6 +1,11 @@
-{ options, config, lib, pkgs, inputs, ... }:
-
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.nixSettings;
 in
@@ -9,19 +14,17 @@ in
     # this apparently needs to say nixos instead of darwin
     inputs.lix.nixosModules.default
   ];
-  config = mkIf cfg.enable {
+  config = lib.mkIf lib.cfg.enable {
     nix = {
       gc = {
         automatic = true;
         interval.Hour = 1;
         options = "--delete-older-than 30d";
       };
-  #Nix Store config, hard linking identical dependancies etc.
+      #Nix Store config, hard linking identical dependancies etc.
       settings = {
         auto-optimise-store = true;
-        allowed-users = [
-          "carln"
-        ];
+        allowed-users = [ "carln" ];
       };
     };
     services.nix-daemon.enable = true;

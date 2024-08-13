@@ -1,25 +1,27 @@
-{ options, config, lib, pkgs, inputs, ... }:
-
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.homebrew;
 in
 {
   options.yomaq.homebrew = {
-    enable  = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
-      description = ''
-      '';
+      description = '''';
     };
   };
-  config = mkIf cfg.enable {
-  #Some programs don't have nix packages available, so making use of Homebrew is needed, sadly there is also no way of installing home brew through nix
+  config = lib.mkIf cfg.enable {
+    #Some programs don't have nix packages available, so making use of Homebrew is needed, sadly there is also no way of installing home brew through nix
     homebrew = {
       brewPrefix = "/opt/homebrew/bin";
-      brews = [
-        "mas"
-      ];
+      brews = [ "mas" ];
       enable = true;
       onActivation = {
         autoUpdate = true;

@@ -1,8 +1,13 @@
-{ config, lib, pkgs, inputs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  modulesPath,
+  ...
+}:
 let
-
   NAME = "openvscode";
-
   cfg = config.yomaq.nixos-containers.openvscode;
 
   inherit (config.networking) hostName;
@@ -12,7 +17,9 @@ let
   inherit (config.system) stateVersion;
 in
 {
-  options.yomaq.nixos-containers.openvscode.enable = lib.mkEnableOption (lib.mdDoc "Openvscode Server");
+  options.yomaq.nixos-containers.openvscode.enable = lib.mkEnableOption (
+    lib.mdDoc "Openvscode Server"
+  );
 
   config = lib.mkIf cfg.enable {
 
@@ -24,14 +31,15 @@ in
       "d ${dontBackup}/nixos-containers/${NAME}/admin 0755 admin"
     ];
 
-
-    yomaq.homepage.groups.services.services = [{
-      "Code Server" = {
-        icon = "si-visualstudiocode";
-        href = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-        siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-      };
-    }];
+    yomaq.homepage.groups.services.services = [
+      {
+        "Code Server" = {
+          icon = "si-visualstudiocode";
+          href = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
+          siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
+        };
+      }
+    ];
 
     #will still need to set the network device name manually
     yomaq.network.useBr0 = true;
@@ -40,31 +48,33 @@ in
       autoStart = true;
       privateNetwork = true;
       hostBridge = "br0"; # Specify the bridge name
-      specialArgs = { inherit inputs; };
-      bindMounts = { 
-        "/etc/ssh/${hostName}" = { 
+      specialArgs = {
+        inherit inputs;
+      };
+      bindMounts = {
+        "/etc/ssh/${hostName}" = {
           hostPath = "/etc/ssh/${hostName}";
-          isReadOnly = true; 
+          isReadOnly = true;
         };
         "/var/lib/tailscale/" = {
           hostPath = "${dontBackup}/nixos-containers/${NAME}/tailscale";
-          isReadOnly = false; 
+          isReadOnly = false;
         };
         "${dontBackup}/nixos-containers/${NAME}/data" = {
           hostPath = "${dontBackup}/nixos-containers/${NAME}/data";
-          isReadOnly = false; 
+          isReadOnly = false;
         };
         "${dontBackup}/nixos-containers/${NAME}/userdata" = {
           hostPath = "${dontBackup}/nixos-containers/${NAME}/userdata";
-          isReadOnly = false; 
+          isReadOnly = false;
         };
         "${dontBackup}/nixos-containers/${NAME}/extensions" = {
           hostPath = "${dontBackup}/nixos-containers/${NAME}/extensions";
-          isReadOnly = false; 
+          isReadOnly = false;
         };
         "/home/admin" = {
           hostPath = "${dontBackup}/nixos-containers/${NAME}/admin";
-          isReadOnly = false; 
+          isReadOnly = false;
         };
       };
       enableTun = true;
@@ -73,21 +83,24 @@ in
         imports = [
           inputs.self.nixosModules.yomaq
           (inputs.self + /users/admin)
-          ];
+        ];
         system.stateVersion = stateVersion;
-        age.identityPaths = ["/etc/ssh/${hostName}"];
+        age.identityPaths = [ "/etc/ssh/${hostName}" ];
 
         yomaq = {
           suites = {
             container.enable = true;
-            };
+          };
           tailscale = {
             enable = true;
-            extraUpFlags = ["--ssh=true" "--reset=true"];
+            extraUpFlags = [
+              "--ssh=true"
+              "--reset=true"
+            ];
           };
         };
 
-        environment.persistence."${dontBackup}".users.admin = lib.mkForce {};
+        environment.persistence."${dontBackup}".users.admin = lib.mkForce { };
 
         services.openvscode-server = {
           enable = true;
@@ -106,8 +119,6 @@ in
             reverse_proxy 127.0.0.1:3000
           '';
         };
-
-
       };
     };
   };

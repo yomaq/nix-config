@@ -1,14 +1,18 @@
-{ options, config, lib, pkgs, ... }:
-
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.yomaq.ssh;
   inherit (config.networking) hostName;
 in
 {
   options.yomaq.ssh = {
-    enable = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         enable custom ssh module
@@ -16,9 +20,9 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     # Enable SSH service
-    networking.firewall.allowedTCPPorts = [22];
+    networking.firewall.allowedTCPPorts = [ 22 ];
     services.openssh = {
       enable = true;
       settings = {

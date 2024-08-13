@@ -1,19 +1,20 @@
-{ pkgs, lib, ... }: 
-{ 
+{ pkgs, lib, ... }:
+{
   env = {
     GREET = "Yomaq's Home Flake";
   };
 
   # https://github.com/cachix/devenv/issues/528
-  containers = lib.mkForce {};
+  containers = lib.mkForce { };
 
   packages = with pkgs; [
     _1password
+    nixfmt-rfc-style
   ];
 
   enterShell = ''
     echo $GREET
-  ''; 
+  '';
 
   scripts = {
     # remove nix system gernerations older than 7 days

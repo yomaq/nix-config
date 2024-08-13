@@ -1,25 +1,30 @@
-{ options, config, lib, pkgs, inputs, ... }:
-
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.ntfy;
 in
 {
   options.yomaq.ntfy = {
-    ntfyUrl = mkOption {
-      type = types.str;
+    ntfyUrl = lib.mkOption {
+      type = lib.types.str;
       default = "";
       description = "The base URL for NTFY notifications.";
     };
 
-    defaultTopic = mkOption {
-      type = types.str;
+    defaultTopic = lib.mkOption {
+      type = lib.types.str;
       default = "";
       description = "The default topic for NTFY notifications.";
     };
 
-    defaultPriority = mkOption {
-      type = types.str;
+    defaultPriority = lib.mkOption {
+      type = lib.types.str;
       default = "";
       description = "The default priority level for NTFY notifications.";
     };

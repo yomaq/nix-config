@@ -1,6 +1,13 @@
-{ config, lib, pkgs, inputs, modulesPath, ... }:
 {
-  imports =[
+  config,
+  lib,
+  pkgs,
+  inputs,
+  modulesPath,
+  ...
+}:
+{
+  imports = [
     # import custom modules
     inputs.self.nixosModules.yomaq
     inputs.self.nixosModules.pods
@@ -15,7 +22,14 @@
   config = {
     networking.hostName = "blue";
     system.stateVersion = "23.11";
-    boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+    boot.initrd.availableKernelModules = [
+      "nvme"
+      "xhci_pci"
+      "ahci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+    ];
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
     hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
@@ -26,11 +40,17 @@
 
     yomaq = {
       autoUpgrade.enable = true;
-      primaryUser.users = [ "carln" "admin" ];
+      primaryUser.users = [
+        "carln"
+        "admin"
+      ];
       _1password.enable = true;
       tailscale = {
         enable = true;
-        extraUpFlags = ["--ssh=true" "--reset=true" ];
+        extraUpFlags = [
+          "--ssh=true"
+          "--reset=true"
+        ];
         useRoutingFeatures = "client";
         # for building iso
         preApprovedSshAuthkey = true;
@@ -44,7 +64,7 @@
       gnome.enable = true;
       scripts.enable = true;
       flatpak.enable = true;
-      timezone.central= true;
+      timezone.central = true;
       suites = {
         basics.enable = true;
         foundation.enable = true;
@@ -54,7 +74,7 @@
         systemd-boot = true;
         initrd-ssh = {
           enable = true;
-          ethernetDrivers = ["r8169"];
+          ethernetDrivers = [ "r8169" ];
         };
         zfs = {
           enable = true;

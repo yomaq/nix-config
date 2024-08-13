@@ -1,11 +1,16 @@
-{ options, config, lib, pkgs, inputs, ... }:
-
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.network;
 in
 {
-  config = mkIf cfg.basics {
+  config = lib.mkIf cfg.basics {
     networking = {
       knownNetworkServices = [
         ''

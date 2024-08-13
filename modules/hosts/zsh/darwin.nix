@@ -1,10 +1,12 @@
-{ config, pkgs, lib, ... }:
-with lib;
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   cfg = config.yomaq.zsh;
 in
 {
- config = lib.mkIf cfg.enable {
-    programs.zsh.enable = true;
- };
+  config = lib.mkIf cfg.enable { programs.zsh.enable = true; };
 }

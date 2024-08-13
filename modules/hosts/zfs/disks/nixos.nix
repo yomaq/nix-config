@@ -1,7 +1,14 @@
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   authorizedkeys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI" 
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHYSJ9ywFRJ747tkhvYWFkx/Y9SkLqv3rb7T1UuXVBWo"
   ];
   cfg = config.yomaq.disks;
@@ -28,24 +35,24 @@ in
       type = lib.types.bool;
       default = false;
     };
-     initrd-ssh = {
+    initrd-ssh = {
       enable = lib.mkOption {
         type = lib.types.bool;
         default = false;
       };
       authorizedKeys = lib.mkOption {
         type = lib.types.listOf lib.types.str;
-        default = [];
+        default = [ ];
       };
       ethernetDrivers = lib.mkOption {
         type = lib.types.listOf lib.types.str;
-        default = [];
+        default = [ ];
         description = ''
           ethernet drivers to load: (run "lspci -v | grep -iA8 'network\|ethernet'")
         '';
       };
-     };
-     zfs = {
+    };
+    zfs = {
       enable = lib.mkOption {
         type = lib.types.bool;
         default = false;
@@ -102,7 +109,7 @@ in
         };
         disks = lib.mkOption {
           type = lib.types.listOf lib.types.str;
-          default = [];
+          default = [ ];
           description = ''
             device names
           '';
@@ -125,7 +132,7 @@ in
     };
   };
 
-  config = lib.mkMerge [ 
+  config = lib.mkMerge [
     (lib.mkIf (cfg.enable && cfg.systemd-boot) {
       # setup systemd-boot
       boot.loader.systemd-boot.enable = true;
@@ -161,7 +168,7 @@ in
     })
     (lib.mkIf cfg.zfs.enable {
       networking.hostId = cfg.zfs.hostID;
-      environment.systemPackages = [pkgs.zfs-prune-snapshots];
+      environment.systemPackages = [ pkgs.zfs-prune-snapshots ];
       boot = {
         # Newest kernels might not be supported by ZFS
         kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
@@ -170,7 +177,10 @@ in
           "nohibernate"
           "zfs.zfs_arc_max=17179869184"
         ];
-        supportedFilesystems = [ "vfat" "zfs" ];
+        supportedFilesystems = [
+          "vfat"
+          "zfs"
+        ];
         zfs = {
           devNodes = "/dev/disk/by-id/";
           forceImportAll = true;
@@ -184,11 +194,83 @@ in
     })
     (lib.mkIf cfg.zfs.enable {
       disko.devices = {
-        disk = lib.mkMerge [ 
-          (lib.mkIf (cfg.zfs.storage.enable && !cfg.amReinstalling) (lib.mkMerge (map ( diskname: {
-            "${diskname}" = {
+        disk = lib.mkMerge [
+          (lib.mkIf (cfg.zfs.storage.enable && !cfg.amReinstalling) (
+            lib.mkMerge (
+              map (diskname: {
+                "${diskname}" = {
+                  type = "disk";
+                  device = "/dev/${diskname}";
+                  content = {
+                    type = "gpt";
+                    partitions = {
+                      luks = {
+                        size = "100%";
+                        content = {
+                          type = "luks";
+                          name = "stg${diskname}";
+                          settings.allowDiscards = true;
+                          passwordFile = "/tmp/secret.key";
+                          content = {
+                            type = "zfs";
+                            pool = "zstorage";
+                          };
+                        };
+                      };
+                    };
+                  };
+                };
+              }) cfg.zfs.storage.disks
+            )
+          ))
+          ({
+            one = lib.mkIf (cfg.zfs.root.disk1 != "") {
               type = "disk";
-              device = "/dev/${diskname}";
+              device = "/dev/${cfg.zfs.root.disk1}";
+              content = {
+                type = "gpt";
+                partitions = {
+                  ESP = {
+                    label = "EFI";
+                    name = "ESP";
+                    size = "2048M";
+                    type = "EF00";
+                    content = {
+                      type = "filesystem";
+                      format = "vfat";
+                      mountpoint = "/boot";
+                      mountOptions = [
+                        "defaults"
+                        "umask=0077"
+                      ];
+                    };
+                  };
+                  luks = lib.mkIf cfg.zfs.root.encrypt {
+                    size = "100%";
+                    content = {
+                      type = "luks";
+                      name = "crypted1";
+                      settings.allowDiscards = true;
+                      passwordFile = "/tmp/secret.key";
+                      content = {
+                        type = "zfs";
+                        pool = "zroot";
+                      };
+                    };
+                  };
+                  notluks = lib.mkIf (!cfg.zfs.root.encrypt) {
+                    size = "100%";
+                    content = {
+                      type = "zfs";
+                      pool = "zroot";
+                    };
+                  };
+                };
+              };
+            };
+            two = lib.mkIf (cfg.zfs.root.disk2 != "") {
+              type = "disk";
+              device = "/dev/${cfg.zfs.root.disk2}";
               content = {
                 type = "gpt";
                 partitions = {
@@ -196,86 +278,20 @@ in
                     size = "100%";
                     content = {
                       type = "luks";
-                      name = "stg${diskname}";
+                      name = "crypted2";
                       settings.allowDiscards = true;
                       passwordFile = "/tmp/secret.key";
                       content = {
                         type = "zfs";
-                        pool = "zstorage";
+                        pool = "zroot";
                       };
                     };
                   };
                 };
               };
             };
-          })cfg.zfs.storage.disks)))
-          ({one = lib.mkIf (cfg.zfs.root.disk1 != "") {
-            type = "disk";
-            device = "/dev/${cfg.zfs.root.disk1}";
-            content = {
-              type = "gpt";
-              partitions = {
-                ESP = {
-                  label = "EFI";
-                  name = "ESP";
-                  size = "2048M";
-                  type = "EF00";
-                  content = {
-                    type = "filesystem";
-                    format = "vfat";
-                    mountpoint = "/boot";
-                    mountOptions = [
-                      "defaults"
-                      "umask=0077"
-                    ];
-                  };
-                };
-                luks = lib.mkIf cfg.zfs.root.encrypt {
-                  size = "100%";
-                  content = {
-                    type = "luks";
-                    name = "crypted1";
-                    settings.allowDiscards = true;
-                    passwordFile = "/tmp/secret.key";
-                    content = {
-                      type = "zfs";
-                      pool = "zroot";
-                    };
-                  };
-                };
-                notluks = lib.mkIf (!cfg.zfs.root.encrypt) {
-                  size = "100%";
-                  content = {
-                    type = "zfs";
-                    pool = "zroot";
-                  };
-                };
-              };
-            };
-          };
-          two = lib.mkIf (cfg.zfs.root.disk2 != "") {
-            type = "disk";
-            device = "/dev/${cfg.zfs.root.disk2}";
-            content = {
-              type = "gpt";
-              partitions = {
-                luks = {
-                  size = "100%";
-                  content = {
-                    type = "luks";
-                    name = "crypted2";
-                    settings.allowDiscards = true;
-                    passwordFile = "/tmp/secret.key";
-                    content = {
-                      type = "zfs";
-                      pool = "zroot";
-                    };
-                  };
-                };
-              };
-            };
-          };
-        })];
+          })
+        ];
         zpool = {
           zroot = {
             type = "zpool";
@@ -406,9 +422,9 @@ in
         };
       };
       # Needed for agenix.
-        # nixos-anywhere currently has issues with impermanence so agenix keys are lost during the install process.
-        # as such we give /etc/ssh its own zfs dataset rather than using impermanence to save the keys when we wipe the root directory on boot
-        # agenix needs the keys available before the zfs datasets are mounted, so we need this to make sure they are available.
+      # nixos-anywhere currently has issues with impermanence so agenix keys are lost during the install process.
+      # as such we give /etc/ssh its own zfs dataset rather than using impermanence to save the keys when we wipe the root directory on boot
+      # agenix needs the keys available before the zfs datasets are mounted, so we need this to make sure they are available.
       fileSystems."/etc/ssh".neededForBoot = true;
       # Needed for impermanence, because we mount /persist/save on /persist, we need to make sure /persist is mounted before /persist/save
       fileSystems."/persist".neededForBoot = true;
@@ -419,7 +435,7 @@ in
         #wipe / and /var on boot
         lib.mkAfter ''
           zfs rollback -r zroot/root@empty
-      '';
+        '';
     })
   ];
 }

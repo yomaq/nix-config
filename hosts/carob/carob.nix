@@ -1,6 +1,13 @@
-{ config, lib, pkgs, inputs, modulesPath, ... }:
 {
-  imports =[
+  config,
+  lib,
+  pkgs,
+  inputs,
+  modulesPath,
+  ...
+}:
+{
+  imports = [
     # import custom modules
     inputs.self.nixosModules.yomaq
     # import users
@@ -11,7 +18,14 @@
   config = {
     networking.hostName = "carob";
     system.stateVersion = "23.11";
-    boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
+    boot.initrd.availableKernelModules = [
+      "xhci_pci"
+      "ahci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+      "sdhci_pci"
+    ];
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
     # enable a desktop environment so I can set 1password ssh agent
@@ -20,7 +34,11 @@
     yomaq = {
       tailscale = {
         enable = true;
-        extraUpFlags = ["--ssh=true" "--reset=true" "--accept-dns=false" ];
+        extraUpFlags = [
+          "--ssh=true"
+          "--reset=true"
+          "--accept-dns=false"
+        ];
         useRoutingFeatures = "client";
         authKeyFile = null;
       };
@@ -29,7 +47,7 @@
 
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
-      timezone.central= true;
+      timezone.central = true;
       syncoid.enable = true;
       suites = {
         basics.enable = true;

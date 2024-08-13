@@ -1,6 +1,13 @@
-{ config, lib, pkgs, inputs, modulesPath, ... }:
 {
-  imports =[
+  config,
+  lib,
+  pkgs,
+  inputs,
+  modulesPath,
+  ...
+}:
+{
+  imports = [
     # import custom modules
     inputs.self.nixosModules.yomaq
     inputs.self.nixosModules.pods
@@ -14,22 +21,35 @@
   config = {
     networking.hostName = "teal";
     system.stateVersion = "23.11";
-    boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+    boot.initrd.availableKernelModules = [
+      "nvme"
+      "xhci_pci"
+      "ahci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+    ];
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
     yomaq = {
       autoUpgrade.enable = true;
-      primaryUser.users = [ "carln" "admin" ];
+      primaryUser.users = [
+        "carln"
+        "admin"
+      ];
       tailscale = {
         enable = true;
-        extraUpFlags = ["--ssh=true" "--reset=true"];
+        extraUpFlags = [
+          "--ssh=true"
+          "--reset=true"
+        ];
         useRoutingFeatures = "server";
       };
-     network = {
+      network = {
         useBr0 = true;
         physicalInterfaceName = "eno2";
       };
-      timezone.central= true;
+      timezone.central = true;
       syncoid.enable = true;
       suites = {
         basics.enable = true;
@@ -45,7 +65,7 @@
         systemd-boot = true;
         initrd-ssh = {
           enable = true;
-          ethernetDrivers = ["e1000e"];
+          ethernetDrivers = [ "e1000e" ];
         };
         zfs = {
           enable = true;

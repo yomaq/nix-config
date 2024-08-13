@@ -1,21 +1,26 @@
-{ options, config, lib, pkgs, inputs, ... }:
-
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.macosSettings;
 in
 {
   options.yomaq.macosSettings = {
-    enable  = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         enable custom enablesettings
       '';
     };
   };
-  config = mkIf cfg.enable {
-  #MacOS settings for Dock, Finder, etc
+  config = lib.mkIf cfg.enable {
+    #MacOS settings for Dock, Finder, etc
     system = {
       defaults = {
         NSGlobalDomain = {

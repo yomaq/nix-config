@@ -1,13 +1,17 @@
-{ options, config, lib, pkgs, ... }:
-
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.yomaq.zsh;
 in
 {
   options.yomaq.zsh = {
-    enable = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         enable custom zsh module
@@ -15,7 +19,7 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.zsh = {
       enable = true;
       autosuggestion.enable = true;
@@ -24,13 +28,11 @@ in
       oh-my-zsh = {
         enable = true;
         theme = "darkblood";
-        plugins = [
-          "kubectl" 
-        ];
+        plugins = [ "kubectl" ];
       };
       envExtra = ''
-          EDITOR=vim
-          ${lib.optionalString (pkgs.system == "aarch64-darwin") "export PATH=/opt/homebrew/bin:$PATH"}
+        EDITOR=vim
+        ${lib.optionalString (pkgs.system == "aarch64-darwin") "export PATH=/opt/homebrew/bin:$PATH"}
       '';
     };
   };

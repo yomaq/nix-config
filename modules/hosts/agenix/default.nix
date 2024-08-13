@@ -1,12 +1,18 @@
-{ options, config, lib, pkgs, inputs, ... }:
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.agenix;
 in
 {
   options.yomaq.agenix = {
-    enable = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         enable custom agenix module

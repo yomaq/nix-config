@@ -1,4 +1,11 @@
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.sanoid;
 in
@@ -10,7 +17,7 @@ in
       description = ''
         enable custom sanoid, zfs-snapshot module
       '';
-    }; 
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -26,13 +33,15 @@ in
           yearly = 1;
         };
       };
-      datasets = {
-        "zroot/persist".useTemplate = [ "default" ];
-        "zroot/persistSave".useTemplate = [ "default" ];
-      } // lib.optionalAttrs (config.yomaq.disks.zfs.storage.enable && !config.yomaq.disks.amReinstalling) {
-        "zstorage/storage".useTemplate = [ "default" ];
-        "zstorage/persistSave".useTemplate = [ "default" ];
-      };
+      datasets =
+        {
+          "zroot/persist".useTemplate = [ "default" ];
+          "zroot/persistSave".useTemplate = [ "default" ];
+        }
+        // lib.optionalAttrs (config.yomaq.disks.zfs.storage.enable && !config.yomaq.disks.amReinstalling) {
+          "zstorage/storage".useTemplate = [ "default" ];
+          "zstorage/persistSave".useTemplate = [ "default" ];
+        };
     };
   };
 }

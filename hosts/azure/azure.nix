@@ -1,6 +1,13 @@
-{ config, lib, pkgs, inputs, modulesPath, ... }:
 {
-  imports =[
+  config,
+  lib,
+  pkgs,
+  inputs,
+  modulesPath,
+  ...
+}:
+{
+  imports = [
     # import custom modules
     inputs.self.nixosModules.yomaq
     inputs.self.nixosModules.pods
@@ -14,7 +21,14 @@
   config = {
     networking.hostName = "azure";
     system.stateVersion = "23.11";
-    boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+    boot.initrd.availableKernelModules = [
+      "nvme"
+      "xhci_pci"
+      "ahci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+    ];
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
     yomaq = {
@@ -22,7 +36,10 @@
       primaryUser.users = [ "admin" ];
       tailscale = {
         enable = true;
-        extraUpFlags = ["--ssh=true" "--reset=true" ];
+        extraUpFlags = [
+          "--ssh=true"
+          "--reset=true"
+        ];
       };
       docker.enable = true;
       pods = {
@@ -41,15 +58,18 @@
         healthchecks.enable = true;
         gatus.enable = true;
       };
-      syncoid = { 
+      syncoid = {
         isBackupServer = true;
-        exclude = ["blue" "green"];
+        exclude = [
+          "blue"
+          "green"
+        ];
       };
-     network = {
+      network = {
         useBr0 = true;
         physicalInterfaceName = "eno1";
       };
-      timezone.central= true;
+      timezone.central = true;
       suites = {
         basics.enable = true;
         foundation.enable = true;
@@ -59,7 +79,7 @@
         systemd-boot = true;
         initrd-ssh = {
           enable = true;
-          ethernetDrivers = ["igc"];
+          ethernetDrivers = [ "igc" ];
         };
         zfs = {
           enable = true;
@@ -72,7 +92,10 @@
           };
           storage = {
             enable = true;
-            disks = [ "sda" "sdb" ];
+            disks = [
+              "sda"
+              "sdb"
+            ];
             reservation = "1500G";
             mirror = true;
             #amReinstalling = true;

@@ -1,12 +1,16 @@
-{ config, lib, pkgs, modulesPath, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  inputs,
+  ...
+}:
 let
   inherit (config.yomaq.impermanence) dontBackup;
 in
 {
-  imports =
-    [
-      inputs.home-manager.nixosModules.home-manager
-    ];
+  imports = [ inputs.home-manager.nixosModules.home-manager ];
   age.secrets.carln.file = (inputs.self + /secrets/carln.age);
 
   users.mutableUsers = false;
@@ -16,11 +20,14 @@ in
     isNormalUser = true;
     description = "carln";
     hashedPasswordFile = config.age.secrets.carln.path;
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI"
-      ];
-    packages = with pkgs; [];
+    ];
+    packages = with pkgs; [ ];
   };
 
   environment.persistence."${dontBackup}" = {
@@ -32,13 +39,14 @@ in
         ".config"
         ".local"
       ];
-    files = [
-    ];
+      files = [ ];
     };
   };
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = {
+      inherit inputs;
+    };
     users = {
       # Import your home-manager configuration
       carln = import ./homeManager;

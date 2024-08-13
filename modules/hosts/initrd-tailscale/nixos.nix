@@ -1,4 +1,10 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 ### pulled some lines from Andrew-d's comment here: https://github.com/NixOS/nixpkgs/pull/204249/files
 ### oauthkeys are currently not working because of trusted CA issues. Currently don't know how to fix for initrd.
@@ -8,15 +14,14 @@
 ### https://github.com/NixOS/nixpkgs/pull/306532 Made this more complicated, as it removed tailscale-wrapped.
 ### Made an overlay to undo it and add tailscale-wrapped back.
 
-with lib;
 let
   cfg = config.yomaq.initrd-tailscale;
 in
 {
   options = {
     yomaq.initrd-tailscale = {
-        enable = mkOption {
-        type = types.bool;
+      enable = lib.mkOption {
+        type = lib.types.bool;
         default = false;
         description = lib.mdDoc ''
           Starts Tailscale during initrd boot. It can be used to
@@ -25,11 +30,11 @@ in
           included. Service is killed when stage-1 boot is finished.
         '';
       };
-      
-      package = lib.mkPackageOptionMD pkgs "tailscale" {};
 
-      authKeyFile = mkOption {
-        type = types.nullOr types.path;
+      package = lib.mkPackageOptionMD pkgs "tailscale" { };
+
+      authKeyFile = lib.mkOption {
+        type = lib.types.nullOr lib.types.path;
         default = "${config.age.secrets.tailscaleOAuthKeyAcceptSsh.path}";
         example = "/run/secrets/tailscale_key";
         description = lib.mdDoc ''
@@ -37,23 +42,23 @@ in
         '';
       };
 
-      extraUpFlags = mkOption {
+      extraUpFlags = lib.mkOption {
         description = lib.mdDoc "Extra flags to pass to {command}`tailscale up`.";
-        type = types.listOf types.str;
-        default = [];
-        example = ["--ssh"];
+        type = lib.types.listOf lib.types.str;
+        default = [ ];
+        example = [ "--ssh" ];
       };
     };
   };
 
-  config = 
+  config =
     let
       iptables-static = pkgs.iptables.overrideAttrs (old: {
-          dontDisableStatic = true;
-          configureFlags = (lib.remove "--enable-shared" old.configureFlags) ++ [
+        dontDisableStatic = true;
+        configureFlags = (lib.remove "--enable-shared" old.configureFlags) ++ [
           "--enable-static"
           "--disable-shared"
-          ];
+        ];
       });
 
       # have to undo https://github.com/NixOS/nixpkgs/pull/306532
@@ -61,62 +66,74 @@ in
         tailscale-wrapped = super.tailscale.overrideAttrs (oldAttrs: {
           subPackages = oldAttrs.subPackages ++ [ "cmd/tailscale" ];
           postInstall = lib.optionalString super.stdenv.isLinux ''
-            wrapProgram $out/bin/tailscaled --prefix PATH : ${lib.makeBinPath [ super.iproute2 super.iptables super.getent super.shadow ]}
+            wrapProgram $out/bin/tailscaled --prefix PATH : ${
+              lib.makeBinPath [
+                super.iproute2
+                super.iptables
+                super.getent
+                super.shadow
+              ]
+            }
             wrapProgram $out/bin/tailscale --suffix PATH : ${lib.makeBinPath [ super.procps ]}
           '';
         });
       };
 
-    in 
-    mkMerge [ 
-    (mkIf (config.boot.initrd.network.enable && !config.yomaq.disks.amReinstalling && cfg.enable) {
+    in
+    lib.mkMerge [
+      (lib.mkIf (config.boot.initrd.network.enable && !config.yomaq.disks.amReinstalling && cfg.enable) {
 
-    nixpkgs.overlays = [ TailscaleWrappedOverlay ];
+        nixpkgs.overlays = [ TailscaleWrappedOverlay ];
 
-    yomaq.initrd-tailscale.package = pkgs.tailscale-wrapped;
+        yomaq.initrd-tailscale.package = pkgs.tailscale-wrapped;
 
-    boot.initrd.kernelModules = [ "tun" ];
-    boot.initrd.availableKernelModules = [
-      "xt_mark"
-      "nft_chain_nat"
-      "nft_compat"
-      "nft_compat"
-      "xt_LOG"
-      "xt_MASQUERADE"
-      "xt_addrtype"
-      "xt_comment"
-      "xt_conntrack"
-      "xt_multiport"
-      "xt_pkttype"
-      "xt_tcpudp"
+        boot.initrd.kernelModules = [ "tun" ];
+        boot.initrd.availableKernelModules = [
+          "xt_mark"
+          "nft_chain_nat"
+          "nft_compat"
+          "nft_compat"
+          "xt_LOG"
+          "xt_MASQUERADE"
+          "xt_addrtype"
+          "xt_comment"
+          "xt_conntrack"
+          "xt_multiport"
+          "xt_pkttype"
+          "xt_tcpudp"
+        ];
+
+        boot.initrd.extraUtilsCommands = ''
+          copy_bin_and_libs ${cfg.package}/bin/.tailscaled-wrapped
+          copy_bin_and_libs ${cfg.package}/bin/.tailscale-wrapped
+          copy_bin_and_libs ${pkgs.iproute}/bin/ip
+          copy_bin_and_libs ${iptables-static}/bin/iptables
+          copy_bin_and_libs ${iptables-static}/bin/ip6tables
+          copy_bin_and_libs ${iptables-static}/bin/xtables-legacy-multi
+          copy_bin_and_libs ${iptables-static}/bin/xtables-nft-multi
+        '';
+
+        age.secrets.tailscaleOAuthKeyAcceptSsh.file = (
+          inputs.self + /secrets/tailscaleOAuthKeyAcceptSsh.age
+        );
+
+        boot.initrd.secrets."/etc/tauthkey" = cfg.authKeyFile;
+
+        boot.initrd.network.postCommands = lib.mkIf (!config.boot.initrd.systemd.enable) ''
+          .tailscaled-wrapped --state=mem: &
+          .tailscale-wrapped up --hostname=${config.networking.hostName}-initrd --auth-key 'file:/etc/tauthkey' ${lib.escapeShellArgs cfg.extraUpFlags} &
+        '';
+
+      })
+      (lib.mkIf (config.boot.initrd.network.enable && cfg.enable) {
+        ### initrd secrets are deployed before agenix sets up keys. So the key needs to exist first, or the build will fail with a missing file error.
+        ### So, on a system install use amReinstalling to disable the above actual deployment of the secret, while still deploying the key here.
+        ## Then when you remove amReinstalling, initrd will see the secret deployed by the previous rebuild.
+        age.secrets.tailscaleOAuthKeyAcceptSsh.file = (
+          inputs.self + /secrets/tailscaleOAuthKeyAcceptSsh.age
+        );
+      })
     ];
-
-    boot.initrd.extraUtilsCommands = ''
-      copy_bin_and_libs ${cfg.package}/bin/.tailscaled-wrapped
-      copy_bin_and_libs ${cfg.package}/bin/.tailscale-wrapped
-      copy_bin_and_libs ${pkgs.iproute}/bin/ip
-      copy_bin_and_libs ${iptables-static}/bin/iptables
-      copy_bin_and_libs ${iptables-static}/bin/ip6tables
-      copy_bin_and_libs ${iptables-static}/bin/xtables-legacy-multi
-      copy_bin_and_libs ${iptables-static}/bin/xtables-nft-multi
-    '';
-
-    age.secrets.tailscaleOAuthKeyAcceptSsh.file = (inputs.self + /secrets/tailscaleOAuthKeyAcceptSsh.age);
-
-    boot.initrd.secrets."/etc/tauthkey" = cfg.authKeyFile;
-
-    boot.initrd.network.postCommands = mkIf (!config.boot.initrd.systemd.enable) ''
-      .tailscaled-wrapped --state=mem: &
-      .tailscale-wrapped up --hostname=${config.networking.hostName}-initrd --auth-key 'file:/etc/tauthkey' ${escapeShellArgs cfg.extraUpFlags} &
-    '';
-
-  })
-  (mkIf (config.boot.initrd.network.enable && cfg.enable) {
-    ### initrd secrets are deployed before agenix sets up keys. So the key needs to exist first, or the build will fail with a missing file error.
-    ### So, on a system install use amReinstalling to disable the above actual deployment of the secret, while still deploying the key here.
-    ## Then when you remove amReinstalling, initrd will see the secret deployed by the previous rebuild.
-    age.secrets.tailscaleOAuthKeyAcceptSsh.file = (inputs.self + /secrets/tailscaleOAuthKeyAcceptSsh.age);
-  })];
 
   # ### for systemd networking. the old script based initrd network is slowly being phased out
   # ### not tested yet, just starting to prep what I expect is needed.

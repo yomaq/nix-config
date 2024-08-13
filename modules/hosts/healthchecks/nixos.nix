@@ -1,14 +1,19 @@
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 let
   cfg = config.yomaq.healthcheckUrl;
 in
 {
   options.yomaq.healthcheckUrl = lib.mkOption {
-    type = lib.types.submodule {
-      freeformType = lib.types.attrs;
-    };
-    default = {};
+    type = lib.types.submodule { freeformType = lib.types.attrs; };
+    default = { };
     description = "A submodule for health check URLs.";
   };
 

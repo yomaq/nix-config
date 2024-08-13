@@ -1,4 +1,11 @@
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 let
   cfg = config.yomaq.kde-plasma;
@@ -22,7 +29,6 @@ in
 
     services.xserver.videoDrivers = [ "amdgpu" ];
 
-
     # Enable sound with pipewire.
     sound.enable = true;
     hardware.pulseaudio.enable = false;
@@ -39,7 +45,6 @@ in
       # no need to redefine it in your config for now)
       #media-session.enable = true;
     };
-
 
   };
 }

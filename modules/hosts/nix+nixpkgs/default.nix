@@ -1,13 +1,18 @@
-{ options, config, lib, pkgs, inputs, ... }:
-
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.nixSettings;
 in
 {
   options.yomaq.nixSettings = {
-    enable = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         enable custom nix settings
@@ -15,7 +20,7 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     nix = {
       # This will add each flake input as a registry
       # To make nix3 commands consistent with your flake
@@ -42,10 +47,10 @@ in
       };
     };
     nixpkgs = {
-      overlays = [ 
+      overlays = [
         inputs.self.overlays.pkgs-unstable
         inputs.agenix.overlays.default
-        ];
+      ];
       # Configure your nixpkgs instance
       config = {
         # Disable if you don't want unfree packages

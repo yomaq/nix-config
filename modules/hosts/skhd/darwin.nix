@@ -1,13 +1,17 @@
-{ options, config, lib, pkgs, ... }:
-
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.yomaq.skhd;
 in
 {
   options.yomaq.skhd = {
-    enable = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         enable custom skhd module
@@ -15,7 +19,7 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     services = {
       skhd = {
         enable = true;

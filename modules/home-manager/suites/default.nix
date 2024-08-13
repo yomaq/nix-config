@@ -1,19 +1,27 @@
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.suites.basic;
 in
 {
-  imports = [];
+  imports = [ ];
   options.yomaq.suites.basic = {
-    enable = with lib; mkOption {
-      type = types.bool;
-      default = false;
-      description = ''
-        enable custom suite
-      '';
-    };
+    enable =
+      lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = ''
+          enable custom suite
+        '';
+      };
   };
- config = lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     yomaq = {
       comma.enable = true;
       bash.enable = true;
@@ -21,8 +29,6 @@ in
       zsh.enable = true;
       direnv.enable = true;
     };
-    home.packages = with pkgs; [ 
-      devenv 
-    ];
- };
+    home.packages = with pkgs; [ devenv ];
+  };
 }

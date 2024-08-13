@@ -1,19 +1,27 @@
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.alacritty;
 in
 {
-  imports = [];
+  imports = [ ];
   options.yomaq.alacritty = {
-    enable = with lib; mkOption {
-      type = types.bool;
-      default = false;
-      description = ''
-        enable custom alacritty module
-      '';
-    };
+    enable =
+      lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = ''
+          enable custom alacritty module
+        '';
+      };
   };
- config = lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs = {
       alacritty = {
         enable = true;
@@ -51,5 +59,5 @@ in
         };
       };
     };
- };
+  };
 }

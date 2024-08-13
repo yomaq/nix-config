@@ -1,7 +1,13 @@
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 # base around https://github.com/Misterio77/nix-config/blob/main/hosts/common/global/auto-upgrade.nix
 
-with lib;
 let
   cfg = config.yomaq.autoUpgrade;
   # Only enable auto upgrade if current config came from a clean tree
@@ -11,8 +17,8 @@ let
 in
 {
   options.yomaq.autoUpgrade = {
-    enable = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         enable custom autoUpgrade module
@@ -20,14 +26,12 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     system.autoUpgrade = {
       enable = isClean;
       dates = "hourly";
-      flags = [
-        "--refresh"
-      ];
-      flake = github:yomaq/nix-config;
+      flags = [ "--refresh" ];
+      flake = "github:yomaq/nix-config";
     };
 
     # Only run if current config (self) is older than the new one.
@@ -40,8 +44,8 @@ in
           test "$(lastModified "${config.system.autoUpgrade.flake}")"  -gt "$(lastModified "self")"
         ''
       );
-      onFailure = ["nixos-upgrade-fail.service"];
-      onSuccess = ["nixos-upgrade-success.service"];
+      onFailure = [ "nixos-upgrade-fail.service" ];
+      onSuccess = [ "nixos-upgrade-success.service" ];
     };
     systemd.services.nixos-upgrade-fail = lib.mkIf config.system.autoUpgrade.enable {
       script = ''${lib.getExe pkgs.curl} -H "t: NixOS Flake host rebuild failure" ${config.yomaq.ntfy.defaultPriority} -d "${hostName} failed to rebuild" ${config.yomaq.ntfy.ntfyUrl}${config.yomaq.ntfy.defaultTopic}'';
@@ -49,7 +53,9 @@ in
 
     };
     systemd.services.nixos-upgrade-success = lib.mkIf config.system.autoUpgrade.enable {
-      script = ''${lib.getExe pkgs.curl} -fsS -m 10 --retry 5 ${config.yomaq.healthcheckUrl.nixos-upgrade."${hostName}"}'';
+      script = ''${lib.getExe pkgs.curl} -fsS -m 10 --retry 5 ${
+        config.yomaq.healthcheckUrl.nixos-upgrade."${hostName}"
+      }'';
       # ${lib.getExe pkgs.curl} -X POST ${config.yomaq.gatus.url}/api/v1/endpoints/Nixos-Host-Auto-Rebuilds_${hostName}/external?success=false -H "Authorization: Bearer nixos"
     };
 

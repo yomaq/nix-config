@@ -8,34 +8,85 @@ let
   smalt = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPsEPoDzF3MRUY0adefhlXkHoErrLncXrV1GTXbM8Znt";
 
   # keys to work for all secrets
-  all = [ agenix carln blue ];
+  all = [
+    agenix
+    carln
+    blue
+  ];
 
 in
 {
   "carln.age".publicKeys = [ green ] ++ all;
   "ryn.age".publicKeys = [ blue ] ++ all;
   "encrypt.age".publicKeys = all;
-  "tailscaleKey.age".publicKeys = [ green azure teal smalt ] ++ all;
-  "tailscaleOAuthKeyAcceptSsh.age".publicKeys = [ green azure teal smalt ] ++ all;
-  "tailscaleEnvFile.age".publicKeys = [ green azure teal smalt ] ++ all;
-  "tailscaleOAuthEnvFile.age".publicKeys = [ green azure teal smalt ] ++ all;
+  "tailscaleKey.age".publicKeys = [
+    green
+    azure
+    teal
+    smalt
+  ] ++ all;
+  "tailscaleOAuthKeyAcceptSsh.age".publicKeys = [
+    green
+    azure
+    teal
+    smalt
+  ] ++ all;
+  "tailscaleEnvFile.age".publicKeys = [
+    green
+    azure
+    teal
+    smalt
+  ] ++ all;
+  "tailscaleOAuthEnvFile.age".publicKeys = [
+    green
+    azure
+    teal
+    smalt
+  ] ++ all;
   "piholeEnvFile.age".publicKeys = [ green ] ++ all;
-  "nextcloudEnvFile.age".publicKeys = [ azure green ] ++ all;
-  "nextcloudDBEnvFile.age".publicKeys = [ azure green ] ++ all;
-  "palworldEnvFile.age".publicKeys = [ teal smalt ] ++ all;
-  "teslamateEnvFile.age".publicKeys = [ teal azure ] ++ all;
-  "teslamateDBEnvFile.age".publicKeys = [ teal azure ] ++ all;
-  "teslamateGrafanaEnvFile.age".publicKeys = [ teal azure ] ++ all;
-  "semaphoreEnvFile.age".publicKeys = [ teal azure ] ++ all;
-  "semaphoreDBEnvFile.age".publicKeys = [ teal azure ] ++ all;
+  "nextcloudEnvFile.age".publicKeys = [
+    azure
+    green
+  ] ++ all;
+  "nextcloudDBEnvFile.age".publicKeys = [
+    azure
+    green
+  ] ++ all;
+  "palworldEnvFile.age".publicKeys = [
+    teal
+    smalt
+  ] ++ all;
+  "teslamateEnvFile.age".publicKeys = [
+    teal
+    azure
+  ] ++ all;
+  "teslamateDBEnvFile.age".publicKeys = [
+    teal
+    azure
+  ] ++ all;
+  "teslamateGrafanaEnvFile.age".publicKeys = [
+    teal
+    azure
+  ] ++ all;
+  "semaphoreEnvFile.age".publicKeys = [
+    teal
+    azure
+  ] ++ all;
+  "semaphoreDBEnvFile.age".publicKeys = [
+    teal
+    azure
+  ] ++ all;
   "homepage.age".publicKeys = [ azure ] ++ all;
-  "linkwardenEnvFile.age".publicKeys = [ teal azure ] ++ all;
-  "linkwardenDBEnvFile.age".publicKeys = [ teal azure ] ++ all;
+  "linkwardenEnvFile.age".publicKeys = [
+    teal
+    azure
+  ] ++ all;
+  "linkwardenDBEnvFile.age".publicKeys = [
+    teal
+    azure
+  ] ++ all;
   "healthchecks.age".publicKeys = [ azure ] ++ all;
-
-
-
 
   #example for calling groups
   #"secret2.age".publicKeys = users ++ systems;
-} 
+}

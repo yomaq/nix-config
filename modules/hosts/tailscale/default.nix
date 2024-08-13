@@ -1,29 +1,44 @@
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 # why am I not just using the tailscale service directly? ... idk, it auto configures the authKeyFile?
 
-with lib;
 let
   cfg = config.yomaq.tailscale;
 in
 {
   options.yomaq.tailscale = {
-    enable = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         enable custom tailscale module
       '';
     };
-    extraUpFlags = mkOption {
-      type = types.listOf types.str;
-      default = ["--ssh=true" "--reset=true" "--accept-dns=true"];
+    extraUpFlags = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [
+        "--ssh=true"
+        "--reset=true"
+        "--accept-dns=true"
+      ];
       description = ''
         Extra flags to pass to tailscale up.
       '';
     };
-    useRoutingFeatures = mkOption {
-      type = types.enum [ "none" "client" "server" "both" ];
+    useRoutingFeatures = lib.mkOption {
+      type = lib.types.enum [
+        "none"
+        "client"
+        "server"
+        "both"
+      ];
       default = "none";
       example = "server";
       description = lib.mdDoc ''
@@ -35,22 +50,22 @@ in
         When set to `server` or `both`, IP forwarding will be enabled.
       '';
     };
-    tailnetName = mkOption {
-      type = types.str;
+    tailnetName = lib.mkOption {
+      type = lib.types.str;
       default = "";
       description = ''
         The name of the tailnet
       '';
     };
-    authKeyFile = mkOption {
-      type = types.nullOr types.path;
+    authKeyFile = lib.mkOption {
+      type = lib.types.nullOr lib.types.path;
       default = "${config.age.secrets.tailscaleKey.path}";
       description = ''
         allow you to specify a key, or set null to disable
       '';
     };
-    preApprovedSshAuthkey = mkOption {
-      type = types.bool;
+    preApprovedSshAuthkey = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         decrypt pre-approved ssh authkey

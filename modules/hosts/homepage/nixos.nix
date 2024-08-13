@@ -1,14 +1,50 @@
-{ config, lib, pkgs, inputs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  modulesPath,
+  ...
+}:
 let
   cfg = config.yomaq.homepage;
   settingsFormat = pkgs.formats.yaml { };
   listOfHosts = lib.attrNames inputs.self.nixosConfigurations;
-  mergeConfig = configKey: lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage."${configKey}" != []) 
-      inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage."${configKey}") listOfHosts);
-  mergeServiceGroups = configKey: lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.services."${configKey}" != []) 
-    inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.services."${configKey}") listOfHosts);
-  mergeBookmarksGroups = configKey: lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks"${configKey}" != []) 
-    inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks"${configKey}") listOfHosts);
+  mergeConfig =
+    configKey:
+    lib.mkMerge (
+      map (
+        hostname:
+        lib.mkIf (
+          inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage."${configKey}" != [ ]
+        ) inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage."${configKey}"
+      ) listOfHosts
+    );
+  mergeServiceGroups =
+    configKey:
+    lib.mkMerge (
+      map (
+        hostname:
+        lib.mkIf (
+          inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.services."${configKey}"
+          != [ ]
+        ) inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.services."${configKey}"
+      ) listOfHosts
+    );
+  mergeBookmarksGroups =
+    configKey:
+    lib.mkMerge (
+      map (
+        hostname:
+        lib.mkIf
+          (
+            inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks "${configKey}"
+            != [ ]
+          )
+          inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks
+          "${configKey}"
+      ) listOfHosts
+    );
 in
 {
   options.yomaq.homepage = {
@@ -33,15 +69,15 @@ in
   };
   options.yomaq.homepage.groups = {
     services = {
-      services =lib.mkOption {
+      services = lib.mkOption {
         inherit (settingsFormat) type;
-        default = [];
+        default = [ ];
       };
     };
     bookmarks = {
-      favorites =lib.mkOption {
+      favorites = lib.mkOption {
         inherit (settingsFormat) type;
-        default = [];
+        default = [ ];
       };
     };
   };
@@ -61,46 +97,51 @@ in
     #####
 
     yomaq.homepage = {
-    ### Bookmark and service groups cannot have the same names.
-    ### Empty lists will break the config
-    ### Also add the layout for the group below.
-      services = [
-        { Services = mergeServiceGroups "services"; }
-      ];
+      ### Bookmark and service groups cannot have the same names.
+      ### Empty lists will break the config
+      ### Also add the layout for the group below.
+      services = [ { Services = mergeServiceGroups "services"; } ];
       bookmarks = [
         # { favorites = mergeServiceGroups "favorites"; }
       ];
       widgets = [
-        {datetime = {
+        {
+          datetime = {
             format = {
               timeStyle = "short";
             };
-        };}
-        {search = {
+          };
+        }
+        {
+          search = {
             provider = "brave";
             focus = true; # Optional, will set focus to the search bar on page load
             showSearchSuggestions = true; # Optional, will show search suggestions. Defaults to false
             target = "_blank"; # One of _self, _blank, _parent or _top
-        };}
-        {openmeteo = {
+          };
+        }
+        {
+          openmeteo = {
             label = "Okc"; # optional
-            latitude =   "35.46756";
+            latitude = "35.46756";
             longitude = "-97.51643";
             timezone = "America/Chicago"; # optional
             units = "Imperial"; # or "imperial"
             cache = 5; # Time in minutes to cache API responses, to stay within limits
-            format = { # optional, Intl.NumberFormat options
+            format = {
+              # optional, Intl.NumberFormat options
               maximumFractionDigits = 1;
             };
-        };}
+          };
+        }
       ];
-    settings ={
+      settings = {
         title = "{{HOMEPAGE_VAR_NAME}}";
         background = {
-            blur = "sm"; # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
-            saturate = 50; # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
-            brightness = 50; # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
-            opacity = 50; # 0-100
+          blur = "sm"; # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
+          saturate = 50; # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
+          brightness = 50; # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
+          opacity = 50; # 0-100
         };
         color = "slate";
         theme = "dark"; # or light

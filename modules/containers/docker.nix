@@ -1,19 +1,24 @@
-{ pkgs, config, lib, inputs, ... }:
-with lib;
-
+{
+  pkgs,
+  config,
+  lib,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.docker;
 
-in {
+in
+{
   options.yomaq.docker = {
-    enable = mkOption {
+    enable = lib.mkOption {
       description = "Enable docker";
-      type = types.bool;
+      type = lib.types.bool;
       default = false;
     };
   };
 
-  config = mkIf (cfg.enable) {
+  config = lib.mkIf (cfg.enable) {
     virtualisation.oci-containers.backend = "docker";
     virtualisation = {
       docker = {
@@ -27,11 +32,9 @@ in {
       };
     };
     environment.persistence."${config.yomaq.impermanence.dontBackup}" = {
-      directories = [
-        "/var/lib/containers/storage"
-      ];
+      directories = [ "/var/lib/containers/storage" ];
     };
-    users= {
+    users = {
       users.docker = {
         isNormalUser = true;
         uid = 4000;

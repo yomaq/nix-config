@@ -1,15 +1,22 @@
-{ inputs, lib, config, pkgs, ... }: {
+{
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
-    # fix for home manager bug
+  # fix for home manager bug
   manual.manpages.enable = false;
   # home manager overlays
   nixpkgs = {
-    overlays = [ 
+    overlays = [
       inputs.self.overlays.pkgs-unstable
       inputs.agenix.overlays.default
-      ];
-      # Configure your nixpkgs instance
+    ];
+    # Configure your nixpkgs instance
     config = {
       # Disable if you don't want unfree packages
       allowUnfree = true;

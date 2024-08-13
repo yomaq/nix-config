@@ -1,4 +1,10 @@
-{ inputs, lib, config, pkgs, ... }: 
+{
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   hostname = "midnight";
 in
@@ -6,7 +12,7 @@ in
   imports = [
     inputs.home-manager.darwinModules.home-manager
     inputs.self.darwinModules.yomaq
-    {home-manager.useUserPackages = true;}
+    { home-manager.useUserPackages = true; }
   ];
 
   config = {
@@ -24,7 +30,9 @@ in
       };
     };
     home-manager = {
-      extraSpecialArgs = { inherit inputs; };
+      extraSpecialArgs = {
+        inherit inputs;
+      };
       users = {
         # Import your home-manager configuration
         carln = import ../../users/carln/homeManager;
@@ -43,6 +51,3 @@ in
     };
   };
 }
-
-
-

@@ -1,14 +1,17 @@
-{ options, config, lib, pkgs, inputs, ... }:
-
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.nixSettings;
 in
 {
-  imports = [
-    inputs.lix.nixosModules.default
-  ];
-  config = mkIf cfg.enable {
+  imports = [ inputs.lix.nixosModules.default ];
+  config = lib.mkIf cfg.enable {
     nix = {
       gc = {
         automatic = true;

@@ -1,8 +1,13 @@
-{ config, lib, pkgs, inputs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  modulesPath,
+  ...
+}:
 let
-
   NAME = "nextcloud";
-
   cfg = config.yomaq.nixos-containers."${NAME}";
 
   inherit (config.networking) hostName;
@@ -31,31 +36,32 @@ in
       "d ${cfg.storage}/nixos-containers/${NAME}/db"
     ];
 
-    yomaq.homepage.groups.services.services = [{
-      "Nextcloud" = {
-        icon = "si-nextcloud";
-        href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-        siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-      };
-    }];
+    yomaq.homepage.groups.services.services = [
+      {
+        "Nextcloud" = {
+          icon = "si-nextcloud";
+          href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+          siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+        };
+      }
+    ];
 
-
-    yomaq.gatus.endpoints = [{
-      name = "${hostName}-${NAME}";
-      group = "webapps";
-      url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-      interval = "5m";
-      conditions = [
-        "[STATUS] == 200"
-      ];
-      alerts = [
-        {
-          type = "ntfy";
-          failureThreshold = 3;
-          description = "healthcheck failed";
-        }
-      ];
-    }];
+    yomaq.gatus.endpoints = [
+      {
+        name = "${hostName}-${NAME}";
+        group = "webapps";
+        url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
+        interval = "5m";
+        conditions = [ "[STATUS] == 200" ];
+        alerts = [
+          {
+            type = "ntfy";
+            failureThreshold = 3;
+            description = "healthcheck failed";
+          }
+        ];
+      }
+    ];
 
     #will still need to set the network device name manually
     yomaq.network.useBr0 = true;
@@ -64,23 +70,25 @@ in
       autoStart = true;
       privateNetwork = true;
       hostBridge = "br0"; # Specify the bridge name
-      specialArgs = { inherit inputs; };
-      bindMounts = { 
-        "/etc/ssh/${hostName}" = { 
+      specialArgs = {
+        inherit inputs;
+      };
+      bindMounts = {
+        "/etc/ssh/${hostName}" = {
           hostPath = "/etc/ssh/${hostName}";
-          isReadOnly = true; 
+          isReadOnly = true;
         };
         "/var/lib/tailscale" = {
           hostPath = "${cfg.storage}/nixos-containers/${NAME}/tailscale";
-          isReadOnly = false; 
+          isReadOnly = false;
         };
         "/var/lib/mysql" = {
           hostPath = "${cfg.storage}/nixos-containers/${NAME}/db";
-          isReadOnly = false; 
+          isReadOnly = false;
         };
         "/var/lib/nextcloud" = {
           hostPath = "${cfg.storage}/nixos-containers/${NAME}/nextcloud";
-          isReadOnly = false; 
+          isReadOnly = false;
         };
       };
       enableTun = true;
@@ -89,12 +97,15 @@ in
         imports = [
           inputs.self.nixosModules.yomaq
           (inputs.self + /users/admin)
-          ];
+        ];
         system.stateVersion = stateVersion;
-        age.identityPaths = ["/etc/ssh/${hostName}"];
+        age.identityPaths = [ "/etc/ssh/${hostName}" ];
 
         yomaq = {
-          tailscale.extraUpFlags = ["--ssh=true" "--reset=true"];
+          tailscale.extraUpFlags = [
+            "--ssh=true"
+            "--reset=true"
+          ];
           suites.container.enable = true;
         };
 
@@ -128,11 +139,11 @@ in
           settings = {
             "maintenance_window_start" = 8;
             default_phone_region = "US";
-            trustedProxies = ["127.0.0.1"];
+            trustedProxies = [ "127.0.0.1" ];
             logType = "file";
             overwriteProtocol = "https";
           };
-          extraApps = {};
+          extraApps = { };
           appstoreEnable = true;
           config = {
             dbtype = "mysql";
@@ -146,12 +157,12 @@ in
     virtualisation.oci-containers.containers.collaboraCode = {
       image = "docker.io/collabora/code";
       autoStart = true;
-        environment = {
-          "server_name" = "${hostName}-${NAME}.${tailnetName}.ts.net";
-        };
+      environment = {
+        "server_name" = "${hostName}-${NAME}.${tailnetName}.ts.net";
+      };
       extraOptions = [
-          "--pull=always"
-          "--network=container:TScollaboraCode"
+        "--pull=always"
+        "--network=container:TScollaboraCode"
       ];
     };
     yomaq.pods.tailscaled."TScollaboraCode".enable = true;

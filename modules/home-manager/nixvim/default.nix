@@ -1,19 +1,25 @@
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.nixvim;
 in
 {
-  imports = [
-    inputs.nixvim.homeManagerModules.nixvim
-  ];
+  imports = [ inputs.nixvim.homeManagerModules.nixvim ];
   options.yomaq.nixvim = {
-    enable = with lib; mkOption {
-      type = types.bool;
-      default = false;
-      description = ''
-        enable custom nixvim module
-      '';
-    };
+    enable =
+      lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = ''
+          enable custom nixvim module
+        '';
+      };
   };
   config = lib.mkIf cfg.enable {
     programs.nixvim = {

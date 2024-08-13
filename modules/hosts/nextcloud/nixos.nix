@@ -1,16 +1,15 @@
 ### from https://github.com/onny/nixos-nextcloud-testumgebung/blob/main/nextcloud-extras.nix
 ### here to enable caddy in place of nginx for nextlcloud
 
+{
+  config,
+  lib,
+  options,
+  ...
+}:
+let
 
-
-{ config
-, lib
-, options
-, ...
-}: let
-
-  inherit
-    (lib)
+  inherit (lib)
     optionalString
     escapeShellArg
     types
@@ -26,13 +25,14 @@
   fpm = config.services.phpfpm.pools.nextcloud;
   webserver = config.services.${cfg.webserver};
 
-in {
+in
+{
 
   options = {
     services.nextcloud = {
 
       ensureUsers = mkOption {
-        default = {};
+        default = { };
         description = lib.mdDoc ''
           List of user accounts which get automatically created if they don't
           exist yet. This option does not delete accounts which are not listed
@@ -48,28 +48,33 @@ in {
             email = "user2@localhost";
           };
         };
-        type = types.attrsOf (types.submodule {
-          options = {
-            passwordFile = mkOption {
-              type = types.path;
-              example = "/path/to/file";
-              default = null;
-              description = lib.mdDoc ''
-                Specifies the path to a file containing the
-                clear text password for the user.
-              '';
+        type = types.attrsOf (
+          types.submodule {
+            options = {
+              passwordFile = mkOption {
+                type = types.path;
+                example = "/path/to/file";
+                default = null;
+                description = lib.mdDoc ''
+                  Specifies the path to a file containing the
+                  clear text password for the user.
+                '';
+              };
+              email = mkOption {
+                type = types.str;
+                example = "user1@localhost";
+                default = null;
+              };
             };
-            email = mkOption {
-              type = types.str;
-              example = "user1@localhost";
-              default = null;
-            };
-          };
-        });
+          }
+        );
       };
 
       webserver = mkOption {
-        type = types.enum [ "nginx" "caddy" ];
+        type = types.enum [
+          "nginx"
+          "caddy"
+        ];
         default = "nginx";
         description = ''
           Whether to use nginx or caddy for virtual host management.
@@ -90,22 +95,26 @@ in {
     systemd.services.nextcloud-ensure-users = {
       enable = true;
       script = ''
-        ${optionalString (cfg.ensureUsers != {}) ''
-          ${concatStringsSep "\n" (mapAttrsToList (name: cfg: ''
-            if ${config.services.nextcloud.occ}/bin/nextcloud-occ user:info "${name}" | grep "user not found"; then
-              export OC_PASS="$(cat ${escapeShellArg cfg.passwordFile})"
-              ${config.services.nextcloud.occ}/bin/nextcloud-occ user:add --password-from-env "${name}"
-            fi
-            if ! ${config.services.nextcloud.occ}/bin/nextcloud-occ user:info "${name}" | grep "user not found"; then
-              ${optionalString (cfg.email != null) ''
-                ${config.services.nextcloud.occ}/bin/nextcloud-occ user:setting "${name}" settings email "${cfg.email}"
-              ''}
-            fi
-          '') cfg.ensureUsers)}
+        ${optionalString (cfg.ensureUsers != { }) ''
+          ${concatStringsSep "\n" (
+            mapAttrsToList (name: cfg: ''
+              if ${config.services.nextcloud.occ}/bin/nextcloud-occ user:info "${name}" | grep "user not found"; then
+                export OC_PASS="$(cat ${escapeShellArg cfg.passwordFile})"
+                ${config.services.nextcloud.occ}/bin/nextcloud-occ user:add --password-from-env "${name}"
+              fi
+              if ! ${config.services.nextcloud.occ}/bin/nextcloud-occ user:info "${name}" | grep "user not found"; then
+                ${
+                  optionalString (cfg.email != null) ''
+                    ${config.services.nextcloud.occ}/bin/nextcloud-occ user:setting "${name}" settings email "${cfg.email}"
+                  ''
+                }
+              fi
+            '') cfg.ensureUsers
+          )}
         ''}
       '';
       wantedBy = [ "multi-user.target" ];
-      after = ["nextcloud-setup.service"];
+      after = [ "nextcloud-setup.service" ];
     };
 
     services.phpfpm.pools.nextcloud.settings = {
@@ -113,11 +122,12 @@ in {
       "listen.group" = webserver.group;
     };
 
-    users.groups.nextcloud.members = [ "nextcloud" webserver.user ];
+    users.groups.nextcloud.members = [
+      "nextcloud"
+      webserver.user
+    ];
 
-    services.nginx = lib.mkIf (cfg.webserver == "caddy") {
-      enable = mkForce false;
-    };
+    services.nginx = lib.mkIf (cfg.webserver == "caddy") { enable = mkForce false; };
 
     services.caddy = lib.mkIf (cfg.webserver == "caddy") {
       enable = mkDefault true;

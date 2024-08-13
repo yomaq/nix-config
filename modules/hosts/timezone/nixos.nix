@@ -1,21 +1,24 @@
-{ options, config, lib, pkgs, ... }:
-
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.yomaq.timezone;
 in
 {
   options.yomaq.timezone = {
-    central = mkOption {
-      type = types.bool;
+    central = lib.mkOption {
+      type = lib.types.bool;
       default = false;
-      description = ''
-      '';
+      description = '''';
     };
   };
 
-  config = mkMerge [
-      (mkIf cfg.central {
+  config = lib.mkMerge [
+    (lib.mkIf cfg.central {
       # Set your time zone.
       time.timeZone = "America/Chicago";
       # Select internationalisation properties.

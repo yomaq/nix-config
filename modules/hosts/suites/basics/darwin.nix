@@ -1,13 +1,17 @@
-{ options, config, lib, pkgs, inputs, ... }:
-
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.suites.basics;
 in
 {
-  imports = [
-  ];
-  config = mkIf cfg.enable {
+  imports = [ ];
+  config = lib.mkIf cfg.enable {
     yomaq = {
       skhd.enable = true;
     };

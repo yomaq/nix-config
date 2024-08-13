@@ -1,17 +1,25 @@
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.direnv;
 in
 {
-  imports = [];
+  imports = [ ];
   options.yomaq.direnv = {
-    enable = with lib; mkOption {
-      type = types.bool;
-      default = false;
-      description = ''
-        enable custom direnv module
-      '';
-    };
+    enable =
+      lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = ''
+          enable custom direnv module
+        '';
+      };
   };
   config = lib.mkIf cfg.enable {
     programs = {

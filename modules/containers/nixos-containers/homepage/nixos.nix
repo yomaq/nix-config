@@ -1,8 +1,13 @@
-{ config, lib, pkgs, inputs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  modulesPath,
+  ...
+}:
 let
-
   NAME = "homepage";
-
   cfg = config.yomaq.nixos-containers."${NAME}";
 
   inherit (config.networking) hostName;
@@ -27,27 +32,24 @@ in
 
     yomaq.homepage.enable = true;
 
-
-    yomaq.gatus.endpoints = [{
-      name = "${hostName}-${NAME}";
-      group = "webapps";
-      url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-      interval = "5m";
-      conditions = [
-        "[STATUS] == 200"
-      ];
-      alerts = [
-        {
-          type = "ntfy";
-          failureThreshold = 3;
-          description = "healthcheck failed";
-        }
-      ];
-    }];
-
-    systemd.tmpfiles.rules = [
-      "d ${cfg.storage}/nixos-containers/${NAME}/tailscale"
+    yomaq.gatus.endpoints = [
+      {
+        name = "${hostName}-${NAME}";
+        group = "webapps";
+        url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
+        interval = "5m";
+        conditions = [ "[STATUS] == 200" ];
+        alerts = [
+          {
+            type = "ntfy";
+            failureThreshold = 3;
+            description = "healthcheck failed";
+          }
+        ];
+      }
     ];
+
+    systemd.tmpfiles.rules = [ "d ${cfg.storage}/nixos-containers/${NAME}/tailscale" ];
 
     #will still need to set the network device name manually
     yomaq.network.useBr0 = true;
@@ -56,15 +58,17 @@ in
       autoStart = true;
       privateNetwork = true;
       hostBridge = "br0"; # Specify the bridge name
-      specialArgs = { inherit inputs; };
-      bindMounts = { 
-        "/etc/ssh/${hostName}" = { 
+      specialArgs = {
+        inherit inputs;
+      };
+      bindMounts = {
+        "/etc/ssh/${hostName}" = {
           hostPath = "/etc/ssh/${hostName}";
-          isReadOnly = true; 
+          isReadOnly = true;
         };
         "/var/lib/tailscale" = {
           hostPath = "${cfg.storage}/nixos-containers/${NAME}/tailscale";
-          isReadOnly = false; 
+          isReadOnly = false;
         };
       };
       enableTun = true;
@@ -73,21 +77,22 @@ in
         imports = [
           inputs.self.nixosModules.yomaq
           (inputs.self + /users/admin)
-          ];
+        ];
         system.stateVersion = stateVersion;
-        age.identityPaths = ["/etc/ssh/${hostName}"];
+        age.identityPaths = [ "/etc/ssh/${hostName}" ];
 
         yomaq = {
-          tailscale.extraUpFlags = ["--ssh=true" "--reset=true"];
+          tailscale.extraUpFlags = [
+            "--ssh=true"
+            "--reset=true"
+          ];
           suites.container.enable = true;
           # homepage-dashboard.enable = true;
           homepage.enable = true;
         };
         services.homepage-dashboard.enable = true;
 
-        systemd.tmpfiles.rules = [
-          "d /etc/homepage-dashboard/logs"
-        ];
+        systemd.tmpfiles.rules = [ "d /etc/homepage-dashboard/logs" ];
         services.caddy = {
           enable = true;
           virtualHosts."${hostName}-${NAME}.${tailnetName}.ts.net".extraConfig = ''

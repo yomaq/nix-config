@@ -1,22 +1,25 @@
-{ options, config, lib, pkgs, inputs, ... }:
-
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.yomaq.suites.basics;
 in
 {
-  imports = [
-  ];
+  imports = [ ];
   options.yomaq.suites.basics = {
-    enable = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
-      description = ''
-      '';
+      description = '''';
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     nixpkgs.overlays = [ inputs.agenix.overlays.default ];
     environment.systemPackages = with pkgs; [
       vim

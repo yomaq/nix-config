@@ -1,3 +1,10 @@
-{ inputs, lib, config, pkgs, ... }: {
-  imports = [inputs.agenix.homeManagerModules.default];
+{
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
+  imports = [ inputs.agenix.homeManagerModules.default ];
 }

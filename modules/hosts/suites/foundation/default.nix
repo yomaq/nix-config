@@ -1,22 +1,25 @@
-{ options, config, lib, pkgs, ... }:
-
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.yomaq.suites.foundation;
 in
 {
   options.yomaq.suites.foundation = {
-    enable = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
-      description = ''
-      '';
+      description = '''';
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     yomaq = {
-      zsh.enable =true;
+      zsh.enable = true;
       agenix.enable = true;
       nixSettings.enable = true;
       tailscale.enable = true;

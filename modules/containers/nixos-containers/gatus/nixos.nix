@@ -1,8 +1,13 @@
-{ config, lib, pkgs, inputs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  modulesPath,
+  ...
+}:
 let
-
   NAME = "gatus";
-
   cfg = config.yomaq.nixos-containers."${NAME}";
 
   inherit (config.networking) hostName;
@@ -21,13 +26,15 @@ in
       "d ${dontBackup}/nixos-containers/${NAME}/tailscale"
     ];
 
-    yomaq.homepage.groups.services.services = [{
-      "${NAME}" = {
-        icon = "mdi-list-status";
-        href = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-        siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-      };
-    }];
+    yomaq.homepage.groups.services.services = [
+      {
+        "${NAME}" = {
+          icon = "mdi-list-status";
+          href = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
+          siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
+        };
+      }
+    ];
 
     #will still need to set the network device name manually
     yomaq.network.useBr0 = true;
@@ -36,19 +43,21 @@ in
       autoStart = true;
       privateNetwork = true;
       hostBridge = "br0"; # Specify the bridge name
-      specialArgs = { inherit inputs; };
-      bindMounts = { 
-        "/etc/ssh/${hostName}" = { 
+      specialArgs = {
+        inherit inputs;
+      };
+      bindMounts = {
+        "/etc/ssh/${hostName}" = {
           hostPath = "/etc/ssh/${hostName}";
-          isReadOnly = true; 
+          isReadOnly = true;
         };
         "/var/lib/tailscale/" = {
           hostPath = "${dontBackup}/nixos-containers/${NAME}/tailscale";
-          isReadOnly = false; 
+          isReadOnly = false;
         };
         "/var/lib/gatus/data" = {
           hostPath = "${backup}/nixos-containers/${NAME}/data";
-          isReadOnly = false; 
+          isReadOnly = false;
         };
       };
       enableTun = true;
@@ -59,49 +68,50 @@ in
           (inputs.self + /users/admin)
         ];
         system.stateVersion = stateVersion;
-        age.identityPaths = ["/etc/ssh/${hostName}"];
+        age.identityPaths = [ "/etc/ssh/${hostName}" ];
 
         yomaq = {
           suites = {
             container.enable = true;
-            };
+          };
           tailscale = {
             enable = true;
-            extraUpFlags = ["--ssh=true" "--reset=true"];
+            extraUpFlags = [
+              "--ssh=true"
+              "--reset=true"
+            ];
           };
         };
 
-        environment.persistence."${dontBackup}".users.admin = lib.mkForce {};
+        environment.persistence."${dontBackup}".users.admin = lib.mkForce { };
 
-        systemd.tmpfiles.rules = [
-          "d /var/lib/gatus/data 0755 gatus"
-        ];
+        systemd.tmpfiles.rules = [ "d /var/lib/gatus/data 0755 gatus" ];
 
         yomaq.gatus.enable = true;
         services.gatus = {
           enable = true;
-          settings ={
+          settings = {
             web.port = 8080;
             storage = {
               type = "sqlite";
               path = "/var/lib/gatus/data/data.db";
             };
-            endpoints = [{
-              name = "gatus";
-              group = "webapps";
-              url = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-              interval = "5m";
-              conditions = [
-                "[CONNECTED] == true"
-              ];
-              # alerts = [
-              #   {
-              #     type = "ntfy";
-              #     failureThreshold = 3;
-              #     description = "default check";
-              #   }
-              # ];
-            }];
+            endpoints = [
+              {
+                name = "gatus";
+                group = "webapps";
+                url = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+                interval = "5m";
+                conditions = [ "[CONNECTED] == true" ];
+                # alerts = [
+                #   {
+                #     type = "ntfy";
+                #     failureThreshold = 3;
+                #     description = "default check";
+                #   }
+                # ];
+              }
+            ];
             alerting = {
               ntfy = {
                 url = "${config.yomaq.ntfy.ntfyUrl}";

@@ -1,8 +1,13 @@
-{ config, lib, pkgs, inputs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  modulesPath,
+  ...
+}:
 let
-
   NAME = "healthchecks";
-
   cfg = config.yomaq.nixos-containers."${NAME}";
 
   inherit (config.networking) hostName;
@@ -16,38 +21,39 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    age.secrets.healthchecks.file = ( inputs.self + /secrets/healthchecks.age);
-
+    age.secrets.healthchecks.file = (inputs.self + /secrets/healthchecks.age);
 
     systemd.tmpfiles.rules = [
       "d ${dontBackup}/nixos-containers/${NAME}/tailscale"
       "d ${backup}/nixos-containers/${NAME}/data 0755 admin"
     ];
 
-    yomaq.homepage.groups.services.services = [{
-      "${NAME}" = {
-        icon = "mdi-bell-badge";
-        href = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-        siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-      };
-    }];
+    yomaq.homepage.groups.services.services = [
+      {
+        "${NAME}" = {
+          icon = "mdi-bell-badge";
+          href = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
+          siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
+        };
+      }
+    ];
 
-    yomaq.gatus.endpoints = [{
-      name = "${hostName}-${NAME}";
-      group = "webapps";
-      url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-      interval = "5m";
-      conditions = [
-        "[STATUS] == 200"
-      ];
-      alerts = [
-        {
-          type = "ntfy";
-          failureThreshold = 3;
-          description = "healthcheck failed";
-        }
-      ];
-    }];
+    yomaq.gatus.endpoints = [
+      {
+        name = "${hostName}-${NAME}";
+        group = "webapps";
+        url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
+        interval = "5m";
+        conditions = [ "[STATUS] == 200" ];
+        alerts = [
+          {
+            type = "ntfy";
+            failureThreshold = 3;
+            description = "healthcheck failed";
+          }
+        ];
+      }
+    ];
 
     #will still need to set the network device name manually
     yomaq.network.useBr0 = true;
@@ -56,19 +62,21 @@ in
       autoStart = true;
       privateNetwork = true;
       hostBridge = "br0"; # Specify the bridge name
-      specialArgs = { inherit inputs; };
-      bindMounts = { 
-        "/etc/ssh/${hostName}" = { 
+      specialArgs = {
+        inherit inputs;
+      };
+      bindMounts = {
+        "/etc/ssh/${hostName}" = {
           hostPath = "/etc/ssh/${hostName}";
-          isReadOnly = true; 
+          isReadOnly = true;
         };
         "/var/lib/tailscale/" = {
           hostPath = "${dontBackup}/nixos-containers/${NAME}/tailscale";
-          isReadOnly = false; 
+          isReadOnly = false;
         };
         "/var/lib/healthchecks/" = {
           hostPath = "${backup}/nixos-containers/${NAME}/data";
-          isReadOnly = false; 
+          isReadOnly = false;
         };
       };
       enableTun = true;
@@ -79,25 +87,28 @@ in
           (inputs.self + /users/admin)
         ];
         system.stateVersion = stateVersion;
-        age.identityPaths = ["/etc/ssh/${hostName}"];
+        age.identityPaths = [ "/etc/ssh/${hostName}" ];
 
         yomaq = {
           suites = {
             container.enable = true;
-            };
+          };
           tailscale = {
             enable = true;
-            extraUpFlags = ["--ssh=true" "--reset=true"];
+            extraUpFlags = [
+              "--ssh=true"
+              "--reset=true"
+            ];
           };
         };
 
-        environment.persistence."${dontBackup}".users.admin = lib.mkForce {};
+        environment.persistence."${dontBackup}".users.admin = lib.mkForce { };
 
-        age.secrets.healthchecks.file = ( inputs.self + /secrets/healthchecks.age);
+        age.secrets.healthchecks.file = (inputs.self + /secrets/healthchecks.age);
 
         yomaq.healthchecks = {
           enable = true;
-          settings.ALLOWED_HOSTS = ["${hostName}-${NAME}.${tailnetName}.ts.net"];
+          settings.ALLOWED_HOSTS = [ "${hostName}-${NAME}.${tailnetName}.ts.net" ];
           settings.SITE_ROOT = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
           settings.REGISTRATION_OPEN = true;
           settingsFile = config.containers."${hostName}-${NAME}".config.age.secrets.healthchecks.path;

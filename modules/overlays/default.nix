@@ -1,5 +1,5 @@
 # This file defines overlays
-{inputs, ...}: 
+{ inputs, ... }:
 
 {
   ## When applied, the stable nixpkgs set (declared in the flake inputs) will

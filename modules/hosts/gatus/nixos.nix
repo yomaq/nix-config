@@ -1,4 +1,11 @@
-{ config, lib, pkgs, inputs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  modulesPath,
+  ...
+}:
 let
   cfg = config.yomaq.gatus;
   settingsFormat = pkgs.formats.yaml { };
@@ -9,11 +16,11 @@ in
     enable = lib.mkEnableOption (lib.mdDoc "Gatus Dashboard");
     endpoints = lib.mkOption {
       inherit (settingsFormat) type;
-      default = [];
+      default = [ ];
     };
     externalEndpoints = lib.mkOption {
       inherit (settingsFormat) type;
-      default = [];
+      default = [ ];
     };
     url = lib.mkOption {
       type = lib.types.str;
@@ -24,12 +31,22 @@ in
   config = lib.mkIf cfg.enable {
     services.gatus = {
       settings = {
-        endpoints = lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.gatus.endpoints!= [])
-          inputs.self.nixosConfigurations."${hostname}".config.yomaq.gatus.endpoints
-        ) listOfHosts);
-        external-endpoints = lib.mkMerge (map (hostname: lib.mkIf (inputs.self.nixosConfigurations."${hostname}".config.yomaq.gatus.externalEndpoints!= [])
-          inputs.self.nixosConfigurations."${hostname}".config.yomaq.gatus.externalEndpoints
-        ) listOfHosts);
+        endpoints = lib.mkMerge (
+          map (
+            hostname:
+            lib.mkIf (
+              inputs.self.nixosConfigurations."${hostname}".config.yomaq.gatus.endpoints != [ ]
+            ) inputs.self.nixosConfigurations."${hostname}".config.yomaq.gatus.endpoints
+          ) listOfHosts
+        );
+        external-endpoints = lib.mkMerge (
+          map (
+            hostname:
+            lib.mkIf (
+              inputs.self.nixosConfigurations."${hostname}".config.yomaq.gatus.externalEndpoints != [ ]
+            ) inputs.self.nixosConfigurations."${hostname}".config.yomaq.gatus.externalEndpoints
+          ) listOfHosts
+        );
       };
     };
     ### example of how to add a gatus monitor in another module for use on any host in the flake.

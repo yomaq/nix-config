@@ -1,5 +1,10 @@
-{ options, config, lib, pkgs, ... }:
-with lib;
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.yomaq.adguardhome;
   inherit (config.networking) hostName;
@@ -8,8 +13,8 @@ let
 in
 {
   options.yomaq.adguardhome = {
-    enable = mkOption {
-      type = types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = ''
         enable custom adGuard Home module
@@ -17,27 +22,27 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     environment.persistence."${backup}" = {
-      directories = [
-        "/var/lib"
-      ];
+      directories = [ "/var/lib" ];
     };
     services.adguardhome = {
       enable = true;
       allowDHCP = true;
     };
-    yomaq.homepage.groups.services.services = [{
-      DNS = {
-        icon = "si-adguard";
-        href = "{{HOMEPAGE_VAR_ADGUARD_IP}}";
-        widget = {
-          type = "adguard";
-          url = "http://${hostName}.${tailnetName}.ts.net";
-          username = "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}";
-          password = "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}";
+    yomaq.homepage.groups.services.services = [
+      {
+        DNS = {
+          icon = "si-adguard";
+          href = "{{HOMEPAGE_VAR_ADGUARD_IP}}";
+          widget = {
+            type = "adguard";
+            url = "http://${hostName}.${tailnetName}.ts.net";
+            username = "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}";
+            password = "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}";
+          };
         };
-      };
-    }];
+      }
+    ];
   };
 }
