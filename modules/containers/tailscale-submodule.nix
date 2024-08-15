@@ -109,7 +109,6 @@ let
         {
           "TS_HOSTNAME" = cfg.TShostname;
           "TS_STATE_DIR" = "/var/lib/tailscale";
-          # "TS_USERSPACE" = "false";
           "TS_EXTRA_ARGS" = "--advertise-tags=" + formatTags + " " + cfg.TSargs;
         }
         (lib.mkIf (cfg.TSserve != { }) {
@@ -124,7 +123,6 @@ let
       environmentFiles = [
         # need to set "TS_AUTHKEY=key" in agenix and import here
         config.age.secrets."tailscaleOAuthEnvFile".path
-        # "TS_ACCEPT_DNS" = "true";
       ];
       volumes = [
         "${cfg.volumeLocation}/data-lib:/var/lib"
@@ -141,7 +139,6 @@ let
         "--cap-add=net_admin"
         "--cap-add=sys_module"
       ];
-      # user = "4000:4000";
     };
   mkTmpfilesRules = name: cfg: [ "d ${cfg.volumeLocation}/data-lib 0755 root root" ];
 in
@@ -172,3 +169,17 @@ in
     virtualisation.oci-containers.containers = lib.mapAttrs mkContainer config.yomaq.pods.tailscaled;
   };
 }
+
+
+# This allows easy creation of tailscale containers to pair along side other dockerized services.
+# Configuration looks like:
+
+#   # yomaq.pods.tailscaled."TS${containerName}" = {
+#   #   TSserve = {
+#   #     "/" = "http://127.0.0.1:3000";
+#   #   };
+#   #   tags = [ "tag:tagName" ];
+#   # };
+
+# Then just make sure the docker containers are all set to use the tailscale container for their networking.
+# This will setup the Tailscale Serve config, as well as tagging the device.

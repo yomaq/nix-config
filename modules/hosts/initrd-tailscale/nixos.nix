@@ -7,9 +7,6 @@
 }:
 
 ### pulled some lines from Andrew-d's comment here: https://github.com/NixOS/nixpkgs/pull/204249/files
-### oauthkeys are currently not working because of trusted CA issues. Currently don't know how to fix for initrd.
-### oauthkeys would be prefered because they don't need refreshed.
-### authkeys expired every 3 months and will need to be manually updated.
 
 ### https://github.com/NixOS/nixpkgs/pull/306532 Made this more complicated, as it removed tailscale-wrapped.
 ### Made an overlay to undo it and add tailscale-wrapped back.
