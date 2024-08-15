@@ -1,4 +1,4 @@
-name: Weekly Flake Update and Check
+name: Weekly Flake Update
 
 on:
   schedule:
