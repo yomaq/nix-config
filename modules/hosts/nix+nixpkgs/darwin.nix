@@ -14,7 +14,7 @@ in
     # this apparently needs to say nixos instead of darwin
     inputs.lix.nixosModules.default
   ];
-  config = lib.mkIf lib.cfg.enable {
+  config = lib.mkIf cfg.enable {
     nix = {
       gc = {
         automatic = true;
