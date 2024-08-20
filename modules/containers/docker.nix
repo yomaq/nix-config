@@ -28,7 +28,7 @@ in
         # the above only applies to tailscale containers in userspace network mode
         # for some reason log.tailscale.io fails if I try to point to my normal tailscale dns server, this issues only just started occuring and idk why, so I point to a generic dns server.
         # hopfully https://github.com/tailscale/tailscale/issues/11372 will be fixed soon and I can make all containers use tun and skip userspace.
-        extraOptions = "--dns 9.9.9.9";
+        extraOptions = "--dns 100.100.100.100 --dns 9.9.9.9";
       };
     };
     environment.persistence."${config.yomaq.impermanence.dontBackup}" = {
