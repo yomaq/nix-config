@@ -52,6 +52,12 @@ in
       #media-session.enable = true;
     };
 
+    # disable sleep
+    systemd.targets.sleep.enable = false;
+    systemd.targets.suspend.enable = false;
+    systemd.targets.hibernate.enable = false;
+    systemd.targets.hybrid-sleep.enable = false;
+
     # Enable configuring Gnome through dconf settings
     programs.dconf.enable = true;
 
