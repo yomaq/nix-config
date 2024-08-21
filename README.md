@@ -37,7 +37,7 @@ Attempting to view the Flake and its nixos hosts as a single logical unit, rathe
 * No more enabling/disabling custom modules by importing them/not importing them
 * All custom modules are joined together into a couple of Flake outputs, which are then **ALL** imported into the host in bulk.
 * Custom modules all have options and are disabled by default. They must be enabled with `config.yomaq.moduleName.enable = true`
-* Host modules (in [/modules/hosts](https://github.com/yomaq/nix-config/tree/main/modules)) that Nixos and Darwin can share are kept as identical as possible. Module options are shared identically between them in a `default.nix` file, while implementations that differ will be in `nixos.nix` or `darwin.nix` respectively. This helps to keep the host configuration for Nixos and Darwin to be as identical as possible.
+* Host modules (in [/modules/hosts](https://github.com/yomaq/nix-config/tree/main/modules)) that Nixos and Darwin can share are kept as identical as possible. Module options are shared between them in a `default.nix` file, while config implementations that differ will be in `nixos.nix` or `darwin.nix` respectively.
 * All modules are automatically imported into their Flake Outputs without the need to manually list them all. You can simply drop in a new file in /modules/hosts or /modules/home-manager etc, and it will be automatically imported into the correct Flake Output.
 * User account flow is still a WIP. I haven't fully decided how I want them to work yet.
 
