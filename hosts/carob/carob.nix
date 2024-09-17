@@ -43,7 +43,7 @@
         authKeyFile = null;
       };
       _1password.enable = true;
-      adguardhome.enable = true;
+      # adguardhome.enable = true;
 
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];

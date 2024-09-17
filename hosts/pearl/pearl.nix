@@ -42,7 +42,7 @@
         useRoutingFeatures = "client";
         authKeyFile = null;
       };
-      adguardhome.enable = true;
+      # adguardhome.enable = true;
 
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
