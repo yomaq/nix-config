@@ -51,11 +51,8 @@
       };
       docker.enable = true;
       pods = {
-        # valheim.enable = true;
-        # palworld.enable = true;
         tailscaled.exitnode.TSargs = "--advertise-exit-node";
         minecraftBedrock.minecrafthome.enable = true;
-        minecraftBedrock.minecraft-another.enable = true;
       };
 
       # disk configuration
