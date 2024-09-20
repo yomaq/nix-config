@@ -54,6 +54,13 @@
         tailscaled.exitnode.TSargs = "--advertise-exit-node";
         minecraftBedrock.minecrafthome.enable = true;
         satisfactory.satisfactoryhome.enable = true;
+        satisfactory.satisfactorytwo = {
+          enable = true;
+          envVariables = {
+            "MAXPLAYERS" = "8";
+            "STEAMBETA" = "false";
+          };
+        };
       };
 
       # disk configuration
