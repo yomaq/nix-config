@@ -53,6 +53,7 @@
       pods = {
         tailscaled.exitnode.TSargs = "--advertise-exit-node";
         minecraftBedrock.minecrafthome.enable = true;
+        satisfactory.satisfactoryhome.enable = true;
       };
 
       # disk configuration
