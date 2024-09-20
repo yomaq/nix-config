@@ -33,11 +33,14 @@
     devenv.url = "github:cachix/devenv";
     # flake.parts
     flake-parts.url = "github:hercules-ci/flake-parts";
+    # microvms
+    microvm.url = "github:astro/microvm.nix";
+    microvm.inputs.nixpkgs.follows = "nixpkgs";
+    # nixos on wsl
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     # lix
-    lix = {
-      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.90.0.tar.gz";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    lix.url = "https://git.lix.systems/lix-project/nixos-module/archive/2.90.0.tar.gz";
+    lix.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     {
@@ -124,6 +127,13 @@
               inherit inputs;
             };
             modules = [ ./hosts/pearl ];
+          };
+          wsl = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = {
+              inherit inputs;
+            };
+            modules = [ ./hosts/wsl ];
           };
         };
         # Nix-darwin configuration entrypoint
