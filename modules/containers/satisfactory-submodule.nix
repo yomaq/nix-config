@@ -68,7 +68,7 @@ let
         "rootless" = "false";
       }
     ];
-    volumes = [ "${cfg.volumeLocation}/data:/data" ];
+    volumes = [ "${cfg.volumeLocation}/data:/config" ];
     extraOptions = [
       "--pull=always"
       "--network=container:TS${name}"
