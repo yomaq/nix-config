@@ -57,7 +57,6 @@
       };
       docker.enable = true;
       pods = {
-        # windows.windowstest.enable = true;
       };
       # disk configuration
       disks = {

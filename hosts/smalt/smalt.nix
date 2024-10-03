@@ -59,6 +59,7 @@
           envVariables = {
             "MAXPLAYERS" = "8";
             "STEAMBETA" = "false";
+            "AUTOSAVENUM" = "20";
           };
         };
       };
