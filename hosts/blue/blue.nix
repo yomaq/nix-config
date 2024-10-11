@@ -60,7 +60,7 @@
         physicalInterfaceName = "enp5s0";
       };
       nixos-containers.openvscode.enable = true;
-      glances.enable = lib.mkForce false;
+      # glances.enable = lib.mkForce false;
       gnome.enable = true;
       scripts.enable = true;
       flatpak.enable = true;
