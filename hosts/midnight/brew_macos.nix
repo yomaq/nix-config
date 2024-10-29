@@ -14,10 +14,10 @@
         "raycast"
         "arc"
         "linearmouse"
-        "altserver"
         "spotify"
         "nextcloud"
         "brave-browser"
+        "zen-browser"
       ];
       taps = [ "pulumi/tap" ];
       brews = [
