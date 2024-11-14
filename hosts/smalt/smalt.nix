@@ -49,11 +49,19 @@
         basics.enable = true;
         foundation.enable = true;
       };
+      network = {
+        useBr0 = true;
+        physicalInterfaceName = "eno1";
+      };
       docker.enable = true;
+      nixos-containers = {
+        tailscale-exitnode.enable = true;
+      };
       pods = {
-        tailscaled.exitnode.TSargs = "--advertise-exit-node";
+        # tailscaled.exitnode.TSargs = "--advertise-exit-node";
         minecraftBedrock.minecrafthome.enable = true;
         factorio.factoriotwo.enable = true;
+        factorio.factoriothree.enable = true;
         satisfactory.satisfactoryhome.enable = true;
         satisfactory.satisfactorytwo = {
           enable = true;
