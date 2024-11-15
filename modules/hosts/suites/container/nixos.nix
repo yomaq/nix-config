@@ -27,5 +27,7 @@ in
     networking.useHostResolvConf = lib.mkForce false;
     networking.useDHCP = lib.mkForce true;
 
+    environment.persistence."/persist/save".enableWarnings = lib.mkForce false;
+    environment.persistence."/persist".enableWarnings = lib.mkForce false;
   };
 }
