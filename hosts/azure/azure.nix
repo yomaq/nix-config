@@ -46,6 +46,7 @@
         teslamate.enable = true;
         dufs.enable = true;
         semaphore.enable = true;
+        changedetection.enable = true;
         linkwarden.enable = true;
       };
       nixos-containers = {
