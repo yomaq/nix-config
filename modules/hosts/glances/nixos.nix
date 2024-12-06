@@ -16,7 +16,7 @@ in
   options = {
     yomaq.glances = {
       enable = lib.mkEnableOption (lib.mdDoc "Glances Server");
-      package = lib.mkPackageOptionMD pkgs "glances" { };
+      package = lib.mkPackageOption pkgs "glances" { };
     };
   };
   config = lib.mkIf cfg.enable {

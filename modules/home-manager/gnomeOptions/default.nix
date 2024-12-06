@@ -70,7 +70,7 @@ in
     ### I have not learned how to install packages from multiple locations within the same file, so everything gets install here, and then configured down below.
     home.packages = with pkgs; [
       # gnome extensions
-      gnome.gnome-tweaks
+      gnome-tweaks
       gnomeExtensions.unite
       gnomeExtensions.caffeine
       gnomeExtensions.blur-my-shell
@@ -78,7 +78,7 @@ in
       gnomeExtensions.space-bar
       gnomeExtensions.forge
       gnomeExtensions.appindicator
-      gnomeExtensions.rounded-window-corners
+      # gnomeExtensions.rounded-window-corners
       # gnome themes
       fluent-gtk-theme
       fluent-icon-theme
@@ -100,7 +100,7 @@ in
           "space-bar@luchrioh"
           "user-theme@gnome-shell-extensions.gcampax.github.com"
           "blur-my-shell@aunetx"
-          "rounded-window-corners@yilozt"
+          # "rounded-window-corners@yilozt"
         ];
       };
       # Configure the extensions settings
@@ -110,9 +110,9 @@ in
       "org/gnome/shell/extensions/caffeine" = {
         enable-fullscreen = false;
       };
-      "org/gnome/shell/extensions/rounded-window-corners" = {
-        skip-libadwaita-app = false;
-      };
+      # "org/gnome/shell/extensions/rounded-window-corners" = {
+      #   skip-libadwaita-app = false;
+      # };
       "org/gnome/shell/extensions/forge" = {
         window-gap-hidden-on-single = true;
         focus-border-toggle = false;

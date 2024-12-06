@@ -36,7 +36,6 @@ in
     };
 
     # Enable sound with pipewire.
-    sound.enable = true;
     hardware.pulseaudio.enable = false;
     security.rtkit.enable = true;
     services.pipewire = {
@@ -67,7 +66,7 @@ in
         gnome-photos
         gnome-tour
       ])
-      ++ (with pkgs.gnome; [
+      ++ (with pkgs; [
         cheese # webcam tool
         gnome-music
         gnome-terminal

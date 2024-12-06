@@ -28,7 +28,7 @@ in
         '';
       };
 
-      package = lib.mkPackageOptionMD pkgs "tailscale" { };
+      package = lib.mkPackageOption pkgs "tailscale" { };
 
       authKeyFile = lib.mkOption {
         type = lib.types.nullOr lib.types.path;
@@ -59,30 +59,27 @@ in
       });
 
       # have to undo https://github.com/NixOS/nixpkgs/pull/306532
-      TailscaleWrappedOverlay = self: super: {
-        tailscale-wrapped = super.tailscale.overrideAttrs (oldAttrs: {
-          subPackages = oldAttrs.subPackages ++ [ "cmd/tailscale" ];
-          postInstall = lib.optionalString super.stdenv.isLinux ''
-            wrapProgram $out/bin/tailscaled --prefix PATH : ${
-              lib.makeBinPath [
-                super.iproute2
-                super.iptables
-                super.getent
-                super.shadow
-              ]
-            }
-            wrapProgram $out/bin/tailscale --suffix PATH : ${lib.makeBinPath [ super.procps ]}
-          '';
-        });
-      };
+    tailscale-wrapped = pkgs.tailscale.overrideAttrs (oldAttrs: {
+      subPackages = oldAttrs.subPackages ++ [ "cmd/tailscale" ];
+      postInstall = pkgs.lib.optionalString pkgs.stdenv.isLinux ''
+        wrapProgram $out/bin/tailscaled --prefix PATH : ${
+          pkgs.lib.makeBinPath [
+            pkgs.iproute2
+            pkgs.iptables
+            pkgs.getent
+            pkgs.shadow
+          ]
+        }
+        wrapProgram $out/bin/tailscale --suffix PATH : ${pkgs.lib.makeBinPath [ pkgs.procps ]}
+        moveToOutput "bin/derper" "$derper"
+      '';
+    });
 
     in
     lib.mkMerge [
       (lib.mkIf (config.boot.initrd.network.enable && !config.yomaq.disks.amReinstalling && cfg.enable) {
 
-        nixpkgs.overlays = [ TailscaleWrappedOverlay ];
-
-        yomaq.initrd-tailscale.package = pkgs.tailscale-wrapped;
+        yomaq.initrd-tailscale.package = tailscale-wrapped;
 
         boot.initrd.kernelModules = [ "tun" ];
         boot.initrd.availableKernelModules = [
@@ -103,7 +100,7 @@ in
         boot.initrd.extraUtilsCommands = ''
           copy_bin_and_libs ${cfg.package}/bin/.tailscaled-wrapped
           copy_bin_and_libs ${cfg.package}/bin/.tailscale-wrapped
-          copy_bin_and_libs ${pkgs.iproute}/bin/ip
+          copy_bin_and_libs ${pkgs.iproute2}/bin/ip
           copy_bin_and_libs ${iptables-static}/bin/iptables
           copy_bin_and_libs ${iptables-static}/bin/ip6tables
           copy_bin_and_libs ${iptables-static}/bin/xtables-legacy-multi
@@ -132,8 +129,8 @@ in
       })
     ];
 
-  # ### for systemd networking. the old script based initrd network is slowly being phased out
-  # ### not tested yet, just starting to prep what I expect is needed.
+  ### for systemd networking. the old script based initrd network is slowly being phased out
+  ### not tested yet, just starting to prep what I expect is needed.
 
   # boot.initrd.systemd.storePaths = [
   #   "${cfg.package}/bin/.tailscaled-wrapped"

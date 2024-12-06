@@ -53,6 +53,5 @@
     gnomeOptions.enable = true;
     vscode.enable = true;
     alacritty.enable = true;
-    nixvim.enable = true;
   };
 }

@@ -171,7 +171,7 @@ in
       environment.systemPackages = [ pkgs.zfs-prune-snapshots ];
       boot = {
         # Newest kernels might not be supported by ZFS
-        kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+        # kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
         # ZFS does not support swapfiles, disable hibernate and set cache max
         kernelParams = [
           "nohibernate"
@@ -431,7 +431,7 @@ in
       fileSystems."/persist/save".neededForBoot = true;
     })
     (lib.mkIf (cfg.zfs.root.impermanenceRoot) {
-      boot.initrd.postDeviceCommands =
+      boot.initrd.postResumeCommands =
         #wipe / and /var on boot
         lib.mkAfter ''
           zfs rollback -r zroot/root@empty
