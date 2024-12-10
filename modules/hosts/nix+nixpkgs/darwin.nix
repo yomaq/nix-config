@@ -23,7 +23,6 @@ in
       };
       #Nix Store config, hard linking identical dependancies etc.
       settings = {
-        auto-optimise-store = true;
         allowed-users = [ "carln" ];
       };
     };

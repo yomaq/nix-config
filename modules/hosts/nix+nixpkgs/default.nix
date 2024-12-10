@@ -29,12 +29,11 @@ in
       # This will additionally add your inputs to the system's legacy channels
       # Making legacy nix commands consistent as well
       nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
-
+      
+      optimise.automatic = true;
       settings = {
         # Enable flakes and new 'nix' command
         experimental-features = "nix-command flakes";
-        # Deduplicate and optimize nix store
-        auto-optimise-store = true;
         # Add community cache
         substituters = [
           "https://nix-community.cachix.org"
