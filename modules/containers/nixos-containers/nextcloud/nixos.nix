@@ -124,7 +124,7 @@ in
         environment.etc."nextcloud-admin-pass".text = "asdhasd&!@@SDa";
         services.nextcloud = {
           enable = true;
-          package = pkgs.nextcloud28;
+          package = pkgs.nextcloud30;
           hostName = "${hostName}-${NAME}.${tailnetName}.ts.net";
           config.adminpassFile = "/etc/nextcloud-admin-pass";
           configureRedis = true;
