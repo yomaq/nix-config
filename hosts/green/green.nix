@@ -15,7 +15,7 @@
   ];
   config = {
     networking.hostName = "green";
-    system.stateVersion = "23.05";
+    system.stateVersion = "23.11";
 
     yomaq = {
       autoUpgrade.enable = true;
@@ -26,12 +26,9 @@
           "--ssh=true"
           "--reset=true"
           "--accept-dns=true"
-          "--advertise-exit-node=true"
         ];
         useRoutingFeatures = "server";
       };
-      glances.enable = lib.mkForce false;
-      _1password.enable = true;
       timezone.central = true;
       suites = {
         basics.enable = true;
@@ -43,11 +40,11 @@
         systemd-boot = true;
         initrd-ssh = {
           enable = true;
-          ethernetDrivers = [ "e1000e" ];
+          ethernetDrivers = [ "r8169" ];
         };
         zfs = {
           enable = true;
-          hostID = "2C2883D7";
+          hostID = "cefcf5c9";
           root = {
             disk1 = "nvme0n1";
             impermanenceRoot = true;
