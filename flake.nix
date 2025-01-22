@@ -117,11 +117,11 @@
             };
             modules = [ ./hosts/smalt ];
           };
-          # green = nixpkgs.lib.nixosSystem {
-          #   system = "x86_64-linux";
-          #   specialArgs = { inherit inputs; }; 
-          #   modules = [ ./hosts/green ];
-          # };
+          green = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = { inherit inputs; }; 
+            modules = [ ./hosts/green ];
+          };
           pearl = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             specialArgs = {
