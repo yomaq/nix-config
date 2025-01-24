@@ -36,7 +36,7 @@
     # nixos on wsl
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     # lix
-    lix.url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.1-2.tar.gz";
+    lix.url = "https://git.lix.systems/lix-project/nixos-module/archive/2.92.0.tar.gz";
     lix.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
