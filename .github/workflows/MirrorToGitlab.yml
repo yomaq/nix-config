@@ -1,6 +1,9 @@
 name: Mirroring
 
-on: [ push, delete ]
+on:
+  push: []
+  repository_dispatch:
+    types: [lock-update]
 
 jobs:
   to_gitlab:

@@ -28,9 +28,7 @@ jobs:
       with:
         commit_message: "Update flake.lock"
         file_pattern: "flake.lock"
-    - uses: actions/checkout@v4
-    - uses: keninkujovic/gitlab-sync@2.0.0
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v3
       with:
-        gitlab_url: https://gitlab.com/yomaq2/nix-config.git
-        username: ${{ secrets.USERNAME }}
-        gitlab_pat: ${{ secrets.GITLAB_PAT }}
+        event-type: lock-update
