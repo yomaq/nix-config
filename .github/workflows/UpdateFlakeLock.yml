@@ -28,6 +28,7 @@ jobs:
       with:
         commit_message: "Update flake.lock"
         file_pattern: "flake.lock"
+    - uses: actions/checkout@v4
     - uses: keninkujovic/gitlab-sync@2.0.0
       with:
         gitlab_url: https://gitlab.com/yomaq2/nix-config.git
