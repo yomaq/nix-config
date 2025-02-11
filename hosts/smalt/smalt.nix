@@ -15,8 +15,6 @@
     (inputs.self + /users/admin)
     # hardware
     inputs.nixos-hardware.nixosModules.common-cpu-amd
-    inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
-    inputs.nixos-hardware.nixosModules.common-gpu-amd
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
   config = {
