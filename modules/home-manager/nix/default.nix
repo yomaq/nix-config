@@ -25,7 +25,4 @@
     };
   };
   xdg.configFile."nixpkgs/config.nix".text = ''{ allowUnfree = true; }'';
-
-  # set home-manager to replace existing files on activation
-  home-manager.backupFileExtension = "backup";
 }
