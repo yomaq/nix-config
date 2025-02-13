@@ -52,12 +52,21 @@
         physicalInterfaceName = "eno1";
       };
       docker.enable = true;
-      nixos-containers = {
-        tailscale-exitnode.enable = true;
-      };
       pods = {
-        # tailscaled.exitnode.TSargs = "--advertise-exit-node";
-        minecraftBedrock.minecrafthome.enable = true;
+        minecraftBedrock.minecrafthome = {
+          enable = true;
+          envVariables =  {
+            "version" = "1.21.60.10";
+            "EULA" = "TRUE";
+            "gamemode" = "survival";
+            "difficulty" = "hard";
+            "allow-cheats" = "true";
+            "max-players" = "10";
+            "view-distance" = "50";
+            "tick-distance" = "4";
+            "TEXTUREPACK_REQUIRED" = "true";
+          };
+        };
         factorio.factoriotwo.enable = true;
         factorio.factoriothree.enable = true;
         satisfactory.satisfactoryhome.enable = true;
