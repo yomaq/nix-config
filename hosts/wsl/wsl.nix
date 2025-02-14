@@ -21,30 +21,16 @@
 
     wsl.enable = true;
     wsl.defaultUser = "admin";
-    # wsl.useWindowsDriver = true;
+    wsl.useWindowsDriver = true;
 
 
-    # hardware.nvidia-container-toolkit.enable = true;
-    # virtualisation.docker.enableOnBoot = true;
 
-    # # Also enable OpenGL
-    # hardware.opengl = {
-    #   enable = true;
-    #   driSupport = true;
-    #   driSupport32Bit = true;
-    # };
-
-    # environment.systemPackages = with pkgs; [
-    #   cudaPackages.cudatoolkit
-    #   linuxPackages.nvidia_x11
-    #   cudaPackages.cudnn
-    # ];
-    # # programs.zsh.shellInit = ''
-    # #   export CUDA_PATH=${pkgs.cudaPackages.cudatoolkit}
-    # #   export LD_LIBRARY_PATH=/usr/lib/wsl/lib:${pkgs.linuxPackages.nvidia_x11}/lib:${pkgs.ncurses5}/lib
-    # #   export EXTRA_LDFLAGS="-L/lib -L${pkgs.linuxPackages.nvidia_x11}/lib"
-    # #   export EXTRA_CCFLAGS="-I/usr/include"
-    # # '';
+    services.open-webui.enable = true;
+    services.ollama = {
+      enable = true;
+      acceleration = "cuda";
+      loadModels = [ "deepseek-r1:7b" ];
+    };
 
     yomaq = {
       tailscale = {
@@ -56,11 +42,11 @@
         useRoutingFeatures = "client";
         authKeyFile = null;
       };
-
-      # docker.enable = true;
-      # pods = {
-      # };
-
+      nvidia = {
+        enable = true;
+        wsl = true;
+      };
+      docker.enable = true;
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
       timezone.central = true;

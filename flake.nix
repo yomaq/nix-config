@@ -125,13 +125,13 @@
             };
             modules = [ ./hosts/pearl ];
           };
-          # wsl = nixpkgs.lib.nixosSystem {
-          #   system = "x86_64-linux";
-          #   specialArgs = {
-          #     inherit inputs;
-          #   };
-          #   modules = [ ./hosts/wsl ];
-          # };
+          wsl = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = {
+              inherit inputs;
+            };
+            modules = [ ./hosts/wsl ];
+          };
         };
         # Nix-darwin configuration entrypoint
         # Available through 'darwin-rebuild switch --flake .#your-hostname'
