@@ -92,13 +92,13 @@
             };
             modules = [ ./hosts/azure ];
           };
-          carob = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            specialArgs = {
-              inherit inputs;
-            };
-            modules = [ ./hosts/carob ];
-          };
+          # carob = nixpkgs.lib.nixosSystem {
+          #   system = "x86_64-linux";
+          #   specialArgs = {
+          #     inherit inputs;
+          #   };
+          #   modules = [ ./hosts/carob ];
+          # };
           teal = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             specialArgs = {
