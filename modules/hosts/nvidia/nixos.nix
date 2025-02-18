@@ -48,6 +48,7 @@ in
         mount-nvidia-executables = lib.mkIf cfg.wsl false;
       };
       virtualisation.docker = lib.mkIf cfg.wsl {
+        # also must run `nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml`
         daemon.settings.features.cdi = true;
         daemon.settings.cdi-spec-dirs = ["/etc/cdi"];
       };

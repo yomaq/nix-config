@@ -19,19 +19,14 @@
     networking.hostName = "wsl";
     system.stateVersion = "24.05";
 
+    # autostarting wsl with a scheduled task to launch at startup with the command `wsl.exe dbus-launch true`
+    # based off https://guides.hakedev.com/wiki/windows/WSL/wsl-auto-start/
+
     wsl.enable = true;
     wsl.defaultUser = "admin";
     wsl.useWindowsDriver = true;
 
-
-
-    services.open-webui.enable = true;
-    services.ollama = {
-      enable = true;
-      acceleration = "cuda";
-      loadModels = [ "deepseek-r1:7b" ];
-    };
-
+    environment.systemPackages = [pkgs.dbus];
     yomaq = {
       tailscale = {
         enable = true;
@@ -47,6 +42,10 @@
         wsl = true;
       };
       docker.enable = true;
+      pods = {
+        ollama.enable = true;
+        open-webui.enable = true;
+      };
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
       timezone.central = true;
