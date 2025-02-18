@@ -47,6 +47,10 @@ in
         enable = true;
         mount-nvidia-executables = lib.mkIf cfg.wsl false;
       };
+      virtualisation.docker = lib.mkIf cfg.wsl {
+        daemon.settings.features.cdi = true;
+        daemon.settings.cdi-spec-dirs = ["/etc/cdi"];
+      };
     })
   ];
 }
