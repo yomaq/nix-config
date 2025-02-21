@@ -44,7 +44,6 @@
       docker.enable = true;
       pods = {
         ollama.enable = true;
-        open-webui.enable = true;
       };
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];

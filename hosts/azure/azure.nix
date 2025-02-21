@@ -48,6 +48,13 @@
         semaphore.enable = true;
         changedetection.enable = true;
         linkwarden.enable = true;
+        n8n.enable = true;
+        open-webui = {
+          enable = true;
+          env = { 
+            "OLLAMA_BASE_URL" = "https://wsl-ollama.${config.yomaq.tailscale.tailnetName}.ts.net"; 
+          };
+        };
       };
       nixos-containers = {
         nextcloud = {
