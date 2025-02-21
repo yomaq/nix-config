@@ -82,7 +82,7 @@ in
       {
         name = "${hostName}-${NAME}";
         group = "webapps";
-        url = "http://${hostName}-${NAME}.${tailnetName}.ts.net/:11434";
+        url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
         interval = "5m";
         conditions = [ "[STATUS] == 200" ];
         alerts = [
