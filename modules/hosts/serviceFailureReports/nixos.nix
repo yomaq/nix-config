@@ -68,6 +68,9 @@ in
           };
           path = with pkgs; [
             jq
+            curl
+            systemd
+            coreutils
           ];
           scriptArgs = "%I";
           script = ''
