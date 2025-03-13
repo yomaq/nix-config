@@ -13,6 +13,7 @@ in
   config = lib.mkIf cfg.enable {
     yomaq = {
       glances.enable = true;
+      monitorServices.enable = true;
     };
   };
 }
