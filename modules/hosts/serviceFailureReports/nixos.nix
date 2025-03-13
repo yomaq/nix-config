@@ -154,7 +154,15 @@ in {
         "L+ /var/lib/systemd/yomaq-monitor/${service}.conf - - - - ${(pkgs.writeText "yomaqMonitor${service}.conf" ''
           SERVICE_PRIORITY=${cfg.priority}
           SERVICE_TOPIC=${cfg.topic}
-          SERVICE_RESTART_THRESHOLD=${toString (config.systemd.services.${service}.serviceConfig.StartLimitBurst or 5)}
+          SERVICE_RESTART_THRESHOLD=${toString (
+            let 
+              restartSetting = config.systemd.services.${service}.serviceConfig.Restart or "no";
+              willRestartOnFailure = restartSetting == "always" || restartSetting == "on-failure";
+            in
+              if !willRestartOnFailure
+              then 1
+              else (config.systemd.services.${service}.serviceConfig.StartLimitBurst or 5)
+          )}
         '')}"
       ) cfg.services);
   };
