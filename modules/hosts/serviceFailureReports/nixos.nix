@@ -53,9 +53,6 @@ in {
   };
   
   config = lib.mkIf cfg.enable {
-    # Configure journal settings for better logging
-    services.journald.rateLimitBurst = 1000;
-    services.journald.rateLimitInterval = "1s";
     systemd.services = {
       "yomaq-monitor@" = {
         description = "Handles service failures and sends ntfy notifications";
