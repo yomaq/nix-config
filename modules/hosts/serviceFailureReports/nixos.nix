@@ -18,13 +18,11 @@ in {
       default = "https://wsl-ollama.sable-chimaera.ts.net";
       description = "URL for the Ollama API endpoint";
     };
-    
     ollamaModel = lib.mkOption {
       type = lib.types.str;
       default = "llama3.1:8b";
       description = "Model to use for Ollama API requests";
     };
-    
     ntfyBaseUrl = lib.mkOption {
       type = lib.types.str;
       default = "https://azure-ntfy.sable-chimaera.ts.net";
@@ -58,7 +56,6 @@ in {
         description = "Handles service failures and sends ntfy notifications";
         serviceConfig = {
           Type = "oneshot";
-          # Add explicit permissions to ensure script can access files
           ReadWritePaths = [ "/var/lib/systemd/yomaq-monitor" ];
           EnvironmentFile = "/var/lib/systemd/yomaq-monitor/%i.conf";
         };
@@ -142,8 +139,7 @@ in {
         value = createMonitoredService service;
       }) (builtins.attrNames cfg.services)
     );
-    
-    # Configure tmpfiles.d rules with proper formatting
+
     systemd.tmpfiles.rules = [
       "d /var/lib/systemd/yomaq-monitor 0755 root root -"
     ] ++ (lib.mapAttrsToList

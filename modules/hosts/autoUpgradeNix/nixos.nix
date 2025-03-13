@@ -59,6 +59,8 @@ in
       # ${lib.getExe pkgs.curl} -X POST ${config.yomaq.gatus.url}/api/v1/endpoints/Nixos-Host-Auto-Rebuilds_${hostName}/external?success=false -H "Authorization: Bearer nixos"
     };
 
+    yomaq.monitorServices.services.nixos-upgrade.priority = "high"; 
+
     ### not working, need to test more
     # yomaq.gatus.externalEndpoints = [{
     #   name = "${hostName}";
