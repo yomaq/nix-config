@@ -129,5 +129,14 @@ in
     # yomaq.homepage.widgets = lib.flatten (map homepageWidgets containersList);
     yomaq.homepage.services = [ { minecraft = lib.flatten (map homepageServices containersList); } ];
     yomaq.homepage.settings.layout.minecraft.tab = "Services";
+
+    yomaq.monitorServices.services = lib.mkMerge (
+      lib.mapAttrsToList (name: _: {
+        "docker-${name}" = {
+          priority = "medium";
+        };
+      }) cfg
+    );
+
   };
 }

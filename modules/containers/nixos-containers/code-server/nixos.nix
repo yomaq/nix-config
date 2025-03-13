@@ -40,6 +40,8 @@ in
       }
     ];
 
+    yomaq.monitorServices.services."container@${hostName}-${NAME}".priority = "medium";
+
     #will still need to set the network device name manually
     yomaq.network.useBr0 = true;
 

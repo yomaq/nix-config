@@ -98,5 +98,14 @@ in
       lib.mapAttrsToList (name: cfg: mkTmpfilesRules name cfg) config.yomaq.pods.${NAME}
     );
     virtualisation.oci-containers.containers = lib.mapAttrs mkContainer config.yomaq.pods.${NAME};
+
+    yomaq.monitorServices.services = lib.mkMerge (
+      lib.mapAttrsToList (name: _: {
+        "docker-${name}" = {
+          priority = "medium";
+        };
+      }) cfg
+    );
+
   };
 }

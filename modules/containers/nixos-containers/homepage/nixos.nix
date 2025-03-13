@@ -49,6 +49,8 @@ in
       }
     ];
 
+    yomaq.monitorServices.services."container@${hostName}-${NAME}".priority = "medium";
+
     systemd.tmpfiles.rules = [ "d ${cfg.storage}/nixos-containers/${NAME}/tailscale" ];
 
     #will still need to set the network device name manually

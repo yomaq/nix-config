@@ -116,5 +116,7 @@ in
     virtualisation.oci-containers.containers = lib.mapAttrs mkContainer cfg;
     # yomaq.homepage.services = [{minecraft = lib.flatten (map homepageServices containersList);}];
     # yomaq.homepage.settings.layout.minecraft.tab = "Services";
+
+    yomaq.monitorServices.services."docker-${NAME}".priority = "medium";
   };
 }

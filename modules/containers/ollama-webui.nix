@@ -100,5 +100,6 @@ in
         ];
       }
     ];
+    yomaq.monitorServices.services."docker-${NAME}".priority = "medium";
   };
 }
