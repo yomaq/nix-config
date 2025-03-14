@@ -36,6 +36,7 @@ in
       type = lib.types.attrsOf lib.types.str;
       default = {
         "WEBHOOK_URL" = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+        "N8N_DIAGNOSTICS_ENABLED" = "false";
       };
       description = ''
         env options
