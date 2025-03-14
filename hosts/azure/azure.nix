@@ -48,6 +48,7 @@
         semaphore.enable = true;
         changedetection.enable = true;
         linkwarden.enable = true;
+        searxng.enable = true;
         n8n.enable = true;
         open-webui = {
           enable = true;
