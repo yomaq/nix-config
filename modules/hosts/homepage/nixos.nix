@@ -114,9 +114,10 @@ in
         }
         {
           search = {
-            provider = "brave";
+            provider = "custom";
+            url = "https://azure-searxng.sable-chimaera.ts.net/?q=";
             focus = true; # Optional, will set focus to the search bar on page load
-            showSearchSuggestions = true; # Optional, will show search suggestions. Defaults to false
+            # showSearchSuggestions = true; # Optional, will show search suggestions. Defaults to false
             target = "_blank"; # One of _self, _blank, _parent or _top
           };
         }
