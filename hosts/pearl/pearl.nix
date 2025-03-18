@@ -65,5 +65,30 @@
         };
       };
     };
+
+    # # Simple test service that fails every 5 seconds
+    # systemd.services.test-failure = {
+    #   description = "Test service that fails every 5 seconds";
+    #   wantedBy = [ "multi-user.target" ];
+      
+    #   serviceConfig = {
+    #     Type = "simple";
+    #     Restart = "always";
+    #     RestartSec = 5;
+    #   };
+      
+    #   script = ''
+    #     #!/bin/sh
+    #     echo "Test service running at $(date)"
+    #     echo "This service will now fail"
+    #     exit 1
+    #   '';
+    # };
+    
+    # # Add to monitoring
+    # yomaq.monitorServices.services.test-failure = {
+    #   topic = "test";
+    # };
+
   };
 }
