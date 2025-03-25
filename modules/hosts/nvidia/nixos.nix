@@ -11,7 +11,7 @@ let
 in
 {
   options.yomaq.nvidia = {
-    enable = lib.mkEnableOption (lib.mdDoc "Nvidia/Cuda Config");
+    enable = lib.mkEnableOption (lib.mdDoc "Nvidia/Cuda Config. Docker containers must be ran with --device=nvidia.com/gpu=all etc");
     wsl = lib.mkOption {
       type = lib.types.bool;
       default = false;
@@ -47,8 +47,19 @@ in
         enable = true;
         mount-nvidia-executables = lib.mkIf cfg.wsl false;
       };
+
+      systemd.services = {
+        nvidia-cdi-generator = lib.mkIf cfg.wsl {
+          description = "Generate nvidia cdi";
+          wantedBy = [ "docker.service" ];
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${pkgs.nvidia-docker}/bin/nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml --nvidia-ctk-path=${pkgs.nvidia-container-toolkit}/bin/nvidia-ctk";
+          };
+        };
+      };
+
       virtualisation.docker = lib.mkIf cfg.wsl {
-        # also must run `nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml`
         daemon.settings.features.cdi = true;
         daemon.settings.cdi-spec-dirs = ["/etc/cdi"];
       };
