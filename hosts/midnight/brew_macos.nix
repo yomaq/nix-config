@@ -18,6 +18,7 @@
         "nextcloud"
         "brave-browser"
         "zen-browser"
+        "obsidian"
       ];
       taps = [ "pulumi/tap" ];
       brews = [
