@@ -8,7 +8,7 @@
   containers = lib.mkForce { };
 
   packages = with pkgs; [
-    _1password
+    _1password-cli
     nixfmt-rfc-style
   ];
 
