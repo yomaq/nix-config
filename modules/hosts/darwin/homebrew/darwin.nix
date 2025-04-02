@@ -18,10 +18,8 @@ in
     };
   };
   config = lib.mkIf cfg.enable {
-    #Some programs don't have nix packages available, so making use of Homebrew is needed, sadly there is also no way of installing home brew through nix
     homebrew = {
       brewPrefix = "/opt/homebrew/bin";
-      brews = [ "mas" ];
       enable = true;
       onActivation = {
         autoUpdate = true;
@@ -43,6 +41,7 @@ in
       ];
       taps = [ "pulumi/tap" ];
       brews = [
+        "mas"
         "pulumi"
         "pulumi/tap/crd2pulumi"
         "pulumi/tap/kube2pulumi"
