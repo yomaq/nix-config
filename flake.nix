@@ -143,6 +143,13 @@
             system = "aarch64-darwin";
             modules = [ ./hosts/midnight ];
           };
+           pewter = nix-darwin.lib.darwinSystem {
+            specialArgs = {
+              inherit inputs;
+            };
+            system = "aarch64-darwin";
+            modules = [ ./hosts/pewter ];
+          };         
         };
         # Standalone home-manager configuration entrypoint
         # Available through 'home-manager --flake .#your-username@your-hostname'

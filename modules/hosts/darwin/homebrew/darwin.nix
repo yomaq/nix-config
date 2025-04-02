@@ -29,5 +29,24 @@ in
         upgrade = true;
       };
     };
+    homebrew = {
+      casks = [
+        "moonlight"
+        "raycast"
+        "arc"
+        "linearmouse"
+        "spotify"
+        "nextcloud"
+        "brave-browser"
+        "zen-browser"
+        "obsidian"
+      ];
+      taps = [ "pulumi/tap" ];
+      brews = [
+        "pulumi"
+        "pulumi/tap/crd2pulumi"
+        "pulumi/tap/kube2pulumi"
+      ];
+    };
   };
 }

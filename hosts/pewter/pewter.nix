@@ -6,7 +6,7 @@
   ...
 }:
 let
-  hostname = "midnight";
+  hostname = "pewter";
 in
 {
   imports = [
@@ -14,7 +14,6 @@ in
     inputs.self.darwinModules.yomaq
     { home-manager.useUserPackages = true; }
   ];
-
   config = {
     system.stateVersion = 4;
     networking = {
@@ -29,15 +28,6 @@ in
         };
       };
     };
-    home-manager = {
-      extraSpecialArgs = {
-        inherit inputs;
-      };
-      users = {
-        # Import your home-manager configuration
-        carln = import ../../users/carln/homeManager;
-      };
-    };
     yomaq = {
       yabai.enable = true;
       tailscale.enable = true;
@@ -49,20 +39,20 @@ in
       };
       agenix.enable = lib.mkDefault false;
     };
-    #User specific settings, eventually plan to create the user account itself through Nix as well
-    users = {
-      users = {
-        carln = {
-          home = {
-            _type = "override";
-            content = /Users/carln;
-            priority = 50;
-          };
-          name = "carln";
-          shell = pkgs.zsh;
-        };
+    users.users.carln = {
+      home = {
+        _type = "override";
+        content = /Users/carln;
+        priority = 50;
       };
+      name = "carln";
+      shell = pkgs.zsh;
     };
-
+    home-manager = {
+      extraSpecialArgs = {
+        inherit inputs;
+      };
+      users.carln = import ../../users/carln/homeManager;
+    };
   };
 }
