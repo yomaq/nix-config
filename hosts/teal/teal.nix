@@ -49,6 +49,7 @@
         useBr0 = true;
         physicalInterfaceName = "eno2";
       };
+      nixos-containers.openvscode.enable = true;
       timezone.central = true;
       syncoid.enable = true;
       suites = {
