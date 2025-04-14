@@ -75,13 +75,13 @@
         # NixOS configuration entrypoint
         # Available through 'nixos-rebuild switch --flake .#your-hostname'
         nixosConfigurations = {
-          blue = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            specialArgs = {
-              inherit inputs;
-            };
-            modules = [ ./hosts/blue ];
-          };
+          # blue = nixpkgs.lib.nixosSystem {
+          #   system = "x86_64-linux";
+          #   specialArgs = {
+          #     inherit inputs;
+          #   };
+          #   modules = [ ./hosts/blue ];
+          # };
           azure = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             specialArgs = {
