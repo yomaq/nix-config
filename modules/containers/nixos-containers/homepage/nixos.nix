@@ -93,6 +93,9 @@ in
           homepage.enable = true;
         };
         services.homepage-dashboard.enable = true;
+        systemd.services.homepage-dashboard.serviceConfig.Environment = [
+          "HOMEPAGE_ALLOWED_HOSTS=${hostName}-${NAME}.${tailnetName}.ts.net"
+        ];
 
         systemd.tmpfiles.rules = [ "d /etc/homepage-dashboard/logs" ];
         services.caddy = {
