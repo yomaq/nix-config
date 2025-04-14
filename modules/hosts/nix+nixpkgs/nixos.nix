@@ -10,7 +10,6 @@ let
   cfg = config.yomaq.nixSettings;
 in
 {
-  imports = [ inputs.lix.nixosModules.default ];
   config = lib.mkIf cfg.enable {
     nix = {
       gc = {
