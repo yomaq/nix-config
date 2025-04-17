@@ -10,7 +10,6 @@
   imports = [
     # import custom modules
     inputs.self.nixosModules.yomaq
-    inputs.self.users.yomaq
     # hardware
     (modulesPath + "/installer/scan/not-detected.nix")
     inputs.nixos-hardware.nixosModules.common-pc

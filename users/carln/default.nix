@@ -58,6 +58,13 @@ in
       vscode.enable = true;
       alacritty.enable = true;
     };
+    programs = {
+      git = {
+        enable = true;
+        userEmail = "yomaq@bsjm.xyz";
+        userName = "yomaq";
+      };
+    };
     home.file.onePassword = {
       enable = true;
       target = ".config/1Password/ssh/agent.toml";

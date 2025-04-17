@@ -11,7 +11,6 @@
     # import custom modules
     inputs.self.nixosModules.yomaq
     inputs.self.nixosModules.pods
-    inputs.self.users.yomaq
     inputs.nixos-wsl.nixosModules.default
   ];
   config = {

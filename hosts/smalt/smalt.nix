@@ -11,7 +11,6 @@
     # import custom modules
     inputs.self.nixosModules.yomaq
     inputs.self.nixosModules.pods
-    inputs.self.users.yomaq
     # hardware
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     (modulesPath + "/installer/scan/not-detected.nix")
