@@ -18,17 +18,15 @@
         value = {
           home = {
             _type = "override";
-            content = /Users/carln "${username}";
+            content = "/Users/${username}";
             priority = 50;
           };
-          groups =
-            if config.yomaq.users.users.${username}.isRoot or false then
-              [
-                "staff"
-                "admin"
-              ]
+          gid = 
+            if config.yomaq.users.users.${username}.isRoot then
+              80 
             else
-              [ "staff" ];
+              20;
+          shell = pkgs.zsh;
         };
       }) config.yomaq.users.enableUsers
     );

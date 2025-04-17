@@ -29,6 +29,8 @@ in
       };
     };
     yomaq = {
+      users.enableUsers = [ "carln" ];
+
       yabai.enable = true;
       tailscale.enable = true;
       _1password.enable = true;
@@ -38,21 +40,6 @@ in
         foundation.enable = true;
       };
       agenix.enable = lib.mkDefault false;
-    };
-    users.users.carln = {
-      home = {
-        _type = "override";
-        content = /Users/carln;
-        priority = 50;
-      };
-      name = "carln";
-      shell = pkgs.zsh;
-    };
-    home-manager = {
-      extraSpecialArgs = {
-        inherit inputs;
-      };
-      users.carln = import ../../users/carln/homeManager;
     };
   };
 }

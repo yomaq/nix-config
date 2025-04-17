@@ -7,9 +7,7 @@
   ...
 }:
 {
-  imports = [
-    inputs.home-manager.nixosModules.home-manager
-  ];
+  imports = [];
 
   options.yomaq.users = {
     enableUsers = lib.mkOption {

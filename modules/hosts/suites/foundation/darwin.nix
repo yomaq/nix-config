@@ -12,7 +12,6 @@ in
   config = lib.mkIf cfg.enable {
     yomaq = {
       macosSettings.enable = true;
-      homebrew.enable = true;
     };
   };
 }
