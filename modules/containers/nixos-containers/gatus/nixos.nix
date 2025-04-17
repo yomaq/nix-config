@@ -67,12 +67,12 @@ in
       config = {
         imports = [
           inputs.self.nixosModules.yomaq
-          (inputs.self + /users/admin)
         ];
         system.stateVersion = stateVersion;
         age.identityPaths = [ "/etc/ssh/${hostName}" ];
 
         yomaq = {
+          users.enableUsers = [ "admin" ];
           suites = {
             container.enable = true;
           };

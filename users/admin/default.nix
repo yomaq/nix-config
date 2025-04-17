@@ -27,7 +27,7 @@ in
     };
     homebrew = { };
   };
-  home-manager.users."${USER}" = {
+  home-manager.users."${USER}" = lib.mkIf (lib.elem USER config.yomaq.users.enableUsers) {
     yomaq = {
       suites.basic.enable = true;
     };
