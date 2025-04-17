@@ -11,8 +11,7 @@
     # import custom modules
     inputs.self.nixosModules.yomaq
     inputs.self.nixosModules.pods
-    # import users
-    (inputs.self + /users/admin)
+    inputs.self.users.yomaq
     inputs.nixos-wsl.nixosModules.default
   ];
   config = {
@@ -27,7 +26,10 @@
     wsl.useWindowsDriver = true;
 
     environment.systemPackages = [pkgs.dbus];
+    
     yomaq = {
+      users.enableUsers = [ "admin" ];
+
       tailscale = {
         enable = true;
         extraUpFlags = [

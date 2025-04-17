@@ -11,8 +11,7 @@
     # import custom modules
     inputs.self.nixosModules.yomaq
     inputs.self.nixosModules.pods
-    # import users
-    (inputs.self + /users/admin)
+    inputs.self.users.yomaq
     # hardware
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-cpu-intel-cpu-only
@@ -32,6 +31,8 @@
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
     yomaq = {
+      users.enableUsers = [ "admin" ];
+      
       autoUpgrade.enable = true;
       primaryUser.users = [
         "carln"

@@ -11,8 +11,7 @@
     # import custom modules
     inputs.self.nixosModules.yomaq
     inputs.self.nixosModules.pods
-    # import users
-    (inputs.self + /users/admin)
+    inputs.self.users.yomaq
     # hardware
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -32,6 +31,8 @@
     hardware.enableRedistributableFirmware = lib.mkDefault true;
 
     yomaq = {
+      users.enableUsers = [ "admin" ];
+
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
       tailscale = {

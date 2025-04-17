@@ -11,12 +11,11 @@
     # import custom modules
     inputs.self.nixosModules.yomaq
     inputs.self.nixosModules.pods
+    inputs.self.users.yomaq
     # import hardware
     (modulesPath + "/installer/scan/not-detected.nix")
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-pc-laptop
-    # import users
-    (inputs.self + /users/admin)
   ];
   config = {
     networking.hostName = "azure";
@@ -32,6 +31,8 @@
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
     yomaq = {
+      users.enableUsers = [ "admin" ];
+      
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
       tailscale = {

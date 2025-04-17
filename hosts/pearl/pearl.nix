@@ -10,8 +10,7 @@
   imports = [
     # import custom modules
     inputs.self.nixosModules.yomaq
-    # import users
-    (inputs.self + /users/admin)
+    inputs.self.users.yomaq
     # hardware
     (modulesPath + "/installer/scan/not-detected.nix")
     inputs.nixos-hardware.nixosModules.common-pc
@@ -32,6 +31,9 @@
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
     yomaq = {
+
+      users.enableUsers = [ "admin" ];
+
       tailscale = {
         enable = true;
         extraUpFlags = [
@@ -65,30 +67,5 @@
         };
       };
     };
-
-    # # Simple test service that fails every 5 seconds
-    # systemd.services.test-failure = {
-    #   description = "Test service that fails every 5 seconds";
-    #   wantedBy = [ "multi-user.target" ];
-      
-    #   serviceConfig = {
-    #     Type = "simple";
-    #     Restart = "always";
-    #     RestartSec = 5;
-    #   };
-      
-    #   script = ''
-    #     #!/bin/sh
-    #     echo "Test service running at $(date)"
-    #     echo "This service will now fail"
-    #     exit 1
-    #   '';
-    # };
-    
-    # # Add to monitoring
-    # yomaq.monitorServices.services.test-failure = {
-    #   topic = "test";
-    # };
-
   };
 }

@@ -2,55 +2,69 @@
   config,
   lib,
   pkgs,
-  modulesPath,
   inputs,
   ...
 }:
 let
-  inherit (config.yomaq.impermanence) dontBackup;
+  USER = "carln";
 in
 {
-  imports = [ inputs.home-manager.nixosModules.home-manager ];
-  age.secrets.carln.file = (inputs.self + /secrets/carln.age);
-
-  users.mutableUsers = false;
-
-  users.users.carln = {
-    shell = pkgs.zsh;
-    isNormalUser = true;
-    description = "carln";
-    hashedPasswordFile = config.age.secrets.carln.path;
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-    ];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI"
-    ];
-    packages = with pkgs; [ ];
-  };
-
-  environment.persistence."${dontBackup}" = {
-    users.carln = {
-      directories = [
-        "nix"
-        "documents"
-        ".var"
-        ".config"
-        ".local"
+  yomaq.users.users."${USER}" = {
+    isRoot = true;
+    hasNixosPassword = true;
+    nixpkgs = {
+      common = with pkgs; [
+        pkgs.tailscale
+        pkgs.discord
+        pkgs.alacritty
+        pkgs.vim
+        pkgs.kubectl
+        pkgs.nerdfonts
+        pkgs.kubernetes-helm
+        pkgs.git
       ];
-      files = [ ];
+      nixos = with pkgs; [
+        pkgs.nextcloud-client
+        pkgs.steam
+        pkgs.brave
+        pkgs.xwaylandvideobridge
+      ];
+    };
+    homebrew = {
+      casks = [
+        "moonlight"
+        "raycast"
+        "arc"
+        "linearmouse"
+        "spotify"
+        "nextcloud"
+        "brave-browser"
+        "zen-browser"
+        "obsidian"
+      ];
+      taps = [ "pulumi/tap" ];
+      brews = [
+        "mas"
+        "pulumi"
+        "pulumi/tap/crd2pulumi"
+        "pulumi/tap/kube2pulumi"
+      ];
     };
   };
-
-  home-manager = {
-    backupFileExtension = "backup";
-    extraSpecialArgs = {
-      inherit inputs;
+  home-manager.users."${USER}" = lib.mkIf (lib.elem USER config.yomaq.users.enableUsers) {
+    yomaq = {
+      suites.basic.enable = true;
+      gnomeOptions.enable = true;
+      vscode.enable = true;
+      alacritty.enable = true;
     };
-    users = {
-      # Import your home-manager configuration
-      carln = import ./homeManager;
+    home.file.onePassword = {
+      enable = true;
+      target = ".config/1Password/ssh/agent.toml";
+      text = ''
+        [[ssh-keys]]
+        vault = "ssh"
+      '';
     };
   };
 }
