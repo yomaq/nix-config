@@ -66,6 +66,7 @@
         ntfy.enable = true;
         healthchecks.enable = true;
         gatus.enable = true;
+        tsidp.enable = true;
       };
       syncoid = {
         isBackupServer = true;
