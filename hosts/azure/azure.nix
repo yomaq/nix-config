@@ -67,6 +67,7 @@
         healthchecks.enable = true;
         gatus.enable = true;
         tsidp.enable = true;
+        audiobookshelf.enable = true;
       };
       syncoid = {
         isBackupServer = true;
