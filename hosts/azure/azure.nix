@@ -43,6 +43,7 @@
       };
       docker.enable = true;
       pods = {
+        golink.enable = true;
         teslamate.enable = true;
         dufs.enable = true;
         semaphore.enable = true;
