@@ -394,6 +394,7 @@ in
                 type = "zfs_fs";
                 mountpoint = "/storage";
                 options = {
+                  mountpoint = "legacy";
                   atime = "off";
                   canmount = "on";
                   "com.sun:auto-snapshot" = "false";
@@ -403,6 +404,7 @@ in
                 type = "zfs_fs";
                 mountpoint = "/storage/save";
                 options = {
+                  mountpoint = "legacy";
                   atime = "off";
                   canmount = "on";
                   "com.sun:auto-snapshot" = "false";
@@ -412,6 +414,7 @@ in
                 type = "zfs_fs";
                 mountpoint = "/backups";
                 options = {
+                  mountpoint = "legacy";
                   atime = "off";
                   canmount = "on";
                   "com.sun:auto-snapshot" = "false";
