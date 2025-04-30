@@ -98,22 +98,31 @@ in
               type = "sqlite";
               path = "/var/lib/gatus/data/data.db";
             };
-            endpoints = [
-              {
-                name = "gatus";
-                group = "webapps";
-                url = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-                interval = "5m";
-                conditions = [ "[CONNECTED] == true" ];
-                # alerts = [
-                #   {
-                #     type = "ntfy";
-                #     failureThreshold = 3;
-                #     description = "default check";
-                #   }
-                # ];
-              }
-            ];
+            # endpoints = [
+            #   {
+            #     name = "gatus";
+            #     group = "test";
+            #     url = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+            #     interval = "5m";
+            #     conditions = [ "[CONNECTED] == true" ];
+            #     alerts = [
+            #       {
+            #         type = "ntfy";
+            #         failureThreshold = 3;
+            #         description = "default check";
+            #       }
+            #     ];
+            #   }
+            # ];
+            # external-endpoints = [{
+            #   name = "ext-ep-test";
+            #   group = "test";
+            #   token = "potato";
+            # }];        
+            # curl -X POST \
+            #   https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/test_ext-ep-test/external\?success\=true\&error\= \
+            #   -H 'Authorization: Bearer potato'
+            
             alerting = {
               ntfy = {
                 url = "${config.yomaq.ntfy.ntfyUrl}";

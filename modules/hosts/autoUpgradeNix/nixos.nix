@@ -48,16 +48,23 @@ in
       onSuccess = [ "nixos-upgrade-success.service" ];
     };
     systemd.services.nixos-upgrade-fail = lib.mkIf config.system.autoUpgrade.enable {
-      script = ''${lib.getExe pkgs.curl} -H "t: NixOS Flake host rebuild failure" ${config.yomaq.ntfy.defaultPriority} -d "${hostName} failed to rebuild" ${config.yomaq.ntfy.ntfyUrl}${config.yomaq.ntfy.defaultTopic}'';
-      #${lib.getExe pkgs.curl} -X POST ${config.yomaq.gatus.url}/api/v1/endpoints/Nixos-Host-Auto-Rebuilds_${hostName}/external?success=true -H "Authorization: Bearer nixos"
-
+      script = ''${lib.getExe pkgs.curl} -X POST \
+        https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/nixos-updates_${hostName}/external\?success\=false\&error\= \
+        -H 'Authorization: Bearer ${hostName}'
+      '';
     };
     systemd.services.nixos-upgrade-success = lib.mkIf config.system.autoUpgrade.enable {
-      script = ''${lib.getExe pkgs.curl} -fsS -m 10 --retry 5 ${
-        config.yomaq.healthcheckUrl.nixos-upgrade."${hostName}"
-      }'';
-      # ${lib.getExe pkgs.curl} -X POST ${config.yomaq.gatus.url}/api/v1/endpoints/Nixos-Host-Auto-Rebuilds_${hostName}/external?success=false -H "Authorization: Bearer nixos"
+      script = ''${lib.getExe pkgs.curl} -X POST \
+        https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/nixos-updates_${hostName}/external\?success\=true\&error\= \
+        -H 'Authorization: Bearer ${hostName}'
+      '';
     };
+
+    yomaq.gatus.externalEndpoints = [{
+      name = "${hostName}";
+      group = "nixos updates";
+      token = "${hostName}";
+    }];
 
     yomaq.monitorServices.services.nixos-upgrade.priority = "high"; 
 
