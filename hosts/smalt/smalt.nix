@@ -67,19 +67,7 @@
             "TEXTUREPACK_REQUIRED" = "true";
           };
         };
-        factorio.factoriotwo.enable = true;
-        factorio.factoriothree.enable = true;
-        satisfactory.satisfactoryhome.enable = true;
-        satisfactory.satisfactorytwo = {
-          enable = true;
-          envVariables = {
-            "MAXPLAYERS" = "8";
-            "STEAMBETA" = "false";
-            "AUTOSAVENUM" = "20";
-          };
-        };
       };
-
       # disk configuration
       disks = {
         enable = true;
