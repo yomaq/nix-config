@@ -14,7 +14,6 @@
   #     "my-microvm2"
   #   ];
 
-  
   #   microvm.vms = {
   #     my-microvm2 = {
   #       # The package set to use for the microvm. This also determines the microvm's architecture.
@@ -43,7 +42,7 @@
   #           source = "/etc/ssh";
   #           mountPoint = "/etc/ssh";
   #           tag = "a";
-  #           # proto = "virtiofs";    
+  #           # proto = "virtiofs";
   #         }
   #         ];
 
@@ -66,7 +65,6 @@
   #             inputs.self.overlays.pkgs-unstable
   #             inputs.agenix.overlays.default
   #           ];
-    
 
   #         yomaq = {
   #           zsh.enable = true;

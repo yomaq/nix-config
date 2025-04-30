@@ -12,14 +12,13 @@ in
 {
   imports = [ ];
   options.yomaq.tmux = {
-    enable =
-      lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = ''
-          enable custom tmux module
-        '';
-      };
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        enable custom tmux module
+      '';
+    };
   };
   config = lib.mkIf cfg.enable {
     programs = {

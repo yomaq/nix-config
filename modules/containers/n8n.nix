@@ -72,7 +72,10 @@ in
       TSserve = {
         "/" = "http://127.0.0.1:5678";
       };
-      tags = [ "tag:ollama-server" "tag:ollama-access" ];
+      tags = [
+        "tag:ollama-server"
+        "tag:ollama-access"
+      ];
     };
 
     yomaq.homepage.groups.services.services = [

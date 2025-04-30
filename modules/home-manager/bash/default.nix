@@ -12,14 +12,13 @@ in
 {
   imports = [ ];
   options.yomaq.bash = {
-    enable =
-      lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = ''
-          enable custom bash module
-        '';
-      };
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        enable custom bash module
+      '';
+    };
   };
   config = lib.mkIf cfg.enable {
     programs = {

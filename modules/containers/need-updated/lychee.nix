@@ -1,4 +1,11 @@
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 with lib;
 let
@@ -56,7 +63,7 @@ in
       "d ${cfg.volumeLocation}/conf 0755 4000 4000"
     ];
     virtualisation.oci-containers.containers = {
-### main container
+      ### main container
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
@@ -81,15 +88,19 @@ in
       };
     };
     yomaq.pods.tailscaled."TS${NAME}" = {
-      TSserve =  {"/" = "http://127.0.0.1:80";};
-      tags = ["tag:generichttps"];
+      TSserve = {
+        "/" = "http://127.0.0.1:80";
+      };
+      tags = [ "tag:generichttps" ];
     };
 
-    yomaq.homepage.groups.services.services = [{
-      Lychee = {
-        icon = "si-affinityphoto";
-        href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-      };
-    }];
+    yomaq.homepage.groups.services.services = [
+      {
+        Lychee = {
+          icon = "si-affinityphoto";
+          href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+        };
+      }
+    ];
   };
 }

@@ -21,11 +21,7 @@
             content = "/Users/${username}";
             priority = 50;
           };
-          gid = 
-            if config.yomaq.users.users.${username}.isRoot then
-              80 
-            else
-              20;
+          gid = if config.yomaq.users.users.${username}.isRoot then 80 else 20;
           shell = pkgs.zsh;
         };
       }) config.yomaq.users.enableUsers

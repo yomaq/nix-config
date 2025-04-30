@@ -1,4 +1,11 @@
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 with lib;
 let
@@ -6,7 +13,6 @@ let
   NAME = "pihole";
   IMAGE = "docker.io/pihole/pihole";
   tailscaleIMAGE = "ghcr.io/tailscale/tailscale";
-
 
   cfg = config.yomaq.pods.${NAME};
   inherit (config.networking) hostName;
@@ -74,22 +80,22 @@ in
     };
   };
 
-
-
-
   config = mkIf cfg.enable {
 
-  networking.firewall.allowedTCPPorts = [53];
-  networking.firewall.allowedUDPPorts = [53 67];
+    networking.firewall.allowedTCPPorts = [ 53 ];
+    networking.firewall.allowedUDPPorts = [
+      53
+      67
+    ];
 
     ### agenix secrets for container
     age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
     age.secrets."tailscaleEnvFile".file = cfg.tailscale.agenixSecret;
 
-  # make the directories where the volumes are stored
-  # it says "tmpfiles" but we don't add rules to remove the tmp file, so its... not tmp?
-  # https://discourse.nixos.org/t/creating-directories-and-files-declararively/9349
-  # storing volumes in the nix directory because we assume impermanance is wiping root
+    # make the directories where the volumes are stored
+    # it says "tmpfiles" but we don't add rules to remove the tmp file, so its... not tmp?
+    # https://discourse.nixos.org/t/creating-directories-and-files-declararively/9349
+    # storing volumes in the nix directory because we assume impermanance is wiping root
     systemd.tmpfiles.rules = [
       # pihole
       "d ${cfg.volumeLocation}/etc-pihole 0755 root root"
@@ -99,36 +105,34 @@ in
       "d ${cfg.volumeLocation}/TSdev-net-tun 0755 root root"
     ];
 
-
     virtualisation.oci-containers.containers = {
-# ### tailscale container
-#       "TS${NAME}" = {
-#         image = "${tailscaleIMAGE}:${cfg.tailscale.imageVersion}";
-#         autoStart = true;
-#         environment = {
-#         "TS_HOSTNAME" =cfg.tailscale.TShostname;
-#         "TS_STATE_DIR"= "/var/lib/tailscale";
-#         "TS_EXTRA_ARGS" = cfg.tailscale.TSargs;
-#         "TS_ACCEPT_DNS" = "true";
-#         };
-#         environmentFiles = [
-#           # need to set "TS_AUTHKEY=key" in agenix and import here
-#           config.age.secrets."tailscaleEnvFile".path
-#         ];
-#         volumes = [
-#           "${cfg.volumeLocation}/TSdata-lib:/var/lib"
-#           "${cfg.volumeLocation}/TSdev-net-tun:/dev/net/tun"
-#         ];
-#         extraOptions = [
-#           "--pull=newer"
-#           "--network=host"
-#           "--cap-add=NET_ADMIN"
-#           "--cap-add=NET_RAW"
-#         ];
-#       };
+      # ### tailscale container
+      #       "TS${NAME}" = {
+      #         image = "${tailscaleIMAGE}:${cfg.tailscale.imageVersion}";
+      #         autoStart = true;
+      #         environment = {
+      #         "TS_HOSTNAME" =cfg.tailscale.TShostname;
+      #         "TS_STATE_DIR"= "/var/lib/tailscale";
+      #         "TS_EXTRA_ARGS" = cfg.tailscale.TSargs;
+      #         "TS_ACCEPT_DNS" = "true";
+      #         };
+      #         environmentFiles = [
+      #           # need to set "TS_AUTHKEY=key" in agenix and import here
+      #           config.age.secrets."tailscaleEnvFile".path
+      #         ];
+      #         volumes = [
+      #           "${cfg.volumeLocation}/TSdata-lib:/var/lib"
+      #           "${cfg.volumeLocation}/TSdev-net-tun:/dev/net/tun"
+      #         ];
+      #         extraOptions = [
+      #           "--pull=newer"
+      #           "--network=host"
+      #           "--cap-add=NET_ADMIN"
+      #           "--cap-add=NET_RAW"
+      #         ];
+      #       };
 
-
-### pihole container
+      ### pihole container
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
@@ -136,7 +140,7 @@ in
           "TZ" = "America/Chicago";
         };
         environmentFiles = [
-           # need to set "WEBPASSWORD=password" in agenix and import here
+          # need to set "WEBPASSWORD=password" in agenix and import here
           config.age.secrets."${NAME}EnvFile".path
         ];
         volumes = [

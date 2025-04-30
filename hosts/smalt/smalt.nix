@@ -55,7 +55,7 @@
       pods = {
         minecraftBedrock.minecrafthome = {
           enable = true;
-          envVariables =  {
+          envVariables = {
             "version" = "1.21.60.10";
             "EULA" = "TRUE";
             "gamemode" = "survival";

@@ -175,7 +175,6 @@ in
   };
 }
 
-
 # This allows easy creation of tailscale containers to pair along side other dockerized services.
 # Configuration looks like:
 

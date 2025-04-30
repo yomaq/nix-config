@@ -1,11 +1,16 @@
 ####
 
-
 #### NOT WORKING
 
-
 ####
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 with lib;
 let
@@ -18,58 +23,60 @@ let
   inherit (config.yomaq.impermanence) dontBackup;
   inherit (config.yomaq.tailscale) tailnetName;
 
-  containerOpts = { name, config, ... }: 
+  containerOpts =
+    { name, config, ... }:
     let
       startsWithCADDY = substring 0 5 name == "CADDY";
       noCADDYname = if startsWithCADDY then substring 5 (-1) name else name;
     in
-  {
-    options = {
-      enable = mkOption {
-        type = types.bool;
-        default = false;
-        description = ''
-          enable custom ${NAME} container module
-        '';
-      };
-      volumeLocation = mkOption {
-        type = types.str;
-        default = "${dontBackup}/containers/caddy/${name}";
-        description = ''
-          path to store container volumes
-        '';
-      };
-      TSsockLocation = mkOption {
-        type = types.str;
-        default = "${dontBackup}/containers/tailscale/${noCADDYname}/tmp/tailscaled.sock";
-        description = ''
-          path to store container volumes
-        '';
-      };
-      imageVersion = mkOption {
-        type = types.str;
-        default = "latest";
-        description = ''
-          container image version
-        '';
-      };
-      caddyfile = mkOption {
-        type = types.str;
-        default = "";
-        description = ''
-          caddyfile
-        '';
-        example = "";
+    {
+      options = {
+        enable = mkOption {
+          type = types.bool;
+          default = false;
+          description = ''
+            enable custom ${NAME} container module
+          '';
+        };
+        volumeLocation = mkOption {
+          type = types.str;
+          default = "${dontBackup}/containers/caddy/${name}";
+          description = ''
+            path to store container volumes
+          '';
+        };
+        TSsockLocation = mkOption {
+          type = types.str;
+          default = "${dontBackup}/containers/tailscale/${noCADDYname}/tmp/tailscaled.sock";
+          description = ''
+            path to store container volumes
+          '';
+        };
+        imageVersion = mkOption {
+          type = types.str;
+          default = "latest";
+          description = ''
+            container image version
+          '';
+        };
+        caddyfile = mkOption {
+          type = types.str;
+          default = "";
+          description = ''
+            caddyfile
+          '';
+          example = "";
+        };
       };
     };
-  };
   # Helper function to create a container configuration from a submodule
-  mkContainer = name: cfg: 
-  let
-    formatTags = builtins.concatStringsSep "," cfg.tags;
-    PathsToMap = a: b:  { Proxy = "${b}"; };
-  in
-  {
+  mkContainer =
+    name: cfg:
+    let
+      formatTags = builtins.concatStringsSep "," cfg.tags;
+      PathsToMap = a: b: { Proxy = "${b}"; };
+    in
+    {
       image = "${IMAGE}:${cfg.imageVersion}";
       autoStart = true;
       environment = lib.mkMerge [
@@ -90,7 +97,7 @@ let
         "--pull=always"
       ];
       user = "4000:4000";
-  };
+    };
   mkTmpfilesRules = name: cfg: [
     "d ${cfg.volumeLocation}/data 0755 4000 4000"
     "d ${cfg.volumeLocation}/config 0755 4000 4000"
@@ -99,17 +106,19 @@ in
 {
   options.yomaq.pods = {
     "${NAME}" = mkOption {
-      default = {};
+      default = { };
       type = with types; attrsOf (submodule containerOpts);
-      example = {};
+      example = { };
       description = lib.mdDoc ''
         Additional tailscale containers to pair with container services to expose on the tailnet.
       '';
     };
   };
-  config = mkIf (cfg != {}) {
+  config = mkIf (cfg != { }) {
 
-    systemd.tmpfiles.rules = lib.flatten ( lib.mapAttrsToList (name: cfg: mkTmpfilesRules name cfg) config.yomaq.pods."${NAME}");
+    systemd.tmpfiles.rules = lib.flatten (
+      lib.mapAttrsToList (name: cfg: mkTmpfilesRules name cfg) config.yomaq.pods."${NAME}"
+    );
     virtualisation.oci-containers.containers = lib.mapAttrs mkContainer config.yomaq.pods."${NAME}";
   };
 }

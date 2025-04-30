@@ -1,4 +1,11 @@
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 with lib;
 let
@@ -11,23 +18,21 @@ let
   inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.impermanence) dontBackup;
 
-
   settings = {
     title = "name";
     background = {
-        blur = "sm"; # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
-        saturate = 50; # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
-        brightness = 50; # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
-        opacity = 50; # 0-100
+      blur = "sm"; # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
+      saturate = 50; # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
+      brightness = 50; # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
+      opacity = 50; # 0-100
     };
     theme = "dark"; # or light
     color = "stone";
     providers = {
-        openweathermap = "openweathermapapikey";
-        weatherapi = "weatherapiapikey";
+      openweathermap = "openweathermapapikey";
+      weatherapi = "weatherapiapikey";
     };
   };
-
 
 in
 {
@@ -73,7 +78,7 @@ in
       # "f ${cfg.volumeLocation}/config/settings.yaml 755 4000 4000 - ${(pkgs.formats.yaml { }).generate "${NAME}Settings" settings}"
     ];
     virtualisation.oci-containers.containers = {
-### main container
+      ### main container
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
@@ -96,6 +101,8 @@ in
         # user = "4000:4000";
       };
     };
-    yomaq.pods.tailscaled."TS${NAME}".TSserve =  {"/" = "http://127.0.0.1:3000";};
+    yomaq.pods.tailscaled."TS${NAME}".TSserve = {
+      "/" = "http://127.0.0.1:3000";
+    };
   };
 }

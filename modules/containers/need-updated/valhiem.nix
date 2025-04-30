@@ -1,4 +1,11 @@
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 with lib;
 let
@@ -6,7 +13,6 @@ let
   NAME = "valheim";
   IMAGE = "ghcr.io/lloesche/valheim-server";
   tailscaleIMAGE = "ghcr.io/tailscale/tailscale";
-
 
   cfg = config.yomaq.pods.${NAME};
   inherit (config.networking) hostName;
@@ -95,16 +101,13 @@ in
     };
   };
 
-
-
-
   config = mkIf cfg.enable {
 
     ### agenix secrets for container
     # age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
     age.secrets."tailscaleEnvFile".file = cfg.tailscale.agenixSecret;
 
-  # make the directories where the volumes are stored
+    # make the directories where the volumes are stored
     systemd.tmpfiles.rules = [
       # main container
       "d ${cfg.volumeLocation}/data 0755 root root"
@@ -116,17 +119,16 @@ in
       "d ${cfg.tailscale.volumeLocation}/TSdev-net-tun 0755 root root"
     ];
 
-
     virtualisation.oci-containers.containers = {
-### tailscale container
+      ### tailscale container
       "TS${NAME}" = {
         image = "${tailscaleIMAGE}:${cfg.tailscale.imageVersion}";
         autoStart = true;
         environment = {
-        "TS_HOSTNAME" =cfg.tailscale.TShostname;
-        "TS_STATE_DIR"= "/var/lib/tailscale";
-        "TS_EXTRA_ARGS" = cfg.tailscale.TSargs;
-        "TS_ACCEPT_DNS" = "true";
+          "TS_HOSTNAME" = cfg.tailscale.TShostname;
+          "TS_STATE_DIR" = "/var/lib/tailscale";
+          "TS_EXTRA_ARGS" = cfg.tailscale.TSargs;
+          "TS_ACCEPT_DNS" = "true";
         };
         environmentFiles = [
           # need to set "TS_AUTHKEY=key" in agenix and import here
@@ -144,8 +146,7 @@ in
         ];
       };
 
-
-### main container
+      ### main container
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
@@ -153,7 +154,8 @@ in
           "SERVER_NAME" = "itIsValhiem";
           "SERVER_PASS" = "";
           "SERVER_PUBLIC" = "false";
-          "SERVER_ARGS" = "-preset hard -modifiers combat hard deathpenalty casual raids none portals casual resources more";
+          "SERVER_ARGS" =
+            "-preset hard -modifiers combat hard deathpenalty casual raids none portals casual resources more";
           # "VALHEIM_PLUS" = "true";
         };
         # environmentFiles = [

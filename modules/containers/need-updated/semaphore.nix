@@ -1,20 +1,27 @@
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 with lib;
 let
- ### Set container name and image
- NAME = "semaphore";
- IMAGE = "docker.io/semaphoreui/semaphore";
- DBIMAGE = "docker.io/mysql";
+  ### Set container name and image
+  NAME = "semaphore";
+  IMAGE = "docker.io/semaphoreui/semaphore";
+  DBIMAGE = "docker.io/mysql";
 
- cfg = config.yomaq.pods.${NAME};
- inherit (config.networking) hostName;
- inherit (config.yomaq.impermanence) backup;
- inherit (config.yomaq.tailscale) tailnetName;
+  cfg = config.yomaq.pods.${NAME};
+  inherit (config.networking) hostName;
+  inherit (config.yomaq.impermanence) backup;
+  inherit (config.yomaq.tailscale) tailnetName;
 
 in
 {
- options.yomaq.pods.${NAME} = {
+  options.yomaq.pods.${NAME} = {
     enable = mkOption {
       type = types.bool;
       default = false;
@@ -57,32 +64,32 @@ in
         path to agenix secret file
       '';
     };
- };
+  };
 
- config = mkIf cfg.enable {
+  config = mkIf cfg.enable {
 
     age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
     age.secrets."${NAME}DBEnvFile".file = cfg.agenixSecretDB;
 
     systemd.tmpfiles.rules = [
       "d ${cfg.volumeLocation}/var 0755 4000 4000"
-      ];
+    ];
 
     virtualisation.oci-containers.containers = {
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
-        volumes = [];
+        volumes = [ ];
         extraOptions = [
           "--pull=always"
           "--network=container:TS${NAME}"
         ];
         environment = {
           SEMAPHORE_DB_USER = "semaphore";
-          SEMAPHORE_DB_HOST = "127.0.0.1"; 
-          SEMAPHORE_DB_PORT = "3306"; 
+          SEMAPHORE_DB_HOST = "127.0.0.1";
+          SEMAPHORE_DB_PORT = "3306";
           SEMAPHORE_DB_DIALECT = "mysql";
-          SEMAPHORE_DB = "semaphore";    
+          SEMAPHORE_DB = "semaphore";
         };
         environmentFiles = [
           config.age.secrets."${NAME}EnvFile".path
@@ -91,7 +98,7 @@ in
           # SEMAPHORE_ADMIN_EMAIL = cfg.adminEmail;
           # SEMAPHORE_ADMIN = cfg.adminName;
           # SEMAPHORE_ACCESS_KEY_ENCRYPTION =
-          # SEMAPHORE_DB_PASS = 
+          # SEMAPHORE_DB_PASS =
         ];
       };
       "${NAME}DB" = {
@@ -106,26 +113,30 @@ in
         ];
         environmentFiles = [
           config.age.secrets."${NAME}DBEnvFile".path
-            #MYSQL_RANDOM_ROOT_PASSWORD='yes'
-            #MYSQL_DATABASE=semaphore
-            #MYSQL_USER=semaphore
-            #MYSQL_PASSWORD=
+          #MYSQL_RANDOM_ROOT_PASSWORD='yes'
+          #MYSQL_DATABASE=semaphore
+          #MYSQL_USER=semaphore
+          #MYSQL_PASSWORD=
         ];
         user = "4000:4000";
       };
     };
 
     yomaq.pods.tailscaled."TS${NAME}" = {
-      TSserve = {"/" = "http://127.0.0.1:3000";};
-      tags = ["tag:generichttps"];
+      TSserve = {
+        "/" = "http://127.0.0.1:3000";
+      };
+      tags = [ "tag:generichttps" ];
     };
 
-    yomaq.homepage.groups.services.services = [{
-      "${NAME}" = {
-        icon = "si-ansible";
-        href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-        siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-      };
-    }];
- };
+    yomaq.homepage.groups.services.services = [
+      {
+        "${NAME}" = {
+          icon = "si-ansible";
+          href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+          siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+        };
+      }
+    ];
+  };
 }

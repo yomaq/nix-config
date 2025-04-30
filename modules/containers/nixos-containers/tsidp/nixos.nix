@@ -106,14 +106,14 @@ in
           description = "Tailscale OIDC Identity Provider";
           wantedBy = [ "multi-user.target" ];
           requires = [ "tailscaled.service" ];
-          
+
           serviceConfig = {
             ExecStartPre = pkgs.writeShellScript "wait-for-tailscale" ''
               while ! ${pkgs.unstable.tailscale}/bin/tailscale status &>/dev/null; do
                 echo "Waiting for tailscale to be ready..."
                 sleep 1
               done
-            '';       
+            '';
             ExecStart = "${pkgs.unstable.tailscale}/bin/tsidp --use-local-tailscaled=true --dir=/var/lib/tailscale/tsidp --port=443";
             Environment = [ "TAILSCALE_USE_WIP_CODE=1" ];
             Restart = "always";

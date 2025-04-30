@@ -75,14 +75,14 @@ in
           "PREBOOT_CHROME" = "true";
           "CONNECTION_TIMEOUT" = "300000";
           "MAX_CONCURRENT_SESSIONS" = "10";
-          "CHROME_REFRESH_TIME "= "600000";
+          "CHROME_REFRESH_TIME " = "600000";
           "DEFAULT_BLOCK_ADS" = "true";
           "DEFAULT_STEALTH" = "true";
           # Ignore HTTPS errors, like for self-signed certs
           "DEFAULT_IGNORE_HTTPS_ERRORS" = "true";
         };
-        environmentFiles = [];
-        volumes = [];
+        environmentFiles = [ ];
+        volumes = [ ];
         extraOptions = [
           "--pull=always"
           "--network=container:TS${NAME}"
@@ -92,11 +92,11 @@ in
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
-        environment = {    
+        environment = {
           "PLAYWRIGHT_DRIVER_URL" = "ws://127.0.0.1:3000";
           # "BASE_URL" = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
         };
-        environmentFiles = [];
+        environmentFiles = [ ];
         volumes = [ "${cfg.volumeLocation}/datastore:/datastore" ];
         extraOptions = [
           "--pull=always"

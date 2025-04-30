@@ -128,7 +128,7 @@ in
                 href = "http://${hostName}.${tailnetName}.ts.net:61208";
                 widget = {
                   type = "glances";
-                  version =  "4";
+                  version = "4";
                   url = "http://${hostName}.${tailnetName}.ts.net:61208";
                   metric = "cpu";
                 };
@@ -139,7 +139,7 @@ in
                 href = "http://${hostName}.${tailnetName}.ts.net:61208";
                 widget = {
                   type = "glances";
-                  version =  "4";
+                  version = "4";
                   url = "http://${hostName}.${tailnetName}.ts.net:61208";
                   metric = "memory";
                 };
@@ -150,7 +150,7 @@ in
                 href = "http://${hostName}.${tailnetName}.ts.net:61208";
                 widget = {
                   type = "glances";
-                  version =  "4";
+                  version = "4";
                   url = "http://${hostName}.${tailnetName}.ts.net:61208";
                   metric = "fs:/persist/save";
                 };
@@ -161,7 +161,7 @@ in
                 href = "http://${hostName}.${tailnetName}.ts.net:61208";
                 widget = {
                   type = "glances";
-                  version =  "4";
+                  version = "4";
                   url = "http://${hostName}.${tailnetName}.ts.net:61208";
                   metric = "process";
                 };

@@ -1,12 +1,17 @@
-
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 with lib;
 let
   ### Set container name and image
   NAME = "mealie";
   IMAGE = "ghcr.io/mealie-recipes/mealie";
-
 
   cfg = config.yomaq.pods.${NAME};
   inherit (config.networking) hostName;
@@ -46,14 +51,11 @@ in
     };
   };
 
-
-
-
   config = mkIf cfg.enable {
     systemd.tmpfiles.rules = [
     ];
     virtualisation.oci-containers.containers = {
-### main container
+      ### main container
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;

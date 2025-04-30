@@ -54,7 +54,10 @@ in
         };
         networks = {
           "30-${cfg.physicalInterfaceName}" = {
-            matchConfig.Name = ["${cfg.physicalInterfaceName}" "vm-*"];
+            matchConfig.Name = [
+              "${cfg.physicalInterfaceName}"
+              "vm-*"
+            ];
             networkConfig.Bridge = "br0";
             linkConfig.RequiredForOnline = "enslaved";
           };

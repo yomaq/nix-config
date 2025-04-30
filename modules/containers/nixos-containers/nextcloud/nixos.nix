@@ -111,7 +111,7 @@ in
           suites.container.enable = true;
         };
 
-        # lock mariadb to a specific version 
+        # lock mariadb to a specific version
         services.mysql.package = pkgs.mariadb.overrideAttrs (oldAttrs: {
           version = "10.11.6";
           src = oldAttrs.src.overrideAttrs {

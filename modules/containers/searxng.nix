@@ -45,13 +45,13 @@ in
       '';
     };
   };
-  
+
   config = lib.mkIf cfg.enable {
     systemd.tmpfiles.rules = [
       "d ${cfg.volumeLocation}/searxng 0755 4000 4000"
       "d ${cfg.volumeLocation}/valkey-data 0755 4000 4000"
     ];
-    
+
     virtualisation.oci-containers.containers = {
       "${NAME}-redis" = {
         image = "docker.io/valkey/valkey:8-alpine";
@@ -75,7 +75,7 @@ in
           "warning"
         ];
       };
-      
+
       "${NAME}" = {
         image = "docker.io/searxng/searxng:${cfg.imageVersion}";
         autoStart = true;
@@ -96,14 +96,14 @@ in
         };
       };
     };
-    
+
     yomaq.pods.tailscaled."TS${NAME}" = {
       TSserve = {
         "/" = "http://127.0.0.1:8080";
       };
       tags = [ "tag:generichttps" ];
     };
-    
+
     yomaq.homepage.groups.services.services = [
       {
         "${NAME}" = {
@@ -113,7 +113,7 @@ in
         };
       }
     ];
-    
+
     yomaq.gatus.endpoints = [
       {
         name = "${hostName}-${NAME}";
@@ -130,7 +130,7 @@ in
         ];
       }
     ];
-    
+
     yomaq.monitorServices.services."docker-${NAME}".priority = "medium";
     yomaq.monitorServices.services."docker-${NAME}-redis".priority = "medium";
   };

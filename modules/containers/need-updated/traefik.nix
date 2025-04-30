@@ -1,5 +1,11 @@
-
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 with lib;
 let
   ### Set container name and image
@@ -29,7 +35,7 @@ in
   };
   config = mkIf cfg.enable {
     virtualisation.oci-containers.containers = {
-### main container
+      ### main container
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
@@ -61,7 +67,7 @@ in
           "--pull=always"
         ];
       };
-### test container
+      ### test container
       # "${NAME}test" = {
       #   image = "traefik/whoami:latest";
       #   autoStart = true;

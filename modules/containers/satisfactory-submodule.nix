@@ -62,7 +62,7 @@ let
     autoStart = true;
     environment = lib.mkMerge [
       cfg.envVariables
-      { 
+      {
         "PGID" = "4000";
         "PUID" = "4000";
         "rootless" = "false";

@@ -24,8 +24,8 @@
     wsl.defaultUser = "admin";
     wsl.useWindowsDriver = true;
 
-    environment.systemPackages = [pkgs.dbus];
-    
+    environment.systemPackages = [ pkgs.dbus ];
+
     yomaq = {
       users.enableUsers = [ "admin" ];
 

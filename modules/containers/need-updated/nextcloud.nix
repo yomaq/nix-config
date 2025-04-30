@@ -1,5 +1,11 @@
-
-{ options, config, lib, pkgs, inputs, ... }:
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 with lib;
 let
@@ -7,7 +13,6 @@ let
   NAME = "nextcloud";
   IMAGE = "docker.io/nextcloud";
   dbIMAGE = "docker.io/mariadb";
-
 
   cfg = config.yomaq.pods.${NAME};
   inherit (config.networking) hostName;
@@ -45,7 +50,7 @@ in
         container image version
       '';
     };
-### database container
+    ### database container
     database = {
       agenixSecret = mkOption {
         type = types.path;
@@ -84,19 +89,23 @@ in
       "d ${cfg.database.volumeLocation}/var-lib-mysql 0755 4000 4000"
     ];
     virtualisation.oci-containers.containers = {
-### DB container
+      ### DB container
       "DB${NAME}" = {
         image = "${dbIMAGE}:${cfg.database.imageVersion}";
         autoStart = true;
-        cmd = ["--transaction-isolation=READ-COMMITTED" "--log-bin=binlog" "--binlog-format=ROW"];
+        cmd = [
+          "--transaction-isolation=READ-COMMITTED"
+          "--log-bin=binlog"
+          "--binlog-format=ROW"
+        ];
         environment = {
         };
         environmentFiles = [
           config.age.secrets."${NAME}DBEnvFile".path
-              #  MYSQL_ROOT_PASSWORD=
-              #  MYSQL_PASSWORD=
-              #  MYSQL_DATABASE=nextcloud
-              #  MYSQL_USER=nextcloud
+          #  MYSQL_ROOT_PASSWORD=
+          #  MYSQL_PASSWORD=
+          #  MYSQL_DATABASE=nextcloud
+          #  MYSQL_USER=nextcloud
         ];
         volumes = [
           "${cfg.database.volumeLocation}/var-lib-mysql:/var/lib/mysql"
@@ -106,7 +115,7 @@ in
           "--network=container:TS${NAME}"
         ];
       };
-### Redis container
+      ### Redis container
       "REDIS${NAME}" = {
         image = "docker.io/redis:latest";
         autoStart = true;
@@ -117,7 +126,7 @@ in
           "--network=container:TS${NAME}"
         ];
       };
-### main container
+      ### main container
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
@@ -130,10 +139,10 @@ in
         };
         environmentFiles = [
           config.age.secrets."${NAME}EnvFile".path
-              #  MYSQL_PASSWORD=
-              #  MYSQL_DATABASE=nextcloud
-              #  MYSQL_USER=nextcloud
-              #  MYSQL_HOST=127.0.0.1
+          #  MYSQL_PASSWORD=
+          #  MYSQL_DATABASE=nextcloud
+          #  MYSQL_USER=nextcloud
+          #  MYSQL_HOST=127.0.0.1
         ];
         volumes = [
           "${cfg.volumeLocation}/var-www-html:/var/www/html"
@@ -144,7 +153,7 @@ in
           "--network=container:TS${NAME}"
         ];
       };
-### CRON container
+      ### CRON container
       "CRON${NAME}" = {
         entrypoint = "/cron.sh";
         image = "${IMAGE}:${cfg.imageVersion}";
@@ -157,10 +166,10 @@ in
         };
         environmentFiles = [
           config.age.secrets."${NAME}EnvFile".path
-              #  MYSQL_PASSWORD=
-              #  MYSQL_DATABASE=nextcloud
-              #  MYSQL_USER=nextcloud
-              #  MYSQL_HOST=127.0.0.1
+          #  MYSQL_PASSWORD=
+          #  MYSQL_DATABASE=nextcloud
+          #  MYSQL_USER=nextcloud
+          #  MYSQL_HOST=127.0.0.1
         ];
         volumes = [
           "${cfg.volumeLocation}/var-www-html:/var/www/html"
@@ -172,6 +181,8 @@ in
         ];
       };
     };
-    yomaq.pods.tailscaled."TS${NAME}".TSserve =  {"/" = "http://127.0.0.1:80";};
+    yomaq.pods.tailscaled."TS${NAME}".TSserve = {
+      "/" = "http://127.0.0.1:80";
+    };
   };
 }

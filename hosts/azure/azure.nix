@@ -31,7 +31,7 @@
 
     yomaq = {
       users.enableUsers = [ "admin" ];
-      
+
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
       tailscale = {
@@ -53,8 +53,8 @@
         n8n.enable = true;
         open-webui = {
           enable = true;
-          env = { 
-            "OLLAMA_BASE_URL" = "https://wsl-ollama.${config.yomaq.tailscale.tailnetName}.ts.net"; 
+          env = {
+            "OLLAMA_BASE_URL" = "https://wsl-ollama.${config.yomaq.tailscale.tailnetName}.ts.net";
           };
         };
       };

@@ -11,7 +11,9 @@ let
 in
 {
   options.yomaq.nvidia = {
-    enable = lib.mkEnableOption (lib.mdDoc "Nvidia/Cuda Config. Docker containers must be ran with --device=nvidia.com/gpu=all etc");
+    enable = lib.mkEnableOption (
+      lib.mdDoc "Nvidia/Cuda Config. Docker containers must be ran with --device=nvidia.com/gpu=all etc"
+    );
     wsl = lib.mkOption {
       type = lib.types.bool;
       default = false;
@@ -21,8 +23,8 @@ in
     };
   };
   config = lib.mkMerge [
-    ( lib.mkIf cfg.enable {
-      services.xserver.videoDrivers = ["nvidia"];
+    (lib.mkIf cfg.enable {
+      services.xserver.videoDrivers = [ "nvidia" ];
       hardware.nvidia.open = true;
     })
     (lib.mkIf (cfg.enable && cfg.wsl) {
@@ -61,7 +63,7 @@ in
 
       virtualisation.docker = lib.mkIf cfg.wsl {
         daemon.settings.features.cdi = true;
-        daemon.settings.cdi-spec-dirs = ["/etc/cdi"];
+        daemon.settings.cdi-spec-dirs = [ "/etc/cdi" ];
       };
     })
   ];

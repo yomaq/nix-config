@@ -10,7 +10,7 @@ let
 in
 {
   options.yomaq.vscode = {
-    enable =lib. mkOption {
+    enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
       description = ''

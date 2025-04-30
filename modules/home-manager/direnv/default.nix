@@ -12,14 +12,13 @@ in
 {
   imports = [ ];
   options.yomaq.direnv = {
-    enable =
-      lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = ''
-          enable custom direnv module
-        '';
-      };
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        enable custom direnv module
+      '';
+    };
   };
   config = lib.mkIf cfg.enable {
     programs = {

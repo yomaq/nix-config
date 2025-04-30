@@ -107,7 +107,7 @@ in
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
-        # environment = {    
+        # environment = {
         #   "DATABASE_URL" = "postgresql://postgres:password@127.0.0.1:5432/postgres";
         #   "NEXTAUTH_SECRET" = "password";
         #   "NEXTAUTH_URL" = "http://localhost:3000/api/v1/auth";

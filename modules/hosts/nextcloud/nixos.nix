@@ -103,11 +103,9 @@ in
                 ${config.services.nextcloud.occ}/bin/nextcloud-occ user:add --password-from-env "${name}"
               fi
               if ! ${config.services.nextcloud.occ}/bin/nextcloud-occ user:info "${name}" | grep "user not found"; then
-                ${
-                  optionalString (cfg.email != null) ''
-                    ${config.services.nextcloud.occ}/bin/nextcloud-occ user:setting "${name}" settings email "${cfg.email}"
-                  ''
-                }
+                ${optionalString (cfg.email != null) ''
+                  ${config.services.nextcloud.occ}/bin/nextcloud-occ user:setting "${name}" settings email "${cfg.email}"
+                ''}
               fi
             '') cfg.ensureUsers
           )}

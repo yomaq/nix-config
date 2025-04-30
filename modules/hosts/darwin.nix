@@ -15,7 +15,10 @@ let
 
   # Collects all files of a directory as a list of strings of paths
   files =
-    dir: lib.collect lib.isString (lib.mapAttrsRecursive (path: type: lib.concatStringsSep "/" path) (getDir dir));
+    dir:
+    lib.collect lib.isString (
+      lib.mapAttrsRecursive (path: type: lib.concatStringsSep "/" path) (getDir dir)
+    );
 
   # Filters out directories that don't end with .nix or are this file, also makes the strings absolute
   validFiles =
@@ -28,7 +31,7 @@ let
         && file != "default.nix"
         && file != "darwin.nix"
         # how to exclude a path
-        # && ! lib.hasPrefix "exclude/path/" file 
+        # && ! lib.hasPrefix "exclude/path/" file
         # how to exclude a group of files
         && !lib.hasSuffix "nixos.nix" file
       ) (files dir)

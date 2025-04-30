@@ -144,7 +144,7 @@ in
         };
         environmentFiles = [
           config.age.secrets."${NAME}DBEnvFile".path
-          #  POSTGRES_USER=teslamate 
+          #  POSTGRES_USER=teslamate
           #  POSTGRES_PASSWORD=password #insert your secure database password!
           #  POSTGRES_DB=teslamate
         ];

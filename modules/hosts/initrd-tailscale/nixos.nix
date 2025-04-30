@@ -59,21 +59,21 @@ in
       });
 
       # have to undo https://github.com/NixOS/nixpkgs/pull/306532
-    tailscale-wrapped = pkgs.tailscale.overrideAttrs (oldAttrs: {
-      subPackages = oldAttrs.subPackages ++ [ "cmd/tailscale" ];
-      postInstall = pkgs.lib.optionalString pkgs.stdenv.isLinux ''
-        wrapProgram $out/bin/tailscaled --prefix PATH : ${
-          pkgs.lib.makeBinPath [
-            pkgs.iproute2
-            pkgs.iptables
-            pkgs.getent
-            pkgs.shadow
-          ]
-        }
-        wrapProgram $out/bin/tailscale --suffix PATH : ${pkgs.lib.makeBinPath [ pkgs.procps ]}
-        moveToOutput "bin/derper" "$derper"
-      '';
-    });
+      tailscale-wrapped = pkgs.tailscale.overrideAttrs (oldAttrs: {
+        subPackages = oldAttrs.subPackages ++ [ "cmd/tailscale" ];
+        postInstall = pkgs.lib.optionalString pkgs.stdenv.isLinux ''
+          wrapProgram $out/bin/tailscaled --prefix PATH : ${
+            pkgs.lib.makeBinPath [
+              pkgs.iproute2
+              pkgs.iptables
+              pkgs.getent
+              pkgs.shadow
+            ]
+          }
+          wrapProgram $out/bin/tailscale --suffix PATH : ${pkgs.lib.makeBinPath [ pkgs.procps ]}
+          moveToOutput "bin/derper" "$derper"
+        '';
+      });
 
     in
     lib.mkMerge [

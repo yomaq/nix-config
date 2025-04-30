@@ -129,26 +129,30 @@ in
               onFailure = [ "syncoid-fail-${hostName}.service" ];
             };
             "syncoid-success-${hostName}" = {
-              script = ''${lib.getExe pkgs.curl} -X POST \
-                https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/backup_${hostName}/external\?success\=true\&error\= \
-                -H 'Authorization: Bearer ${hostName}'
+              script = ''
+                ${lib.getExe pkgs.curl} -X POST \
+                                https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/backup_${hostName}/external\?success\=true\&error\= \
+                                -H 'Authorization: Bearer ${hostName}'
               '';
             };
             "syncoid-fail-${hostName}" = {
-              script = ''${lib.getExe pkgs.curl} -X POST \
-                https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/backup_${hostName}/external\?success\=false\&error\= \
-                -H 'Authorization: Bearer ${hostName}'
+              script = ''
+                ${lib.getExe pkgs.curl} -X POST \
+                                https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/backup_${hostName}/external\?success\=false\&error\= \
+                                -H 'Authorization: Bearer ${hostName}'
               '';
             };
           }) (nixosHosts ++ [ config.networking.hostName ])
         )
       );
 
-      yomaq.gatus.externalEndpoints = lib.mkIf config.yomaq.syncoid.isBackupServer (builtins.map (hostName: {
-        name = "${hostName}";
-        group = "backup";
-        token = "${hostName}";
-      }) (nixosHosts ++ [config.networking.hostName]));
+      yomaq.gatus.externalEndpoints = lib.mkIf config.yomaq.syncoid.isBackupServer (
+        builtins.map (hostName: {
+          name = "${hostName}";
+          group = "backup";
+          token = "${hostName}";
+        }) (nixosHosts ++ [ config.networking.hostName ])
+      );
 
     }
   ];

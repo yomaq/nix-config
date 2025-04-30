@@ -7,7 +7,7 @@
   ...
 }:
 {
-  imports = [];
+  imports = [ ];
 
   options.yomaq.users = {
     enableUsers = lib.mkOption {

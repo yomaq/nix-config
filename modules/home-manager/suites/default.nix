@@ -12,14 +12,13 @@ in
 {
   imports = [ ];
   options.yomaq.suites.basic = {
-    enable =
-      lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = ''
-          enable custom suite
-        '';
-      };
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        enable custom suite
+      '';
+    };
   };
   config = lib.mkIf cfg.enable {
     yomaq = {

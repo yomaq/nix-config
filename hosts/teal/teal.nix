@@ -31,7 +31,7 @@
 
     yomaq = {
       users.enableUsers = [ "admin" ];
-      
+
       autoUpgrade.enable = true;
       primaryUser.users = [
         "carln"

@@ -21,7 +21,7 @@ in
 
   config = lib.mkIf cfg.enable {
     services = {
-      #config for Yabai Window Manager, really basic config 
+      #config for Yabai Window Manager, really basic config
       yabai = {
         enable = true;
         extraConfig = ''
@@ -45,7 +45,7 @@ in
           #yabai -m rule --add app=""                  manage=off
         '';
       };
-      #config for skhd keyboard shortcuts for Yabai Window Manager. 
+      #config for skhd keyboard shortcuts for Yabai Window Manager.
       skhd = {
         enable = true;
         skhdConfig = ''
