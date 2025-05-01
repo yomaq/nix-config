@@ -144,6 +144,15 @@ in
             trustedProxies = [ "127.0.0.1" ];
             logType = "file";
             overwriteProtocol = "https";
+
+            # for use with this tsipd and  https://github.com/pulsejet/nextcloud-oidc-login
+            oidc_login_client_id = "unused";
+            oidc_login_client_secret = "unused";
+            oidc_login_provider_url = "https://${hostName}-tsidp.${tailnetName}.ts.net";
+            oidc_login_attributes = {
+              id = "username";
+              mail = "email";
+            };
           };
           extraApps = { };
           appstoreEnable = true;
