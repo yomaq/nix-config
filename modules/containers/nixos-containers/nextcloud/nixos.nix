@@ -138,11 +138,11 @@ in
           notify_push.enable = true;
           autoUpdateApps.enable = true;
           database.createLocally = true;
+          phpOptions."opcache.interned_strings_buffer" = "24";
           settings = {
             "maintenance_window_start" = 8;
             default_phone_region = "US";
             trustedProxies = [ "127.0.0.1" ];
-            logType = "file";
             overwriteProtocol = "https";
 
             # for use with this tsipd and  https://github.com/pulsejet/nextcloud-oidc-login
