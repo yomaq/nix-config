@@ -45,6 +45,7 @@
       docker.enable = true;
       pods = {
         ollama.enable = true;
+        speaches.enable = true;
       };
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
