@@ -29,6 +29,11 @@
               default = false;
               description = "passwordless by default";
             };
+            u2fAuth = lib.mkOption {
+              type = lib.types.bool;
+              default = false;
+              description = "either a password, or u2f, not both";
+            };
             authSshKeys = lib.mkOption {
               type = lib.types.listOf lib.types.str;
               default = [ ];

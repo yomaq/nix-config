@@ -18,6 +18,11 @@ let
 in
 {
   "carln.age".publicKeys = [ green ] ++ all;
+  "admin.age".publicKeys = [
+    azure
+    smalt
+    teal
+  ] ++ all;
   "ryn.age".publicKeys = [ blue ] ++ all;
   "encrypt.age".publicKeys = all;
   "tailscaleKey.age".publicKeys = [
