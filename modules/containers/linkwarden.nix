@@ -107,11 +107,14 @@ in
       "${NAME}" = {
         image = "${IMAGE}:${cfg.imageVersion}";
         autoStart = true;
-        # environment = {
-        #   "DATABASE_URL" = "postgresql://postgres:password@127.0.0.1:5432/postgres";
-        #   "NEXTAUTH_SECRET" = "password";
-        #   "NEXTAUTH_URL" = "http://localhost:3000/api/v1/auth";
-        # };
+        environment = {
+          "NEXT_PUBLIC_AUTH0_ENABLED" = "true";
+          # OIDC works, but there is no way to configure the username claim, so it currently generates a nonesense username
+          "AUTH0_ISSUER" = "https://azure-tsidp.sable-chimaera.ts.net";
+          "AUTH0_CLIENT_ID" = "unused";
+          "AUTH0_CLIENT_SECRET" = "unused";
+          "NEXTAUTH_URL" = "https://${hostName}-${NAME}.${tailnetName}.ts.net/api/v1/auth";
+        };
         environmentFiles = [
           config.age.secrets."${NAME}EnvFile".path
           #  DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@127.0.0.1:5432/postgres
