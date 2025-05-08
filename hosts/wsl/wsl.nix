@@ -46,6 +46,7 @@
       pods = {
         ollama.enable = true;
         speaches.enable = true;
+        comfyui.enable = true;
       };
       autoUpgrade.enable = true;
       primaryUser.users = [ "admin" ];
