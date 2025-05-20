@@ -57,7 +57,7 @@ in
           hostPath = "${dontBackup}/nixos-containers/${NAME}/tailscale";
           isReadOnly = false;
         };
-        "/var/lib/gatus/data" = {
+        "/var/lib/gatus-data" = {
           hostPath = "${backup}/nixos-containers/${NAME}/data";
           isReadOnly = false;
         };
@@ -96,7 +96,7 @@ in
             web.port = 8080;
             storage = {
               type = "sqlite";
-              path = "/var/lib/gatus/data/data.db";
+              path = "/var/lib/gatus-data/data.db";
             };
             # endpoints = [
             #   {

@@ -112,21 +112,13 @@ in
         };
 
         # lock mariadb to a specific version
-        services.mysql.package = pkgs.mariadb.overrideAttrs (oldAttrs: {
-          version = "10.11.6";
-          src = oldAttrs.src.overrideAttrs {
-            version = "10.11.6";
-            sha256 = "sha256-HAFjRj6Y1x9HgHQWEaQJge7ivETTkmAcpJu/lI0E3Wc=";
-          };
-        });
-
-        # services.postgresql.package = pkgs.postgresql_16;
+        services.mysql.package = pkgs.mariadb_114;
 
         # password is only set on creation, cannot reset the password with this (also means you need to reset the password asap)
         environment.etc."nextcloud-admin-pass".text = "asdhasd&!@@SDa";
         services.nextcloud = {
           enable = true;
-          package = pkgs.nextcloud30;
+          package = pkgs.nextcloud31;
           hostName = "${hostName}-${NAME}.${tailnetName}.ts.net";
           config.adminpassFile = "/etc/nextcloud-admin-pass";
           configureRedis = true;
@@ -136,6 +128,10 @@ in
           https = true;
           maxUploadSize = "16G";
           notify_push.enable = true;
+          extraApps = {
+            inherit (pkgs.nextcloud31Packages.apps) oidc_login memories;
+          };
+          extraAppsEnable = true;
           autoUpdateApps.enable = true;
           database.createLocally = true;
           phpOptions."opcache.interned_strings_buffer" = "24";
@@ -154,11 +150,10 @@ in
               mail = "email";
             };
           };
-          extraApps = { };
           appstoreEnable = true;
           config = {
             dbtype = "mysql";
-            adminuser = "yomaq";
+            adminuser = "admin";
           };
         };
       };
