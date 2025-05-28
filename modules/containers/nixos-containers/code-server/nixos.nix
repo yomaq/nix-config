@@ -105,7 +105,7 @@ in
           auth = "none";
           # hashedPassword
           userDataDir = "${dontBackup}/nixos-containers/${NAME}/userdata";
-          # disableGettingStartedOverride = true;
+          disableGettingStartedOverride = true;
           disableTelemetry = true;
           disableUpdateCheck = true;
           disableWorkspaceTrust = true;

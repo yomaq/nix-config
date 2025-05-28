@@ -129,7 +129,7 @@ in
           maxUploadSize = "16G";
           notify_push.enable = true;
           extraApps = {
-            inherit (pkgs.nextcloud31Packages.apps) oidc_login memories;
+            inherit (pkgs.nextcloud31Packages.apps) oidc_login memories previewgenerator;
           };
           extraAppsEnable = true;
           autoUpdateApps.enable = true;
