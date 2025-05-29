@@ -22,7 +22,6 @@ in
         allowed-users = [ "carln" ];
       };
     };
-    services.nix-daemon.enable = true;
     #At the time of making the config nix breaks when darwin documentation is enabled.
     documentation.enable = false;
   };

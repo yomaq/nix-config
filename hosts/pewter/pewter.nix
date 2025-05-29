@@ -28,6 +28,8 @@ in
         };
       };
     };
+    system.primaryUser = "carln";
+    ids.gids.nixbld = 350;
     yomaq = {
       users.enableUsers = [ "carln" ];
 

@@ -19,7 +19,6 @@ in
         pkgs.alacritty
         pkgs.vim
         pkgs.kubectl
-        pkgs.nerdfonts
         pkgs.kubernetes-helm
         pkgs.git
       ];
@@ -39,7 +38,7 @@ in
         "spotify"
         "nextcloud"
         "brave-browser"
-        "zen-browser"
+        "zen"
         "obsidian"
       ];
       taps = [ "pulumi/tap" ];

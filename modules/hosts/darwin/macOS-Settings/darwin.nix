@@ -21,6 +21,9 @@ in
   };
   config = lib.mkIf cfg.enable {
     #MacOS settings for Dock, Finder, etc
+
+    security.pam.services.sudo_local.touchIdAuth = true;
+
     system = {
       defaults = {
         NSGlobalDomain = {
