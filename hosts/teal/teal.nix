@@ -44,6 +44,7 @@
           "--reset=true"
         ];
         useRoutingFeatures = "server";
+        preApprovedSshAuthkey = true;
       };
       network = {
         useBr0 = true;

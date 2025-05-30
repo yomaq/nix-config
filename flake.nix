@@ -23,9 +23,6 @@
     # nix index for comma
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-    # nixos generators
-    nixos-generators.url = "github:nix-community/nixos-generators";
-    nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
     # devenv
     devenv.url = "github:cachix/devenv";
     # flake.parts
@@ -42,7 +39,6 @@
     nixpkgs,
     home-manager,
     nix-darwin,
-    nixos-generators,
     flake-parts,
     ...
   }@inputs:
@@ -75,6 +71,12 @@
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild switch --flake .#your-hostname'
       nixosConfigurations = {
+        # # run with `nixos-rebuild build-image --image-variant iso-installer --flake .#install-iso --impure`
+        # install-iso = nixpkgs.lib.nixosSystem {
+        #   system = "x86_64-linux";
+        #   specialArgs = { inherit inputs; };
+        #   modules = [ ./hosts/install-iso ];
+        # };
         # blue = nixpkgs.lib.nixosSystem {
         #   system = "x86_64-linux";
         #   specialArgs = {
@@ -147,17 +149,6 @@
           system = "aarch64-darwin";
           modules = [ ./hosts/pewter ];
         };         
-      };
-      # Nixos-generators configuration entrypoints
-      # Available through 'nix build .#your-hostname'
-      packages.x86_64-linux = {
-        #### requires --impure, breaks `nix flake check`
-        # install-iso = nixos-generators.nixosGenerate {
-        #   system = "x86_64-linux";
-        #   format = "install-iso";
-        #   specialArgs = { inherit inputs; };
-        #   modules = [ ./hosts/install-iso ];
-        # };
       };
       ### Module outputs
       nixosModules = {

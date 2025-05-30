@@ -8,7 +8,6 @@
 }:
 {
   imports = [
-    # import users
     inputs.self.nixosModules.yomaq
   ];
   config = {
@@ -16,12 +15,17 @@
 
     users.users.root.initialPassword = "k";
 
+    services.openssh = {
+      enable = true;
+      permitRootLogin = "yes";
+    };
+
     environment.systemPackages = with pkgs; [ rsync ];
     networking.wireless.enable = lib.mkForce false;
     yomaq = {
       tailscale = {
         enable = true;
-        extraUpFlags = [ "--reset=true" ];
+        extraUpFlags = [ "--reset=true --ssh=true" ];
         # attempt to write the authkey in clear text into the nix store for the install-iso as it won't have a key to decrypt the secret
         authKeyFile = (
           pkgs.writeText "tailscaleAuthKey" (
@@ -36,8 +40,7 @@
         # foundation.enable = true;
       };
       nixSettings.enable = true;
-      # initrd-tailscale.enable = lib.mkDefault false;
-      # network.basics = lib.mkDefault false;
+      agenix.enable = true;
     };
   };
 }
