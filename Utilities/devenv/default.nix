@@ -108,7 +108,7 @@
       chmod 600 "$temp/etc/ssh/initrd"
 
       # Install NixOS to the host system with our secrets and encription
-      nix run github:numtide/nixos-anywhere -- --extra-files "$temp" --build-on-remote \
+      sudo nix run github:numtide/nixos-anywhere -- --extra-files "$temp" --build-on remote \
         --disk-encryption-keys /tmp/secret.key <(op read op://nix/$hostname/encryption) --flake .#$hostname root@$ipaddress
     '';
     yo-install.exec = ''

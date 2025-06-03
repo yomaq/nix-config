@@ -13,19 +13,21 @@
   config = {
     networking.hostName = "nixos-install";
 
-    users.users.root.initialPassword = "k";
+    users.users.root.password = "k";
 
     services.openssh = {
       enable = true;
-      permitRootLogin = "yes";
+      settings.PermitRootLogin = "yes";
     };
+    environment.persistence = lib.mkForce {};
+
 
     environment.systemPackages = with pkgs; [ rsync ];
     networking.wireless.enable = lib.mkForce false;
     yomaq = {
       tailscale = {
         enable = true;
-        extraUpFlags = [ "--reset=true --ssh=true" ];
+        extraUpFlags = [ "--advertise-tags=tag:acceptssh" ];
         # attempt to write the authkey in clear text into the nix store for the install-iso as it won't have a key to decrypt the secret
         authKeyFile = (
           pkgs.writeText "tailscaleAuthKey" (

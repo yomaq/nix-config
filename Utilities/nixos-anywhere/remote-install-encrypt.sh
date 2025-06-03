@@ -32,5 +32,6 @@ chmod 600 "$temp/etc/ssh/$hostname"
 chmod 600 "$temp/etc/ssh/initrd"
 
 # Install NixOS to the host system with our secrets and encription
-nix run github:numtide/nixos-anywhere -- --extra-files "$temp" --build-on-remote \
+nix run github:nix-community/nixos-anywhere -- --extra-files "$temp" --build-on remote \
+  --generate-hardware-config nixos-generate-config "$(git rev-parse --show-toplevel)/hosts/$hostname/hardware-configuration.nix" \
   --disk-encryption-keys /tmp/secret.key <(op read op://nix/$hostname/encryption) --flake .#$hostname root@$ipaddress

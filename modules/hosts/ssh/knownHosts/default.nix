@@ -8,9 +8,9 @@
 {
   programs.ssh.knownHosts = {
     "green".publicKey =
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIcWzIPdRcEgS7EKXHL8IrLF1UKf52DwIv5oFtiMNZ6/";
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFooC0Mq017CdlBDe8xseS/y9Ljpvfrb42wyTA3fZj/Y";
     "green-initrd".publicKey =
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOGNx39knO81AjtLTLMwuMeT58feKT1CFkYrCmT2p6SZ";
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFWpXMEgi7QrbHEErJcQgt+jCYo3MMn51tb7CVnrxfgD";
 
     "blue".publicKey =
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGKoF3ul1ezP+OnokU6uLIQ6/ztUcboQX7trOw1cHg4H";
