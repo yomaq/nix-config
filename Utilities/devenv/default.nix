@@ -66,6 +66,15 @@
       HOSTNAME=$1
       nixos-rebuild --use-substitutes --no-build-nix --build-host admin@$HOSTNAME --target-host admin@$HOSTNAME --use-remote-sudo switch --flake .#$HOSTNAME
     '';
+    yo-rbrl-ip.exec = ''
+      if [ $# -eq 0 ]; then
+          echo "Usage: $0 <hostname>"
+          exit 1
+      fi
+      HOSTNAME=$1
+      IP=$2
+      nixos-rebuild --use-substitutes --no-build-nix --build-host admin@$IP --target-host admin@$IP --use-remote-sudo switch --flake .#$HOSTNAME
+    '';
     yo-dry.exec = ''
       if [ $# -eq 0 ]; then
           echo "Usage: $0 <hostname>"
