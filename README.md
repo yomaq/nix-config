@@ -21,7 +21,7 @@ Attempting to view the Flake and its nixos hosts as a single logical unit, rathe
 
 ### Installation and Updates
 
-* The installation of NixOS is made convenient and consistent through [declarative partitioning of disks](https://github.com/nix-community/disko/tree/master), and [a single install ssh command](https://github.com/nix-community/nixos-anywhere/tree/main) (+ additional setups if encrypted).
+* The installation of NixOS is made convenient and consistent through [declarative partitioning of disks](https://github.com/nix-community/disko/tree/master), and [a single install ssh command](https://github.com/nix-community/nixos-anywhere/tree/main).
 * Github Actions automatically updates the flake.lock weekly and run basic checks on the updates.
 * All NixOS systems are set to automatically check for updates every hour, keeping all hosts in sync and identical as possible.
 
@@ -33,13 +33,12 @@ Attempting to view the Flake and its nixos hosts as a single logical unit, rathe
 
 ### Flake design
 
-* No more imports that look like `../../../../../../../filename.nix` 
-* No more enabling/disabling custom modules by importing them/not importing them
 * All custom modules are joined together into a couple of Flake outputs, which are then **ALL** imported into the host in bulk.
 * Custom modules all have options and are disabled by default. They must be enabled with `config.yomaq.moduleName.enable = true`
 * Host modules (in [/modules/hosts](https://github.com/yomaq/nix-config/tree/main/modules)) that Nixos and Darwin can share are kept as identical as possible. Module options are shared between them in a `default.nix` file, while config implementations that differ will be in `nixos.nix` or `darwin.nix` respectively.
 * All modules are automatically imported into their Flake Outputs without the need to manually list them all. You can simply drop in a new file in /modules/hosts or /modules/home-manager etc, and it will be automatically imported into the correct Flake Output.
-* User account flow is still a WIP. I haven't fully decided how I want them to work yet.
+* User accounts, similar to host modules, are configured with `darwin.nix` and`nixos.nix` files to keep configuration as consistent as possible.
+* User specific config is kept clean and easy to read in the `/users` directory and are included on a system with `config.yomaq.users.enableUsers = [ list of users ];`
 
 ## Host Status Dashboard
 Using the git revision of the flake, you can easily see which hosts are out of date.
@@ -53,11 +52,9 @@ Using the git revision of the flake, you can easily see which hosts are out of d
 
 **Install a host that already has configuration:**
 
-* boot the host into a nixos installer, and set the root password
+* boot the host into a nixos installer (installer-iso ouput will build a nixos installer iso that is pre-loaded with a tailscale key to auto join the installer to your tailnet for easy remote installations), and set the root password (already set for installer-iso).
 * complete the following steps on a different x86_64 machine with nix installed, and sign into 1password
 * run the script `utilities/nixos-anywhere/remote-install-encrypt.sh HOSTNAME IPADDRESS-OF-TARGET`
-* done.
-* update known ssh keys in the config for the other systems
 
 
 
@@ -95,10 +92,10 @@ darwin-rebuild switch --flake github:yomaq/nix-config
 <details>
   <summary>ToDo</summary>
 
-* Setup WSL ideally with the option to have nix configured GUI applications as well
-* Add [Nixvirt](https://github.com/AshleyYakeley/NixVirt) based VMs
-* Test out a self hosted Hydra server
-* Add a self hosted Cachix server
+* Add a self hosted nix store cache server.
+* Move docker containers to Quadlet.
+* Adjust flake design to use an `inventory.nix` file, similar to clan.lol, this will remove the need for a single host to build the configuration of other hosts for modules like `gatus` and `homepage`.
+* Microvms, possibly migrate some nixos-containers to microvms.
 
 
 </details>
