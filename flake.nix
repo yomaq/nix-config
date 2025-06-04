@@ -72,11 +72,11 @@
       # Available through 'nixos-rebuild switch --flake .#your-hostname'
       nixosConfigurations = {
         # # run with `nixos-rebuild build-image --image-variant iso-installer --flake .#install-iso --impure`
-        install-iso = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [ ./hosts/install-iso ];
-        };
+        # install-iso = nixpkgs.lib.nixosSystem {
+        #   system = "x86_64-linux";
+        #   specialArgs = { inherit inputs; };
+        #   modules = [ ./hosts/install-iso ];
+        # };
         # blue = nixpkgs.lib.nixosSystem {
         #   system = "x86_64-linux";
         #   specialArgs = {
