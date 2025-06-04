@@ -36,6 +36,9 @@ in
       type = lib.types.attrsOf lib.types.str;
       default = {
         "OLLAMA_BASE_URL" = "https://wsl-ollama.${config.yomaq.tailscale.tailnetName}.ts.net";
+        "WEBUI_URL" = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+
+        "ENABLE_PERSISTENT_CONFIG" = "false";
 
         "ENABLE_OPENAI_API" = "false";
 
