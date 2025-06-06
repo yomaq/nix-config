@@ -39,12 +39,6 @@
       nix-darwin,
       ...
     }@inputs:
-    let
-      systems = [
-        "x86_64-linux"
-        "aarch64-darwin"
-      ];
-    in
     {
       devShell = {
         x86_64-linux = import ./Utilities/devShell/default.nix {
