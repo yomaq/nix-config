@@ -1,5 +1,6 @@
 {
   description = "nix config";
+
   inputs = {
     # Nixpkgs
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -15,7 +16,7 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     # Hardware
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    # Impermanance
+    # Impermanence
     impermanence.url = "github:nix-community/impermanence";
     # Disko
     disko.url = "github:nix-community/disko";
@@ -23,147 +24,130 @@
     # nix index for comma
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-    # devenv
-    devenv.url = "github:cachix/devenv";
-    # flake.parts
-    flake-parts.url = "github:hercules-ci/flake-parts";
     # microvms
     microvm.url = "github:astro/microvm.nix";
     microvm.inputs.nixpkgs.follows = "nixpkgs";
     # nixos on wsl
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
   };
+
   outputs =
-  {
-    self,
-    nixpkgs,
-    home-manager,
-    nix-darwin,
-    flake-parts,
-    ...
-  }@inputs:
-  flake-parts.lib.mkFlake { inherit inputs; } {
-    systems = [
-      # systems for which you want to build the `perSystem` attributes
-      "x86_64-linux"
-      "aarch64-darwin"
-    ];
-    imports = [ inputs.devenv.flakeModule ];
-    perSystem =
-      {
-        config,
-        self',
-        inputs',
-        pkgs,
-        system,
-        ...
-      }:
-      {
-        # flake's own devenv
-        devenv.shells.default = {
-          imports = [ ./Utilities/devenv/default.nix ];
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      nix-darwin,
+      ...
+    }@inputs:
+    let
+      systems = [
+        "x86_64-linux"
+        "aarch64-darwin"
+      ];
+    in
+    {
+      devShell = {
+        x86_64-linux = import ./Utilities/devShell/default.nix {
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config = {
+              allowUnfree = true;
+            };
+          };
+        };
+        aarch64-darwin = import ./Utilities/devShell/default.nix {
+          pkgs = import nixpkgs {
+            system = "aarch64-darwin";
+            config = {
+              allowUnfree = true;
+            };
+          };
         };
       };
-    # non-flake.parts outputs
-    flake = {
-      overlays = import ./modules/overlays { inherit inputs; };
-      ### Host outputs
-      # NixOS configuration entrypoint
-      # Available through 'nixos-rebuild switch --flake .#your-hostname'
+
       nixosConfigurations = {
-        # # run with `nixos-rebuild build-image --image-variant iso-installer --flake .#install-iso --impure`
-        # install-iso = nixpkgs.lib.nixosSystem {
+        azure = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [ ./hosts/azure ];
+        };
+        teal = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [ ./hosts/teal ];
+        };
+        smalt = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [ ./hosts/smalt ];
+        };
+        green = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [ ./hosts/green ];
+        };
+        pearl = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [ ./hosts/pearl ];
+        };
+        wsl = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [ ./hosts/wsl ];
+        };
+        # run with `nixos-rebuild build-image --image-variant iso-installer --flake .#install-iso --impure`
+        # install-iso = inputs.nixpkgs.lib.nixosSystem {
         #   system = "x86_64-linux";
         #   specialArgs = { inherit inputs; };
         #   modules = [ ./hosts/install-iso ];
         # };
-        # blue = nixpkgs.lib.nixosSystem {
+        # blue = inputs.nixpkgs.lib.nixosSystem {
         #   system = "x86_64-linux";
         #   specialArgs = {
         #     inherit inputs;
         #   };
         #   modules = [ ./hosts/blue ];
         # };
-        azure = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs;
-          };
-          modules = [ ./hosts/azure ];
-        };
-        # carob = nixpkgs.lib.nixosSystem {
+        # carob = inputs.nixpkgs.lib.nixosSystem {
         #   system = "x86_64-linux";
         #   specialArgs = {
         #     inherit inputs;
         #   };
         #   modules = [ ./hosts/carob ];
         # };
-        teal = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs;
-          };
-          modules = [ ./hosts/teal ];
-        };
-        smalt = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs;
-          };
-          modules = [ ./hosts/smalt ];
-        };
-        green = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; }; 
-          modules = [ ./hosts/green ];
-        };
-        pearl = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs;
-          };
-          modules = [ ./hosts/pearl ];
-        };
-        wsl = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs;
-          };
-          modules = [ ./hosts/wsl ];
-        };
       };
-      # Nix-darwin configuration entrypoint
-      # Available through 'darwin-rebuild switch --flake .#your-hostname'
+
       darwinConfigurations = {
-        midnight = nix-darwin.lib.darwinSystem {
-          specialArgs = {
-            inherit inputs;
-          };
+        midnight = inputs.nix-darwin.lib.darwinSystem {
+          specialArgs = { inherit inputs; };
           system = "aarch64-darwin";
           modules = [ ./hosts/midnight ];
         };
-          pewter = nix-darwin.lib.darwinSystem {
-          specialArgs = {
-            inherit inputs;
-          };
+        pewter = inputs.nix-darwin.lib.darwinSystem {
+          specialArgs = { inherit inputs; };
           system = "aarch64-darwin";
           modules = [ ./hosts/pewter ];
-        };         
+        };
       };
-      ### Module outputs
+
+      overlays = import ./modules/overlays { inherit inputs; };
+
       nixosModules = {
         yomaq = import ./modules/hosts/nixos.nix;
         pods = import ./modules/containers;
       };
+
       darwinModules = {
         yomaq = import ./modules/hosts/darwin.nix;
       };
+
       homeManagerModules = {
         yomaq = import ./modules/home-manager;
       };
+
       users = {
         yomaq = import ./users;
       };
     };
-  };
 }
