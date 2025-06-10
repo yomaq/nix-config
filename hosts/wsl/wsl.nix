@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  lib,
   ...
 }:
 {
@@ -24,33 +25,12 @@
     environment.systemPackages = [ pkgs.dbus ];
 
     yomaq = {
-      users.enableUsers = [ "admin" ];
-
-      tailscale = {
-        enable = true;
-        extraUpFlags = [
-          "--ssh=true"
-          "--reset=true"
-        ];
-        useRoutingFeatures = "client";
-        authKeyFile = null;
-      };
       nvidia = {
         enable = true;
         wsl = true;
       };
-      docker.enable = true;
-      pods = {
-        ollama.enable = true;
-        speaches.enable = true;
-      };
-      autoUpgrade.enable = true;
-      primaryUser.users = [ "admin" ];
-      timezone.central = true;
-      suites = {
-        basics.enable = true;
-        foundation.enable = true;
-      };
+      suites.foundation.enable = true;
+      syncoid.enable = lib.mkForce false;
     };
   };
 }

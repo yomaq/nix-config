@@ -10,7 +10,7 @@ in
   options.yomaq.timezone = {
     central = lib.mkOption {
       type = lib.types.bool;
-      default = false;
+      default = true;
       description = '''';
     };
   };

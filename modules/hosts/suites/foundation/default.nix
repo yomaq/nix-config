@@ -1,6 +1,8 @@
 {
   config,
   lib,
+  inputs,
+  pkgs,
   ...
 }:
 let
@@ -11,7 +13,7 @@ in
     enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = '''';
+      description = ''basic configuration that should be set for all systems by default'';
     };
   };
 
@@ -23,5 +25,12 @@ in
       tailscale.enable = true;
       network.basics = true;
     };
+    nixpkgs.overlays = [ inputs.agenix.overlays.default ];
+    environment.systemPackages = with pkgs; [
+      vim
+      git
+      agenix
+      nixos-rebuild
+    ];
   };
 }

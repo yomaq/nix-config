@@ -29,56 +29,11 @@
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
     yomaq = {
-      users.enableUsers = [ "admin" ];
-
-      autoUpgrade.enable = true;
-      primaryUser.users = [ "admin" ];
-      tailscale = {
-        enable = true;
-        extraUpFlags = [
-          "--ssh=true"
-          "--reset=true"
-        ];
-      };
-      docker.enable = true;
-      pods = {
-        golink.enable = true;
-        teslamate.enable = true;
-        dufs.enable = true;
-        changedetection.enable = true;
-        linkwarden.enable = true;
-        searxng.enable = true;
-        n8n.enable = true;
-        open-webui.enable = true;
-      };
-      nixos-containers = {
-        nextcloud = {
-          enable = true;
-          storage = config.yomaq.impermanence.backupStorage;
-        };
-        homepage.enable = true;
-        ntfy.enable = true;
-        gatus.enable = true;
-        tsidp.enable = true;
-        audiobookshelf.enable = true;
-      };
-      syncoid = {
-        isBackupServer = true;
-        exclude = [
-          "blue"
-          "green"
-          "wsl"
-        ];
-      };
       network = {
         useBr0 = true;
         physicalInterfaceName = "eno1";
       };
-      timezone.central = true;
-      suites = {
-        basics.enable = true;
-        foundation.enable = true;
-      };
+      suites.foundation.enable = true;
       disks = {
         enable = true;
         systemd-boot = true;

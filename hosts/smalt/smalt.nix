@@ -28,43 +28,10 @@
     hardware.enableRedistributableFirmware = lib.mkDefault true;
 
     yomaq = {
-      users.enableUsers = [ "admin" ];
-
-      autoUpgrade.enable = true;
-      primaryUser.users = [ "admin" ];
-      tailscale = {
-        enable = true;
-        extraUpFlags = [
-          "--ssh=true"
-          "--reset=true"
-        ];
-      };
-      timezone.central = true;
-      syncoid.enable = true;
-      suites = {
-        basics.enable = true;
-        foundation.enable = true;
-      };
+      suites.foundation.enable = true;
       network = {
         useBr0 = true;
         physicalInterfaceName = "eno1";
-      };
-      docker.enable = true;
-      pods = {
-        minecraftBedrock.minecrafthome = {
-          enable = true;
-          envVariables = {
-            "version" = "1.21.60.10";
-            "EULA" = "TRUE";
-            "gamemode" = "survival";
-            "difficulty" = "hard";
-            "allow-cheats" = "true";
-            "max-players" = "10";
-            "view-distance" = "50";
-            "tick-distance" = "4";
-            "TEXTUREPACK_REQUIRED" = "true";
-          };
-        };
       };
       # disk configuration
       disks = {

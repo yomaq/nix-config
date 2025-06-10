@@ -21,7 +21,7 @@
     environment.persistence = lib.mkForce {};
 
 
-    environment.systemPackages = with pkgs; [ rsync ];
+    environment.systemPackages = with pkgs; [ rsync vim git ];
     networking.wireless.enable = lib.mkForce false;
     yomaq = {
       tailscale = {
@@ -36,10 +36,6 @@
         preApprovedSshAuthkey = true;
       };
       timezone.central = true;
-      suites = {
-        basics.enable = true;
-        # foundation.enable = true;
-      };
       nixSettings.enable = true;
       agenix.enable = true;
     };

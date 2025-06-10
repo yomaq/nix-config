@@ -28,27 +28,7 @@
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
     yomaq = {
-
-      users.enableUsers = [ "admin" ];
-
-      tailscale = {
-        enable = true;
-        extraUpFlags = [
-          "--ssh=true"
-          "--reset=true"
-        ];
-        useRoutingFeatures = "client";
-        authKeyFile = null;
-      };
-
-      autoUpgrade.enable = true;
-      primaryUser.users = [ "admin" ];
-      timezone.central = true;
-      syncoid.enable = true;
-      suites = {
-        basics.enable = true;
-        foundation.enable = true;
-      };
+      suites.foundation.enable = true;
       # disk configuration
       disks = {
         enable = true;

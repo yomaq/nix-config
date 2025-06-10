@@ -28,35 +28,10 @@
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
     yomaq = {
-      users.enableUsers = [ "admin" ];
-
-      autoUpgrade.enable = true;
-      primaryUser.users = [
-        "carln"
-        "admin"
-      ];
-      tailscale = {
-        enable = true;
-        extraUpFlags = [
-          "--ssh=true"
-          "--reset=true"
-        ];
-        useRoutingFeatures = "server";
-        preApprovedSshAuthkey = true;
-      };
+      suites.foundation.enable = true;
       network = {
         useBr0 = true;
         physicalInterfaceName = "eno2";
-      };
-      nixos-containers.code-server.enable = true;
-      timezone.central = true;
-      syncoid.enable = true;
-      suites = {
-        basics.enable = true;
-        foundation.enable = true;
-      };
-      docker.enable = true;
-      pods = {
       };
       # disk configuration
       disks = {
