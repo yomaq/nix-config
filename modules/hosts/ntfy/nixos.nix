@@ -1,14 +1,7 @@
 {
-  options,
-  config,
   lib,
-  pkgs,
-  inputs,
   ...
 }:
-let
-  cfg = config.yomaq.ntfy;
-in
 {
   options.yomaq.ntfy = {
     ntfyUrl = lib.mkOption {

@@ -1,9 +1,7 @@
 {
   config,
   lib,
-  pkgs,
   inputs,
-  modulesPath,
   ...
 }:
 let
@@ -11,9 +9,7 @@ let
   cfg = config.yomaq.nixos-containers."${NAME}";
 
   inherit (config.networking) hostName;
-  inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.impermanence) dontBackup;
-  inherit (config.yomaq.impermanence) backupStorage;
   inherit (config.yomaq.tailscale) tailnetName;
   inherit (config.system) stateVersion;
 

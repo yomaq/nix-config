@@ -1,14 +1,7 @@
 {
-  options,
-  config,
   lib,
-  pkgs,
-  inputs,
   ...
 }:
-let
-  cfg = config.yomaq.network;
-in
 {
   options.yomaq.network = {
     basics = lib.mkOption {

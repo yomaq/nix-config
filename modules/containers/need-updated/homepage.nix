@@ -1,8 +1,6 @@
 {
-  options,
   config,
   lib,
-  pkgs,
   inputs,
   ...
 }:
@@ -14,25 +12,7 @@ let
   IMAGE = "ghcr.io/gethomepage/homepage";
 
   cfg = config.yomaq.pods.${NAME};
-  inherit (config.networking) hostName;
-  inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.impermanence) dontBackup;
-
-  settings = {
-    title = "name";
-    background = {
-      blur = "sm"; # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
-      saturate = 50; # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
-      brightness = 50; # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
-      opacity = 50; # 0-100
-    };
-    theme = "dark"; # or light
-    color = "stone";
-    providers = {
-      openweathermap = "openweathermapapikey";
-      weatherapi = "weatherapiapikey";
-    };
-  };
 
 in
 {

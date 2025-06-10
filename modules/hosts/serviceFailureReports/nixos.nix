@@ -5,7 +5,7 @@
   ...
 }:
 let
-  createMonitoredService = name: {
+  createMonitoredService = _name: {
     onFailure = [ "yomaq-monitor@%i.service" ];
   };
   cfg = config.yomaq.monitorServices;

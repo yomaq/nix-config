@@ -1,14 +1,7 @@
 {
-  options,
-  config,
   lib,
-  pkgs,
-  inputs,
   ...
 }:
-let
-  cfg = config.yomaq.agenix;
-in
 {
   options.yomaq.agenix = {
     enable = lib.mkOption {

@@ -4,7 +4,6 @@
 ### currently broken
 
 {
-  options,
   config,
   lib,
   pkgs,

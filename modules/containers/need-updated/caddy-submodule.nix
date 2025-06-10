@@ -4,11 +4,8 @@
 
 ####
 {
-  options,
   config,
   lib,
-  pkgs,
-  inputs,
   ...
 }:
 
@@ -19,12 +16,10 @@ let
   IMAGE = "docker.io/caddy";
 
   cfg = config.yomaq.pods.tailscaled;
-  inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) dontBackup;
-  inherit (config.yomaq.tailscale) tailnetName;
 
   containerOpts =
-    { name, config, ... }:
+    { name, ... }:
     let
       startsWithCADDY = substring 0 5 name == "CADDY";
       noCADDYname = if startsWithCADDY then substring 5 (-1) name else name;
@@ -71,11 +66,7 @@ let
     };
   # Helper function to create a container configuration from a submodule
   mkContainer =
-    name: cfg:
-    let
-      formatTags = builtins.concatStringsSep "," cfg.tags;
-      PathsToMap = a: b: { Proxy = "${b}"; };
-    in
+    _name: cfg:
     {
       image = "${IMAGE}:${cfg.imageVersion}";
       autoStart = true;
@@ -98,7 +89,7 @@ let
       ];
       user = "4000:4000";
     };
-  mkTmpfilesRules = name: cfg: [
+  mkTmpfilesRules = _name: cfg: [
     "d ${cfg.volumeLocation}/data 0755 4000 4000"
     "d ${cfg.volumeLocation}/config 0755 4000 4000"
   ];

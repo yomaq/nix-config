@@ -1,9 +1,6 @@
 {
-  options,
   config,
   lib,
-  pkgs,
-  inputs,
   ...
 }:
 let
@@ -15,7 +12,6 @@ let
   cfg = config.yomaq.pods.${NAME};
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
-  inherit (config.yomaq.impermanence) dontBackup;
   inherit (config.yomaq.tailscale) tailnetName;
 in
 {

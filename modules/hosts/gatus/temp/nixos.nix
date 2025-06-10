@@ -5,9 +5,6 @@
 #
 #
 {
-  pkgs,
-  lib,
-  config,
   ...
 }:
 # let

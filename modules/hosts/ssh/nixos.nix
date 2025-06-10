@@ -1,13 +1,10 @@
 {
-  options,
   config,
   lib,
-  pkgs,
   ...
 }:
 let
   cfg = config.yomaq.ssh;
-  inherit (config.networking) hostName;
 in
 {
   options.yomaq.ssh = {

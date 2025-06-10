@@ -1,5 +1,4 @@
 {
-  options,
   config,
   lib,
   pkgs,
@@ -17,7 +16,7 @@ let
   inherit (config.yomaq.tailscale) tailnetName;
 
   containerOpts =
-    { name, config, ... }:
+    { name, ... }:
     let
       # this allows container modules to name their TS submodule "TS${containerName}" so it won't overlap with the main container
       # but the tailscale node won't have the "TS" prefix, which is unnecessary
@@ -92,7 +91,7 @@ let
     name: cfg:
     let
       formatTags = builtins.concatStringsSep "," cfg.tags;
-      PathsToMap = a: b: { Proxy = "${b}"; };
+      PathsToMap = _a: b: { Proxy = "${b}"; };
       Serveconfig = {
         TCP."443".HTTPS = true;
         Web."${cfg.TShostname}.${tailnetName}.ts.net:443".Handlers = lib.mapAttrs PathsToMap cfg.TSserve;
@@ -136,7 +135,7 @@ let
         "--cap-add=sys_module"
       ];
     };
-  mkTmpfilesRules = name: cfg: [ "d ${cfg.volumeLocation}/data-lib 0755 root root" ];
+  mkTmpfilesRules = _name: cfg: [ "d ${cfg.volumeLocation}/data-lib 0755 root root" ];
 in
 {
   options.yomaq.pods = {

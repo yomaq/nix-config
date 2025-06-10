@@ -1,8 +1,6 @@
 {
-  options,
   config,
   lib,
-  pkgs,
   inputs,
   ...
 }:
@@ -12,7 +10,6 @@ let
   ### Set container name and image
   NAME = "pihole";
   IMAGE = "docker.io/pihole/pihole";
-  tailscaleIMAGE = "ghcr.io/tailscale/tailscale";
 
   cfg = config.yomaq.pods.${NAME};
   inherit (config.networking) hostName;

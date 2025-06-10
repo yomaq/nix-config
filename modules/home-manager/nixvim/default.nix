@@ -1,14 +1,6 @@
 {
-  options,
-  config,
-  lib,
-  pkgs,
-  inputs,
   ...
 }:
-let
-  cfg = config.yomaq.nixvim;
-in
 {
   # imports = [ inputs.nixvim.homeManagerModules.nixvim ];
   # options.yomaq.nixvim = {

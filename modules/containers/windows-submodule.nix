@@ -1,9 +1,6 @@
 {
-  options,
   config,
   lib,
-  pkgs,
-  inputs,
   ...
 }:
 let
@@ -12,13 +9,10 @@ let
   IMAGE = "docker.io/dockurr/windows";
 
   cfg = config.yomaq.pods.windows;
-  inherit (config.networking) hostName;
-  inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.impermanence) dontBackup;
-  inherit (config.yomaq.tailscale) tailnetName;
 
   containerOpts =
-    { name, config, ... }:
+    { name, ... }:
     {
       options = {
         enable = lib.mkOption {
@@ -77,7 +71,7 @@ let
     ];
     # user = "4000:4000";
   };
-  mkTmpfilesRules = name: cfg: [ "d ${cfg.volumeLocation}/storage 0755 root root" ];
+  mkTmpfilesRules = _name: cfg: [ "d ${cfg.volumeLocation}/storage 0755 root root" ];
   containersList = lib.attrNames cfg;
   renameTScontainers = map (a: "TS" + a) containersList;
 
@@ -106,7 +100,7 @@ in
     };
   };
   config = lib.mkIf (cfg != { }) {
-    yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (container: {
+    yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (_container: {
       tags = [ "tag:windowsindocker" ];
       TSserve = {
         "/" = "http://127.0.0.1:8006";

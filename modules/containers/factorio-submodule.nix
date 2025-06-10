@@ -1,9 +1,6 @@
 {
-  options,
   config,
   lib,
-  pkgs,
-  inputs,
   ...
 }:
 let
@@ -12,12 +9,10 @@ let
   IMAGE = "docker.io/ofsm/ofsm";
 
   cfg = config.yomaq.pods.${NAME};
-  inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
-  inherit (config.yomaq.tailscale) tailnetName;
 
   containerOpts =
-    { name, config, ... }:
+    { name, ... }:
     let
       startsWith = lib.substring 0 12 name == "factorio";
       shortName = if startsWith then lib.substring 12 (-1) name else name;
@@ -75,7 +70,7 @@ let
       "--network=container:TS${name}"
     ];
   };
-  mkTmpfilesRules = name: cfg: [
+  mkTmpfilesRules = _name: cfg: [
     "d ${cfg.volumeLocation}/factorio/fsm-data 0755 root root"
     "d ${cfg.volumeLocation}/factorio/saves 0755 root root"
     "d ${cfg.volumeLocation}/factorio/mods 0755 root root"
@@ -98,7 +93,7 @@ in
     };
   };
   config = lib.mkIf (cfg != { }) {
-    yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (container: {
+    yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (_container: {
       tags = [ "tag:factorio" ];
       TSserve = {
         "/" = "http://127.0.0.1:80";

@@ -1,5 +1,4 @@
 {
-  options,
   config,
   lib,
   pkgs,
@@ -8,8 +7,6 @@
 }:
 let
   cfg = config.yomaq.tailscale;
-
-  inherit (config.networking) hostName;
 in
 {
   config = lib.mkMerge [

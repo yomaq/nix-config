@@ -3,7 +3,6 @@
   lib,
   pkgs,
   inputs,
-  modulesPath,
   ...
 }:
 let
@@ -29,20 +28,6 @@ let
           inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.services."${configKey}"
           != [ ]
         ) inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.services."${configKey}"
-      ) listOfHosts
-    );
-  mergeBookmarksGroups =
-    configKey:
-    lib.mkMerge (
-      map (
-        hostname:
-        lib.mkIf
-          (
-            inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks "${configKey}"
-            != [ ]
-          )
-          inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.bookmarks
-          "${configKey}"
       ) listOfHosts
     );
 in

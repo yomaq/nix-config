@@ -1,8 +1,6 @@
 {
-  options,
   config,
   lib,
-  pkgs,
   inputs,
   ...
 }:
@@ -12,12 +10,10 @@ let
   IMAGE = "docker.io/teslamate/teslamate";
   dbIMAGE = "docker.io/postgres";
   grafanaIMAGE = "docker.io/teslamate/grafana";
-  mqttIMAGE = "docker.io/eclipse-mosquitto";
 
   cfg = config.yomaq.pods.${NAME};
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
-  inherit (config.yomaq.impermanence) dontBackup;
   inherit (config.yomaq.tailscale) tailnetName;
 in
 {

@@ -1,14 +1,10 @@
 {
-  options,
   config,
   lib,
-  pkgs,
-  inputs,
   ...
 }:
 let
   cfg = config.yomaq.fwupd;
-  inherit (config.yomaq.impermanence) dontBackup;
 in
 {
   options.yomaq.fwupd = {

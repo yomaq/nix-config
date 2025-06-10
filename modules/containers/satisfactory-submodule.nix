@@ -1,9 +1,6 @@
 {
-  options,
   config,
   lib,
-  pkgs,
-  inputs,
   ...
 }:
 let
@@ -12,12 +9,10 @@ let
   IMAGE = "docker.io/wolveix/satisfactory-server";
 
   cfg = config.yomaq.pods.${NAME};
-  inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
-  inherit (config.yomaq.tailscale) tailnetName;
 
   containerOpts =
-    { name, config, ... }:
+    { name, ... }:
     let
       startsWith = lib.substring 0 12 name == "satisfactory";
       shortName = if startsWith then lib.substring 12 (-1) name else name;
@@ -74,7 +69,7 @@ let
       "--network=container:TS${name}"
     ];
   };
-  mkTmpfilesRules = name: cfg: [ "d ${cfg.volumeLocation}/data 0755 4000 4000" ];
+  mkTmpfilesRules = _name: cfg: [ "d ${cfg.volumeLocation}/data 0755 4000 4000" ];
   containersList = lib.attrNames cfg;
   renameTScontainers = map (a: "TS" + a) containersList;
 
@@ -91,7 +86,7 @@ in
     };
   };
   config = lib.mkIf (cfg != { }) {
-    yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (container: {
+    yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (_container: {
       tags = [ "tag:satisfactory" ];
     });
     systemd.tmpfiles.rules = lib.flatten (

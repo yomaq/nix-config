@@ -1,9 +1,6 @@
 {
-  config,
   lib,
-  pkgs,
   inputs,
-  modulesPath,
   ...
 }:
 {

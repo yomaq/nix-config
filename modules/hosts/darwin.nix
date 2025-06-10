@@ -17,7 +17,7 @@ let
   files =
     dir:
     lib.collect lib.isString (
-      lib.mapAttrsRecursive (path: type: lib.concatStringsSep "/" path) (getDir dir)
+      lib.mapAttrsRecursive (path: _type: lib.concatStringsSep "/" path) (getDir dir)
     );
 
   # Filters out directories that don't end with .nix or are this file, also makes the strings absolute

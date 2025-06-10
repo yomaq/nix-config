@@ -1,9 +1,6 @@
 {
-  options,
   config,
   lib,
-  pkgs,
-  inputs,
   ...
 }:
 let
@@ -17,7 +14,7 @@ let
   inherit (config.yomaq.tailscale) tailnetName;
 
   containerOpts =
-    { name, config, ... }:
+    { name, ... }:
     let
       startsWith = lib.substring 0 9 name == "minecraft";
       shortName = if startsWith then lib.substring 9 (-1) name else name;
@@ -84,7 +81,7 @@ let
     ];
     user = "4000:4000";
   };
-  mkTmpfilesRules = name: cfg: [ "d ${cfg.volumeLocation}/data 0755 4000 4000" ];
+  mkTmpfilesRules = _name: cfg: [ "d ${cfg.volumeLocation}/data 0755 4000 4000" ];
   containersList = lib.attrNames cfg;
   renameTScontainers = map (a: "TS" + a) containersList;
 
@@ -119,7 +116,7 @@ in
     };
   };
   config = lib.mkIf (cfg != { }) {
-    yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (container: {
+    yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (_container: {
       tags = [ "tag:minecraft" ];
     });
     systemd.tmpfiles.rules = lib.flatten (

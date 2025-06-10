@@ -1,8 +1,6 @@
 {
-  options,
   config,
   lib,
-  pkgs,
   inputs,
   ...
 }:
@@ -14,10 +12,7 @@ let
   IMAGE = "ghcr.io/mealie-recipes/mealie";
 
   cfg = config.yomaq.pods.${NAME};
-  inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
-  inherit (config.yomaq.impermanence) dontBackup;
-  inherit (config.yomaq.tailscale) tailnetName;
 in
 {
   options.yomaq.pods.${NAME} = {

@@ -1,14 +1,6 @@
 {
-  options,
-  config,
-  lib,
-  pkgs,
-  inputs,
   ...
 }:
-let
-  cfg = config.yomaq.homebrew;
-in
 {
   # options.yomaq.homebrew = {
   #   enable = lib.mkOption {

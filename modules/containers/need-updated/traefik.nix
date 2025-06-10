@@ -1,9 +1,6 @@
 {
-  options,
   config,
   lib,
-  pkgs,
-  inputs,
   ...
 }:
 with lib;
@@ -13,8 +10,6 @@ let
   IMAGE = "docker.io/traefik";
   defaultVersion = "v3.0";
   cfg = config.yomaq.pods.${NAME};
-  inherit (config.networking) hostName;
-  inherit (config.yomaq.tailscale) tailnetName;
 in
 {
   options.yomaq.pods.${NAME} = {

@@ -19,7 +19,6 @@
 ### Will expact to have more options to customize different themes etc as I use them.
 
 {
-  options,
   config,
   lib,
   pkgs,
