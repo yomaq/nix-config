@@ -14,8 +14,8 @@ in
 
       networking.firewall = {
         enable = true;
-        allowedTCPPorts = lib.mkForce [];
-        allowedUDPPorts = lib.mkForce [];
+        allowedTCPPorts = lib.mkForce [ ];
+        allowedUDPPorts = lib.mkForce [ ];
         allowPing = false;
       };
 

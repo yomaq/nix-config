@@ -2,6 +2,7 @@
   config,
   lib,
   inputs,
+  pkgs,
   ...
 }:
 let
@@ -20,7 +21,7 @@ in
   config = lib.mkIf cfg.enable {
 
     systemd.tmpfiles.rules = [
-      "d ${backup}/nixos-containers/${NAME}/data 0755 admin"
+      # "d ${backup}/nixos-containers/${NAME}/data"
       "d ${dontBackup}/nixos-containers/${NAME}/tailscale"
     ];
 
@@ -44,7 +45,7 @@ in
       privateNetwork = true;
       hostBridge = "br0"; # Specify the bridge name
       specialArgs = {
-        inherit inputs;
+        inherit inputs lib;
       };
       bindMounts = {
         "/etc/ssh/${hostName}" = {
@@ -55,16 +56,17 @@ in
           hostPath = "${dontBackup}/nixos-containers/${NAME}/tailscale";
           isReadOnly = false;
         };
-        "/var/lib/gatus-data" = {
-          hostPath = "${backup}/nixos-containers/${NAME}/data";
-          isReadOnly = false;
-        };
+        # "/var/lib/gatus-data" = {
+        #   hostPath = "${backup}/nixos-containers/${NAME}/data";
+        #   isReadOnly = false;
+        # };
       };
       enableTun = true;
       ephemeral = true;
       config = {
         imports = [
           inputs.self.nixosModules.yomaq
+          inputs.self.nixosModules.pods
         ];
         system.stateVersion = stateVersion;
         age.identityPaths = [ "/etc/ssh/${hostName}" ];
@@ -85,33 +87,19 @@ in
 
         environment.persistence."${dontBackup}".users.admin = lib.mkForce { };
 
-        systemd.tmpfiles.rules = [ "d /var/lib/gatus/data 0755 gatus" ];
-
         yomaq.gatus.enable = true;
+        yomaq.gatus.tailnetName = tailnetName;
+
+        systemd.services.gatus.serviceConfig.ExecStartPre = "${pkgs.coreutils}/bin/sleep 10";
+
         services.gatus = {
           enable = true;
           settings = {
             web.port = 8080;
-            storage = {
-              type = "sqlite";
-              path = "/var/lib/gatus-data/data.db";
-            };
-            # endpoints = [
-            #   {
-            #     name = "gatus";
-            #     group = "test";
-            #     url = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-            #     interval = "5m";
-            #     conditions = [ "[CONNECTED] == true" ];
-            #     alerts = [
-            #       {
-            #         type = "ntfy";
-            #         failureThreshold = 3;
-            #         description = "default check";
-            #       }
-            #     ];
-            #   }
-            # ];
+            # storage = {
+            #   type = "sqlite";
+            #   path = "/var/lib/gatus-data/data.db";
+            # };
             # external-endpoints = [{
             #   name = "ext-ep-test";
             #   group = "test";
@@ -136,25 +124,6 @@ in
             };
           };
         };
-
-        ## example of how to add a gatus monitor in another module
-        # yomaq.gatus.endpoints = [{
-        #   name = "gatus test test";
-        #   group = "webapps";
-        #   url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-        #   interval = "5s";
-        #   conditions = [
-        #     "[CONNECTED] == true"
-        #   ];
-        #   alerts = [
-        #     {
-        #       type = "ntfy";
-        #       failureThreshold = 3;
-        #       description = "healthcheck failed";
-        #     }
-        #   ];
-        # }];
-
         services.caddy = {
           enable = true;
           virtualHosts."${hostName}-${NAME}.${tailnetName}.ts.net".extraConfig = ''

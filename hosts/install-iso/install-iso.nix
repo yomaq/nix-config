@@ -18,10 +18,13 @@
       enable = true;
       settings.PermitRootLogin = "yes";
     };
-    environment.persistence = lib.mkForce {};
+    environment.persistence = lib.mkForce { };
 
-
-    environment.systemPackages = with pkgs; [ rsync vim git ];
+    environment.systemPackages = with pkgs; [
+      rsync
+      vim
+      git
+    ];
     networking.wireless.enable = lib.mkForce false;
     yomaq = {
       tailscale = {

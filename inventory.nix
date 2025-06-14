@@ -10,6 +10,7 @@
       azure = {
         users.enableUsers = [ "admin" ];
         docker.enable = true;
+        syncoid.enable = true;
         pods = {
           golink.enable = true;
           teslamate.enable = true;
@@ -33,17 +34,13 @@
         };
         syncoid = {
           isBackupServer = true;
-          exclude = [
-            "blue"
-            "green"
-            "wsl"
-          ];
         };
       };
 
       smalt = {
         users.enableUsers = [ "admin" ];
         docker.enable = true;
+        syncoid.enable = true;
         pods = {
           minecraftBedrock.minecrafthome = {
             enable = true;
@@ -59,11 +56,12 @@
               "TEXTUREPACK_REQUIRED" = "true";
             };
           };
-        }; 
+        };
       };
 
       teal = {
         users.enableUsers = [ "admin" ];
+        syncoid.enable = true;
         tailscale.preApprovedSshAuthkey = true;
         docker.enable = true;
         nixos-containers.code-server.enable = true;
@@ -81,11 +79,13 @@
 
       green = {
         users.enableUsers = [ "admin" ];
+        syncoid.enable = true;
         docker.enable = true;
       };
 
       pearl = {
         users.enableUsers = [ "admin" ];
+        syncoid.enable = true;
         tailscale.authKeyFile = null;
       };
     };

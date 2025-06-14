@@ -8,10 +8,12 @@
 let
   cfg = config.yomaq.syncoid;
   thisHost = config.networking.hostName;
-  allNixosHosts = lib.attrNames inputs.self.nixosConfigurations;
-  nixosHosts = lib.lists.subtractLists (cfg.exclude ++ [ thisHost ]) (
-    allNixosHosts ++ cfg.additionalClients
+  allSyncoidClients = lib.attrNames (
+    lib.filterAttrs (
+      hostName: hostConfig: lib.attrByPath [ "syncoid" "enable" ] false hostConfig == true
+    ) config.inventory.hosts
   );
+  syncoidClients = lib.remove config.networking.hostName allSyncoidClients;
 in
 {
   options.yomaq.syncoid = {
@@ -27,20 +29,6 @@ in
       default = false;
       description = ''
         will run syncoid and backup other nixos hosts
-      '';
-    };
-    exclude = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [ ];
-      description = ''
-        exclude hosts from backup
-      '';
-    };
-    additionalClients = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [ ];
-      description = ''
-        clients to backup not in the flake
       '';
     };
     datasets = lib.mkOption {
@@ -101,7 +89,7 @@ in
                 recvOptions = "c";
               };
             };
-          }) nixosHosts
+          }) syncoidClients
         )
       );
       services.sanoid = lib.mkIf config.yomaq.syncoid.isBackupServer (
@@ -115,7 +103,7 @@ in
               monthly = 6;
               yearly = 1;
             };
-          }) nixosHosts
+          }) syncoidClients
         )
       );
 
@@ -130,29 +118,27 @@ in
             "syncoid-success-${hostName}" = {
               script = ''
                 ${lib.getExe pkgs.curl} -X POST \
-                                https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/backup_${hostName}/external\?success\=true\&error\= \
+                                https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/backup_${hostName}-backup/external\?success\=true\&error\= \
                                 -H 'Authorization: Bearer ${hostName}'
               '';
             };
             "syncoid-fail-${hostName}" = {
               script = ''
                 ${lib.getExe pkgs.curl} -X POST \
-                                https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/backup_${hostName}/external\?success\=false\&error\= \
+                                https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/backup_${hostName}-backup/external\?success\=false\&error\= \
                                 -H 'Authorization: Bearer ${hostName}'
               '';
             };
-          }) (nixosHosts ++ [ config.networking.hostName ])
+          }) allSyncoidClients
         )
       );
 
-      yomaq.gatus.externalEndpoints = lib.mkIf config.yomaq.syncoid.isBackupServer (
-        builtins.map (hostName: {
-          name = "${hostName}";
-          group = "backup";
-          token = "${hostName}";
-        }) (nixosHosts ++ [ config.networking.hostName ])
-      );
-
+      yomaq.gatus.externalEndpoints = {
+        backup = {
+          path = "syncoid.enable";
+          config.group = "backup";
+        };
+      };
     }
   ];
 }

@@ -48,59 +48,65 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = lib.mkMerge [
+    (lib.mkIf cfg.enable {
 
-    systemd.tmpfiles.rules = [ "d ${cfg.volumeLocation}/n8n_data 0755 1000 1000" ];
+      systemd.tmpfiles.rules = [ "d ${cfg.volumeLocation}/n8n_data 0755 1000 1000" ];
 
-    virtualisation.oci-containers.containers = {
-      "${NAME}" = {
-        image = "${IMAGE}:${cfg.imageVersion}";
-        autoStart = true;
-        environment = cfg.env;
-        volumes = [ "${cfg.volumeLocation}/n8n_data:/home/node/.n8n" ];
-        extraOptions = [
-          "--pull=always"
-          "--network=container:TS${NAME}"
-        ];
-      };
-    };
-
-    yomaq.pods.tailscaled."TS${NAME}" = {
-      TSserve = {
-        "/" = "http://127.0.0.1:5678";
-      };
-      tags = [
-        "tag:ollama-server"
-        "tag:ollama-access"
-      ];
-    };
-
-    yomaq.homepage.groups.services.services = [
-      {
+      virtualisation.oci-containers.containers = {
         "${NAME}" = {
-          icon = "si-n8n";
-          href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-          siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+          image = "${IMAGE}:${cfg.imageVersion}";
+          autoStart = true;
+          environment = cfg.env;
+          volumes = [ "${cfg.volumeLocation}/n8n_data:/home/node/.n8n" ];
+          extraOptions = [
+            "--pull=always"
+            "--network=container:TS${NAME}"
+          ];
         };
-      }
-    ];
+      };
 
-    yomaq.gatus.endpoints = [
-      {
-        name = "${hostName}-${NAME}";
-        group = "webapps";
-        url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-        interval = "5m";
-        conditions = [ "[STATUS] == 200" ];
-        alerts = [
-          {
-            type = "ntfy";
-            failureThreshold = 3;
-            description = "healthcheck failed";
-          }
+      yomaq.pods.tailscaled."TS${NAME}" = {
+        TSserve = {
+          "/" = "http://127.0.0.1:5678";
+        };
+        tags = [
+          "tag:ollama-server"
+          "tag:ollama-access"
         ];
-      }
-    ];
-    yomaq.monitorServices.services."docker-${NAME}".priority = "medium";
-  };
+      };
+
+      yomaq.homepage.groups.services.services = [
+        {
+          "${NAME}" = {
+            icon = "si-n8n";
+            href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+            siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+          };
+        }
+      ];
+
+      yomaq.monitorServices.services."docker-${NAME}".priority = "medium";
+    })
+    (lib.mkIf config.yomaq.gatus.enable {
+      # Add dufs to the list of services to monitor
+      yomaq.gatus.endpoints = {
+        ${NAME} = {
+          path = "pods.${NAME}.enable";
+          config = {
+            group = "webapps";
+            interval = "5m";
+            conditions = [ "[STATUS] == 200" ];
+            alerts = [
+              {
+                type = "ntfy";
+                failureThreshold = 3;
+                description = "healthcheck failed";
+              }
+            ];
+          };
+        };
+      };
+    })
+  ];
 }

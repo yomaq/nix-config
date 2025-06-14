@@ -16,7 +16,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    inventory = lib.mkForce {};
+    inventory = lib.mkForce { };
     yomaq = {
       zsh.enable = true;
       agenix.enable = true;

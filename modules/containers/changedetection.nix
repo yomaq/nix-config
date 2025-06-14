@@ -49,89 +49,94 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
-    # ### agenix secrets for container
-    # age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
-    # age.secrets."${NAME}DBEnvFile".file = cfg.database.agenixSecret;
+  config = lib.mkMerge [
+    (lib.mkIf cfg.enable {
+      # ### agenix secrets for container
+      # age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
+      # age.secrets."${NAME}DBEnvFile".file = cfg.database.agenixSecret;
 
-    systemd.tmpfiles.rules = [
-      # main container
-      "d ${cfg.volumeLocation}/datastore 0755 4000 4000"
-    ];
-    virtualisation.oci-containers.containers = {
-      ### DB container
-      "chrome${NAME}" = {
-        image = "${secondIMAGE}:${cfg.chrome.imageVersion}";
-        autoStart = true;
-        environment = {
-          "SCREEN_WIDTH" = "1920";
-          "SCREEN_HEIGHT" = "1024";
-          "SCREEN_DEPTH" = "16";
-          "ENABLE_DEBUGGER" = "false";
-          "PREBOOT_CHROME" = "true";
-          "CONNECTION_TIMEOUT" = "300000";
-          "MAX_CONCURRENT_SESSIONS" = "10";
-          "CHROME_REFRESH_TIME " = "600000";
-          "DEFAULT_BLOCK_ADS" = "true";
-          "DEFAULT_STEALTH" = "true";
-          # Ignore HTTPS errors, like for self-signed certs
-          "DEFAULT_IGNORE_HTTPS_ERRORS" = "true";
+      systemd.tmpfiles.rules = [
+        # main container
+        "d ${cfg.volumeLocation}/datastore 0755 4000 4000"
+      ];
+      virtualisation.oci-containers.containers = {
+        ### DB container
+        "chrome${NAME}" = {
+          image = "${secondIMAGE}:${cfg.chrome.imageVersion}";
+          autoStart = true;
+          environment = {
+            "SCREEN_WIDTH" = "1920";
+            "SCREEN_HEIGHT" = "1024";
+            "SCREEN_DEPTH" = "16";
+            "ENABLE_DEBUGGER" = "false";
+            "PREBOOT_CHROME" = "true";
+            "CONNECTION_TIMEOUT" = "300000";
+            "MAX_CONCURRENT_SESSIONS" = "10";
+            "CHROME_REFRESH_TIME " = "600000";
+            "DEFAULT_BLOCK_ADS" = "true";
+            "DEFAULT_STEALTH" = "true";
+            # Ignore HTTPS errors, like for self-signed certs
+            "DEFAULT_IGNORE_HTTPS_ERRORS" = "true";
+          };
+          environmentFiles = [ ];
+          volumes = [ ];
+          extraOptions = [
+            "--pull=always"
+            "--network=container:TS${NAME}"
+          ];
         };
-        environmentFiles = [ ];
-        volumes = [ ];
-        extraOptions = [
-          "--pull=always"
-          "--network=container:TS${NAME}"
-        ];
-      };
-      ### main container
-      "${NAME}" = {
-        image = "${IMAGE}:${cfg.imageVersion}";
-        autoStart = true;
-        environment = {
-          "PLAYWRIGHT_DRIVER_URL" = "ws://127.0.0.1:3000";
-          # "BASE_URL" = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-        };
-        environmentFiles = [ ];
-        volumes = [ "${cfg.volumeLocation}/datastore:/datastore" ];
-        extraOptions = [
-          "--pull=always"
-          "--network=container:TS${NAME}"
-        ];
-      };
-    };
-    yomaq.pods.tailscaled."TS${NAME}" = {
-      TSserve = {
-        "/" = "http://127.0.0.1:5000";
-      };
-      tags = [ "tag:generichttps" ];
-    };
-    yomaq.homepage.groups.services.services = [
-      {
+        ### main container
         "${NAME}" = {
-          icon = "mdi-bookmark-box";
-          href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-          siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+          image = "${IMAGE}:${cfg.imageVersion}";
+          autoStart = true;
+          environment = {
+            "PLAYWRIGHT_DRIVER_URL" = "ws://127.0.0.1:3000";
+            # "BASE_URL" = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+          };
+          environmentFiles = [ ];
+          volumes = [ "${cfg.volumeLocation}/datastore:/datastore" ];
+          extraOptions = [
+            "--pull=always"
+            "--network=container:TS${NAME}"
+          ];
         };
-      }
-    ];
-
-    yomaq.gatus.endpoints = [
-      {
-        name = "${hostName}-${NAME}";
-        group = "webapps";
-        url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-        interval = "5m";
-        conditions = [ "[STATUS] == 200" ];
-        alerts = [
-          {
-            type = "ntfy";
-            failureThreshold = 3;
-            description = "healthcheck failed";
-          }
-        ];
-      }
-    ];
-    yomaq.monitorServices.services."docker-${NAME}".priority = "medium";
-  };
+      };
+      yomaq.pods.tailscaled."TS${NAME}" = {
+        TSserve = {
+          "/" = "http://127.0.0.1:5000";
+        };
+        tags = [ "tag:generichttps" ];
+      };
+      yomaq.homepage.groups.services.services = [
+        {
+          "${NAME}" = {
+            icon = "mdi-bookmark-box";
+            href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+            siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+          };
+        }
+      ];
+      yomaq.monitorServices.services."docker-${NAME}".priority = "medium";
+    })
+    (lib.mkIf config.yomaq.gatus.enable {
+      # Add dufs to the list of services to monitor
+      yomaq.gatus.endpoints = {
+        ${NAME} = {
+          path = "pods.${NAME}.enable";
+          config = {
+            group = "webapps";
+            interval = "5m";
+            conditions = [ "[STATUS] == 200" ];
+            alerts = [
+              {
+                type = "ntfy";
+                failureThreshold = 3;
+                description = "healthcheck failed";
+              }
+            ];
+          };
+        };
+      };
+    })
+  ];
 }

@@ -65,30 +65,28 @@ let
       };
     };
   # Helper function to create a container configuration from a submodule
-  mkContainer =
-    _name: cfg:
-    {
-      image = "${IMAGE}:${cfg.imageVersion}";
-      autoStart = true;
-      environment = lib.mkMerge [
-      ];
-      environmentFiles = [
-      ];
-      volumes = [
-        "${cfg.TSsockLocation}:/var/run/tailscale/tailscaled.sock"
-        "${cfg.volumeLocation}/data:/data"
-        "${cfg.volumeLocation}/config:/config"
-        "${cfg.volumeLocation}/config:/etc/caddy/"
-        # "${(pkgs.writeTextFile {
-        #   name = "${name}caddyfile";
-        #   text = cfg.caddyfile;
-        # })}:/etc/caddy/Caddyfile"
-      ];
-      extraOptions = [
-        "--pull=always"
-      ];
-      user = "4000:4000";
-    };
+  mkContainer = _name: cfg: {
+    image = "${IMAGE}:${cfg.imageVersion}";
+    autoStart = true;
+    environment = lib.mkMerge [
+    ];
+    environmentFiles = [
+    ];
+    volumes = [
+      "${cfg.TSsockLocation}:/var/run/tailscale/tailscaled.sock"
+      "${cfg.volumeLocation}/data:/data"
+      "${cfg.volumeLocation}/config:/config"
+      "${cfg.volumeLocation}/config:/etc/caddy/"
+      # "${(pkgs.writeTextFile {
+      #   name = "${name}caddyfile";
+      #   text = cfg.caddyfile;
+      # })}:/etc/caddy/Caddyfile"
+    ];
+    extraOptions = [
+      "--pull=always"
+    ];
+    user = "4000:4000";
+  };
   mkTmpfilesRules = _name: cfg: [
     "d ${cfg.volumeLocation}/data 0755 4000 4000"
     "d ${cfg.volumeLocation}/config 0755 4000 4000"

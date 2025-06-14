@@ -2,64 +2,134 @@
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }:
+
 let
   cfg = config.yomaq.gatus;
-  settingsFormat = pkgs.formats.yaml { };
-  listOfHosts = lib.attrNames inputs.self.nixosConfigurations;
+
+  isServiceEnabled =
+    path: hostConfig:
+    let
+      segments = lib.splitString "." path;
+    in
+    lib.attrByPath segments false hostConfig == true;
 in
 {
   options.yomaq.gatus = {
-    enable = lib.mkEnableOption (lib.mdDoc "Gatus Dashboard");
-    endpoints = lib.mkOption {
-      inherit (settingsFormat) type;
-      default = [ ];
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Enable Gatus configuration";
     };
-    externalEndpoints = lib.mkOption {
-      inherit (settingsFormat) type;
-      default = [ ];
-    };
-    url = lib.mkOption {
+    tailnetName = lib.mkOption {
       type = lib.types.str;
-      default = "https://azure-gatus.sable-chimaera.ts.net";
-      description = "url for the gatus server";
+      default = "";
+      example = "my-tailnet";
+      description = "Global tailnet name";
+    };
+    endpoints = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule (
+          { name, ... }:
+          {
+            options = {
+              path = lib.mkOption {
+                type = lib.types.str;
+                example = "pods.dufs.enable";
+                default = "pods.gatus.enable";
+                description = "Path to check in the inventory";
+              };
+              config = lib.mkOption {
+                type = lib.types.attrsOf lib.types.anything;
+                default = { };
+                description = "Standard gatus endpoint config";
+                example = {
+                  group = "webapps";
+                  interval = "5m";
+                  conditions = [ "[STATUS] == 200" ];
+                };
+              };
+            };
+          }
+        )
+      );
+      default = { };
+      description = "Gatus internal endpoint configurations";
+    };
+
+    externalEndpoints = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule (
+          { name, ... }:
+          {
+            options = {
+              path = lib.mkOption {
+                type = lib.types.str;
+                example = "pods.gatus.enable";
+                default = "pods.gatus.enable";
+                description = "Path to check in the inventory";
+              };
+              config = lib.mkOption {
+                type = lib.types.attrsOf lib.types.anything;
+                default = { };
+                description = "standard gatus external endpoint config";
+                example = {
+                  group = "backup";
+                };
+              };
+            };
+          }
+        )
+      );
+      default = { };
+      description = "Gatus external endpoint configurations";
     };
   };
-  config = lib.mkIf cfg.enable {
-    services.gatus = {
-      settings = {
-        endpoints = lib.mkMerge (
-          map (
-            hostname:
-            lib.mkIf (
-              inputs.self.nixosConfigurations."${hostname}".config.yomaq.gatus.endpoints != [ ]
-            ) inputs.self.nixosConfigurations."${hostname}".config.yomaq.gatus.endpoints
-          ) listOfHosts
-        );
-        external-endpoints = lib.mkMerge (
-          map (
-            hostname:
-            lib.mkIf (
-              inputs.self.nixosConfigurations."${hostname}".config.yomaq.gatus.externalEndpoints != [ ]
-            ) inputs.self.nixosConfigurations."${hostname}".config.yomaq.gatus.externalEndpoints
-          ) listOfHosts
-        );
-      };
-    };
-    ### example of how to add a gatus monitor in another module for use on any host in the flake.
-    # yomaq.gatus.endpoints = [{
-    #   name = "gatus test test";
-    #   group = "webapps";
-    #   url = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-    #   interval = "5s";
-    #   conditions = [
-    #     "[CONNECTED] == true"
-    #   ];
-    # }];
 
-    ### On the Gatus server itself, just set config.yomaq.gatus.enable = true;
-    ### The gatus server will check all nixosConfigurations for all gatus config, and automatically update the server.
+  config = lib.mkIf cfg.enable {
+    services.gatus.settings.endpoints = lib.concatLists (
+      lib.mapAttrsToList (
+        serviceName: endpointCfg:
+        let
+          # Find hosts with this service enabled using lib.attrByPath
+          serviceHosts = lib.filterAttrs (
+            hostName: hostConfig: isServiceEnabled endpointCfg.path hostConfig
+          ) config.inventory.hosts;
+        in
+        lib.mapAttrsToList (
+          hostName: _:
+          (
+            endpointCfg.config
+            // {
+
+              name = "${hostName}-${serviceName}";
+              url = "https://${hostName}-${serviceName}.${cfg.tailnetName}.ts.net";
+            }
+          )
+        ) serviceHosts
+      ) cfg.endpoints
+    );
+
+    services.gatus.settings.external-endpoints = lib.concatLists (
+      lib.mapAttrsToList (
+        serviceName: endpointCfg:
+        let
+          serviceHosts = lib.filterAttrs (
+            hostName: hostConfig: isServiceEnabled endpointCfg.path hostConfig
+          ) config.inventory.hosts;
+        in
+        lib.mapAttrsToList (
+          hostName: _:
+          (
+            endpointCfg.config
+            // {
+              name = "${hostName}-${serviceName}";
+              token = "${hostName}";
+            }
+          )
+        ) serviceHosts
+      ) cfg.externalEndpoints
+    );
   };
 }

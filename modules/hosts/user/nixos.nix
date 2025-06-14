@@ -25,21 +25,30 @@
         })
         (
           builtins.filter (
-            username: (config.yomaq.users.users.${username}.hasNixosPassword ||
-                      config.yomaq.users.users.${username}.u2fAuth)
+            username:
+            (
+              config.yomaq.users.users.${username}.hasNixosPassword
+              || config.yomaq.users.users.${username}.u2fAuth
+            )
           ) config.yomaq.users.enableUsers
         )
     );
 
     systemd.tmpfiles.rules = (
-      builtins.concatLists (map (username: [
-        "d /home/${username}/.config/Yubikey 0700 ${username} - -"
-        "C+ /home/${username}/.config/Yubikey/u2f_keys 0600 ${username} users - ${config.age.secrets.${username}.path}"
-      ]) (
-        builtins.filter (
-          username: config.yomaq.users.users.${username}.u2fAuth
-        ) config.yomaq.users.enableUsers
-      ))
+      builtins.concatLists (
+        map
+          (username: [
+            "d /home/${username}/.config/Yubikey 0700 ${username} - -"
+            "C+ /home/${username}/.config/Yubikey/u2f_keys 0600 ${username} users - ${
+              config.age.secrets.${username}.path
+            }"
+          ])
+          (
+            builtins.filter (
+              username: config.yomaq.users.users.${username}.u2fAuth
+            ) config.yomaq.users.enableUsers
+          )
+      )
     );
 
     users.users = lib.listToAttrs (
