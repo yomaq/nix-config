@@ -8,38 +8,50 @@ let
   NAME = "ollama";
   IMAGE = "docker.io/ollama/ollama";
 
-  cfg = config.yomaq.pods.${NAME};
+  cfg =
+    if config ? inventory.hosts."${config.networking.hostName}".pods.${NAME} then
+      config.inventory.hosts."${config.networking.hostName}".pods.${NAME}
+    else
+      null;
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) dontBackup;
   inherit (config.yomaq.tailscale) tailnetName;
 in
 {
-  options.yomaq.pods.${NAME} = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = ''
-        enable custom ${NAME} container module
-      '';
-    };
-    volumeLocation = lib.mkOption {
-      type = lib.types.str;
-      default = "${dontBackup}/containers/${NAME}";
-      description = ''
-        path to store container volumes
-      '';
-    };
-    imageVersion = lib.mkOption {
-      type = lib.types.str;
-      default = "latest";
-      description = ''
-        container image version
-      '';
+  options = {
+    inventory.hosts = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options.pods.${NAME} = {
+            enable = lib.mkOption {
+              type = lib.types.bool;
+              default = false;
+              description = ''
+                enable custom ${NAME} container module
+              '';
+            };
+            volumeLocation = lib.mkOption {
+              type = lib.types.str;
+              default = "${dontBackup}/containers/${NAME}";
+              description = ''
+                path to store container volumes
+              '';
+            };
+            imageVersion = lib.mkOption {
+              type = lib.types.str;
+              default = "latest";
+              description = ''
+                container image version
+              '';
+            };
+          };
+        }
+      );
     };
   };
 
   config = lib.mkMerge [
-    (lib.mkIf cfg.enable {
+    (lib.mkIf (cfg != null && cfg.enable) {
 
       systemd.tmpfiles.rules = [ "d ${cfg.volumeLocation}/ollama 0755 root root" ];
 

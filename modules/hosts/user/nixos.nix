@@ -5,12 +5,20 @@
   inputs,
   ...
 }:
+let
+  listOfUsers =
+    if config ? inventory.hosts."${config.networking.hostName}".users.enableUsers then
+      config.inventory.hosts."${config.networking.hostName}".users.enableUsers
+      ++ config.yomaq.users.enableUsers
+    else
+      config.yomaq.users.enableUsers;
+in
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.self.users.yomaq
   ];
-  config = lib.mkIf (config.yomaq.users.enableUsers != [ ]) {
+  config = lib.mkIf (listOfUsers != [ ]) {
 
     users.mutableUsers = false;
     users.allowNoPasswordLogin = true;
@@ -30,24 +38,18 @@
               config.yomaq.users.users.${username}.hasNixosPassword
               || config.yomaq.users.users.${username}.u2fAuth
             )
-          ) config.yomaq.users.enableUsers
+          ) listOfUsers
         )
     );
 
     systemd.tmpfiles.rules = (
       builtins.concatLists (
-        map
-          (username: [
-            "d /home/${username}/.config/Yubikey 0700 ${username} - -"
-            "C+ /home/${username}/.config/Yubikey/u2f_keys 0600 ${username} users - ${
-              config.age.secrets.${username}.path
-            }"
-          ])
-          (
-            builtins.filter (
-              username: config.yomaq.users.users.${username}.u2fAuth
-            ) config.yomaq.users.enableUsers
-          )
+        map (username: [
+          "d /home/${username}/.config/Yubikey 0700 ${username} - -"
+          "C+ /home/${username}/.config/Yubikey/u2f_keys 0600 ${username} users - ${
+            config.age.secrets.${username}.path
+          }"
+        ]) (builtins.filter (username: config.yomaq.users.users.${username}.u2fAuth) listOfUsers)
       )
     );
 
@@ -68,7 +70,7 @@
           ];
           packages = with pkgs; [ ];
         };
-      }) config.yomaq.users.enableUsers
+      }) listOfUsers
     );
 
     environment.persistence."${config.yomaq.impermanence.dontBackup}" = {
@@ -85,7 +87,7 @@
             ];
             files = [ ];
           };
-        }) config.yomaq.users.enableUsers
+        }) listOfUsers
       );
     };
 
@@ -95,7 +97,7 @@
           username:
           config.yomaq.users.users.${username}.isRoot
           && !config.yomaq.users.users.${username}.hasNixosPassword
-        ) config.yomaq.users.enableUsers;
+        ) listOfUsers;
       in
       lib.mkIf (passwordlessAdmins != [ ]) [
         {
@@ -123,7 +125,7 @@
               config.yomaq.users.users.${username}.nixpkgs.nixos
               ++ config.yomaq.users.users.${username}.nixpkgs.common;
           };
-        }) config.yomaq.users.enableUsers
+        }) listOfUsers
       );
     };
   };

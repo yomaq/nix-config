@@ -9,48 +9,61 @@ let
   IMAGE = "ghcr.io/dgtlmoon/changedetection.io";
   secondIMAGE = "docker.io/browserless/chrome";
 
-  cfg = config.yomaq.pods.${NAME};
+  cfg =
+    if config ? inventory.hosts."${config.networking.hostName}".pods.${NAME} then
+      config.inventory.hosts."${config.networking.hostName}".pods.${NAME}
+    else
+      null;
+
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.tailscale) tailnetName;
 in
 {
-  options.yomaq.pods.${NAME} = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = ''
-        enable custom ${NAME} container module
-      '';
-    };
-    volumeLocation = lib.mkOption {
-      type = lib.types.str;
-      default = "${backup}/containers/${NAME}";
-      description = ''
-        path to store container volumes
-      '';
-    };
-    imageVersion = lib.mkOption {
-      type = lib.types.str;
-      default = "latest";
-      description = ''
-        container image version
-      '';
-    };
-    ### chrome container
-    chrome = {
-      imageVersion = lib.mkOption {
-        type = lib.types.str;
-        default = "latest";
-        description = ''
-          container image version
-        '';
-      };
+  options = {
+    inventory.hosts = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options.pods.${NAME} = {
+            enable = lib.mkOption {
+              type = lib.types.bool;
+              default = false;
+              description = ''
+                enable custom ${NAME} container module
+              '';
+            };
+            volumeLocation = lib.mkOption {
+              type = lib.types.str;
+              default = "${backup}/containers/${NAME}";
+              description = ''
+                path to store container volumes
+              '';
+            };
+            imageVersion = lib.mkOption {
+              type = lib.types.str;
+              default = "latest";
+              description = ''
+                container image version
+              '';
+            };
+            ### chrome container
+            chrome = {
+              imageVersion = lib.mkOption {
+                type = lib.types.str;
+                default = "latest";
+                description = ''
+                  container image version
+                '';
+              };
+            };
+          };
+        }
+      );
     };
   };
 
   config = lib.mkMerge [
-    (lib.mkIf cfg.enable {
+    (lib.mkIf (cfg != null && cfg.enable) {
       # ### agenix secrets for container
       # age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
       # age.secrets."${NAME}DBEnvFile".file = cfg.database.agenixSecret;

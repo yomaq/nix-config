@@ -8,67 +8,79 @@ let
   NAME = "open-webui";
   IMAGE = "ghcr.io/open-webui/open-webui";
 
-  cfg = config.yomaq.pods.${NAME};
+  cfg =
+    if config ? inventory.hosts."${config.networking.hostName}".pods.${NAME} then
+      config.inventory.hosts."${config.networking.hostName}".pods.${NAME}
+    else
+      null;
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.tailscale) tailnetName;
 in
 {
-  options.yomaq.pods.${NAME} = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = ''
-        enable custom ${NAME} container module
-      '';
-    };
-    volumeLocation = lib.mkOption {
-      type = lib.types.str;
-      default = "${backup}/containers/${NAME}";
-      description = ''
-        path to store container volumes
-      '';
-    };
-    env = lib.mkOption {
-      type = lib.types.attrsOf lib.types.str;
-      default = {
-        "OLLAMA_BASE_URL" = "https://wsl-ollama.${config.yomaq.tailscale.tailnetName}.ts.net";
-        "WEBUI_URL" = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
+  options = {
+    inventory.hosts = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options.pods.${NAME} = {
+            enable = lib.mkOption {
+              type = lib.types.bool;
+              default = false;
+              description = ''
+                enable custom ${NAME} container module
+              '';
+            };
+            volumeLocation = lib.mkOption {
+              type = lib.types.str;
+              default = "${backup}/containers/${NAME}";
+              description = ''
+                path to store container volumes
+              '';
+            };
+            env = lib.mkOption {
+              type = lib.types.attrsOf lib.types.str;
+              default = {
+                "OLLAMA_BASE_URL" = "https://wsl-ollama.${config.yomaq.tailscale.tailnetName}.ts.net";
+                "WEBUI_URL" = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
 
-        "ENABLE_PERSISTENT_CONFIG" = "false";
+                "ENABLE_PERSISTENT_CONFIG" = "false";
 
-        "ENABLE_OPENAI_API" = "false";
+                "ENABLE_OPENAI_API" = "false";
 
-        "OAUTH_CLIENT_ID" = "unused";
-        "OAUTH_CLIENT_SECRET" = "unused";
-        "OPENID_PROVIDER_URL" =
-          "https://azure-tsidp.sable-chimaera.ts.net/.well-known/openid-configuration";
-        "DEFAULT_USER_ROLE" = "user";
+                "OAUTH_CLIENT_ID" = "unused";
+                "OAUTH_CLIENT_SECRET" = "unused";
+                "OPENID_PROVIDER_URL" =
+                  "https://azure-tsidp.sable-chimaera.ts.net/.well-known/openid-configuration";
+                "DEFAULT_USER_ROLE" = "user";
 
-        "ENABLE_DIRECT_CONNECTIONS" = "false";
+                "ENABLE_DIRECT_CONNECTIONS" = "false";
 
-        "ENABLE_WEB_SEARCH" = "true";
-        "WEB_SEARCH_ENGINE" = "searxng";
-        "SEARXNG_QUERY_URL" = "https://azure-searxng.sable-chimaera.ts.net/search?q=<query>";
+                "ENABLE_WEB_SEARCH" = "true";
+                "WEB_SEARCH_ENGINE" = "searxng";
+                "SEARXNG_QUERY_URL" = "https://azure-searxng.sable-chimaera.ts.net/search?q=<query>";
 
-        "ENABLE_OAUTH_SIGNUP" = "true";
-        "ENABLE_LOGIN_FORM" = "false";
-      };
-      description = ''
-        env options
-      '';
-    };
-    imageVersion = lib.mkOption {
-      type = lib.types.str;
-      default = "latest";
-      description = ''
-        container image version
-      '';
+                "ENABLE_OAUTH_SIGNUP" = "true";
+                "ENABLE_LOGIN_FORM" = "false";
+              };
+              description = ''
+                env options
+              '';
+            };
+            imageVersion = lib.mkOption {
+              type = lib.types.str;
+              default = "latest";
+              description = ''
+                container image version
+              '';
+            };
+          };
+        }
+      );
     };
   };
 
   config = lib.mkMerge [
-    (lib.mkIf cfg.enable {
+    (lib.mkIf (cfg != null && cfg.enable) {
 
       systemd.tmpfiles.rules = [ "d ${cfg.volumeLocation}/open-webui 0755 root root" ];
 

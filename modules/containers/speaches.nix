@@ -8,46 +8,58 @@ let
   NAME = "speaches";
   IMAGE = "ghcr.io/remsky/kokoro-fastapi-gpu";
 
-  cfg = config.yomaq.pods.${NAME};
+  cfg =
+    if config ? inventory.hosts."${config.networking.hostName}".pods.${NAME} then
+      config.inventory.hosts."${config.networking.hostName}".pods.${NAME}
+    else
+      null;
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.tailscale) tailnetName;
 in
 {
-  options.yomaq.pods.${NAME} = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = ''
-        enable custom ${NAME} container module
-      '';
-    };
-    volumeLocation = lib.mkOption {
-      type = lib.types.str;
-      default = "${backup}/containers/${NAME}";
-      description = ''
-        path to store container volumes
-      '';
-    };
-    env = lib.mkOption {
-      type = lib.types.attrsOf lib.types.str;
-      default = {
-      };
-      description = ''
-        env options
-      '';
-    };
-    imageVersion = lib.mkOption {
-      type = lib.types.str;
-      default = "v0.2.1";
-      description = ''
-        container image version
-      '';
+  options = {
+    inventory.hosts = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options.pods.${NAME} = {
+            enable = lib.mkOption {
+              type = lib.types.bool;
+              default = false;
+              description = ''
+                enable custom ${NAME} container module
+              '';
+            };
+            volumeLocation = lib.mkOption {
+              type = lib.types.str;
+              default = "${backup}/containers/${NAME}";
+              description = ''
+                path to store container volumes
+              '';
+            };
+            env = lib.mkOption {
+              type = lib.types.attrsOf lib.types.str;
+              default = {
+              };
+              description = ''
+                env options
+              '';
+            };
+            imageVersion = lib.mkOption {
+              type = lib.types.str;
+              default = "v0.2.1";
+              description = ''
+                container image version
+              '';
+            };
+          };
+        }
+      );
     };
   };
 
   config = lib.mkMerge [
-    (lib.mkIf cfg.enable {
+    (lib.mkIf (cfg != null && cfg.enable) {
 
       virtualisation.oci-containers.containers = {
         "${NAME}" = {

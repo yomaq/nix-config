@@ -8,7 +8,11 @@ let
   NAME = "windows";
   IMAGE = "docker.io/dockurr/windows";
 
-  cfg = config.yomaq.pods.windows;
+  cfg =
+    if config ? inventory.hosts."${config.networking.hostName}".pods.${NAME} then
+      config.inventory.hosts."${config.networking.hostName}".pods.${NAME}
+    else
+      null;
   inherit (config.yomaq.impermanence) dontBackup;
 
   containerOpts =
@@ -89,17 +93,25 @@ in
 #   };
 # }];
 {
-  options.yomaq.pods = {
-    windows = lib.mkOption {
-      default = { };
-      type = with lib.types; attrsOf (submodule containerOpts);
-      example = { };
-      description = lib.mdDoc ''
-        Windows Docker VM
-      '';
+  options = {
+    inventory.hosts = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options.pods = {
+            windows = lib.mkOption {
+              default = { };
+              type = with lib.types; attrsOf (submodule containerOpts);
+              example = { };
+              description = lib.mdDoc ''
+                Windows Docker VM
+              '';
+            };
+          };
+        }
+      );
     };
   };
-  config = lib.mkIf (cfg != { }) {
+  config = lib.mkIf (cfg != null && cfg != { }) {
     yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (_container: {
       tags = [ "tag:windowsindocker" ];
       TSserve = {

@@ -7,7 +7,6 @@
   imports = [
     # import custom modules
     inputs.self.nixosModules.yomaq
-    inputs.self.nixosModules.pods
   ];
   config = {
     networking.hostName = "green";

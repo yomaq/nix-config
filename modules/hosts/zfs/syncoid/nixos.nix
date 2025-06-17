@@ -6,7 +6,11 @@
   ...
 }:
 let
-  cfg = config.yomaq.syncoid;
+  cfg =
+    if config ? inventory.hosts."${config.networking.hostName}".syncoid then
+      config.inventory.hosts."${config.networking.hostName}".syncoid
+    else
+      null;
   thisHost = config.networking.hostName;
   allSyncoidClients = lib.attrNames (
     lib.filterAttrs (
@@ -16,31 +20,40 @@ let
   syncoidClients = lib.remove config.networking.hostName allSyncoidClients;
 in
 {
-  options.yomaq.syncoid = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = ''
-        enable zfs syncoid module
-      '';
-    };
-    isBackupServer = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = ''
-        will run syncoid and backup other nixos hosts
-      '';
-    };
-    datasets = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [ "zroot/persistSave" ];
-      description = ''
-        list of datasets syncoid has access to on client
-      '';
+  options = {
+    inventory.hosts = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options.syncoid = {
+            enable = lib.mkOption {
+              type = lib.types.bool;
+              default = false;
+              description = ''
+                enable zfs syncoid module
+              '';
+            };
+            isBackupServer = lib.mkOption {
+              type = lib.types.bool;
+              default = false;
+              description = ''
+                will run syncoid and backup other nixos hosts
+              '';
+            };
+            datasets = lib.mkOption {
+              type = lib.types.listOf lib.types.str;
+              default = [ "zroot/persistSave" ];
+              description = ''
+                list of datasets syncoid has access to on client
+              '';
+            };
+          };
+        }
+      );
     };
   };
+
   config = lib.mkMerge [
-    (lib.mkIf config.yomaq.syncoid.enable {
+    (lib.mkIf (cfg != null && cfg.enable) {
       services.syncoid.enable = true;
       # I believe I need to create the login shell as I am not using the default method of enabling ssh for the user (using tailscale ssh auth instead)
       users.users.syncoid.shell = pkgs.bash;
@@ -56,7 +69,7 @@ in
         )
       );
     })
-    (lib.mkIf config.yomaq.syncoid.isBackupServer {
+    (lib.mkIf (cfg != null && cfg.isBackupServer) {
       services.syncoid = {
         enable = true;
         interval = "daily";
@@ -79,7 +92,7 @@ in
       };
     })
     {
-      services.syncoid = lib.mkIf config.yomaq.syncoid.isBackupServer (
+      services.syncoid = lib.mkIf (cfg != null && cfg.isBackupServer) (
         lib.mkMerge (
           map (hostName: {
             commands = {
@@ -92,7 +105,7 @@ in
           }) syncoidClients
         )
       );
-      services.sanoid = lib.mkIf config.yomaq.syncoid.isBackupServer (
+      services.sanoid = lib.mkIf (cfg != null && cfg.isBackupServer) (
         lib.mkMerge (
           map (hostName: {
             datasets."zstorage/backups/${hostName}" = {
@@ -108,7 +121,7 @@ in
       );
 
       # backup monitoring service for all nixosHosts
-      systemd.services = lib.mkIf config.yomaq.syncoid.isBackupServer (
+      systemd.services = lib.mkIf (cfg != null && cfg.isBackupServer) (
         lib.mkMerge (
           map (hostName: {
             "syncoid-${hostName}Save" = {

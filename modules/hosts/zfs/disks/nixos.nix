@@ -406,15 +406,21 @@ in
                   "com.sun:auto-snapshot" = "false";
                 };
               };
-              backups = lib.mkIf config.yomaq.syncoid.isBackupServer {
-                type = "zfs_fs";
-                mountpoint = "/backups";
-                options = {
-                  atime = "off";
-                  canmount = "on";
-                  "com.sun:auto-snapshot" = "false";
-                };
-              };
+              backups =
+                lib.mkIf
+                  (
+                    config ? inventory.hosts."${config.networking.hostName}".syncoidisBackupServer
+                    && config.inventory.hosts."${config.networking.hostName}".syncoidisBackupServer
+                  )
+                  {
+                    type = "zfs_fs";
+                    mountpoint = "/backups";
+                    options = {
+                      atime = "off";
+                      canmount = "on";
+                      "com.sun:auto-snapshot" = "false";
+                    };
+                  };
             };
           };
         };

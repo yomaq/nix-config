@@ -7,7 +7,11 @@
 }:
 let
   NAME = "gatus";
-  cfg = config.yomaq.nixos-containers."${NAME}";
+  cfg =
+    if config ? inventory.hosts."${config.networking.hostName}".nixos-containers.${NAME} then
+      config.inventory.hosts."${config.networking.hostName}".nixos-containers.${NAME}
+    else
+      null;
 
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
@@ -16,9 +20,17 @@ let
   inherit (config.system) stateVersion;
 in
 {
-  options.yomaq.nixos-containers."${NAME}".enable = lib.mkEnableOption (lib.mdDoc "${NAME} Server");
+  options = {
+    inventory.hosts = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options.nixos-containers."${NAME}".enable = lib.mkEnableOption (lib.mdDoc "${NAME} Server");
+        }
+      );
+    };
+  };
 
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf (cfg != null && cfg.enable) {
 
     systemd.tmpfiles.rules = [
       # "d ${backup}/nixos-containers/${NAME}/data"

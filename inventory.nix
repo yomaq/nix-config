@@ -62,15 +62,14 @@
       teal = {
         users.enableUsers = [ "admin" ];
         syncoid.enable = true;
-        tailscale.preApprovedSshAuthkey = true;
         docker.enable = true;
         nixos-containers.code-server.enable = true;
       };
 
       wsl = {
         users.enableUsers = [ "admin" ];
-        tailscale.authKeyFile = null;
         docker.enable = true;
+        syncoid.enable = false;
         pods = {
           ollama.enable = true;
           speaches.enable = true;
@@ -86,7 +85,6 @@
       pearl = {
         users.enableUsers = [ "admin" ];
         syncoid.enable = true;
-        tailscale.authKeyFile = null;
       };
     };
   };

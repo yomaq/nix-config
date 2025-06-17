@@ -8,7 +8,11 @@ let
   NAME = "factorio";
   IMAGE = "docker.io/ofsm/ofsm";
 
-  cfg = config.yomaq.pods.${NAME};
+  cfg =
+    if config ? inventory.hosts."${config.networking.hostName}".pods.${NAME} then
+      config.inventory.hosts."${config.networking.hostName}".pods.${NAME}
+    else
+      null;
   inherit (config.yomaq.impermanence) backup;
 
   containerOpts =
@@ -82,17 +86,25 @@ let
 
 in
 {
-  options.yomaq.pods = {
-    "${NAME}" = lib.mkOption {
-      default = { };
-      type = with lib.types; attrsOf (submodule containerOpts);
-      example = { };
-      description = lib.mdDoc ''
-        ${NAME} Server
-      '';
+  options = {
+    inventory.hosts = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options.pods = {
+            "${NAME}" = lib.mkOption {
+              default = { };
+              type = with lib.types; attrsOf (submodule containerOpts);
+              example = { };
+              description = lib.mdDoc ''
+                ${NAME} Server
+              '';
+            };
+          };
+        }
+      );
     };
   };
-  config = lib.mkIf (cfg != { }) {
+  config = lib.mkIf (cfg != null && cfg != { }) {
     yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (_container: {
       tags = [ "tag:factorio" ];
       TSserve = {

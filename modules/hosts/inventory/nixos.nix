@@ -20,19 +20,10 @@
                 default = true;
               };
             };
-            # temporary measure while I move to using the inventory
-            freeformType = lib.types.attrs;
           }
         );
         default = { };
       };
-    };
-    yomaq.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = ''
-        here to signify that a host exists in the inventory
-      '';
     };
   };
 

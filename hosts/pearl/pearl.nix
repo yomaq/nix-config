@@ -28,6 +28,7 @@
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
     yomaq = {
+      tailscale.authKeyFile = null;
       suites.foundation.enable = true;
       # disk configuration
       disks = {

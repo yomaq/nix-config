@@ -1,22 +1,37 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 let
-  cfg = config.yomaq.docker;
-
+  cfg =
+    if config ? inventory.hosts."${config.networking.hostName}".docker then
+      config.inventory.hosts."${config.networking.hostName}".docker
+    else
+      null;
 in
 {
-  options.yomaq.docker = {
-    enable = lib.mkOption {
-      description = "Enable docker";
-      type = lib.types.bool;
-      default = false;
+  imports = [
+    inputs.self.nixosModules.pods
+  ];
+  options = {
+    inventory.hosts = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options.docker = {
+            enable = lib.mkOption {
+              description = "Enable docker";
+              type = lib.types.bool;
+              default = false;
+            };
+          };
+        }
+      );
     };
   };
 
-  config = lib.mkIf (cfg.enable) {
+  config = lib.mkIf (cfg != null && cfg.enable) {
     virtualisation.oci-containers.backend = "docker";
     virtualisation = {
       docker = {

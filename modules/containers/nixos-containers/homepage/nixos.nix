@@ -6,7 +6,11 @@
 }:
 let
   NAME = "homepage";
-  cfg = config.yomaq.nixos-containers."${NAME}";
+  cfg =
+    if config ? inventory.hosts."${config.networking.hostName}".nixos-containers.${NAME} then
+      config.inventory.hosts."${config.networking.hostName}".nixos-containers.${NAME}
+    else
+      null;
 
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) dontBackup;
@@ -15,17 +19,25 @@ let
 
 in
 {
-  options.yomaq.nixos-containers."${NAME}" = {
-    enable = lib.mkEnableOption (lib.mdDoc "${NAME} Server");
-    storage = lib.mkOption {
-      description = "persistent file location";
-      type = lib.types.str;
-      default = dontBackup;
+  options = {
+    inventory.hosts = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options.nixos-containers."${NAME}" = {
+            enable = lib.mkEnableOption (lib.mdDoc "${NAME} Server");
+            storage = lib.mkOption {
+              description = "persistent file location";
+              type = lib.types.str;
+              default = dontBackup;
+            };
+          };
+        }
+      );
     };
   };
 
   config = lib.mkMerge [
-    (lib.mkIf cfg.enable {
+    (lib.mkIf (cfg != null && cfg.enable) {
 
       yomaq.homepage.enable = true;
 

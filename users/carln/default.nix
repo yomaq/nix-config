@@ -6,6 +6,12 @@
 }:
 let
   USER = "carln";
+  listOfUsers =
+    if config ? inventory.hosts."${config.networking.hostName}".users.enableUsers then
+      config.inventory.hosts."${config.networking.hostName}".users.enableUsers
+      ++ config.yomaq.users.enableUsers
+    else
+      config.yomaq.users.enableUsers;
 in
 {
   yomaq.users.users."${USER}" = {
@@ -25,7 +31,6 @@ in
         pkgs.nextcloud-client
         pkgs.steam
         pkgs.brave
-        pkgs.xwaylandvideobridge
       ];
     };
     homebrew = {
@@ -49,7 +54,7 @@ in
       ];
     };
   };
-  home-manager.users."${USER}" = lib.mkIf (lib.elem USER config.yomaq.users.enableUsers) {
+  home-manager.users."${USER}" = lib.mkIf (lib.elem USER listOfUsers) {
     yomaq = {
       suites.basic.enable = true;
       gnomeOptions.enable = true;

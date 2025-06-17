@@ -11,110 +11,122 @@ let
   dbIMAGE = "docker.io/postgres";
   grafanaIMAGE = "docker.io/teslamate/grafana";
 
-  cfg = config.yomaq.pods.${NAME};
+  cfg =
+    if config ? inventory.hosts."${config.networking.hostName}".pods.${NAME} then
+      config.inventory.hosts."${config.networking.hostName}".pods.${NAME}
+    else
+      null;
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.tailscale) tailnetName;
 in
 {
-  options.yomaq.pods.${NAME} = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = ''
-        enable custom ${NAME} container module
-      '';
-    };
-    agenixSecret = lib.mkOption {
-      type = lib.types.path;
-      default = (inputs.self + /secrets/${NAME}EnvFile.age);
-      description = ''
-        path to agenix secret file
-      '';
-    };
-    volumeLocation = lib.mkOption {
-      type = lib.types.str;
-      default = "${backup}/containers/${NAME}";
-      description = ''
-        path to store container volumes
-      '';
-    };
-    imageVersion = lib.mkOption {
-      type = lib.types.str;
-      default = "latest";
-      description = ''
-        container image version
-      '';
-    };
-    ### database container
-    database = {
-      agenixSecret = lib.mkOption {
-        type = lib.types.path;
-        default = (inputs.self + /secrets/${NAME}DBEnvFile.age);
-        description = ''
-          path to agenix secret file
-        '';
-      };
-      volumeLocation = lib.mkOption {
-        type = lib.types.str;
-        default = "${backup}/containers/${NAME}/DB";
-        description = ''
-          path to store container volumes
-        '';
-      };
-      imageVersion = lib.mkOption {
-        type = lib.types.str;
-        default = "16";
-        description = ''
-          container image version
-        '';
-      };
-    };
-    ### grafana container
-    grafana = {
-      agenixSecret = lib.mkOption {
-        type = lib.types.path;
-        default = (inputs.self + /secrets/${NAME}GrafanaEnvFile.age);
-        description = ''
-          path to agenix secret file
-        '';
-      };
-      volumeLocation = lib.mkOption {
-        type = lib.types.str;
-        default = "${backup}/containers/${NAME}/Grafana";
-        description = ''
-          path to store container volumes
-        '';
-      };
-      imageVersion = lib.mkOption {
-        type = lib.types.str;
-        default = "latest";
-        description = ''
-          container image version
-        '';
-      };
-    };
-    ### mqtt container
-    mqtt = {
-      volumeLocation = lib.mkOption {
-        type = lib.types.str;
-        default = "${backup}/containers/${NAME}/mqtt";
-        description = ''
-          path to store container volumes
-        '';
-      };
-      imageVersion = lib.mkOption {
-        type = lib.types.str;
-        default = "2";
-        description = ''
-          container image version
-        '';
-      };
+  options = {
+    inventory.hosts = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options.pods.${NAME} = {
+            enable = lib.mkOption {
+              type = lib.types.bool;
+              default = false;
+              description = ''
+                enable custom ${NAME} container module
+              '';
+            };
+            agenixSecret = lib.mkOption {
+              type = lib.types.path;
+              default = (inputs.self + /secrets/${NAME}EnvFile.age);
+              description = ''
+                path to agenix secret file
+              '';
+            };
+            volumeLocation = lib.mkOption {
+              type = lib.types.str;
+              default = "${backup}/containers/${NAME}";
+              description = ''
+                path to store container volumes
+              '';
+            };
+            imageVersion = lib.mkOption {
+              type = lib.types.str;
+              default = "latest";
+              description = ''
+                container image version
+              '';
+            };
+            ### database container
+            database = {
+              agenixSecret = lib.mkOption {
+                type = lib.types.path;
+                default = (inputs.self + /secrets/${NAME}DBEnvFile.age);
+                description = ''
+                  path to agenix secret file
+                '';
+              };
+              volumeLocation = lib.mkOption {
+                type = lib.types.str;
+                default = "${backup}/containers/${NAME}/DB";
+                description = ''
+                  path to store container volumes
+                '';
+              };
+              imageVersion = lib.mkOption {
+                type = lib.types.str;
+                default = "16";
+                description = ''
+                  container image version
+                '';
+              };
+            };
+            ### grafana container
+            grafana = {
+              agenixSecret = lib.mkOption {
+                type = lib.types.path;
+                default = (inputs.self + /secrets/${NAME}GrafanaEnvFile.age);
+                description = ''
+                  path to agenix secret file
+                '';
+              };
+              volumeLocation = lib.mkOption {
+                type = lib.types.str;
+                default = "${backup}/containers/${NAME}/Grafana";
+                description = ''
+                  path to store container volumes
+                '';
+              };
+              imageVersion = lib.mkOption {
+                type = lib.types.str;
+                default = "latest";
+                description = ''
+                  container image version
+                '';
+              };
+            };
+            ### mqtt container
+            mqtt = {
+              volumeLocation = lib.mkOption {
+                type = lib.types.str;
+                default = "${backup}/containers/${NAME}/mqtt";
+                description = ''
+                  path to store container volumes
+                '';
+              };
+              imageVersion = lib.mkOption {
+                type = lib.types.str;
+                default = "2";
+                description = ''
+                  container image version
+                '';
+              };
+            };
+          };
+        }
+      );
     };
   };
 
   config = lib.mkMerge [
-    (lib.mkIf cfg.enable {
+    (lib.mkIf (cfg != null && cfg.enable) {
       ### agenix secrets for container
       age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
       age.secrets."${NAME}DBEnvFile".file = cfg.database.agenixSecret;

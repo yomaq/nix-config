@@ -6,45 +6,57 @@
 let
   ### Set container name and image
   NAME = "searxng";
-  cfg = config.yomaq.pods.${NAME};
+  cfg =
+    if config ? inventory.hosts."${config.networking.hostName}".pods.${NAME} then
+      config.inventory.hosts."${config.networking.hostName}".pods.${NAME}
+    else
+      null;
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.tailscale) tailnetName;
 in
 {
-  options.yomaq.pods.${NAME} = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = ''
-        enable custom ${NAME} container module
-      '';
-    };
-    volumeLocation = lib.mkOption {
-      type = lib.types.str;
-      default = "${backup}/containers/${NAME}";
-      description = ''
-        path to store container volumes
-      '';
-    };
-    imageVersion = lib.mkOption {
-      type = lib.types.str;
-      default = "latest";
-      description = ''
-        container image version
-      '';
-    };
-    hostname = lib.mkOption {
-      type = lib.types.str;
-      default = "search.your.domain.com";
-      description = ''
-        hostname for SearXNG
-      '';
+  options = {
+    inventory.hosts = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options.pods.${NAME} = {
+            enable = lib.mkOption {
+              type = lib.types.bool;
+              default = false;
+              description = ''
+                enable custom ${NAME} container module
+              '';
+            };
+            volumeLocation = lib.mkOption {
+              type = lib.types.str;
+              default = "${backup}/containers/${NAME}";
+              description = ''
+                path to store container volumes
+              '';
+            };
+            imageVersion = lib.mkOption {
+              type = lib.types.str;
+              default = "latest";
+              description = ''
+                container image version
+              '';
+            };
+            hostname = lib.mkOption {
+              type = lib.types.str;
+              default = "search.your.domain.com";
+              description = ''
+                hostname for SearXNG
+              '';
+            };
+          };
+        }
+      );
     };
   };
 
   config = lib.mkMerge [
-    (lib.mkIf cfg.enable {
+    (lib.mkIf (cfg != null && cfg.enable) {
       systemd.tmpfiles.rules = [
         "d ${cfg.volumeLocation}/searxng 0755 4000 4000"
         "d ${cfg.volumeLocation}/valkey-data 0755 4000 4000"

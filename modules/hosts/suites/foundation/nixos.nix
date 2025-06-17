@@ -17,10 +17,6 @@ in
         monitorServices.enable = true;
       };
     })
-    (lib.mkIf (cfg.enable && lib.hasAttr config.networking.hostName config.inventory.hosts) {
-      # temporary measure while I move to using the inventory
-      yomaq = lib.attrByPath [ "${config.networking.hostName}" ] { } config.inventory.hosts;
-    })
     {
       assertions = [
         {

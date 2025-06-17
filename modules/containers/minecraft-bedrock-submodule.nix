@@ -8,7 +8,11 @@ let
   NAME = "minecraftBedrock";
   IMAGE = "docker.io/itzg/minecraft-bedrock-server";
 
-  cfg = config.yomaq.pods.minecraftBedrock;
+  cfg =
+    if config ? inventory.hosts."${config.networking.hostName}".pods.${NAME} then
+      config.inventory.hosts."${config.networking.hostName}".pods.${NAME}
+    else
+      null;
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.tailscale) tailnetName;
@@ -105,17 +109,25 @@ let
   ];
 in
 {
-  options.yomaq.pods = {
-    minecraftBedrock = lib.mkOption {
-      default = { };
-      type = with lib.types; attrsOf (submodule containerOpts);
-      example = { };
-      description = lib.mdDoc ''
-        Minecraft Bedrock Server
-      '';
+  options = {
+    inventory.hosts = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options.pods = {
+            minecraftBedrock = lib.mkOption {
+              default = { };
+              type = with lib.types; attrsOf (submodule containerOpts);
+              example = { };
+              description = lib.mdDoc ''
+                Minecraft Bedrock Server
+              '';
+            };
+          };
+        }
+      );
     };
   };
-  config = lib.mkIf (cfg != { }) {
+  config = lib.mkIf (cfg != null && cfg != { }) {
     yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (_container: {
       tags = [ "tag:minecraft" ];
     });

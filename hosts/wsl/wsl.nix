@@ -8,7 +8,6 @@
   imports = [
     # import custom modules
     inputs.self.nixosModules.yomaq
-    inputs.self.nixosModules.pods
     inputs.nixos-wsl.nixosModules.default
   ];
   config = {
@@ -29,8 +28,8 @@
         enable = true;
         wsl = true;
       };
+      tailscale.authKeyFile = null;
       suites.foundation.enable = true;
-      syncoid.enable = lib.mkForce false;
     };
   };
 }
