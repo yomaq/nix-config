@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.yomaq.ssh;
   hostsCfg = config.inventory.hosts;
@@ -6,21 +11,19 @@ let
   regularHostEntries = lib.mapAttrs (hostname: hostConfig: {
     hostNames = [ hostname ];
     publicKey = hostConfig.publicKey.host;
-  }) (lib.filterAttrs (hostname: hostConfig:
-    hostConfig.publicKey.host != ""
-  ) hostsCfg);
+  }) (lib.filterAttrs (hostname: hostConfig: hostConfig.publicKey.host != "") hostsCfg);
   # Generate initrd host entries
-  initrdHostEntries = lib.mapAttrs' (hostname: hostConfig:
+  initrdHostEntries = lib.mapAttrs' (
+    hostname: hostConfig:
     lib.nameValuePair "${hostname}-initrd" {
       hostNames = [ "${hostname}-initrd" ];
       publicKey = hostConfig.publicKey.initrd;
     }
-  ) (lib.filterAttrs (hostname: hostConfig:
-    hostConfig.publicKey.initrd != ""
-  ) hostsCfg);
+  ) (lib.filterAttrs (hostname: hostConfig: hostConfig.publicKey.initrd != "") hostsCfg);
   # Merge
   allHostEntries = regularHostEntries // initrdHostEntries;
-in {
+in
+{
   options = {
     yomaq.ssh = {
       enable = lib.mkOption {
