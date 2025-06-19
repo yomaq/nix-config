@@ -15,6 +15,7 @@ in
   config = {
     system.stateVersion = 4;
     networking = {
+      hostName = hostname;
       computerName = hostname;
       localHostName = hostname;
     };
@@ -32,7 +33,6 @@ in
 
     yomaq = {
       users.enableUsers = [ "carln" ];
-
       yabai.enable = true;
       tailscale.enable = true;
       _1password.enable = true;

@@ -11,6 +11,7 @@ in
     yomaq = {
       skhd.enable = true;
       macosSettings.enable = true;
+      ssh.enable = true;
     };
   };
 }

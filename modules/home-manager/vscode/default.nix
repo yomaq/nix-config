@@ -19,7 +19,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    programs.vscode = {
+    programs.vscode.profiles.default = {
       package = pkgs.vscode;
       enable = true;
       enableUpdateCheck = false;

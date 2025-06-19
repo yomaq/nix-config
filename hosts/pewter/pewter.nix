@@ -15,6 +15,7 @@ in
   config = {
     system.stateVersion = 4;
     networking = {
+      hostName = hostname;
       computerName = hostname;
       localHostName = hostname;
     };

@@ -25,13 +25,6 @@
         default = { };
       };
     };
-    yomaq.hostName = lib.mkOption {
-      type = lib.types.str;
-      default = config.networking.hostName;
-      description = ''
-        way to access hostname that is OS agnostic
-      '';
-    };
   };
 
   config = {
