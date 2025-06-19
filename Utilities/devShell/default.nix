@@ -10,9 +10,6 @@ pkgs.mkShell {
     export GREET="Yomaq's Homelab"
     echo $GREET
 
-    # only needed if installing nixos
-    eval $(op signin)
-
     yo-clean() {
       sudo nix profile wipe-history --profile /nix/var/nix/profiles/system --older-than 7d
     }
@@ -82,6 +79,11 @@ pkgs.mkShell {
     }
 
     #these are untested within nix-shell
+    #for installing nixos
+
+    yo-op() {
+      eval $(op signin)
+    }
 
     yo-install-encrypted() {
       ipaddress=$2
@@ -106,6 +108,21 @@ pkgs.mkShell {
       ipaddress=$2
       hostname=$1
       nix run github:nix-community/nixos-anywhere -- --flake .#$hostname root@$ipaddress
+    }
+
+    yo-keygen() {
+        if [ $# -ne 1 ]; then
+            echo "Usage: yo-keygen <hostname/IP>"
+            return 1
+        fi
+        local HOST=$1
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null admin@$HOST << 'EOF'
+            sudo ssh-keygen -t ed25519 -f /etc/ssh/initrd -N "" -C "initrd key" -q <<< y
+            printf "\ninitrd\n"
+            cat /etc/ssh/initrd.pub
+            cat /etc/ssh/ssh_host_ed25519_key.pub
+            echo "don't forget to do another rebuild"
+EOF
     }
   '';
 }

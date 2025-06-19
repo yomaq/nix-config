@@ -15,6 +15,7 @@ in
         fwupd.enable = true;
         glances.enable = true;
         monitorServices.enable = true;
+        ssh.enable = true;
       };
     })
     {

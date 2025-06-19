@@ -9,6 +9,10 @@
 
       azure = {
         users.enableUsers = [ "admin" ];
+        publicKey = {
+          host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP2G2qPq4NAu18EE0CB7Kfm5F3FIvphuzv13BlCXuKbu";
+          initrd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICx7kM94EWaUxMh9oVgLapk4+beUqCYge3Qd4fjCRyD0";
+        };
         docker.enable = true;
         syncoid.enable = true;
         pods = {
@@ -61,6 +65,10 @@
 
       teal = {
         users.enableUsers = [ "admin" ];
+        publicKey = {
+          host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK7JriToIhfbruPxV0TJI9SF2nTKINmlsnSoyDdAVVoY";
+          initrd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBX5raO/z+XWBKjOU4JwGvquTMYSgxcg+tCFU3ok5s6H";
+        };
         syncoid.enable = true;
         docker.enable = true;
         nixos-containers.code-server.enable = true;
@@ -68,6 +76,7 @@
 
       wsl = {
         users.enableUsers = [ "admin" ];
+        publicKey.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIXH4ovu2KqiuGW+Q2RTydqFY4vFm6Aw9ZRXaAOCx8Id";
         docker.enable = true;
         syncoid.enable = false;
         pods = {
@@ -78,12 +87,17 @@
 
       green = {
         users.enableUsers = [ "admin" ];
+        publicKey = {
+          host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHUuLHm+46zaQoCy0bsQLgAkQ+apfQsMjBTnpgWQQYqm";
+          initrd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBQW6mmDZldej3eTFaD3vr7OV8VFqYl7at5Ldg1P03M/";
+        };
         syncoid.enable = true;
         docker.enable = true;
       };
 
       pearl = {
         users.enableUsers = [ "admin" ];
+        publicKey.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHX2aVm/O7Zs0qWzhU1I2xNH8JNx6q1HTy50epYqEXBI";
         syncoid.enable = true;
       };
     };
