@@ -37,8 +37,8 @@
       ...
     }@inputs:
     {
-      devShell = {
-        x86_64-linux = import ./Utilities/devShell/default.nix {
+      devShells = {
+        x86_64-linux.default = import ./Utilities/devShell/default.nix {
           pkgs = import nixpkgs {
             system = "x86_64-linux";
             config = {
@@ -46,7 +46,7 @@
             };
           };
         };
-        aarch64-darwin = import ./Utilities/devShell/default.nix {
+        aarch64-darwin.default = import ./Utilities/devShell/default.nix {
           pkgs = import nixpkgs {
             system = "aarch64-darwin";
             config = {

@@ -132,9 +132,9 @@ in
       tags = [ "tag:minecraft" ];
     });
     systemd.tmpfiles.rules = lib.flatten (
-      lib.mapAttrsToList (name: cfg: mkTmpfilesRules name cfg) config.yomaq.pods.minecraftBedrock
+      lib.mapAttrsToList (name: cfg: mkTmpfilesRules name cfg) cfg
     );
-    virtualisation.oci-containers.containers = lib.mapAttrs mkContainer config.yomaq.pods.minecraftBedrock;
+    virtualisation.oci-containers.containers = lib.mapAttrs mkContainer cfg;
     # yomaq.homepage.widgets = lib.flatten (map homepageWidgets containersList);
     yomaq.homepage.services = [ { minecraft = lib.flatten (map homepageServices containersList); } ];
     yomaq.homepage.settings.layout.minecraft.tab = "Services";
