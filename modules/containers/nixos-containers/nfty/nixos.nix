@@ -111,12 +111,12 @@ in
       };
     })
     (lib.mkIf config.yomaq.gatus.enable {
-      # Add dufs to the list of services to monitor
-      yomaq.gatus.endpoints = {
-        ${NAME} = {
-          path = "nixos-containers.${NAME}.enable";
-          config = {
+      yomaq.gatus.endpoints =
+        map
+          (host: {
+            name = "${host}-${NAME}";
             group = "webapps";
+            url = "https://${host}-${NAME}.${config.yomaq.tailscale.tailnetName}.ts.net";
             interval = "5m";
             conditions = [ "[STATUS] == 200" ];
             alerts = [
@@ -126,9 +126,12 @@ in
                 description = "healthcheck failed";
               }
             ];
-          };
-        };
-      };
+          })
+          (
+            builtins.filter (host: config.inventory.hosts.${host}.nixos-containers."${NAME}".enable or false) (
+              builtins.attrNames config.inventory.hosts
+            )
+          );
     })
   ];
 }

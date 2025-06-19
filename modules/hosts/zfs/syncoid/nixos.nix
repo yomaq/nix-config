@@ -131,27 +131,41 @@ in
             "syncoid-success-${hostName}" = {
               script = ''
                 ${lib.getExe pkgs.curl} -X POST \
-                                https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/backup_${hostName}-backup/external\?success\=true\&error\= \
+                                https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/backup_${hostName}/external\?success\=true\&error\= \
                                 -H 'Authorization: Bearer ${hostName}'
               '';
             };
             "syncoid-fail-${hostName}" = {
               script = ''
                 ${lib.getExe pkgs.curl} -X POST \
-                                https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/backup_${hostName}-backup/external\?success\=false\&error\= \
+                                https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/backup_${hostName}/external\?success\=false\&error\= \
                                 -H 'Authorization: Bearer ${hostName}'
               '';
             };
           }) allSyncoidClients
         )
       );
-
-      yomaq.gatus.externalEndpoints = {
-        backup = {
-          path = "syncoid.enable";
-          config.group = "backup";
-        };
-      };
     }
+    (lib.mkIf config.yomaq.gatus.enable {
+      yomaq.gatus.externalEndpoints =
+        map
+          (host: {
+            name = "${host}";
+            group = "backup";
+            token = "${host}";
+            alerts = [
+              {
+                type = "ntfy";
+                failureThreshold = 3;
+                description = "healthcheck failed";
+              }
+            ];
+          })
+          (
+            builtins.filter (host: config.inventory.hosts.${host}.syncoid.enable or false) (
+              builtins.attrNames config.inventory.hosts
+            )
+          );
+    })
   ];
 }

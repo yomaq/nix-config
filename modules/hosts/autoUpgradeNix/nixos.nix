@@ -50,44 +50,39 @@ in
       systemd.services.nixos-upgrade-fail = lib.mkIf config.system.autoUpgrade.enable {
         script = ''
           ${lib.getExe pkgs.curl} -X POST \
-                  https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/nixos-updates_${hostName}-update/external\?success\=false\&error\= \
+                  https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/nixos-updates_${hostName}/external\?success\=false\&error\= \
                   -H 'Authorization: Bearer ${hostName}'
         '';
       };
       systemd.services.nixos-upgrade-success = lib.mkIf config.system.autoUpgrade.enable {
         script = ''
           ${lib.getExe pkgs.curl} -X POST \
-                  https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/nixos-updates_${hostName}-update/external\?success\=true\&error\= \
+                  https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/nixos-updates_${hostName}/external\?success\=true\&error\= \
                   -H 'Authorization: Bearer ${hostName}'
         '';
       };
       yomaq.monitorServices.services.nixos-upgrade.priority = "high";
-
-      ### not working, need to test more
-      # yomaq.gatus.externalEndpoints = [{
-      #   name = "${hostName}";
-      #   group = "Nixos Host Auto Rebuilds";
-      #   token = "nixos";
-      #   url = config.yomaq.gatus.url;
-      #   conditions = [
-      #     "[CONNECTED] == true"
-      #   ];
-      #   alerts = [
-      #     {
-      #       type = "ntfy";
-      #       failureThreshold = 1;
-      #       description = "${hostName} rebuild failed";
-      #     }
-      #   ];
-      # }];
     })
     (lib.mkIf config.yomaq.gatus.enable {
-      yomaq.gatus.externalEndpoints = {
-        update = {
-          path = "enable";
-          config.group = "update";
-        };
-      };
+      yomaq.gatus.externalEndpoints =
+        map
+          (host: {
+            name = "${host}";
+            group = "update";
+            token = "${host}";
+            alerts = [
+              {
+                type = "ntfy";
+                failureThreshold = 3;
+                description = "healthcheck failed";
+              }
+            ];
+          })
+          (
+            builtins.filter (host: config.inventory.hosts.${host}.enable or false) (
+              builtins.attrNames config.inventory.hosts
+            )
+          );
     })
   ];
 }

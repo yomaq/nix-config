@@ -131,9 +131,7 @@ in
     yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (_container: {
       tags = [ "tag:minecraft" ];
     });
-    systemd.tmpfiles.rules = lib.flatten (
-      lib.mapAttrsToList (name: cfg: mkTmpfilesRules name cfg) cfg
-    );
+    systemd.tmpfiles.rules = lib.flatten (lib.mapAttrsToList (name: cfg: mkTmpfilesRules name cfg) cfg);
     virtualisation.oci-containers.containers = lib.mapAttrs mkContainer cfg;
     # yomaq.homepage.widgets = lib.flatten (map homepageWidgets containersList);
     yomaq.homepage.services = [ { minecraft = lib.flatten (map homepageServices containersList); } ];

@@ -100,7 +100,6 @@ in
         environment.persistence."${dontBackup}".users.admin = lib.mkForce { };
 
         yomaq.gatus.enable = true;
-        yomaq.gatus.tailnetName = tailnetName;
 
         systemd.services.gatus.serviceConfig.ExecStartPre = "${pkgs.coreutils}/bin/sleep 10";
 

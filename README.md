@@ -6,7 +6,9 @@
 # Nix Flake 
 
 Flake for my personal desktop and self-hosted services.  
-Attempting to view the Flake and its nixos hosts as a single logical unit, rather than trying to manage a collection of multiple computers.
+Attempting to view the Flake and its nixos hosts as a single logical unit, rather than trying to manage a collection of multiple computers.  
+A journey filled with learning I've been doing things the hard way the whole time.  
+A bit chaotic as I figure out my goals for, and how to implement this `inventory.nix` concept.
 
 # Features
 
