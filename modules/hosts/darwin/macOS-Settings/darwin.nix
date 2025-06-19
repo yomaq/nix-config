@@ -27,6 +27,7 @@ in
           AppleInterfaceStyle = "Dark";
           NSDocumentSaveNewDocumentsToCloud = false;
           "com.apple.springing.enabled" = true;
+          "com.apple.keyboard.fnState" = true;
         };
         SoftwareUpdate = {
           AutomaticallyInstallMacOSUpdates = false;
