@@ -8,11 +8,8 @@ let
   NAME = "dufs";
   IMAGE = "docker.io/sigoden/dufs";
 
-  cfg =
-    if config ? inventory.hosts."${config.networking.hostName}".pods.${NAME} then
-      config.inventory.hosts."${config.networking.hostName}".pods.${NAME}
-    else
-      null;
+  cfg = config.inventory.hosts."${config.networking.hostName}".pods.${NAME};
+
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.tailscale) tailnetName;
@@ -51,7 +48,7 @@ in
   };
 
   config = lib.mkMerge [
-    (lib.mkIf (cfg != null && cfg.enable) {
+    (lib.mkIf cfg.enable {
       systemd.tmpfiles.rules = [ "d ${cfg.volumeLocation}/data 0755 4000 4000" ];
       virtualisation.oci-containers.containers = {
         "${NAME}" = {

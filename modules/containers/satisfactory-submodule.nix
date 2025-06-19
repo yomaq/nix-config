@@ -8,11 +8,8 @@ let
   NAME = "satisfactory";
   IMAGE = "docker.io/wolveix/satisfactory-server";
 
-  cfg =
-    if config ? inventory.hosts."${config.networking.hostName}".pods.${NAME} then
-      config.inventory.hosts."${config.networking.hostName}".pods.${NAME}
-    else
-      null;
+  cfg = config.inventory.hosts."${config.networking.hostName}".pods.${NAME};
+
   inherit (config.yomaq.impermanence) backup;
 
   containerOpts =
@@ -97,7 +94,7 @@ in
       );
     };
   };
-  config = lib.mkIf (cfg != null && cfg != { }) {
+  config = lib.mkIf (cfg != { }) {
     yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (_container: {
       tags = [ "tag:satisfactory" ];
     });

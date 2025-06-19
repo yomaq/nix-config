@@ -8,11 +8,8 @@ let
   NAME = "n8n";
   IMAGE = "docker.io/n8nio/n8n";
 
-  cfg =
-    if config ? inventory.hosts."${config.networking.hostName}".pods.${NAME} then
-      config.inventory.hosts."${config.networking.hostName}".pods.${NAME}
-    else
-      null;
+  cfg = config.inventory.hosts."${config.networking.hostName}".pods.${NAME};
+
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.tailscale) tailnetName;
@@ -61,7 +58,7 @@ in
   };
 
   config = lib.mkMerge [
-    (lib.mkIf (cfg != null && cfg.enable) {
+    (lib.mkIf cfg.enable {
 
       systemd.tmpfiles.rules = [ "d ${cfg.volumeLocation}/n8n_data 0755 1000 1000" ];
 

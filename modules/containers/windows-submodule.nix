@@ -8,11 +8,8 @@ let
   NAME = "windows";
   IMAGE = "docker.io/dockurr/windows";
 
-  cfg =
-    if config ? inventory.hosts."${config.networking.hostName}".pods.${NAME} then
-      config.inventory.hosts."${config.networking.hostName}".pods.${NAME}
-    else
-      null;
+  cfg = config.inventory.hosts."${config.networking.hostName}".pods.${NAME};
+
   inherit (config.yomaq.impermanence) dontBackup;
 
   containerOpts =
@@ -111,7 +108,7 @@ in
       );
     };
   };
-  config = lib.mkIf (cfg != null && cfg != { }) {
+  config = lib.mkIf (cfg != { }) {
     yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (_container: {
       tags = [ "tag:windowsindocker" ];
       TSserve = {

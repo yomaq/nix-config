@@ -6,11 +6,7 @@
 }:
 let
   NAME = "homepage";
-  cfg =
-    if config ? inventory.hosts."${config.networking.hostName}".nixos-containers.${NAME} then
-      config.inventory.hosts."${config.networking.hostName}".nixos-containers.${NAME}
-    else
-      null;
+  cfg = config.inventory.hosts."${config.networking.hostName}".nixos-containers.${NAME};
 
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) dontBackup;
@@ -37,7 +33,7 @@ in
   };
 
   config = lib.mkMerge [
-    (lib.mkIf (cfg != null && cfg.enable) {
+    (lib.mkIf cfg.enable {
 
       yomaq.homepage.enable = true;
 
@@ -74,8 +70,8 @@ in
           system.stateVersion = stateVersion;
           age.identityPaths = [ "/etc/ssh/${hostName}" ];
 
+          inventory.hosts."${hostName}-${NAME}".users.enableUsers = [ "admin" ];
           yomaq = {
-            users.enableUsers = [ "admin" ];
             tailscale.extraUpFlags = [
               "--ssh=true"
               "--reset=true"

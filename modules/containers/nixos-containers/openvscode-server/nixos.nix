@@ -6,11 +6,7 @@
 }:
 let
   NAME = "openvscode";
-  cfg =
-    if config ? inventory.hosts."${config.networking.hostName}".nixos-containers.${NAME} then
-      config.inventory.hosts."${config.networking.hostName}".nixos-containers.${NAME}
-    else
-      null;
+  cfg = config.inventory.hosts."${config.networking.hostName}".nixos-containers.${NAME};
 
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) dontBackup;
@@ -27,7 +23,7 @@ in
       );
     };
   };
-  config = lib.mkIf (cfg != null && cfg.enable) {
+  config = lib.mkIf cfg.enable {
 
     systemd.tmpfiles.rules = [
       "d ${dontBackup}/nixos-containers/${NAME}/tailscale"
@@ -94,8 +90,8 @@ in
         system.stateVersion = stateVersion;
         age.identityPaths = [ "/etc/ssh/${hostName}" ];
 
+        inventory.hosts."${hostName}-${NAME}".users.enableUsers = [ "admin" ];
         yomaq = {
-          users.enableUsers = [ "admin" ];
           suites = {
             container.enable = true;
           };

@@ -9,11 +9,7 @@ let
   IMAGE = "ghcr.io/dgtlmoon/changedetection.io";
   secondIMAGE = "docker.io/browserless/chrome";
 
-  cfg =
-    if config ? inventory.hosts."${config.networking.hostName}".pods.${NAME} then
-      config.inventory.hosts."${config.networking.hostName}".pods.${NAME}
-    else
-      null;
+  cfg = config.inventory.hosts."${config.networking.hostName}".pods.${NAME};
 
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
@@ -63,7 +59,7 @@ in
   };
 
   config = lib.mkMerge [
-    (lib.mkIf (cfg != null && cfg.enable) {
+    (lib.mkIf cfg.enable {
       # ### agenix secrets for container
       # age.secrets."${NAME}EnvFile".file = cfg.agenixSecret;
       # age.secrets."${NAME}DBEnvFile".file = cfg.database.agenixSecret;

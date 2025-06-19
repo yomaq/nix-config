@@ -6,11 +6,7 @@
 }:
 let
   NAME = "openwebui";
-  cfg =
-    if config ? inventory.hosts."${config.networking.hostName}".nixos-containers.${NAME} then
-      config.inventory.hosts."${config.networking.hostName}".nixos-containers.${NAME}
-    else
-      null;
+  cfg = config.inventory.hosts."${config.networking.hostName}".nixos-containers.${NAME};
 
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
@@ -30,7 +26,7 @@ in
   };
 
   config = lib.mkMerge [
-    (lib.mkIf (cfg != null && cfg.enable) {
+    (lib.mkIf cfg.enable {
 
       systemd.tmpfiles.rules = [
         "d ${backup}/nixos-containers/${NAME}/data 0755 admin"
@@ -81,8 +77,8 @@ in
           system.stateVersion = stateVersion;
           age.identityPaths = [ "/etc/ssh/${hostName}" ];
 
+          inventory.hosts."${hostName}-${NAME}".users.enableUsers = [ "admin" ];
           yomaq = {
-            users.enableUsers = [ "admin" ];
             suites = {
               container.enable = true;
             };

@@ -21,11 +21,6 @@
     };
 
     yomaq.users = {
-      enableUsers = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
-        default = [ ];
-        description = "List of users to enable";
-      };
       users = lib.mkOption {
         type = lib.types.attrsOf (
           lib.types.submodule {

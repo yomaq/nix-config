@@ -6,12 +6,7 @@
 }:
 let
   USER = "admin";
-  listOfUsers =
-    if config ? inventory.hosts."${config.networking.hostName}".users.enableUsers then
-      config.inventory.hosts."${config.networking.hostName}".users.enableUsers
-      ++ config.yomaq.users.enableUsers
-    else
-      config.yomaq.users.enableUsers;
+  listOfUsers = config.inventory.hosts."${config.networking.hostName}".users.enableUsers;
 in
 {
   yomaq.users.users."${USER}" = {
