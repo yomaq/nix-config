@@ -34,16 +34,6 @@ in
         "d ${backup}/nixos-containers/${NAME}/tsidp"
       ];
 
-      # yomaq.homepage.groups.services.services = [
-      #   {
-      #     "${NAME}" = {
-      #       icon = "si-tailscale";
-      #       href = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-      #       siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-      #     };
-      #   }
-      # ];
-
       #will still need to set the network device name manually
       yomaq.network.useBr0 = true;
 

@@ -64,22 +64,6 @@ in
         };
       };
 
-      # yomaq.pods.tailscaled."TS${NAME}" = {
-      #   TSserve = {
-      #     "/" = "http://127.0.0.1:5000";
-      #   };
-      #   tags = [ "tag:generichttps" ];
-      # };
-
-      yomaq.homepage.groups.services.services = [
-        {
-          "${NAME}" = {
-            icon = "si-go";
-            href = "https://go.${tailnetName}.ts.net";
-            siteMonitor = "https://go.${tailnetName}.ts.net";
-          };
-        }
-      ];
       yomaq.monitorServices.services."docker-${NAME}".priority = "medium";
     })
     (lib.mkIf config.yomaq.gatus.enable {
@@ -104,6 +88,24 @@ in
               builtins.attrNames config.inventory.hosts
             )
           );
+    })
+    (lib.mkIf config.yomaq.homepage.enable {
+      yomaq.homepage.groups.services = builtins.listToAttrs (
+        map
+          (host: {
+            name = "${NAME} - ${host}";
+            value = {
+              icon = "si-go";
+              href = "https://${host}-${NAME}.${tailnetName}.ts.net/";
+              siteMonitor = "https://${host}-${NAME}.${tailnetName}.ts.net/";
+            };
+          })
+          (
+            builtins.filter (host: config.inventory.hosts.${host}.pods."${NAME}".enable or false) (
+              builtins.attrNames config.inventory.hosts
+            )
+          )
+      );
     })
   ];
 }

@@ -33,15 +33,6 @@ in
         "d ${dontBackup}/nixos-containers/${NAME}/tailscale"
       ];
 
-      yomaq.homepage.groups.services.services = [
-        {
-          "${NAME}" = {
-            icon = "si-audiobookshelf";
-            href = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-            siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-          };
-        }
-      ];
       yomaq.monitorServices.services."container@${hostName}-${NAME}".priority = "medium";
 
       #will still need to set the network device name manually
@@ -153,6 +144,24 @@ in
               builtins.attrNames config.inventory.hosts
             )
           );
+    })
+    (lib.mkIf config.yomaq.homepage.enable {
+      yomaq.homepage.groups.services = builtins.listToAttrs (
+        map
+          (host: {
+            name = "${NAME} - ${host}";
+            value = {
+              icon = "mdi-bell-badge";
+              href = "https://${host}-${NAME}.${tailnetName}.ts.net/";
+              siteMonitor = "https://${host}-${NAME}.${tailnetName}.ts.net/";
+            };
+          })
+          (
+            builtins.filter (host: config.inventory.hosts.${host}.nixos-containers."${NAME}".enable or false) (
+              builtins.attrNames config.inventory.hosts
+            )
+          )
+      );
     })
   ];
 }

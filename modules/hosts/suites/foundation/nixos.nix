@@ -14,7 +14,6 @@ in
         autoUpgrade.enable = true;
         initrd-tailscale.enable = true;
         fwupd.enable = true;
-        glances.enable = true;
         monitorServices.enable = true;
         ssh.enable = true;
       };

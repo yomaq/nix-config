@@ -7,142 +7,82 @@
 }:
 let
   cfg = config.yomaq.homepage;
-  settingsFormat = pkgs.formats.yaml { };
-  listOfHosts = lib.attrNames inputs.self.nixosConfigurations;
-  mergeConfig =
-    configKey:
-    lib.mkMerge (
-      map (
-        hostname:
-        lib.mkIf (
-          inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage."${configKey}" != [ ]
-        ) inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage."${configKey}"
-      ) listOfHosts
-    );
-  mergeServiceGroups =
-    configKey:
-    lib.mkMerge (
-      map (
-        hostname:
-        lib.mkIf (
-          inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.services."${configKey}"
-          != [ ]
-        ) inputs.self.nixosConfigurations."${hostname}".config.yomaq.homepage.groups.services."${configKey}"
-      ) listOfHosts
-    );
+  yamlReadyList =
+    attrs:
+    lib.attrsets.mapAttrsToList (groupName: services: {
+      ${groupName} = lib.attrsets.mapAttrsToList (serviceName: serviceAttrs: {
+        ${serviceName} = serviceAttrs;
+      }) services;
+    }) attrs;
+  formatWidgets =
+    widgets:
+    lib.attrsets.mapAttrsToList (widgetName: widgetAttrs: {
+      ${widgetName} = widgetAttrs;
+    }) widgets;
 in
 {
   options.yomaq.homepage = {
     enable = lib.mkEnableOption (lib.mdDoc "Homepage Dashboard");
-
     bookmarks = lib.mkOption {
-      inherit (settingsFormat) type;
-      default = [ ];
+      type = lib.types.attrs;
+      default = { };
+      description = "Bookmarks for homepage dashboard";
     };
     services = lib.mkOption {
-      inherit (settingsFormat) type;
-      default = [ ];
+      type = lib.types.attrs;
+      default = { };
+      description = "Service groups for homepage dashboard";
     };
     widgets = lib.mkOption {
-      inherit (settingsFormat) type;
-      default = [ ];
+      type = lib.types.attrs;
+      default = { };
+      description = "Widgets for homepage dashboard";
     };
     settings = lib.mkOption {
-      inherit (settingsFormat) type;
+      type = lib.types.attrs;
       default = { };
+      description = "Settings for homepage dashboard";
+    };
+    settingsLayout = lib.mkOption {
+      type = lib.types.attrs;
+      default = { };
+      description = "Layout configuration for homepage dashboard";
     };
   };
   options.yomaq.homepage.groups = {
-    services = {
-      services = lib.mkOption {
-        inherit (settingsFormat) type;
-        default = [ ];
-      };
+    services = lib.mkOption {
+      type = lib.types.attrs;
+      default = { };
+      description = "Services to be added to the Services group";
     };
-    bookmarks = {
-      favorites = lib.mkOption {
-        inherit (settingsFormat) type;
-        default = [ ];
-      };
+    bookmarks = lib.mkOption {
+      type = lib.types.attrs;
+      default = { };
+      description = "Bookmarks to be added to groups";
     };
   };
   config = lib.mkIf cfg.enable {
     services.homepage-dashboard = {
-      settings = mergeConfig "settings";
-      widgets = mergeConfig "widgets";
-      services = mergeConfig "services";
-      bookmarks = mergeConfig "bookmarks";
+      settings = cfg.settings // {
+        layout = cfg.settingsLayout;
+      };
+      widgets = formatWidgets cfg.widgets;
+      services = yamlReadyList cfg.services;
+      bookmarks = yamlReadyList cfg.bookmarks;
     };
     services.homepage-dashboard.package = pkgs.unstable.homepage-dashboard;
     age.secrets."homepage".file = (inputs.self + /secrets/homepage.age);
     services.homepage-dashboard.environmentFile = "${config.age.secrets."homepage".path}";
 
-    #####
-    ##### Service configuration
-    #####
-
     yomaq.homepage = {
-      ### Bookmark and service groups cannot have the same names.
-      ### Empty lists will break the config
-      ### Also add the layout for the group below.
-      services = [ { Services = mergeServiceGroups "services"; } ];
-      bookmarks = [
-        # { favorites = mergeServiceGroups "favorites"; }
-      ];
-      widgets = [
-        {
-          datetime = {
-            format = {
-              timeStyle = "short";
-            };
-          };
-        }
-        {
-          search = {
-            provider = "custom";
-            url = "https://azure-searxng.sable-chimaera.ts.net/?q=";
-            focus = true; # Optional, will set focus to the search bar on page load
-            # showSearchSuggestions = true; # Optional, will show search suggestions. Defaults to false
-            target = "_blank"; # One of _self, _blank, _parent or _top
-          };
-        }
-        {
-          openmeteo = {
-            label = "Okc"; # optional
-            latitude = "35.46756";
-            longitude = "-97.51643";
-            timezone = "America/Chicago"; # optional
-            units = "Imperial"; # or "imperial"
-            cache = 5; # Time in minutes to cache API responses, to stay within limits
-            format = {
-              # optional, Intl.NumberFormat options
-              maximumFractionDigits = 1;
-            };
-          };
-        }
-      ];
-      settings = {
-        title = "{{HOMEPAGE_VAR_NAME}}";
-        background = {
-          blur = "sm"; # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
-          saturate = 50; # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
-          brightness = 50; # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
-          opacity = 50; # 0-100
-        };
-        color = "slate";
-        theme = "dark"; # or light
-        hideVersion = "true";
-        useEqualHeights = true;
-        favicon = "https://azure-dufs.sable-chimaera.ts.net/strawberry/favicon.ico";
-        statusStyle = "dot";
-
-        layout = {
-          Services = {
-            tab = "Services";
-          };
-        };
+      services = {
+        "Services" = cfg.groups.services;
+      };
+      bookmarks = {
+      };
+      settingsLayout.Services = {
+        tab = "Services";
       };
     };
-
   };
 }

@@ -33,16 +33,6 @@ in
         "d ${backup}/nixos-containers/${NAME}/data 0755 admin"
       ];
 
-      yomaq.homepage.groups.services.services = [
-        {
-          "${NAME}" = {
-            icon = "mdi-bell-badge";
-            href = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-            siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-          };
-        }
-      ];
-
       #will still need to set the network device name manually
       yomaq.network.useBr0 = true;
 
@@ -128,6 +118,24 @@ in
               builtins.attrNames config.inventory.hosts
             )
           );
+    })
+    (lib.mkIf config.yomaq.homepage.enable {
+      yomaq.homepage.groups.services = builtins.listToAttrs (
+        map
+          (host: {
+            name = "${NAME} - ${host}";
+            value = {
+              icon = "mdi-bell-badge";
+              href = "https://${host}-${NAME}.${tailnetName}.ts.net/";
+              siteMonitor = "https://${host}-${NAME}.${tailnetName}.ts.net/";
+            };
+          })
+          (
+            builtins.filter (host: config.inventory.hosts.${host}.nixos-containers."${NAME}".enable or false) (
+              builtins.attrNames config.inventory.hosts
+            )
+          )
+      );
     })
   ];
 }

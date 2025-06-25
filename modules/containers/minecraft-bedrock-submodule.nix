@@ -124,23 +124,62 @@ in
       );
     };
   };
-  config = lib.mkIf (cfg != { }) {
-    yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (_container: {
-      tags = [ "tag:minecraft" ];
-    });
-    systemd.tmpfiles.rules = lib.flatten (lib.mapAttrsToList (name: cfg: mkTmpfilesRules name cfg) cfg);
-    virtualisation.oci-containers.containers = lib.mapAttrs mkContainer cfg;
-    # yomaq.homepage.widgets = lib.flatten (map homepageWidgets containersList);
-    yomaq.homepage.services = [ { minecraft = lib.flatten (map homepageServices containersList); } ];
-    yomaq.homepage.settings.layout.minecraft.tab = "Services";
+  config = lib.mkMerge [
+    (lib.mkIf (cfg != { }) {
+      yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (_container: {
+        tags = [ "tag:minecraft" ];
+      });
+      systemd.tmpfiles.rules = lib.flatten (lib.mapAttrsToList (name: cfg: mkTmpfilesRules name cfg) cfg);
+      virtualisation.oci-containers.containers = lib.mapAttrs mkContainer cfg;
 
-    yomaq.monitorServices.services = lib.mkMerge (
-      lib.mapAttrsToList (name: _: {
-        "docker-${name}" = {
-          priority = "medium";
-        };
-      }) cfg
-    );
+      yomaq.monitorServices.services = lib.mkMerge (
+        lib.mapAttrsToList (name: _: {
+          "docker-${name}" = {
+            priority = "medium";
+          };
+        }) cfg
+      );
+    })
+    (lib.mkIf config.yomaq.homepage.enable {
+      # Layout configuration for Minecraft tab
+      yomaq.homepage.settingsLayout.minecraft = {
+        tab = "Services";
+        style = "column";
+      };
 
-  };
+      # Service widgets for Minecraft Bedrock servers
+      yomaq.homepage.services.minecraft =
+        lib.foldl
+          (
+            acc: hostName:
+            let
+              hostConfig = config.inventory.hosts.${hostName};
+              bedrockServers = lib.filterAttrs (name: value: value.enable or false) (
+                hostConfig.pods.minecraftBedrock or { }
+              );
+            in
+            acc
+            // (lib.mapAttrs (serverName: serverConfig: {
+              icon = "si-minecraft";
+              href = "https://${hostName}-${serverName}.${tailnetName}.ts.net";
+              widget = {
+                type = "gamedig";
+                serverType = "minecraftbe";
+                url = "udp://${hostName}-${serverName}.${tailnetName}.ts.net:19132";
+                fields = [
+                  "status"
+                  "players"
+                  "ping"
+                ];
+              };
+            }) bedrockServers)
+          )
+          { }
+          (
+            lib.filter (hostName: (config.inventory.hosts.${hostName}.pods.minecraftBedrock or { }) != { }) (
+              builtins.attrNames config.inventory.hosts
+            )
+          );
+    })
+  ];
 }

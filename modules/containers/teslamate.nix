@@ -232,17 +232,6 @@ in
         };
         tags = [ "tag:teslamate" ];
       };
-
-      yomaq.homepage.groups.services.services = [
-        {
-          "${NAME}" = {
-            icon = "si-tesla";
-            href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-            siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-          };
-        }
-      ];
-
       yomaq.monitorServices.services."docker-${NAME}".priority = "medium";
     })
     (lib.mkIf config.yomaq.gatus.enable {
@@ -267,6 +256,24 @@ in
               builtins.attrNames config.inventory.hosts
             )
           );
+    })
+    (lib.mkIf config.yomaq.homepage.enable {
+      yomaq.homepage.groups.services = builtins.listToAttrs (
+        map
+          (host: {
+            name = "${NAME} - ${host}";
+            value = {
+              icon = "si-tesla";
+              href = "https://${host}-${NAME}.${tailnetName}.ts.net/";
+              siteMonitor = "https://${host}-${NAME}.${tailnetName}.ts.net/";
+            };
+          })
+          (
+            builtins.filter (host: config.inventory.hosts.${host}.pods."${NAME}".enable or false) (
+              builtins.attrNames config.inventory.hosts
+            )
+          )
+      );
     })
   ];
 }

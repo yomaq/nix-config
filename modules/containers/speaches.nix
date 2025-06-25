@@ -81,16 +81,6 @@ in
         ];
       };
 
-      # yomaq.homepage.groups.services.services = [
-      #   {
-      #     "${NAME}" = {
-      #       icon = "si-ollama";
-      #       href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-      #       siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-      #     };
-      #   }
-      # ];
-
       yomaq.monitorServices.services."docker-${NAME}".priority = "medium";
     })
     (lib.mkIf config.yomaq.gatus.enable {

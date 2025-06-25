@@ -33,16 +33,6 @@ in
       "d ${dontBackup}/nixos-containers/${NAME}/admin 0755 admin"
     ];
 
-    yomaq.homepage.groups.services.services = [
-      {
-        "Code Server" = {
-          icon = "si-visualstudiocode";
-          href = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-          siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net/";
-        };
-      }
-    ];
-
     yomaq.monitorServices.services."container@${hostName}-${NAME}".priority = "medium";
 
     #will still need to set the network device name manually

@@ -42,16 +42,6 @@ in
         "d ${cfg.storage}/nixos-containers/${NAME}/db"
       ];
 
-      yomaq.homepage.groups.services.services = [
-        {
-          "Nextcloud" = {
-            icon = "si-nextcloud";
-            href = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-            siteMonitor = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
-          };
-        }
-      ];
-
       yomaq.monitorServices.services."container@${hostName}-${NAME}".priority = "medium";
 
       #will still need to set the network device name manually
@@ -184,6 +174,24 @@ in
               builtins.attrNames config.inventory.hosts
             )
           );
+    })
+    (lib.mkIf config.yomaq.homepage.enable {
+      yomaq.homepage.groups.services = builtins.listToAttrs (
+        map
+          (host: {
+            name = "${NAME} - ${host}";
+            value = {
+              icon = "si-nextcloud";
+              href = "https://${host}-${NAME}.${tailnetName}.ts.net/";
+              siteMonitor = "https://${host}-${NAME}.${tailnetName}.ts.net/";
+            };
+          })
+          (
+            builtins.filter (host: config.inventory.hosts.${host}.nixos-containers."${NAME}".enable or false) (
+              builtins.attrNames config.inventory.hosts
+            )
+          )
+      );
     })
   ];
 }

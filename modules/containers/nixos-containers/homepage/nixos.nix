@@ -70,7 +70,10 @@ in
           system.stateVersion = stateVersion;
           age.identityPaths = [ "/etc/ssh/${hostName}" ];
 
-          inventory.hosts."${hostName}-${NAME}".users.enableUsers = [ "admin" ];
+          inventory.hosts."${hostName}-${NAME}" = {
+            users.enableUsers = [ "admin" ];
+            glances.enable = false;
+          };
           yomaq = {
             tailscale.extraUpFlags = [
               "--ssh=true"
@@ -84,6 +87,43 @@ in
           systemd.services.homepage-dashboard.serviceConfig.Environment = [
             "HOMEPAGE_ALLOWED_HOSTS=${hostName}-${NAME}.${tailnetName}.ts.net"
           ];
+
+          yomaq.homepage = {
+            widgets = {
+              search = {
+                provider = "custom";
+                url = "https://azure-searxng.sable-chimaera.ts.net/?q=";
+                focus = true;
+                target = "_blank";
+              };
+              openmeteo = {
+                label = "Okc";
+                latitude = "35.46756";
+                longitude = "-97.51643";
+                timezone = "America/Chicago";
+                units = "Imperial";
+                cache = 5;
+                format = {
+                  maximumFractionDigits = 1;
+                };
+              };
+            };
+            settings = {
+              title = "{{HOMEPAGE_VAR_NAME}}";
+              background = {
+                blur = "sm";
+                saturate = 50;
+                brightness = 50;
+                opacity = 50;
+              };
+              color = "slate";
+              theme = "dark";
+              hideVersion = "true";
+              useEqualHeights = true;
+              favicon = "https://azure-dufs.sable-chimaera.ts.net/strawberry/favicon.ico";
+              statusStyle = "dot";
+            };
+          };
 
           systemd.tmpfiles.rules = [ "d /etc/homepage-dashboard/logs" ];
           services.caddy = {
