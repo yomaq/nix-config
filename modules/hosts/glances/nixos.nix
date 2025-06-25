@@ -599,7 +599,7 @@ in
       yomaq.homepage.services = lib.mkMerge [
         (lib.mkIf config.yomaq.homepage.enable {
           "Flake" = {
-            "flake.lock last update" = {
+            "Flake.lock last update" = {
               widget = {
                 type = "customapi";
                 url = "https://gitlab.com/api/v4/projects/56279050/repository/commits?path=flake.lock";
@@ -645,7 +645,7 @@ in
                 ];
               };
             };
-            "Current Commit" = {
+            "Version (Current Commit)" = {
               widget = {
                 type = "customapi";
                 url = "https://gitlab.com/api/v4/projects/56279050/repository/commits?sort=desc&per_page=1";
@@ -701,7 +701,7 @@ in
                     metric = "process";
                   };
                 };
-                LastUpdate = {
+                "Version(Current Commit)" = {
                   href = "http://${host}.${tailnetName}.ts.net:8787/lastUpdate.html";
                   widget = {
                     type = "customapi";

@@ -28,3 +28,4 @@ Then, for each deployed container, it will create a link to it in homepage, and 
 Biggest place this is put to use is in the Glances module.
 
 I am confident there are better ways to write the code for this config, but I am not smart enough to figure it out on my own - and it works.
+Biggest loss with this setup is I don't have control over ordering, other than alphabetically.
