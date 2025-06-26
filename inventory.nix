@@ -76,7 +76,7 @@
 
       wsl = {
         users.enableUsers = [ "admin" ];
-        publicKey.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIXH4ovu2KqiuGW+Q2RTydqFY4vFm6Aw9ZRXaAOCx8Id";
+        publicKey.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAjI4UDrAlASD2wocv7lHClFdf9pIqPzyGTzWAvbCLyX";
         docker.enable = true;
         syncoid.enable = false;
         pods = {
