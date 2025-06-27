@@ -29,9 +29,8 @@ in
     };
     system.primaryUser = "carln";
     ids.gids.nixbld = 350;
+    inventory.hosts."${config.networking.hostName}".users.enableUsers = [ "carln" ];
     yomaq = {
-      users.enableUsers = [ "carln" ];
-
       yabai.enable = true;
       tailscale.enable = true;
       _1password.enable = true;
