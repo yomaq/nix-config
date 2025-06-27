@@ -26,7 +26,7 @@ in
     };
     ollamaModel = lib.mkOption {
       type = lib.types.str;
-      default = "llama3.1:8b";
+      default = "gemma3:12b";
       description = "Model to use for Ollama API requests";
     };
     ntfyBaseUrl = lib.mkOption {
