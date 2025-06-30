@@ -65,7 +65,6 @@ let
             DEATH_PENALTY = "Item";
             EXP_RATE = "1";
             DIFFICULTY = "difficult";
-            AUTO_PAUSE_ENABLED = "true";
             bAllowGlobalPalboxImport = "false";
             bAllowGlobalPalboxExport = "true";
           };
