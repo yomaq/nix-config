@@ -46,6 +46,7 @@
         docker.enable = true;
         syncoid.enable = true;
         pods = {
+          palworld.palhome.enable = true;
           minecraftBedrock.minecrafthome = {
             enable = true;
             envVariables = {
