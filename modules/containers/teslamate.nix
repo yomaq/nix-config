@@ -167,7 +167,7 @@ in
           environment = {
             "GF_SERVER_ROOT_URL" = "%(protocol)s://%(domain)s/grafana";
             "GF_SERVER_SERVE_FROM_SUB_PATH" = "true";
-            "GF_SERVER_DOMAIN" = "${config.networking.hostName}-${NAME}.${tailnetName}.ts.net";
+            # "GF_SERVER_DOMAIN" = "${config.networking.hostName}-${NAME}.${tailnetName}.ts.net";
           };
           environmentFiles = [
             # container listens on port 3000
