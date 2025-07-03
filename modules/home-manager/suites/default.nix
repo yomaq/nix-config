@@ -26,6 +26,5 @@ in
       zsh.enable = true;
       direnv.enable = true;
     };
-    home.packages = with pkgs; [ devenv ];
   };
 }

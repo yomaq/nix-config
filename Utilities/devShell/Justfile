@@ -1,8 +1,6 @@
 #
 #
 #
-#       Now using the flake's default devenv, devenv config located at ./Utilities/devenv/default.nix
-#       Keeping this handy for a few weeks incase I messed something up on the devenv
 #
 #
 #
