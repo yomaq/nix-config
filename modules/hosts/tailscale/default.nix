@@ -58,12 +58,5 @@
         allow you to specify a key, or set null to disable
       '';
     };
-    preApprovedSshAuthkey = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = ''
-        decrypt pre-approved ssh authkey
-      '';
-    };
   };
 }

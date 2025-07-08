@@ -51,8 +51,6 @@
           "--reset=true"
         ];
         useRoutingFeatures = "client";
-        # for building iso
-        preApprovedSshAuthkey = true;
       };
       network = {
         useBr0 = true;

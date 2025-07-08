@@ -30,10 +30,5 @@ in
       environment.systemPackages = with pkgs; [ unstable.tailscale ];
 
     })
-    (lib.mkIf cfg.preApprovedSshAuthkey {
-      age.secrets.tailscaleOAuthKeyAcceptSsh.file = (
-        inputs.self + /secrets/tailscaleOAuthKeyAcceptSsh.age
-      );
-    })
   ];
 }

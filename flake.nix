@@ -56,71 +56,31 @@
         };
       };
 
-      nixosConfigurations = {
-        azure = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [ ./hosts/azure ];
-        };
-        teal = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [ ./hosts/teal ];
-        };
-        smalt = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [ ./hosts/smalt ];
-        };
-        green = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [ ./hosts/green ];
-        };
-        pearl = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [ ./hosts/pearl ];
-        };
-        wsl = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
-          modules = [ ./hosts/wsl ];
-        };
-        # run with `nixos-rebuild build-image --image-variant iso-installer --flake .#install-iso --impure`
-        # install-iso = inputs.nixpkgs.lib.nixosSystem {
-        #   system = "x86_64-linux";
-        #   specialArgs = { inherit inputs; };
-        #   modules = [ ./hosts/install-iso ];
-        # };
-        # blue = inputs.nixpkgs.lib.nixosSystem {
-        #   system = "x86_64-linux";
-        #   specialArgs = {
-        #     inherit inputs;
-        #   };
-        #   modules = [ ./hosts/blue ];
-        # };
-        # carob = inputs.nixpkgs.lib.nixosSystem {
-        #   system = "x86_64-linux";
-        #   specialArgs = {
-        #     inherit inputs;
-        #   };
-        #   modules = [ ./hosts/carob ];
-        # };
-      };
+      nixosConfigurations =
+        let
+          mkHost =
+            name:
+            nixpkgs.lib.nixosSystem {
+              system = "x86_64-linux";
+              specialArgs = { inherit inputs; };
+              modules = [ ./hosts/nixos/${name} ];
+            };
+          myHosts = builtins.attrNames (builtins.readDir ./hosts/nixos);
+        in
+        nixpkgs.lib.genAttrs myHosts mkHost;
 
-      darwinConfigurations = {
-        midnight = inputs.nix-darwin.lib.darwinSystem {
-          specialArgs = { inherit inputs; };
-          system = "aarch64-darwin";
-          modules = [ ./hosts/midnight ];
-        };
-        pewter = inputs.nix-darwin.lib.darwinSystem {
-          specialArgs = { inherit inputs; };
-          system = "aarch64-darwin";
-          modules = [ ./hosts/pewter ];
-        };
-      };
+      darwinConfigurations =
+        let
+          mkHost =
+            name:
+            inputs.nix-darwin.lib.darwinSystem {
+              specialArgs = { inherit inputs; };
+              system = "aarch64-darwin";
+              modules = [ ./hosts/darwin/${name} ];
+            };
+          myHosts = builtins.attrNames (builtins.readDir ./hosts/darwin);
+        in
+        nixpkgs.lib.genAttrs myHosts mkHost;
 
       overlays = import ./modules/overlays { inherit inputs; };
 
