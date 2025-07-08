@@ -11,7 +11,7 @@ let
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
   inherit (config.yomaq.tailscale) tailnetName;
-  
+
   containerOpts =
     { name, ... }:
     let
@@ -74,7 +74,7 @@ let
         };
       };
     };
-    
+
   mkContainer = name: cfg: {
     image = "${IMAGE}:${cfg.imageVersion}";
     autoStart = true;
@@ -90,9 +90,9 @@ let
     ];
     user = "1000:1000";
   };
-  
+
   mkTmpfilesRules = _name: cfg: [ "d ${cfg.volumeLocation}/palworld 0766 1000 1000" ];
-  
+
   containersList = lib.attrNames cfg;
   renameTScontainers = map (a: "TS" + a) containersList;
 in
@@ -115,7 +115,7 @@ in
       );
     };
   };
-  
+
   config = lib.mkMerge [
     (lib.mkIf (cfg != { }) {
       yomaq.pods.tailscaled = lib.genAttrs renameTScontainers (_container: {
