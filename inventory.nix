@@ -35,6 +35,7 @@
           gatus.enable = true;
           tsidp.enable = true;
           audiobookshelf.enable = true;
+          calibre-web.enable = true;
         };
         syncoid = {
           isBackupServer = true;

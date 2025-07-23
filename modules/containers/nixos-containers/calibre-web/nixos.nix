@@ -5,7 +5,7 @@
   ...
 }:
 let
-  NAME = "audiobookshelf";
+  NAME = "calibre-web";
   cfg = config.inventory.hosts."${config.networking.hostName}".nixos-containers.${NAME};
 
   inherit (config.networking) hostName;
@@ -54,7 +54,7 @@ in
             hostPath = "${dontBackup}/nixos-containers/${NAME}/tailscale";
             isReadOnly = false;
           };
-          "/var/lib/audiobookshelf" = {
+          "/var/lib/calibre-web" = {
             hostPath = "${backup}/nixos-containers/${NAME}/data";
             isReadOnly = false;
           };
@@ -84,15 +84,40 @@ in
 
           environment.persistence."${dontBackup}".users.admin = lib.mkForce { };
 
-          services.audiobookshelf = {
+          services.calibre-web = {
             enable = true;
+            options = {
+              enableBookUploading = true;
+              # reverseProxyAuth = {
+              #   header = "X-Webauth-Login";
+              #   enable = true;
+              # };
+            };
+            listen.ip = "127.0.0.1";
           };
+
+          # services.tailscaleAuth = {
+          #   enable = true;
+          #   group = "caddy";
+          #   user = "caddy";
+          # };
 
           services.caddy = {
             enable = true;
             virtualHosts."${hostName}-${NAME}.${tailnetName}.ts.net".extraConfig = ''
-              reverse_proxy 127.0.0.1:8000
+              reverse_proxy 127.0.0.1:8083
             '';
+
+              # forward_auth unix//run/tailscale-nginx-auth/tailscale-nginx-auth.sock {
+              #     uri /auth
+              #     header_up Remote-Addr {remote_host}
+              #     header_up Remote-Port {remote_port}
+              #     header_up Original-URI {uri}
+              #     copy_headers {
+              #         Tailscale-Login>X-Webauth-Login
+              #     }
+              # }
+
           };
         };
       };
@@ -126,7 +151,7 @@ in
           (host: {
             name = "${NAME} - ${host}";
             value = {
-              icon = "si-audiobookshelf";
+              icon = "mdi-book";
               href = "https://${host}-${NAME}.${tailnetName}.ts.net/";
               siteMonitor = "https://${host}-${NAME}.${tailnetName}.ts.net/";
             };
