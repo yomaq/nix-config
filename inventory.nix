@@ -48,6 +48,7 @@
         docker.enable = true;
         syncoid.enable = true;
         pods = {
+          foundry-vtt.enable = true;
           palworld.palhome.enable = true;
           minecraftBedrock.minecrafthome = {
             enable = true;
