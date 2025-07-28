@@ -107,7 +107,7 @@ in
           (host: {
             name = "${NAME} - ${host}";
             value = {
-              icon = "mdi-foundryvirtualtabletop";
+              icon = "si-foundryvirtualtabletop";
               href = "https://${host}-${NAME}.${tailnetName}.ts.net/";
               siteMonitor = "https://${host}-${NAME}.${tailnetName}.ts.net/";
             };
