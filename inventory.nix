@@ -45,6 +45,10 @@
 
       smalt = {
         users.enableUsers = [ "admin" ];
+        publicKey = {
+          host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILR615VGZfPxDnK6dDumGUByl8n8ZT8hctQ0HzXplxPB";
+          initrd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKFphObpjw/XH1NvvI2VuQPlLb45Zi3O7CgFQAH4fkvz";
+        };
         docker.enable = true;
         syncoid.enable = true;
         pods = {

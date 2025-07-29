@@ -83,28 +83,28 @@ in
 
       yomaq.monitorServices.services."docker-${NAME}".priority = "medium";
     })
-    (lib.mkIf config.yomaq.gatus.enable {
-      yomaq.gatus.endpoints =
-        map
-          (host: {
-            name = "${host}-${NAME}";
-            group = "webapps";
-            url = "https://${host}-${NAME}.${config.yomaq.tailscale.tailnetName}.ts.net";
-            interval = "5m";
-            conditions = [ "[STATUS] == 200" ];
-            alerts = [
-              {
-                type = "ntfy";
-                failureThreshold = 3;
-                description = "healthcheck failed";
-              }
-            ];
-          })
-          (
-            builtins.filter (host: config.inventory.hosts.${host}.pods."${NAME}".enable or false) (
-              builtins.attrNames config.inventory.hosts
-            )
-          );
-    })
+    # (lib.mkIf config.yomaq.gatus.enable {
+    #   yomaq.gatus.endpoints =
+    #     map
+    #       (host: {
+    #         name = "${host}-${NAME}";
+    #         group = "webapps";
+    #         url = "https://${host}-${NAME}.${config.yomaq.tailscale.tailnetName}.ts.net";
+    #         interval = "5m";
+    #         conditions = [ "[STATUS] == 200" ];
+    #         alerts = [
+    #           {
+    #             type = "ntfy";
+    #             failureThreshold = 3;
+    #             description = "healthcheck failed";
+    #           }
+    #         ];
+    #       })
+    #       (
+    #         builtins.filter (host: config.inventory.hosts.${host}.pods."${NAME}".enable or false) (
+    #           builtins.attrNames config.inventory.hosts
+    #         )
+    #       );
+    # })
   ];
 }

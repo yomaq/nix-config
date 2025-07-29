@@ -8,7 +8,7 @@ let
   cfg = config.yomaq.comma;
 in
 {
-  imports = [ inputs.nix-index-database.hmModules.nix-index ];
+  imports = [ inputs.nix-index-database.homeModules.nix-index ];
   options.yomaq.comma = {
     enable = lib.mkOption {
       type = lib.types.bool;

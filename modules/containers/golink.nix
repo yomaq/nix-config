@@ -72,7 +72,7 @@ in
           (host: {
             name = "${host}-${NAME}";
             group = "webapps";
-            url = "https://${host}-${NAME}.${config.yomaq.tailscale.tailnetName}.ts.net";
+            url = "https://go.${config.yomaq.tailscale.tailnetName}.ts.net";
             interval = "5m";
             conditions = [ "[STATUS] == 200" ];
             alerts = [
