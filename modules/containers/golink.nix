@@ -96,8 +96,8 @@ in
             name = "${NAME} - ${host}";
             value = {
               icon = "si-go";
-              href = "https://${host}-${NAME}.${tailnetName}.ts.net/";
-              siteMonitor = "https://${host}-${NAME}.${tailnetName}.ts.net/";
+              href = "https://go.${tailnetName}.ts.net/";
+              siteMonitor = "https://go.${tailnetName}.ts.net/";
             };
           })
           (
