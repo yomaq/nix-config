@@ -30,7 +30,7 @@ in
     (lib.mkIf cfg.enable {
 
       systemd.tmpfiles.rules = [
-        # "d ${backup}/nixos-containers/${NAME}/data"
+        "d ${backup}/nixos-containers/${NAME}/data"
         "d ${dontBackup}/nixos-containers/${NAME}/tailscale"
       ];
 
@@ -55,10 +55,11 @@ in
             hostPath = "${dontBackup}/nixos-containers/${NAME}/tailscale";
             isReadOnly = false;
           };
-          # "/var/lib/gatus-data" = {
-          #   hostPath = "${backup}/nixos-containers/${NAME}/data";
-          #   isReadOnly = false;
-          # };
+          # I am annoyed by this, but trying to get the database to persist has been a royal pain and I give up for now.
+          "/var/lib/" = {
+            hostPath = "${backup}/nixos-containers/${NAME}/data";
+            isReadOnly = false;
+          };
         };
         enableTun = true;
         ephemeral = true;
@@ -94,10 +95,10 @@ in
             enable = true;
             settings = {
               web.port = 8080;
-              # storage = {
-              #   type = "sqlite";
-              #   path = "/var/lib/gatus-data/data.db";
-              # };
+              storage = {
+                type = "sqlite";
+                path = "/var/lib/gatus/data.db";
+              };
               # external-endpoints = [{
               #   name = "ext-ep-test";
               #   group = "test";
