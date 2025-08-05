@@ -24,7 +24,6 @@
           searxng.enable = true;
           n8n.enable = true;
           open-webui.enable = true;
-          kavita.enable = true;
         };
         nixos-containers = {
           nextcloud = {
