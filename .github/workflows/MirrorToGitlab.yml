@@ -1,7 +1,7 @@
 name: Mirroring
 
 on:
-  push: []
+  push:
   repository_dispatch:
     types: [lock-update]
 
