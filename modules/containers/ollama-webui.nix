@@ -58,6 +58,7 @@ in
 
                 "ENABLE_OAUTH_SIGNUP" = "true";
                 "ENABLE_LOGIN_FORM" = "false";
+                "OAUTH_MERGE_ACCOUNTS_BY_EMAIL" = "true";
               };
               description = ''
                 env options
