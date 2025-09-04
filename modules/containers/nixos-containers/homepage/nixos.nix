@@ -125,7 +125,11 @@ in
             };
           };
 
-          systemd.tmpfiles.rules = [ "d /etc/homepage-dashboard/logs" ];
+          systemd.tmpfiles.rules = [ 
+            "d /etc/homepage-dashboard/logs"
+            "f /etc/homepage-dashboard/proxmox.yaml"
+          ];
+
           services.caddy = {
             enable = true;
             virtualHosts."${hostName}-${NAME}.${tailnetName}.ts.net".extraConfig = ''
