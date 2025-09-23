@@ -14,6 +14,7 @@ in
     hasNixosPassword = true;
     nixpkgs = {
       common = with pkgs; [
+        pkgs.vscode
         pkgs.tailscale
         pkgs.discord
         pkgs.alacritty

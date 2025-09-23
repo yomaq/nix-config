@@ -25,6 +25,7 @@ in
       tmux.enable = true;
       zsh.enable = true;
       direnv.enable = true;
+      spotlight-links.enable = true;
     };
   };
 }

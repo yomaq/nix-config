@@ -11,7 +11,6 @@ in
   imports = [
     inputs.home-manager.darwinModules.home-manager
     inputs.self.darwinModules.yomaq
-    { home-manager.useUserPackages = true; }
   ];
   config = {
     system.stateVersion = 4;
