@@ -16,7 +16,6 @@ in
       common = with pkgs; [
         pkgs.vscode
         pkgs.tailscale
-        pkgs.discord
         pkgs.alacritty
         pkgs.vim
         pkgs.kubectl
@@ -32,8 +31,8 @@ in
     homebrew = {
       casks = [
         "moonlight"
-        "raycast"
-        "arc"
+        "rustdesk"
+        "discord"
         "linearmouse"
         "spotify"
         "nextcloud"

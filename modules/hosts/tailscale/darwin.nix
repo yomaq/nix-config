@@ -9,5 +9,5 @@ let
   cfg = config.yomaq.tailscale;
 in
 {
-  config = lib.mkIf cfg.enable { homebrew.casks = [ "tailscale" ]; };
+  config = lib.mkIf cfg.enable { homebrew.casks = [ "tailscale-app" ]; };
 }
