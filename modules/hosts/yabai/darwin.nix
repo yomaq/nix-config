@@ -19,7 +19,6 @@ in
 
   config = lib.mkIf cfg.enable {
     services = {
-      #config for Yabai Window Manager, really basic config
       yabai = {
         enable = true;
         extraConfig = ''
@@ -43,7 +42,6 @@ in
           #yabai -m rule --add app=""                  manage=off
         '';
       };
-      #config for skhd keyboard shortcuts for Yabai Window Manager.
       skhd = {
         enable = true;
         skhdConfig = ''
@@ -52,6 +50,7 @@ in
           shift + cmd - up      : yabai -m window --warp north
           shift + cmd - right   : yabai -m window --warp east
           shift + cmd - s       : yabai -m window --toggle split
+          shift + cmd - p       : killall yabai
         '';
       };
     };
