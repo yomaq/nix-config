@@ -95,8 +95,8 @@
       green = {
         users.enableUsers = [ "admin" ];
         publicKey = {
-          host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHUuLHm+46zaQoCy0bsQLgAkQ+apfQsMjBTnpgWQQYqm";
-          initrd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBQW6mmDZldej3eTFaD3vr7OV8VFqYl7at5Ldg1P03M/";
+          host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMOlUAUwZ7o0oW5IfWaPOrAcxfrxALyeJSMxOSgwuCPx";
+          initrd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH4VvHT7WFFaSu9A9nNgI+32bCLvO4eVd2rYWxkGBsff";
         };
         syncoid.enable = true;
         docker.enable = true;
