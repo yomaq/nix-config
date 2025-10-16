@@ -88,7 +88,6 @@ pkgs.mkShell {
         yo-install-encrypted() {
           ipaddress=$2
           hostname=$1
-          eval $(op signin)
           temp=$(mktemp -d)
           cleanup() {
             rm -rf "$temp"
@@ -100,7 +99,7 @@ pkgs.mkShell {
           chmod 600 "$temp/etc/ssh/$hostname"
           chmod 600 "$temp/etc/ssh/initrd"
           nix run github:nix-community/nixos-anywhere -- --extra-files "$temp" --build-on remote \
-            --generate-hardware-config nixos-generate-config "$(git rev-parse --show-toplevel)/hosts/$hostname/hardware-configuration.nix" \
+            --generate-hardware-config nixos-generate-config "$(git rev-parse --show-toplevel)/hosts/nixos/$hostname/hardware-configuration.nix" \
             --disk-encryption-keys /tmp/secret.key <(op read op://nix/$hostname/encryption) --flake .#$hostname root@$ipaddress
         }
 
