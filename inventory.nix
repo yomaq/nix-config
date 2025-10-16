@@ -102,6 +102,26 @@
         docker.enable = true;
       };
 
+      jade = {
+        users.enableUsers = [ "admin" ];
+        publicKey = {
+          host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILD1hmWlgAmu+A9p+OBAaAdnHsibVW82U0j4N7KZNyWi";
+          initrd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMHclCCb3Aq9Xl8vAslAq9CeVuavtfqPrkh/I3smdDCa";
+        };
+        syncoid.enable = true;
+        docker.enable = true;
+      };
+    
+      moss = {
+        users.enableUsers = [ "admin" ];
+        publicKey = {
+          host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINwOScam4G2piPGqwM8qrfLoQCUzJF5cDLPvmbkouf//";
+          initrd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM+bidgd5iUcrB2z/YNyZUsCmdBHbcG+zxm8hlY/fHki";
+        };
+        syncoid.enable = true;
+        docker.enable = true;
+      };
+
       pearl = {
         users.enableUsers = [ "admin" ];
         publicKey.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHX2aVm/O7Zs0qWzhU1I2xNH8JNx6q1HTy50epYqEXBI";

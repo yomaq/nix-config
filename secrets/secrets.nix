@@ -2,7 +2,8 @@ let
   agenix = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOkt8xgN5ZlTyuSBWAhlv0CCxIN6LmzfSMTHTc53rZ6i";
   carln = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI";
   green = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJOKOvSM5ibLkiVi+0hmt3eWlmTprMIqtYzkHgKdSVsq";
-  blue = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK/3xL59H/gxyf/zNwM9d0KlovD3GfSGHKgCbmloiGCR";
+  moss = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHUFH+p2RqZ4g1Gec7UZWyr390wketZRCtp93bNAyzZ7";
+  jade = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFzLi/rhHVmk8op1uTZk4Vzhk/yvzQKv2CYNHxEy/7Ak";
   azure = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP1N/rg1O+vUNIaOVgTJcyB95fufM2PQPEZRso1OlaSu";
   teal = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIQQRdx0vygfX8LZFLq2Dg8X3EGYLIB+hL788x7LP+29";
   smalt = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPsEPoDzF3MRUY0adefhlXkHoErrLncXrV1GTXbM8Znt";
@@ -12,7 +13,6 @@ let
   all = [
     agenix
     carln
-    blue
   ];
 
 in
@@ -22,11 +22,15 @@ in
     azure
     smalt
     teal
+    moss
+    jade
   ] ++ all;
-  "ryn.age".publicKeys = [ blue ] ++ all;
+  "ryn.age".publicKeys =  all;
   "encrypt.age".publicKeys = all;
   "tailscaleKey.age".publicKeys = [
     green
+    moss
+    jade
     azure
     teal
     smalt
@@ -34,6 +38,8 @@ in
   ] ++ all;
   "tailscaleOAuthKeyAcceptSsh.age".publicKeys = [
     green
+    moss
+    jade
     azure
     teal
     smalt
@@ -41,6 +47,8 @@ in
   ] ++ all;
   "tailscaleEnvFile.age".publicKeys = [
     green
+    moss
+    jade
     azure
     teal
     smalt
@@ -48,6 +56,8 @@ in
   ] ++ all;
   "tailscaleOAuthEnvFile.age".publicKeys = [
     green
+    moss
+    jade
     azure
     teal
     smalt

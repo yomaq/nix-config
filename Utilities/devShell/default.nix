@@ -123,5 +123,24 @@ pkgs.mkShell {
                 echo "don't forget to do another rebuild"
     EOF
         }
+        yo-info() {
+            if [ $# -ne 1 ]; then
+                echo "Usage: yo-info <hostname/IP>"
+                return 1
+            fi
+            ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@$1 << 'EOF'
+                # Ethernet info
+                lspci -v | grep -iA8 'network\|ethernet'
+                echo ""
+                
+                # List all drives
+                lsblk -d -o NAME,SIZE,TYPE,MODEL | grep -E "(disk|nvme)"
+                echo ""
+                
+                # Generate ZFS hostID
+                HOST_ID=$(echo "$(date +%s)$(hostname)" | md5sum | cut -c1-8)
+                echo "hostID = $HOST_ID"
+    EOF
+        }
   '';
 }
