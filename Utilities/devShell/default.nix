@@ -78,7 +78,6 @@ pkgs.mkShell {
           nixos-rebuild --use-substitutes --no-build-nix --build-host admin@$HOSTNAME --target-host admin@$HOSTNAME --use-remote-sudo dry-activate --flake .#$HOSTNAME
         }
 
-        #these are untested within nix-shell
         #for installing nixos
 
         yo-op() {

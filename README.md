@@ -54,15 +54,24 @@ Using the git revision of the flake, you can easily see which hosts are out of d
 **Install a host that already has configuration:**
 
 * boot the host into a nixos installer (installer-iso ouput will build a nixos installer iso that is pre-loaded with a tailscale key to auto join the installer to your tailnet for easy remote installations), and set the root password (already set for installer-iso).
-* complete the following steps on a different x86_64 machine with nix installed, and sign into 1password
-* run the script `utilities/nixos-anywhere/remote-install-encrypt.sh HOSTNAME IPADDRESS-OF-TARGET`
+* complete the following steps on a different x86_64 machine with nix installed
+* `nix develop` to enter the dev shell from within the git directory
+* `yo-install-encrypted $hostname $ipaddress`
+* enter ssh password
+* restart host & unlock luks
+* `yo-keygen $ipaddress`
+* update inventory with the new hostkeys then rebuild once `yo-rbrl-ip $hostname $ipaddress`
 
+**Configure new host:**
 
+* boot up installer-iso on the host
+* complete the following steps on a different x86_64 machine with nix installed
+* duplicate existing host folder in `/hosts` 
+* update hostname & disk configuration, checking `/modules/hosts/zfs/disks/` for full disk config options
+* run `nix develop` & `yo-info $ipaddress`
+* update hostID, ethernet drivers, and disk name with the output of `yo-info`
+* when running the install as shown above it will automatically update the `hardware-config.nix` file for the new machine.
 
-**Update the system(rebuild)**:  
-```
-nixos-rebuild switch --flake github:yomaq/nix-config
-```
 </details>
 
 <details>
@@ -94,9 +103,8 @@ darwin-rebuild switch --flake github:yomaq/nix-config
   <summary>ToDo</summary>
 
 * Add a self hosted nix store cache server.
-* Move docker containers to Quadlet.
-* Adjust flake design to use an `inventory.nix` file, similar to clan.lol, this will remove the need for a single host to build the configuration of other hosts for modules like `gatus` and `homepage`.
-* Microvms, possibly migrate some nixos-containers to microvms.
-
+* Move to flake-parts, if it does what I understand it does then everything will become a lot more streamlined and readable.
+* Microvms, migrate some nixos-containers to microvms, mostly because nixos-containers increase build times.
+* Smoothout tailscale-initrd, it works, but it needs some tweaks.
 
 </details>
