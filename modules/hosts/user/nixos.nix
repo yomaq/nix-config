@@ -106,6 +106,14 @@ in
         }
       ];
 
+    nix.settings.trusted-users = 
+      let
+        rootUsers = builtins.filter (
+          username: config.yomaq.users.users.${username}.isRoot
+        ) listOfUsers;
+      in
+      [ "root" ] ++ rootUsers;
+
     home-manager = {
       extraSpecialArgs = {
         inherit inputs;

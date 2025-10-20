@@ -30,6 +30,14 @@ in
     );
     environment.shells = [ pkgs.zsh ];
 
+    nix.settings.trusted-users = 
+      let
+        rootUsers = builtins.filter (
+          username: config.yomaq.users.users.${username}.isRoot
+        ) listOfUsers;
+      in
+      [ "root" ] ++ rootUsers;
+
     homebrew = lib.foldl lib.recursiveUpdate {
       brewPrefix = "/opt/homebrew/bin";
       enable = true;
