@@ -53,6 +53,7 @@
         pods = {
           foundry-vtt.enable = true;
           palworld.palhome.enable = true;
+          necesse.necesse1.enable = true;
           minecraftBedrock.minecrafthome = {
             enable = true;
             envVariables = {
