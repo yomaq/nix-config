@@ -83,6 +83,48 @@ in
       ];
     };
     
+    yomaq.gatus.enable = true;
+
+    systemd.services.gatus.serviceConfig.ExecStartPre = "${pkgs.coreutils}/bin/sleep 10";
+
+    services.gatus = {
+      enable = true;
+      settings = {
+        web.port = 8080;
+        storage = {
+          type = "sqlite";
+          path = "/var/lib/gatus/data.db";
+        };
+
+        alerting = {
+          ntfy = {
+            url = "${config.yomaq.ntfy.ntfyUrl}";
+            topic = "${config.yomaq.ntfy.defaultTopic}";
+            priority = 3;
+            default-alert = {
+              enable = true;
+              failure-threshold = 10;
+              success-threshold = 10;
+              send-on-resolved = true;
+            };
+          };
+        };
+      };
+    };
+    services.caddy = {
+      enable = true;
+      virtualHosts."${hostName}-${NAME}.${tailnetName}.ts.net".extraConfig = ''
+        reverse_proxy 127.0.0.1:8080
+      '';
+    };
+
+    environment.persistence."${config.yomaq.impermanence.backup}".directories = [ "/var/lib" ];
+    fileSystems."/persist/save".neededForBoot = true;
+
+    systemd.tmpfiles.rules = [
+      "d /persist/gatus 0755 root root"
+    ];
+
     networking.hostName = "${serviceName}";
     yomaq = {
       suites.microvm.enable = true;
