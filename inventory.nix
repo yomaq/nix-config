@@ -101,6 +101,7 @@
         };
         syncoid.enable = true;
         docker.enable = true;
+        microvms = [ "testvm" ];
       };
 
       jade = {

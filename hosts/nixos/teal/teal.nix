@@ -8,6 +8,7 @@
   imports = [
     # import custom modules
     inputs.self.nixosModules.yomaq
+    inputs.microvm.nixosModules.host
     # hardware
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-cpu-intel-cpu-only

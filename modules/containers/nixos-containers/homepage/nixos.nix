@@ -72,7 +72,7 @@ in
 
           inventory.hosts."${hostName}-${NAME}" = {
             users.enableUsers = [ "admin" ];
-            glances.enable = false;
+            glances.homepageMonitor = false;
           };
           yomaq = {
             tailscale.extraUpFlags = [

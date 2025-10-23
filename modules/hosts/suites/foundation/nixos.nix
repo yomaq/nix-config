@@ -16,6 +16,11 @@ in
         fwupd.enable = true;
         monitorServices.enable = true;
         ssh.enable = true;
+        sanoid.enable = true;
+        timezone.central = true;
+      };
+      inventory.hosts."${config.networking.hostName}" = {
+        glances.enable = true;
       };
     })
     {

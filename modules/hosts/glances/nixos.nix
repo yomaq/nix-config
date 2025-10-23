@@ -20,6 +20,10 @@ in
           options.glances = {
             enable = lib.mkOption {
               type = lib.types.bool;
+              default = false;
+            };
+            homepageMonitor = lib.mkOption {
+              type = lib.types.bool;
               default = true;
             };
             package = lib.mkOption {
@@ -723,7 +727,7 @@ in
               };
             })
             (
-              builtins.filter (host: config.inventory.hosts.${host}.glances.enable or false) (
+              builtins.filter (host: config.inventory.hosts.${host}.glances.homepageMonitor or false) (
                 builtins.attrNames config.inventory.hosts
               )
             )
@@ -750,7 +754,7 @@ in
               };
             })
             (
-              builtins.filter (host: config.inventory.hosts.${host}.glances.enable or false) (
+              builtins.filter (host: config.inventory.hosts.${host}.glances.homepageMonitor or false) (
                 builtins.attrNames config.inventory.hosts
               )
             )

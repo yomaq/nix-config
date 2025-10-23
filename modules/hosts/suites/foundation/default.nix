@@ -13,7 +13,7 @@ in
     enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = ''basic configuration that should be set for all systems by default'';
+      description = ''basic configuration that should be set for all host systems by default'';
     };
   };
 
