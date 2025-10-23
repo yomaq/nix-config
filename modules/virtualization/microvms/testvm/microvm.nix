@@ -2,6 +2,7 @@
   lib,
   inputs,
   config,
+  pkgs,
   ...
 }:
 let
@@ -113,7 +114,7 @@ in
     };
     services.caddy = {
       enable = true;
-      virtualHosts."${hostName}-${NAME}.${tailnetName}.ts.net".extraConfig = ''
+      virtualHosts."${serviceName}.${config.yomaq.tailscale.tailnetName}.ts.net".extraConfig = ''
         reverse_proxy 127.0.0.1:8080
       '';
     };
