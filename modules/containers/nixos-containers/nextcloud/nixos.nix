@@ -115,6 +115,7 @@ in
             database.createLocally = true;
             phpOptions."opcache.interned_strings_buffer" = "24";
             settings = {
+              "config_is_read_only" = "true";
               "maintenance_window_start" = 8;
               default_phone_region = "US";
               trustedProxies = [ "127.0.0.1" ];
