@@ -96,7 +96,7 @@
 
       nixosModules = {
         yomaq = import ./modules/hosts/nixos.nix;
-        pods = import ./modules/containers;
+        virtualization = import ./modules/virtualization;
       };
 
       darwinModules = {

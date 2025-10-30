@@ -66,7 +66,7 @@ in
         config = {
           imports = [
             inputs.self.nixosModules.yomaq
-            inputs.self.nixosModules.pods
+            inputs.self.nixosModules.virtualization
           ];
           system.stateVersion = stateVersion;
           age.identityPaths = [ "/etc/ssh/${hostName}" ];

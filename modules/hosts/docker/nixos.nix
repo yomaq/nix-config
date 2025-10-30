@@ -13,7 +13,7 @@ let
 in
 {
   imports = [
-    inputs.self.nixosModules.pods
+    inputs.self.nixosModules.virtualization
   ];
   options = {
     inventory.hosts = lib.mkOption {

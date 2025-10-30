@@ -26,6 +26,7 @@ let
         lib.hasSuffix ".nix" file
         # Exclude this file
         && file != "default.nix"
+        && ! lib.hasSuffix "microvm.nix" file
         # how to exclude a path
         # && ! lib.hasPrefix "exclude/path/" file
         # how to exclude a group of files
