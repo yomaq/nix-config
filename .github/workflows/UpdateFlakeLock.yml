@@ -17,12 +17,12 @@ jobs:
     - uses: actions/checkout@v4
     - name: Set up Nix
       uses: nixbuild/nix-quick-install-action@v28
-    # - name: Run nix flake update
-    #   run: |
-    #     nix flake update
-    - name: Run nix flake check
+    - name: Run nix flake update
       run: |
-        nix flake check --all-systems --verbose
+        nix flake update
+    # - name: Run nix flake check
+    #   run: |
+    #     nix flake check --all-systems --verbose
     - name: Commit and Push flake.lock
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
