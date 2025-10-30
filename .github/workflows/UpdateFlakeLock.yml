@@ -17,9 +17,9 @@ jobs:
     - uses: actions/checkout@v4
     - name: Set up Nix
       uses: nixbuild/nix-quick-install-action@v28
-    - name: Run nix flake update
-      run: |
-        nix flake update
+    # - name: Run nix flake update
+    #   run: |
+    #     nix flake update
     - name: Run nix flake check
       run: |
         nix flake check --all-systems --verbose
