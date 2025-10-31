@@ -43,10 +43,11 @@ let
         Type = "oneshot";
       };
       script = ''
-        echo "Updating ${name}..."
-        ${inputs.microvm.packages.${pkgs.system}.microvm}/bin/microvm -u ${name}
-        echo "Restarting ${name}..."
-        systemctl restart microvm@${name}.service
+        echo "Checking updates for ${name}"
+        if ${inputs.microvm.packages.${pkgs.system}.microvm}/bin/microvm -u ${name} 2>&1 | tee /dev/stderr | grep -q "Reboot MicroVM ${name}"; then
+          echo "Restarting ${name}"
+          systemctl restart microvm@${name}.service
+        fi
       '';
     };
   };
