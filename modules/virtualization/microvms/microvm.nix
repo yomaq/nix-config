@@ -70,14 +70,14 @@ in
       ];
 
 
-      # writableStoreOverlay = "/nix/.rw-store";
-      # volumes = [
-      #   {
-      #     image = "nix-store-overlay.img";
-      #     mountPoint = "/nix/.rw-store";
-      #     size = 2048;
-      #   }
-      # ];
+      writableStoreOverlay = "/nix/.rw-store";
+      volumes = [
+        {
+          image = "nix-store-overlay.img";
+          mountPoint = "/nix/.rw-store";
+          size = 2048;
+        }
+      ];
       
       interfaces = [
         {

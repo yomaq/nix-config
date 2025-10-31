@@ -78,6 +78,19 @@ pkgs.mkShell {
           nixos-rebuild --use-substitutes --no-build-nix --build-host admin@$HOSTNAME --target-host admin@$HOSTNAME --use-remote-sudo dry-activate --flake .#$HOSTNAME
         }
 
+        yo-microvm() {
+          if [ $# -ne 2 ]; then
+            echo "Usage: yo-microvm <microvm-name> <remote-host>"
+            echo "Example: yo-microvm testvm green"
+            return 1
+          fi
+          
+          local microvm_name="$1"
+          local remote_host="$2"
+          
+          nix run ".#nixosConfigurations.$microvm_name.config.microvm.deploy.installOnHost" "admin@$remote_host" -- --use-remote-sudo
+        }
+
         #for installing nixos
 
         yo-op() {
