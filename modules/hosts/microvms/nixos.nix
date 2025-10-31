@@ -22,6 +22,7 @@ let
       
       serviceConfig = {
         Type = "oneshot";
+        RemainAfterExit = true;
       };
       
       script = ''
