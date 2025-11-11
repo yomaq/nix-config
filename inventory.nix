@@ -72,6 +72,9 @@
             };
           };
         };
+        microvms = [
+          "desktop" 
+        ];
       };
 
       teal = {

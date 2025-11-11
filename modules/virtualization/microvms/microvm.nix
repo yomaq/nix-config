@@ -99,8 +99,25 @@ in
       (map (share: share.mountPoint) config.microvm.shares)
       (_: { neededForBoot = true; });
 
+    environment.persistence."/persist" = lib.mkForce {
+      directories = [
+        "/var/lib/nixos"
+      ];
+    };
+
     yomaq = {
       suites.microvm.enable = true;
     };
+
+    nixpkgs = {
+      overlays = [
+        inputs.self.overlays.pkgs-unstable
+      ];
+      config = {
+        allowUnfree = true;
+        allowUnfreePredicate = (_: true);
+      };
+    };
+
   };
 }
