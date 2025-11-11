@@ -15,6 +15,9 @@
         };
         docker.enable = true;
         syncoid.enable = true;
+        microvms = [
+          "tsidp" 
+        ];
         pods = {
           golink.enable = true;
           teslamate.enable = true;
