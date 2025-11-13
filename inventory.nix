@@ -18,6 +18,7 @@
         microvms = [
           "tsidp" 
           "audiobookshelf"
+          "ntfy"
         ];
         pods = {
           golink.enable = true;
@@ -35,9 +36,7 @@
             storage = config.yomaq.impermanence.backupStorage;
           };
           homepage.enable = true;
-          ntfy.enable = true;
           gatus.enable = true;
-          # tsidp.enable = true;
           calibre-web.enable = true;
         };
         syncoid = {

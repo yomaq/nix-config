@@ -25,7 +25,7 @@
 
   config = {
     yomaq.ntfy = {
-      ntfyUrl = "https://azure-ntfy.sable-chimaera.ts.net/";
+      ntfyUrl = "https://ntfy.sable-chimaera.ts.net/";
       defaultTopic = "ntfy";
       defaultPriority = "p:3";
     };
