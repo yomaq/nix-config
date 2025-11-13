@@ -17,6 +17,7 @@
         syncoid.enable = true;
         microvms = [
           "tsidp" 
+          "audiobookshelf"
         ];
         pods = {
           golink.enable = true;
@@ -36,8 +37,7 @@
           homepage.enable = true;
           ntfy.enable = true;
           gatus.enable = true;
-          tsidp.enable = true;
-          audiobookshelf.enable = true;
+          # tsidp.enable = true;
           calibre-web.enable = true;
         };
         syncoid = {

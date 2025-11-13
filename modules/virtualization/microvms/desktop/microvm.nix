@@ -47,6 +47,19 @@ in
       gnome-settings-daemon.enable = true;
     };
     
+    services.xserver.displayManager.gdm.autoSuspend = false;
+    programs.dconf.profiles.user.databases = [{
+      settings = {
+        "org/gnome/desktop/screensaver" = {
+          lock-enabled = false;
+          lock-delay = lib.gvariant.mkUint32 0;
+        };
+        "org/gnome/desktop/session" = {
+          idle-delay = lib.gvariant.mkUint32 0;
+        };
+      };
+    }];
+
     environment.gnome.excludePackages = with pkgs; [
       gnome-tour
       gnome-connections
