@@ -19,6 +19,7 @@
           "tsidp" 
           "audiobookshelf"
           "ntfy"
+          "gatus"
         ];
         pods = {
           golink.enable = true;
@@ -36,7 +37,6 @@
             storage = config.yomaq.impermanence.backupStorage;
           };
           homepage.enable = true;
-          gatus.enable = true;
           calibre-web.enable = true;
         };
         syncoid = {

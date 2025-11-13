@@ -15,6 +15,11 @@ in
       default = false;
       description = "Enable Gatus configuration";
     };
+    url = lib.mkOption {
+      type = lib.types.str;
+      description = "gatus server url";
+      default = "https://ntfy.${config.yomaq.tailscale.tailnetName}.ts.net";
+    };
     endpoints = lib.mkOption {
       type = lib.types.listOf lib.types.attrs;
       description = "gatus config for endpoints";
@@ -28,8 +33,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    # wow... this is so much more simple than what I did before.
-    # not using services.gatus directly just in case I end up wanting a separate gatus server for something else
     services.gatus.settings.endpoints = cfg.endpoints;
     services.gatus.settings.external-endpoints = cfg.externalEndpoints;
   };

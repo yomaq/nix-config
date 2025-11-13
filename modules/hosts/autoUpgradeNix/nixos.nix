@@ -50,14 +50,14 @@ in
       systemd.services.nixos-upgrade-fail = lib.mkIf config.system.autoUpgrade.enable {
         script = ''
           ${lib.getExe pkgs.curl} -X POST \
-                  https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/updates_${hostName}/external\?success\=false\&error\= \
+                  ${config.yomaq.gatus.url}/api/v1/endpoints/updates_${hostName}/external\?success\=false\&error\= \
                   -H 'Authorization: Bearer ${hostName}'
         '';
       };
       systemd.services.nixos-upgrade-success = lib.mkIf config.system.autoUpgrade.enable {
         script = ''
           ${lib.getExe pkgs.curl} -X POST \
-                  https://azure-gatus.sable-chimaera.ts.net/api/v1/endpoints/updates_${hostName}/external\?success\=true\&error\= \
+                  ${config.yomaq.gatus.url}/api/v1/endpoints/updates_${hostName}/external\?success\=true\&error\= \
                   -H 'Authorization: Bearer ${hostName}'
         '';
       };
