@@ -31,11 +31,5 @@ in
       '';
     };
 
-    environment.persistence."/persist/save" = lib.mkForce {
-      directories = [
-        "/var/lib/audiobookshelf"
-      ];
-    };
-
   };
 }
