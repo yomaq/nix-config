@@ -68,7 +68,7 @@ in
         allow_user_to_change_display_name = true;
         oidc_login_disable_registration = false;
         oidc_login_hide_password_form = true;
-        oidc_login_provider_url = "https://tsidp.${config.yomaq.tailscale.tailnetName}.ts.net";
+        oidc_login_provider_url = config.yomaq.tailscale.tsidpUrl;
         oidc_login_button_text = "Log in with Tailscale";
         oidc_login_attributes = {
           id = "email";

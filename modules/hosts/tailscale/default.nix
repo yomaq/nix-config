@@ -51,6 +51,10 @@
         The name of the tailnet
       '';
     };
+    tsidpUrl = lib.mkOption {
+      type = lib.types.str;
+      default = "https://tsidp.${config.yomaq.tailscale.tailnetName}.ts.net";
+    };
     authKeyFile = lib.mkOption {
       type = lib.types.nullOr lib.types.path;
       default = "${config.age.secrets.tailscaleKey.path}";

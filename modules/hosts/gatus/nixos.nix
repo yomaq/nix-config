@@ -18,7 +18,7 @@ in
     url = lib.mkOption {
       type = lib.types.str;
       description = "gatus server url";
-      default = "https://ntfy.${config.yomaq.tailscale.tailnetName}.ts.net";
+      default = "https://gatus.${config.yomaq.tailscale.tailnetName}.ts.net";
     };
     endpoints = lib.mkOption {
       type = lib.types.listOf lib.types.attrs;

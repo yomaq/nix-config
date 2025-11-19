@@ -1,5 +1,6 @@
 {
   lib,
+  config,
   ...
 }:
 {
@@ -25,7 +26,7 @@
 
   config = {
     yomaq.ntfy = {
-      ntfyUrl = "https://ntfy.sable-chimaera.ts.net/";
+      ntfyUrl = "https://ntfy.${config.yomaq.tailscale.tailnetName}.ts.net";
       defaultTopic = "ntfy";
       defaultPriority = "p:3";
     };
