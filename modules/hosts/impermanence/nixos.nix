@@ -16,7 +16,7 @@
     };
     backupStorage = lib.mkOption {
       type = lib.types.str;
-      default = "/persist/save";
+      default = "/storage/save";
       description = "The persistent directory to backup";
     };
     dontBackup = lib.mkOption {

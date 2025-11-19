@@ -119,5 +119,12 @@ in
       };
     };
 
+    systemd.network.networks."19-docker" = lib.mkIf config.virtualisation.docker.enable {
+      matchConfig.Name = "veth*";
+      linkConfig = {
+        Unmanaged = true;
+      };
+    };
+
   };
 }

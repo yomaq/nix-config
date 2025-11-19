@@ -21,6 +21,7 @@
           "ntfy"
           "gatus"
           "homepage"
+          "nextcloud"
         ];
         pods = {
           golink.enable = true;
@@ -33,10 +34,6 @@
           open-webui.enable = true;
         };
         nixos-containers = {
-          nextcloud = {
-            enable = true;
-            storage = config.yomaq.impermanence.backupStorage;
-          };
           calibre-web.enable = true;
         };
         syncoid = {

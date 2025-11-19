@@ -68,10 +68,6 @@ in
     azure
     green
   ] ++ all;
-  "nextcloudDBEnvFile.age".publicKeys = [
-    azure
-    green
-  ] ++ all;
   "palworldEnvFile.age".publicKeys = [
     teal
     smalt
