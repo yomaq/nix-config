@@ -22,6 +22,7 @@
           "gatus"
           "homepage"
           "nextcloud"
+          "calibre"
         ];
         pods = {
           golink.enable = true;
@@ -32,9 +33,6 @@
           searxng.enable = true;
           n8n.enable = true;
           open-webui.enable = true;
-        };
-        nixos-containers = {
-          calibre-web.enable = true;
         };
         syncoid = {
           isBackupServer = true;
