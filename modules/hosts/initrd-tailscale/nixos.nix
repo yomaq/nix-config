@@ -5,12 +5,6 @@
   inputs,
   ...
 }:
-
-### pulled some lines from Andrew-d's comment here: https://github.com/NixOS/nixpkgs/pull/204249/files
-
-### https://github.com/NixOS/nixpkgs/pull/306532 Made this more complicated, as it removed tailscale-wrapped.
-### Made an overlay to undo it and add tailscale-wrapped back.
-
 let
   cfg = config.yomaq.initrd-tailscale;
 in
@@ -21,10 +15,7 @@ in
         type = lib.types.bool;
         default = false;
         description = lib.mdDoc ''
-          Starts Tailscale during initrd boot. It can be used to
-          remotely accessing the SSH service controlled by
-          {option}`boot.initrd.network.ssh` or other network services
-          included. Service is killed when stage-1 boot is finished.
+          Starts Tailscale during initrd boot.
         '';
       };
 
@@ -38,7 +29,7 @@ in
           A file containing the auth key.
         '';
       };
-
+      
       extraUpFlags = lib.mkOption {
         description = lib.mdDoc "Extra flags to pass to {command}`tailscale up`.";
         type = lib.types.listOf lib.types.str;
@@ -47,7 +38,6 @@ in
       };
     };
   };
-
   config =
     let
       iptables-static = pkgs.iptables.overrideAttrs (old: {
@@ -57,29 +47,9 @@ in
           "--disable-shared"
         ];
       });
-
-      # have to undo https://github.com/NixOS/nixpkgs/pull/306532
-      tailscale-wrapped = pkgs.tailscale.overrideAttrs (oldAttrs: {
-        subPackages = oldAttrs.subPackages ++ [ "cmd/tailscale" ];
-        postInstall = pkgs.lib.optionalString pkgs.stdenv.isLinux ''
-          wrapProgram $out/bin/tailscaled --prefix PATH : ${
-            pkgs.lib.makeBinPath [
-              pkgs.iproute2
-              pkgs.iptables
-              pkgs.getent
-              pkgs.shadow
-            ]
-          }
-          wrapProgram $out/bin/tailscale --suffix PATH : ${pkgs.lib.makeBinPath [ pkgs.procps ]}
-          moveToOutput "bin/derper" "$derper"
-        '';
-      });
-
     in
     lib.mkMerge [
       (lib.mkIf (config.boot.initrd.network.enable && !config.yomaq.disks.amReinstalling && cfg.enable) {
-
-        yomaq.initrd-tailscale.package = tailscale-wrapped;
 
         boot.initrd.kernelModules = [ "tun" ];
         boot.initrd.availableKernelModules = [
@@ -96,17 +66,15 @@ in
           "xt_pkttype"
           "xt_tcpudp"
         ];
-
         boot.initrd.extraUtilsCommands = ''
-          copy_bin_and_libs ${cfg.package}/bin/.tailscaled-wrapped
-          copy_bin_and_libs ${cfg.package}/bin/.tailscale-wrapped
+          copy_bin_and_libs ${pkgs.tailscale}/bin/.tailscaled-wrapped
           copy_bin_and_libs ${pkgs.iproute2}/bin/ip
           copy_bin_and_libs ${iptables-static}/bin/iptables
           copy_bin_and_libs ${iptables-static}/bin/ip6tables
           copy_bin_and_libs ${iptables-static}/bin/xtables-legacy-multi
           copy_bin_and_libs ${iptables-static}/bin/xtables-nft-multi
+          ln -sf .tailscaled-wrapped $out/bin/tailscale
         '';
-
         age.secrets.tailscaleOAuthKeyAcceptSsh.file = (
           inputs.self + /secrets/tailscaleOAuthKeyAcceptSsh.age
         );
@@ -115,44 +83,16 @@ in
 
         boot.initrd.network.postCommands = lib.mkIf (!config.boot.initrd.systemd.enable) ''
           .tailscaled-wrapped --state=mem: &
-          .tailscale-wrapped up --hostname=${config.networking.hostName}-initrd --auth-key 'file:/etc/tauthkey' ${lib.escapeShellArgs cfg.extraUpFlags} &
+          tailscale up --hostname=${config.networking.hostName}-initrd --auth-key 'file:/etc/tauthkey' ${lib.escapeShellArgs cfg.extraUpFlags} &
         '';
-
       })
       (lib.mkIf (config.boot.initrd.network.enable && cfg.enable) {
         ### initrd secrets are deployed before agenix sets up keys. So the key needs to exist first, or the build will fail with a missing file error.
         ### So, on a system install use amReinstalling to disable the above actual deployment of the secret, while still deploying the key here.
-        ## Then when you remove amReinstalling, initrd will see the secret deployed by the previous rebuild.
+        ### Then when you remove amReinstalling, initrd will see the secret deployed by the previous rebuild.
         age.secrets.tailscaleOAuthKeyAcceptSsh.file = (
           inputs.self + /secrets/tailscaleOAuthKeyAcceptSsh.age
         );
       })
     ];
-
-  ### for systemd networking. the old script based initrd network is slowly being phased out
-  ### not tested yet, just starting to prep what I expect is needed.
-
-  # boot.initrd.systemd.storePaths = [
-  #   "${cfg.package}/bin/.tailscaled-wrapped"
-  #   "${cfg.package}/bin/.tailscale-wrapped"
-  #   "${pkgs.iproute}/bin/ip"
-  #   "${iptables-static}/bin/iptables"
-  #   "${iptables-static}/bin/ip6tables"
-  #   "${iptables-static}/bin/xtables-legacy-multi"
-  #   "${iptables-static}/bin/xtables-nft-multi"
-  # ];
-  # boot.initrd.systemd.services.tailscaled = {
-  #   wantedBy = [ "initrd.target" ];
-  #   path = [ pkgs.iproute iptables-static ];
-  #   after = [ "network.target" "initrd-nixos-copy-secrets.service" ];
-  #   serviceConfig.ExecStart = "${cfg.package}/bin/.tailscaled-wrapped --state=mem:";
-  #   serviceConfig.Type = "notify";
-  # };
-  # boot.initrd.systemd.services.tailscaled = {
-  #   wantedBy = [ "initrd.target" ];
-  #   path = [ pkgs.iproute iptables-static ];
-  #   after = [ "network.target" "initrd-nixos-copy-secrets.service" "tailscaled" ];
-  #   serviceConfig.ExecStart = "${cfg.package}/bin/.tailscale-wrapped up --hostname=${config.networking.hostName}-initrd --auth-key 'file:/etc/tauthkey' ${escapeShellArgs cfg.extraUpFlags}";
-  #   serviceConfig.Type = "notify";
-  # };
 }
