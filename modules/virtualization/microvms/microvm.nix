@@ -102,6 +102,7 @@ in
       suites.microvm.enable = true;
     };
 
+    nix.settings.experimental-features = [ "nix-command" "flakes" ];
     nixpkgs = {
       overlays = [
         inputs.self.overlays.pkgs-unstable
