@@ -80,6 +80,9 @@
         syncoid.enable = true;
         docker.enable = true;
         nixos-containers.code-server.enable = true;
+        microvms = [
+          "openvscode-server" 
+        ];
       };
 
       wsl = {

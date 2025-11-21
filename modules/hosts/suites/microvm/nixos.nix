@@ -37,7 +37,5 @@ in
       inputs.self.overlays.pkgs-unstable
     ];
     microvm.host.enable = false;
-    environment.persistence."${config.yomaq.impermanence.dontBackup}".enable = false;
-    environment.persistence."${config.yomaq.impermanence.backup}".enable = false;
   };
 }

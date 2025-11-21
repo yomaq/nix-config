@@ -47,13 +47,6 @@ in
           socket = "${baseDir}/ssh.socket";
         }
         {
-          source = "/persist/microvm/${hostName}/tailscale";
-          mountPoint = "/var/lib/tailscale";
-          tag = "ts";
-          proto = "virtiofs";
-          socket = "${baseDir}/tailscale.socket";
-        }
-        {
           source = "/persist/save/microvm/${hostName}";
           mountPoint = "/persist/save";
           tag = "save";
@@ -99,7 +92,7 @@ in
       (map (share: share.mountPoint) config.microvm.shares)
       (_: { neededForBoot = true; });
 
-    environment.persistence."/persist" = lib.mkForce {
+    environment.persistence."/persist" = {
       directories = [
         "/var/lib/nixos"
       ];
