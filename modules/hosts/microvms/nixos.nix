@@ -84,6 +84,17 @@ in
       );
 
       systemd.services = lib.mkMerge (
+        [
+          {
+            "microvm@" = {
+              serviceConfig = {
+                ExecStartPre = lib.mkAfter [
+                  "-${pkgs.coreutils}/bin/rm -f /var/lib/microvms/%i/nix-store-overlay.img"
+                ];
+              };
+            };
+          }
+        ] ++
         (map createMicroVM config.microvm.autostart) ++
         (map createMicroVMUpdate config.microvm.autostart)
       );

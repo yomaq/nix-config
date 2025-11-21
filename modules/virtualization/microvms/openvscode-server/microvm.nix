@@ -45,6 +45,13 @@ in
     };
 
     environment.systemPackages = [ pkgs.claude-code ];
+    microvm.volumes = lib.mkForce [
+      {
+        image = "nix-store-overlay.img";
+        mountPoint = "/nix/.rw-store";
+        size = 25600;
+      }
+    ];
 
     services.caddy = {
       enable = true;
