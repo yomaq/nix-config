@@ -58,7 +58,7 @@ in
       '';
     };
 
-    environment.persistence."/persist" = lib.mkForce {
+    environment.persistence."/persist" = {
       directories = [
         "/var/lib/"
       ];

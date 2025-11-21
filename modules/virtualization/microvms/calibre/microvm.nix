@@ -59,7 +59,7 @@ in
       listen.ip = "127.0.0.1";
     };
 
-    environment.persistence."/persist/save" = lib.mkForce {
+    environment.persistence."/persist/save" = {
       directories = [
         "/var/lib/calibre-server"
         "/var/lib/calibre-web"

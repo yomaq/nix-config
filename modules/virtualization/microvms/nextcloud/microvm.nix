@@ -111,18 +111,11 @@ in
     # };
     # inventory.hosts."${config.networking.hostName}".docker.enable = true;
 
-    environment.persistence."/storage/save" = lib.mkForce {
+    environment.persistence."/storage/save" = {
       directories = [
         "/var/lib/mysql"
         "/var/lib/nextcloud"
       ];
     };
-
-    environment.persistence."/persist" = lib.mkForce {
-      directories = [
-        "/var/lib/docker"
-      ];
-    };
-
   };
 }

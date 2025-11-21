@@ -26,7 +26,7 @@ in
       '';
     };
 
-    environment.persistence."/persist/save" = lib.mkForce {
+    environment.persistence."/persist/save" =  {
       directories = [
         "/var/lib/audiobookshelf"
       ];
