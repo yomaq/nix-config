@@ -47,7 +47,7 @@ pkgs.mkShell {
             exit 1
           fi
           HOSTNAME=$1
-          nixos-rebuild --use-substitutes --no-build-nix --build-host admin@$HOSTNAME --target-host admin@$HOSTNAME --use-remote-sudo switch --flake github:yomaq/nix-config#$HOSTNAME
+          nixos-rebuild --use-substitutes --build-host admin@$HOSTNAME --target-host admin@$HOSTNAME --sudo switch --flake github:yomaq/nix-config#$HOSTNAME
         }
 
         yo-rbrl() {
@@ -56,7 +56,7 @@ pkgs.mkShell {
             exit 1
           fi
           HOSTNAME=$1
-          nixos-rebuild --use-substitutes --no-build-nix --build-host admin@$HOSTNAME --target-host admin@$HOSTNAME --use-remote-sudo switch --flake .#$HOSTNAME
+          nixos-rebuild --use-substitutes --build-host admin@$HOSTNAME --target-host admin@$HOSTNAME --sudo switch --flake .#$HOSTNAME
         }
 
         yo-rbrl-ip() {
@@ -66,7 +66,7 @@ pkgs.mkShell {
           fi
           HOSTNAME=$1
           IP=$2
-          nixos-rebuild --use-substitutes --no-build-nix --build-host admin@$IP --target-host admin@$IP --use-remote-sudo switch --flake .#$HOSTNAME
+          nixos-rebuild --use-substitutes --build-host admin@$IP --target-host admin@$IP --sudo switch --flake .#$HOSTNAME
         }
 
         yo-dry() {
@@ -75,7 +75,7 @@ pkgs.mkShell {
             exit 1
           fi
           HOSTNAME=$1
-          nixos-rebuild --use-substitutes --no-build-nix --build-host admin@$HOSTNAME --target-host admin@$HOSTNAME --use-remote-sudo dry-activate --flake .#$HOSTNAME
+          nixos-rebuild --use-substitutes --build-host admin@$HOSTNAME --target-host admin@$HOSTNAME --sudo dry-activate --flake .#$HOSTNAME
         }
 
         yo-microvm() {
@@ -88,7 +88,7 @@ pkgs.mkShell {
           local microvm_name="$1"
           local remote_host="$2"
           
-          nix run ".#nixosConfigurations.$microvm_name.config.microvm.deploy.installOnHost" "admin@$remote_host" -- --use-remote-sudo
+          nix run ".#nixosConfigurations.$microvm_name.config.microvm.deploy.installOnHost" "admin@$remote_host" -- --sudo
         }
 
         #for installing nixos

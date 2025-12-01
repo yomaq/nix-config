@@ -6,7 +6,7 @@
   ## be accessible through 'pkgs.stable'
   # nixpkgs-stable = final: _prev: {
   #   stable = import inputs.nixpkgs-stable {
-  #     system = final.system;
+  #     system = final.stdenv.hostPlatform.system;
   #     config.allowUnfree = true;
   #   };
   # };
@@ -14,7 +14,7 @@
   ## be accessible through 'pkgs.unstable'
   pkgs-unstable = final: _prev: {
     unstable = import inputs.nixpkgs-unstable {
-      system = final.system;
+      system = final.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
   };

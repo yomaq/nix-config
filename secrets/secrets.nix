@@ -1,6 +1,6 @@
 let
-  agenix = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOkt8xgN5ZlTyuSBWAhlv0CCxIN6LmzfSMTHTc53rZ6i";
-  carln = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDF1TFwXbqdC1UyG75q3HO1n7/L3yxpeRLIq2kQ9DalI";
+  agenix = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB7I+e624H8hTSltT2Hj5MCkwqkTPC7sVXp4On9CvJ1r";
+  carln = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFISfCExxGjPEXFOU+RPRAI1iZ6bz5U15xooYdnWvVsx";
   green = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJOKOvSM5ibLkiVi+0hmt3eWlmTprMIqtYzkHgKdSVsq";
   moss = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHUFH+p2RqZ4g1Gec7UZWyr390wketZRCtp93bNAyzZ7";
   jade = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFzLi/rhHVmk8op1uTZk4Vzhk/yvzQKv2CYNHxEy/7Ak";
@@ -37,6 +37,15 @@ in
     wsl
   ] ++ all;
   "tailscaleOAuthKeyAcceptSsh.age".publicKeys = [
+    green
+    moss
+    jade
+    azure
+    teal
+    smalt
+    wsl
+  ] ++ all;
+  "tailscaleInitrd.age".publicKeys = [
     green
     moss
     jade
@@ -102,7 +111,4 @@ in
     azure
   ] ++ all;
   "healthchecks.age".publicKeys = [ azure ] ++ all;
-
-  #example for calling groups
-  #"secret2.age".publicKeys = users ++ systems;
 }

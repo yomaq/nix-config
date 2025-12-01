@@ -38,7 +38,7 @@ in
     };
   };
 
-  config = lib.mkIf (cfg.enable && pkgs.system != "aarch64-darwin") {
+  config = lib.mkIf (cfg.enable && pkgs.stdenv.hostPlatform.system != "aarch64-darwin") {
     dconf.settings = {
       "org/gnome/desktop/wm/keybindings" = {
         close = [ "<Super>q" ];

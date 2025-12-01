@@ -17,7 +17,7 @@ in
 
     microvm = {
       hotplugMem = 13312;
-      vcpu = 4;
+      vcpu = 8;
     };
 
     services.openvscode-server = {

@@ -28,7 +28,7 @@ let
       script = ''
         if [ ! -d "/var/lib/microvms/${name}" ]; then
           echo "Creating ${name}..."
-          ${inputs.microvm.packages.${pkgs.system}.microvm}/bin/microvm -f ${flakeUrl} -c ${name}
+          ${inputs.microvm.packages.${pkgs.stdenv.hostPlatform.system}.microvm}/bin/microvm -f ${flakeUrl} -c ${name}
         else
           echo "${name} already exists"
         fi
@@ -46,7 +46,7 @@ let
       script = ''
         sleep 60
         echo "Checking updates for ${name}..."
-        if ${inputs.microvm.packages.${pkgs.system}.microvm}/bin/microvm -u ${name} | grep -q "Reboot MicroVM ${name}"; then
+        if ${inputs.microvm.packages.${pkgs.stdenv.hostPlatform.system}.microvm}/bin/microvm -u ${name} | grep -q "Reboot MicroVM ${name}"; then
           echo "Restarting ${name}..."
           systemctl restart microvm@${name}.service
         fi

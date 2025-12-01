@@ -34,8 +34,12 @@ in
     programs = {
       git = {
         enable = true;
-        userEmail = "yomaq@bsjm.xyz";
-        userName = "yomaq";
+        settings = {
+          user = {
+            email = "yomaq@bsjm.xyz";
+            name = "yomaq";
+          };
+        };
       };
     };
   };

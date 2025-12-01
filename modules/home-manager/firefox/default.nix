@@ -23,7 +23,7 @@ in
     };
   };
 
-  config = lib.mkIf (cfg.enable && pkgs.system != "aarch64-darwin") {
+  config = lib.mkIf (cfg.enable && pkgs.stdenv.hostPlatform.system != "aarch64-darwin") {
     programs.firefox = {
       package = pkgs.firefox.override {
         extraPolicies = {

@@ -23,7 +23,7 @@ in
 
       authKeyFile = lib.mkOption {
         type = lib.types.nullOr lib.types.path;
-        default = "${config.age.secrets.tailscaleOAuthKeyAcceptSsh.path}";
+        default = "${config.age.secrets.tailscaleInitrd.path}";
         example = "/run/secrets/tailscale_key";
         description = lib.mdDoc ''
           A file containing the auth key.
@@ -75,8 +75,13 @@ in
           copy_bin_and_libs ${iptables-static}/bin/xtables-nft-multi
           ln -sf .tailscaled-wrapped $out/bin/tailscale
         '';
+        # TODO remove after its no longer in any old generations
         age.secrets.tailscaleOAuthKeyAcceptSsh.file = (
           inputs.self + /secrets/tailscaleOAuthKeyAcceptSsh.age
+        );
+
+        age.secrets.tailscaleInitrd.file = (
+          inputs.self + /secrets/tailscaleInitrd.age
         );
 
         boot.initrd.secrets."/etc/tauthkey" = cfg.authKeyFile;
@@ -90,8 +95,8 @@ in
         ### initrd secrets are deployed before agenix sets up keys. So the key needs to exist first, or the build will fail with a missing file error.
         ### So, on a system install use amReinstalling to disable the above actual deployment of the secret, while still deploying the key here.
         ### Then when you remove amReinstalling, initrd will see the secret deployed by the previous rebuild.
-        age.secrets.tailscaleOAuthKeyAcceptSsh.file = (
-          inputs.self + /secrets/tailscaleOAuthKeyAcceptSsh.age
+        age.secrets.tailscaleInitrd.file = (
+          inputs.self + /secrets/tailscaleInitrd.age
         );
       })
     ];
