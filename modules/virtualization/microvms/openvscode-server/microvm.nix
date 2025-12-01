@@ -16,7 +16,7 @@ in
     networking.hostName = "${vmName}";
 
     microvm = {
-      hotplugMem = 9216;
+      hotplugMem = 13312;
       vcpu = 4;
     };
 

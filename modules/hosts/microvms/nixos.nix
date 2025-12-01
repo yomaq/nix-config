@@ -41,8 +41,10 @@ let
       description = "Update MicroVM ${name}";
       serviceConfig = {
         Type = "oneshot";
+        RandomizedDelaySec = "5m";
       };
       script = ''
+        sleep 60
         echo "Checking updates for ${name}..."
         if ${inputs.microvm.packages.${pkgs.system}.microvm}/bin/microvm -u ${name} | grep -q "Reboot MicroVM ${name}"; then
           echo "Restarting ${name}..."
