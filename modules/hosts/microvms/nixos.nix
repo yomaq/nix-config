@@ -41,12 +41,13 @@ let
       description = "Update MicroVM ${name}";
       serviceConfig = {
         Type = "oneshot";
-        RandomizedDelaySec = "5m";
       };
+      # There seem to be issues with the microvm starting correctly after an update - especially with multiple microvms running, adding the delays to hopefully clear that out.
       script = ''
-        sleep 60
+        sleep $((RANDOM % 180))
         echo "Checking updates for ${name}..."
         if ${inputs.microvm.packages.${pkgs.stdenv.hostPlatform.system}.microvm}/bin/microvm -u ${name} | grep -q "Reboot MicroVM ${name}"; then
+          sleep 30
           echo "Restarting ${name}..."
           systemctl restart microvm@${name}.service
         fi
