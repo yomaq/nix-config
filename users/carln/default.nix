@@ -44,8 +44,6 @@ in
       brews = [
         "mas"
         "pulumi"
-        "pulumi/tap/crd2pulumi"
-        "pulumi/tap/kube2pulumi"
       ];
     };
   };
@@ -59,8 +57,12 @@ in
     programs = {
       git = {
         enable = true;
-        userEmail = "yomaq@bsjm.xyz";
-        userName = "yomaq";
+        settings = {
+          user = {
+            email = "yomaq@bsjm.xyz";
+            name = "yomaq";
+          };
+        };
       };
     };
     home.file.onePassword = {
