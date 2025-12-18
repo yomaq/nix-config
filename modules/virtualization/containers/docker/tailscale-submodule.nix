@@ -108,8 +108,8 @@ let
         {
           "TS_HOSTNAME" = cfg.TShostname;
           "TS_STATE_DIR" = "/var/lib/tailscale";
-          "TS_USERSPACE" = "false";
-          "TS_EXTRA_ARGS" = "--advertise-tags=" + formatTags + " " + cfg.TSargs;
+          # "TS_USERSPACE" = "false";
+          "TS_EXTRA_ARGS" = "--advertise-tags=" + formatTags + " --accept-dns=true " + cfg.TSargs;
         }
         (lib.mkIf (cfg.TSserve != { }) {
           "TS_SERVE_CONFIG" = "config/tailscaleCfg.json";
