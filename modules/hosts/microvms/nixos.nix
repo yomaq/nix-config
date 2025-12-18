@@ -82,6 +82,12 @@ in
     {
       microvm.autostart = config.inventory.hosts."${config.networking.hostName}".microvms;
 
+      environment.persistence."/persist" = {
+        directories = [
+          "/var/lib/microvms"
+        ];
+      };
+
       systemd.tmpfiles.rules = lib.flatten (
         map createMicroVMDirs config.microvm.autostart
       );
