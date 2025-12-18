@@ -110,5 +110,7 @@ in
     teal
     azure
   ] ++ all;
+  "dropEnvFile.age".publicKeys = [ azure ] ++ all;
+  "dropDBEnvFile.age".publicKeys = [ azure ] ++ all;
   "healthchecks.age".publicKeys = [ azure ] ++ all;
 }

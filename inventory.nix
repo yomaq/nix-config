@@ -33,6 +33,7 @@
           searxng.enable = true;
           n8n.enable = true;
           open-webui.enable = true;
+          drop.enable = true;
         };
         syncoid = {
           isBackupServer = true;
