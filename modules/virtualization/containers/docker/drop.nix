@@ -14,6 +14,7 @@ let
 
   inherit (config.networking) hostName;
   inherit (config.yomaq.impermanence) backup;
+  inherit (config.yomaq.impermanence) backupStorage;
   inherit (config.yomaq.tailscale) tailnetName;
 in
 {
@@ -45,7 +46,7 @@ in
             };
             libraryLocation = lib.mkOption {
               type = lib.types.str;
-              default = "${backup}/containers/${NAME}/library";
+              default = "${backupStorage}/containers/${NAME}/library";
               description = ''
                 path to store game library files
               '';
