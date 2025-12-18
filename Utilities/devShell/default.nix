@@ -88,7 +88,7 @@ pkgs.mkShell {
           local microvm_name="$1"
           local remote_host="$2"
           
-          nix run ".#nixosConfigurations.$microvm_name.config.microvm.deploy.installOnHost" "admin@$remote_host" -- --sudo
+          nix run ".#nixosConfigurations.$microvm_name.config.microvm.deploy.installOnHost" "admin@$remote_host" -- --use-remote-sudo
         }
 
         #for installing nixos
