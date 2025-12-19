@@ -139,7 +139,6 @@ in
         TSserve = {
           "/" = "http://127.0.0.1:3000";
         };
-        tags = [ "tag:generichttps" ];
       };
       yomaq.monitorServices.services."docker-${NAME}".priority = "medium";
     })
