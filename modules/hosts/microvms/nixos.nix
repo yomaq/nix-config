@@ -55,6 +55,19 @@ let
     };
   };
 
+  createMicroVMUpdateTimer = name: {
+    "microvm-update-${name}" = {
+      description = "Daily update timer for MicroVM ${name}";
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnCalendar = "*-*-* 03:00:00 America/Chicago";
+        Persistent = true;
+        RandomizedDelaySec = "15m";
+        Unit = "microvm-update-${name}.service";
+      };
+    };
+  };
+
   createMicroVMDirs = name: [
     "d /persist/save/microvm/${name} 0755 root root"
     "d /persist/microvm/${name} 0755 root root"
@@ -107,14 +120,18 @@ in
         (map createMicroVM config.microvm.autostart) ++
         (map createMicroVMUpdate config.microvm.autostart)
       );
+
+      systemd.timers = lib.mkMerge (
+        map createMicroVMUpdateTimer config.microvm.autostart
+      );
     }
     
-    (lib.mkIf (config.yomaq.autoUpgrade.enable && config.microvm.autostart != []) {
-      systemd.services.nixos-upgrade = {
-        serviceConfig.ExecStartPost = map (service: 
-          "${pkgs.systemd}/bin/systemctl start ${service}"
-        ) (map (name: "microvm-update-${name}.service") config.microvm.autostart);
-      };
-    })
+    # (lib.mkIf (config.yomaq.autoUpgrade.enable && config.microvm.autostart != []) {
+    #   systemd.services.nixos-upgrade = {
+    #     serviceConfig.ExecStartPost = map (service: 
+    #       "${pkgs.systemd}/bin/systemctl start ${service}"
+    #     ) (map (name: "microvm-update-${name}.service") config.microvm.autostart);
+    #   };
+    # })
   ];
 }
