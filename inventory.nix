@@ -16,13 +16,14 @@
         docker.enable = true;
         syncoid.enable = true;
         microvms = [
-          "tsidp" 
+          "tsidp"
           "audiobookshelf"
           "ntfy"
           "gatus"
           "homepage"
           "nextcloud"
           "calibre"
+          "forgejo"
         ];
         pods = {
           golink.enable = true;
