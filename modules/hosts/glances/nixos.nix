@@ -606,12 +606,16 @@ in
             "Flake.lock last update" = {
               widget = {
                 type = "customapi";
-                url = "https://gitlab.com/api/v4/projects/56279050/repository/commits?path=flake.lock";
+                url = "https://forgejo.${tailnetName}.ts.net/api/v1/repos/yomaq/nix-config/commits?path=flake.lock&limit=1";
                 method = "GET";
                 mappings = [
                   {
                     field = {
-                      "0" = "committed_date";
+                      "0" = {
+                        "commit" = {
+                          "committer" = "date";
+                        };
+                      };
                     };
                     format = "date";
                     style = "short";
@@ -622,12 +626,16 @@ in
             "Last Commit" = {
               widget = {
                 type = "customapi";
-                url = "https://gitlab.com/api/v4/projects/56279050/repository/commits?sort=desc&per_page=1";
+                url = "https://forgejo.${tailnetName}.ts.net/api/v1/repos/yomaq/nix-config/commits?limit=1";
                 method = "GET";
                 mappings = [
                   {
                     field = {
-                      "0" = "committed_date";
+                      "0" = {
+                        "commit" = {
+                          "committer" = "date";
+                        };
+                      };
                     };
                     format = "date";
                     style = "short";
@@ -638,12 +646,14 @@ in
             "Update Message" = {
               widget = {
                 type = "customapi";
-                url = "https://gitlab.com/api/v4/projects/56279050/repository/commits?sort=desc&per_page=1";
+                url = "https://forgejo.${tailnetName}.ts.net/api/v1/repos/yomaq/nix-config/commits?limit=1";
                 method = "GET";
                 mappings = [
                   {
                     field = {
-                      "0" = "message";
+                      "0" = {
+                        "commit" = "message";
+                      };
                     };
                   }
                 ];
@@ -652,13 +662,11 @@ in
             "Version (Current Commit)" = {
               widget = {
                 type = "customapi";
-                url = "https://gitlab.com/api/v4/projects/56279050/repository/commits?sort=desc&per_page=1";
+                url = "https://homepage.${tailnetName}.ts.net/forgejo-stats/commit.json";
                 method = "GET";
                 mappings = [
                   {
-                    field = {
-                      "0" = "short_id";
-                    };
+                    field = "sha";
                   }
                 ];
               };

@@ -1,8 +1,6 @@
 [![Nixos](https://img.shields.io/badge/NixOS-5277C3?style=for-the-badge&logo=nixos&logoColor=white)](https://nixos.org) 
 [![Static Badge](https://img.shields.io/badge/Tailscale-Tailscale?style=for-the-badge&logo=Tailscale&logoColor=white&labelColor=black&color=black)](https://tailscale.com)
 
-![Name](https://github.com/yomaq/nix-config/actions/workflows/UpdateFlakeLock.yml/badge.svg)
-
 # Nix Flake 
 
 Flake for my personal desktop and self-hosted services.  
