@@ -31,7 +31,7 @@ in
         enable = isClean;
         dates = "hourly";
         flags = [ "--refresh" ];
-        flake = "github:yomaq/nix-config";
+        flake = "git+${config.yomaq.forgejoUrl}/yomaq/nix-config";
       };
 
       # Only run if current config (self) is older than the new one.

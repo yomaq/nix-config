@@ -1,7 +1,7 @@
 { config, lib, pkgs, inputs, ... }:
 
 let
-  flakeUrl = "github:yomaq/nix-config";
+  flakeUrl = "git+${config.yomaq.forgejoUrl}/yomaq/nix-config";
   
   createMicroVM = name: {
     "microvm-create-${name}" = {

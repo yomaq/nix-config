@@ -21,9 +21,9 @@ pkgs.mkShell {
 
         yo-rb() {
           if [[ "$OSTYPE" == "darwin"* ]]; then
-            sudo darwin-rebuild switch --flake github:yomaq/nix-config
+            sudo darwin-rebuild switch --flake git+https://forgejo.sable-chimaera.ts.net/yomaq/nix-config
           elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-            sudo nixos-rebuild switch --option eval-cache false --flake github:yomaq/nix-config
+            sudo nixos-rebuild switch --option eval-cache false --flake git+https://forgejo.sable-chimaera.ts.net/yomaq/nix-config
           else
             echo "Unsupported OS"
             exit 1
@@ -47,7 +47,7 @@ pkgs.mkShell {
             exit 1
           fi
           HOSTNAME=$1
-          nixos-rebuild --use-substitutes --build-host admin@$HOSTNAME --target-host admin@$HOSTNAME --sudo switch --flake github:yomaq/nix-config#$HOSTNAME
+          nixos-rebuild --use-substitutes --build-host admin@$HOSTNAME --target-host admin@$HOSTNAME --sudo switch --flake git+https://forgejo.sable-chimaera.ts.net/yomaq/nix-config#$HOSTNAME
         }
 
         yo-rbrl() {
