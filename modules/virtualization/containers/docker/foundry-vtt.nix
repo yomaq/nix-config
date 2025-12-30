@@ -37,7 +37,7 @@ in
             };
             imageVersion = lib.mkOption {
               type = lib.types.str;
-              default = "12";
+              default = "13";
               description = ''
                 container image version
               '';
@@ -53,13 +53,14 @@ in
 
       systemd.tmpfiles.rules = [
         # main container
-        "d ${cfg.volumeLocation}/data 0755"
+        "d ${cfg.volumeLocation}/data 0755 4000 4000"
       ];
       virtualisation.oci-containers.containers = {
         ### main container
         "${NAME}" = {
           image = "${IMAGE}:${cfg.imageVersion}";
           autoStart = true;
+          user = "4000:4000";
           environment = {
             "FOUNDRY_RELEASE_URL" = "";
           };
