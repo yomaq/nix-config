@@ -90,7 +90,7 @@ in
       '';
     };
 
-    environment.persistence."/persist/save" =  {
+    environment.persistence."/persist/save" = {
       directories = [
         "/var/lib"
       ];

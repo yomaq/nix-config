@@ -58,26 +58,26 @@
 
       nixosConfigurations =
         let
-          mkSystem = path: nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            specialArgs = { inherit inputs; };
-            modules = [ path ];
-          };
+          mkSystem =
+            path:
+            nixpkgs.lib.nixosSystem {
+              system = "x86_64-linux";
+              specialArgs = { inherit inputs; };
+              modules = [ path ];
+            };
           # host machines
-          hostConfigs = nixpkgs.lib.genAttrs 
-            (builtins.attrNames (builtins.readDir ./hosts/nixos))
-            (name: mkSystem ./hosts/nixos/${name});
-          # microvms 
+          hostConfigs = nixpkgs.lib.genAttrs (builtins.attrNames (builtins.readDir ./hosts/nixos)) (
+            name: mkSystem ./hosts/nixos/${name}
+          );
+          # microvms
           microVMDir = ./modules/virtualization/microvms;
           allMicroVMs = builtins.readDir microVMDir;
-          microVMConfigs = nixpkgs.lib.genAttrs
-            (builtins.filter
-              (name: allMicroVMs.${name} == "directory" &&
-                    builtins.pathExists (microVMDir + "/${name}/microvm.nix"))
-              (builtins.attrNames allMicroVMs))
-            (name: mkSystem (microVMDir + "/${name}/microvm.nix"));
+          microVMConfigs = nixpkgs.lib.genAttrs (builtins.filter (
+            name:
+            allMicroVMs.${name} == "directory" && builtins.pathExists (microVMDir + "/${name}/microvm.nix")
+          ) (builtins.attrNames allMicroVMs)) (name: mkSystem (microVMDir + "/${name}/microvm.nix"));
         in
-          hostConfigs // microVMConfigs;
+        hostConfigs // microVMConfigs;
 
       darwinConfigurations =
         let

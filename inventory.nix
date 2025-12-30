@@ -69,7 +69,7 @@
           };
         };
         microvms = [
-          "desktop" 
+          "desktop"
         ];
       };
 
@@ -115,7 +115,7 @@
         syncoid.enable = true;
         docker.enable = true;
       };
-    
+
       moss = {
         users.enableUsers = [ "admin" ];
         publicKey = {

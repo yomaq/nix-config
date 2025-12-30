@@ -7,11 +7,12 @@
 }:
 let
   vmName = "nextcloud";
-  vmDeployedOnHost = builtins.any
-    (host: builtins.elem vmName (config.inventory.hosts.${host}.microvms or []))
-    (builtins.attrNames config.inventory.hosts);
-  vmDeployedOnThisHost = builtins.elem vmName 
-    (config.inventory.hosts.${config.networking.hostName}.microvms or []);
+  vmDeployedOnHost = builtins.any (
+    host: builtins.elem vmName (config.inventory.hosts.${host}.microvms or [ ])
+  ) (builtins.attrNames config.inventory.hosts);
+  vmDeployedOnThisHost = builtins.elem vmName (
+    config.inventory.hosts.${config.networking.hostName}.microvms or [ ]
+  );
 in
 {
   config = lib.mkMerge [

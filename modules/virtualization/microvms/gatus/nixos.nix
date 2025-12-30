@@ -7,9 +7,9 @@
 }:
 let
   vmName = "gatus";
-  vmDeployedOnHost = builtins.any
-    (host: builtins.elem vmName (config.inventory.hosts.${host}.microvms or []))
-    (builtins.attrNames config.inventory.hosts);
+  vmDeployedOnHost = builtins.any (
+    host: builtins.elem vmName (config.inventory.hosts.${host}.microvms or [ ])
+  ) (builtins.attrNames config.inventory.hosts);
 in
 {
   config = lib.mkIf (config.yomaq.homepage.enable && vmDeployedOnHost) {

@@ -1,12 +1,18 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 let
   flakeUrl = "git+${config.yomaq.forgejoUrl}/yomaq/nix-config";
-  
+
   createMicroVM = name: {
     "microvm-create-${name}" = {
       description = "Create MicroVM ${name} if it does not exist";
-      wantedBy = [ 
+      wantedBy = [
         "microvm-virtiofsd@${name}.service"
         "microvm-tap-interfaces@${name}.service"
       ];
@@ -14,21 +20,23 @@ let
         "microvm-virtiofsd@${name}.service"
         "microvm-tap-interfaces@${name}.service"
       ];
-      after = [ 
-        "network-online.target" 
+      after = [
+        "network-online.target"
         "systemd-tmpfiles-setup.service"
       ];
       wants = [ "network-online.target" ];
-      
+
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
       };
-      
+
       script = ''
         if [ ! -d "/var/lib/microvms/${name}" ]; then
           echo "Creating ${name}..."
-          ${inputs.microvm.packages.${pkgs.stdenv.hostPlatform.system}.microvm}/bin/microvm -f ${flakeUrl} -c ${name}
+          ${
+            inputs.microvm.packages.${pkgs.stdenv.hostPlatform.system}.microvm
+          }/bin/microvm -f ${flakeUrl} -c ${name}
         else
           echo "${name} already exists"
         fi
@@ -46,7 +54,9 @@ let
       script = ''
         sleep $((RANDOM % 180))
         echo "Checking updates for ${name}..."
-        if ${inputs.microvm.packages.${pkgs.stdenv.hostPlatform.system}.microvm}/bin/microvm -u ${name} | grep -q "Reboot MicroVM ${name}"; then
+        if ${
+          inputs.microvm.packages.${pkgs.stdenv.hostPlatform.system}.microvm
+        }/bin/microvm -u ${name} | grep -q "Reboot MicroVM ${name}"; then
           sleep 30
           echo "Restarting ${name}..."
           systemctl restart microvm@${name}.service
@@ -84,7 +94,7 @@ in
         lib.types.submodule {
           options.microvms = lib.mkOption {
             type = lib.types.listOf lib.types.str;
-            default = [];
+            default = [ ];
           };
         }
       );
@@ -101,9 +111,7 @@ in
         ];
       };
 
-      systemd.tmpfiles.rules = lib.flatten (
-        map createMicroVMDirs config.microvm.autostart
-      );
+      systemd.tmpfiles.rules = lib.flatten (map createMicroVMDirs config.microvm.autostart);
 
       systemd.services = lib.mkMerge (
         [
@@ -116,19 +124,17 @@ in
               };
             };
           }
-        ] ++
-        (map createMicroVM config.microvm.autostart) ++
-        (map createMicroVMUpdate config.microvm.autostart)
+        ]
+        ++ (map createMicroVM config.microvm.autostart)
+        ++ (map createMicroVMUpdate config.microvm.autostart)
       );
 
-      systemd.timers = lib.mkMerge (
-        map createMicroVMUpdateTimer config.microvm.autostart
-      );
+      systemd.timers = lib.mkMerge (map createMicroVMUpdateTimer config.microvm.autostart);
     }
-    
+
     # (lib.mkIf (config.yomaq.autoUpgrade.enable && config.microvm.autostart != []) {
     #   systemd.services.nixos-upgrade = {
-    #     serviceConfig.ExecStartPost = map (service: 
+    #     serviceConfig.ExecStartPost = map (service:
     #       "${pkgs.systemd}/bin/systemctl start ${service}"
     #     ) (map (name: "microvm-update-${name}.service") config.microvm.autostart);
     #   };

@@ -139,15 +139,15 @@ in
               }
               reverse_proxy 127.0.0.1:8083
             '';
-              # forward_auth unix//run/tailscale-nginx-auth/tailscale-nginx-auth.sock {
-              #     uri /auth
-              #     header_up Remote-Addr {remote_host}
-              #     header_up Remote-Port {remote_port}
-              #     header_up Original-URI {uri}
-              #     copy_headers {
-              #         Tailscale-Login>X-Webauth-Login
-              #     }
-              # }
+            # forward_auth unix//run/tailscale-nginx-auth/tailscale-nginx-auth.sock {
+            #     uri /auth
+            #     header_up Remote-Addr {remote_host}
+            #     header_up Remote-Port {remote_port}
+            #     header_up Original-URI {uri}
+            #     copy_headers {
+            #         Tailscale-Login>X-Webauth-Login
+            #     }
+            # }
 
           };
         };

@@ -29,7 +29,7 @@ in
           A file containing the auth key.
         '';
       };
-      
+
       extraUpFlags = lib.mkOption {
         description = lib.mdDoc "Extra flags to pass to {command}`tailscale up`.";
         type = lib.types.listOf lib.types.str;
@@ -80,9 +80,7 @@ in
           inputs.self + /secrets/tailscaleOAuthKeyAcceptSsh.age
         );
 
-        age.secrets.tailscaleInitrd.file = (
-          inputs.self + /secrets/tailscaleInitrd.age
-        );
+        age.secrets.tailscaleInitrd.file = (inputs.self + /secrets/tailscaleInitrd.age);
 
         boot.initrd.secrets."/etc/tauthkey" = cfg.authKeyFile;
 
@@ -95,9 +93,7 @@ in
         ### initrd secrets are deployed before agenix sets up keys. So the key needs to exist first, or the build will fail with a missing file error.
         ### So, on a system install use amReinstalling to disable the above actual deployment of the secret, while still deploying the key here.
         ### Then when you remove amReinstalling, initrd will see the secret deployed by the previous rebuild.
-        age.secrets.tailscaleInitrd.file = (
-          inputs.self + /secrets/tailscaleInitrd.age
-        );
+        age.secrets.tailscaleInitrd.file = (inputs.self + /secrets/tailscaleInitrd.age);
       })
     ];
 }

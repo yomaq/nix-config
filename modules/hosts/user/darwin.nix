@@ -30,11 +30,9 @@ in
     );
     environment.shells = [ pkgs.zsh ];
 
-    nix.settings.trusted-users = 
+    nix.settings.trusted-users =
       let
-        rootUsers = builtins.filter (
-          username: config.yomaq.users.users.${username}.isRoot
-        ) listOfUsers;
+        rootUsers = builtins.filter (username: config.yomaq.users.users.${username}.isRoot) listOfUsers;
       in
       [ "root" ] ++ rootUsers;
 

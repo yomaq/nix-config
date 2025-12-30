@@ -7,7 +7,7 @@
 }:
 let
   baseDir = "/var/lib/microvms/${hostName}";
-  hostName =  config.networking.hostName;
+  hostName = config.networking.hostName;
 in
 {
   imports = [
@@ -62,7 +62,6 @@ in
         }
       ];
 
-
       writableStoreOverlay = "/nix/.rw-store";
       volumes = [
         {
@@ -71,26 +70,29 @@ in
           size = 2048;
         }
       ];
-      
+
       interfaces = [
         {
           type = "tap";
           id = "vm-${
-            if builtins.stringLength hostName <= 8
-            then hostName
-            else builtins.substring (builtins.stringLength hostName - 8) 8 hostName
+            if builtins.stringLength hostName <= 8 then
+              hostName
+            else
+              builtins.substring (builtins.stringLength hostName - 8) 8 hostName
           }";
-          mac = let
-            hash = builtins.hashString "sha256" hostName;
-            octets = lib.genList (i: builtins.substring (i * 2) 2 hash) 5;
-          in "02:${lib.concatStringsSep ":" octets}";
+          mac =
+            let
+              hash = builtins.hashString "sha256" hostName;
+              octets = lib.genList (i: builtins.substring (i * 2) 2 hash) 5;
+            in
+            "02:${lib.concatStringsSep ":" octets}";
         }
       ];
     };
 
-    fileSystems = lib.genAttrs 
-      (map (share: share.mountPoint) config.microvm.shares)
-      (_: { neededForBoot = true; });
+    fileSystems = lib.genAttrs (map (share: share.mountPoint) config.microvm.shares) (_: {
+      neededForBoot = true;
+    });
 
     environment.persistence."/persist" = {
       directories = [
@@ -102,7 +104,10 @@ in
       suites.microvm.enable = true;
     };
 
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    nix.settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     nixpkgs = {
       overlays = [
         inputs.self.overlays.pkgs-unstable

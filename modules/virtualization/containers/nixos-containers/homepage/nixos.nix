@@ -125,7 +125,7 @@ in
             };
           };
 
-          systemd.tmpfiles.rules = [ 
+          systemd.tmpfiles.rules = [
             "d /etc/homepage-dashboard/logs"
             "f /etc/homepage-dashboard/proxmox.yaml"
           ];

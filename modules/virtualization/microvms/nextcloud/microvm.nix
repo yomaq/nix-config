@@ -8,7 +8,7 @@
 let
   vmName = "nextcloud";
   baseDir = "/var/lib/microvms/${hostName}";
-  hostName =  config.networking.hostName;
+  hostName = config.networking.hostName;
 in
 {
   imports = [
@@ -21,7 +21,7 @@ in
       hotplugMem = 3584;
       vcpu = 4;
     };
-    microvm.shares = [        
+    microvm.shares = [
       {
         source = "${config.yomaq.impermanence.backupStorage}/microvms/${vmName}";
         mountPoint = "/storage/save";
@@ -81,7 +81,6 @@ in
         adminuser = "admin";
       };
     };
-
 
     services.collabora-online = {
       enable = true;

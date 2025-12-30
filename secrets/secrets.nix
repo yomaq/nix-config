@@ -24,8 +24,9 @@ in
     teal
     moss
     jade
-  ] ++ all;
-  "ryn.age".publicKeys =  all;
+  ]
+  ++ all;
+  "ryn.age".publicKeys = all;
   "encrypt.age".publicKeys = all;
   "tailscaleKey.age".publicKeys = [
     green
@@ -35,7 +36,8 @@ in
     teal
     smalt
     wsl
-  ] ++ all;
+  ]
+  ++ all;
   "tailscaleOAuthKeyAcceptSsh.age".publicKeys = [
     green
     moss
@@ -44,7 +46,8 @@ in
     teal
     smalt
     wsl
-  ] ++ all;
+  ]
+  ++ all;
   "tailscaleInitrd.age".publicKeys = [
     green
     moss
@@ -53,7 +56,8 @@ in
     teal
     smalt
     wsl
-  ] ++ all;
+  ]
+  ++ all;
   "tailscaleEnvFile.age".publicKeys = [
     green
     moss
@@ -62,7 +66,8 @@ in
     teal
     smalt
     wsl
-  ] ++ all;
+  ]
+  ++ all;
   "tailscaleOAuthEnvFile.age".publicKeys = [
     green
     moss
@@ -71,45 +76,55 @@ in
     teal
     smalt
     wsl
-  ] ++ all;
+  ]
+  ++ all;
   "piholeEnvFile.age".publicKeys = [ green ] ++ all;
   "nextcloudEnvFile.age".publicKeys = [
     azure
     green
-  ] ++ all;
+  ]
+  ++ all;
   "palworldEnvFile.age".publicKeys = [
     teal
     smalt
-  ] ++ all;
+  ]
+  ++ all;
   "teslamateEnvFile.age".publicKeys = [
     teal
     azure
-  ] ++ all;
+  ]
+  ++ all;
   "teslamateDBEnvFile.age".publicKeys = [
     teal
     azure
-  ] ++ all;
+  ]
+  ++ all;
   "teslamateGrafanaEnvFile.age".publicKeys = [
     teal
     azure
-  ] ++ all;
+  ]
+  ++ all;
   "semaphoreEnvFile.age".publicKeys = [
     teal
     azure
-  ] ++ all;
+  ]
+  ++ all;
   "semaphoreDBEnvFile.age".publicKeys = [
     teal
     azure
-  ] ++ all;
+  ]
+  ++ all;
   "homepage.age".publicKeys = [ azure ] ++ all;
   "linkwardenEnvFile.age".publicKeys = [
     teal
     azure
-  ] ++ all;
+  ]
+  ++ all;
   "linkwardenDBEnvFile.age".publicKeys = [
     teal
     azure
-  ] ++ all;
+  ]
+  ++ all;
   "dropEnvFile.age".publicKeys = [ azure ] ++ all;
   "dropDBEnvFile.age".publicKeys = [ azure ] ++ all;
   "healthchecks.age".publicKeys = [ azure ] ++ all;

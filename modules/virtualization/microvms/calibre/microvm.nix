@@ -15,8 +15,6 @@ in
   config = {
     networking.hostName = "${vmName}";
 
-
-
     services.caddy = {
       enable = true;
       virtualHosts."${vmName}.${config.yomaq.tailscale.tailnetName}.ts.net".extraConfig = ''

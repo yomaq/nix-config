@@ -32,8 +32,8 @@ in
     };
     systemd.network.enable = true;
     inventory.hosts."${config.networking.hostName}".users.enableUsers = [ "admin" ];
-    nixpkgs.overlays = [ 
-      inputs.agenix.overlays.default 
+    nixpkgs.overlays = [
+      inputs.agenix.overlays.default
       inputs.self.overlays.pkgs-unstable
     ];
     microvm.host.enable = false;
