@@ -32,13 +32,6 @@ in
                 path to store container volumes
               '';
             };
-            imageVersion = lib.mkOption {
-              type = lib.types.str;
-              default = "latest";
-              description = ''
-                container image version
-              '';
-            };
             hostname = lib.mkOption {
               type = lib.types.str;
               default = "search.your.domain.com";
@@ -84,7 +77,7 @@ in
         };
 
         "${NAME}" = {
-          image = "docker.io/searxng/searxng:${cfg.imageVersion}";
+          image = "docker.io/searxng/searxng:latest";
           autoStart = true;
           volumes = [ "${cfg.volumeLocation}/searxng:/etc/searxng:rw" ];
           extraOptions = [

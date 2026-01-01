@@ -42,13 +42,6 @@ in
                 env options
               '';
             };
-            imageVersion = lib.mkOption {
-              type = lib.types.str;
-              default = "v0.2.1";
-              description = ''
-                container image version
-              '';
-            };
           };
         }
       );
@@ -60,7 +53,7 @@ in
 
       virtualisation.oci-containers.containers = {
         "${NAME}" = {
-          image = "${IMAGE}:${cfg.imageVersion}";
+          image = "ghcr.io/remsky/kokoro-fastapi-gpu:v0.2.1";
           autoStart = true;
           environment = cfg.env;
           extraOptions = [

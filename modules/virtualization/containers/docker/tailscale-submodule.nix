@@ -39,13 +39,6 @@ let
             path to store container volumes
           '';
         };
-        imageVersion = lib.mkOption {
-          type = lib.types.str;
-          default = "latest";
-          description = ''
-            container image version
-          '';
-        };
         TSargs = lib.mkOption {
           type = lib.types.str;
           default = "";
@@ -101,7 +94,7 @@ let
       };
     in
     {
-      image = "${IMAGE}:${cfg.imageVersion}";
+      image = "ghcr.io/tailscale/tailscale:latest";
       autoStart = true;
       hostname = cfg.TShostname;
       environment = lib.mkMerge [

@@ -34,13 +34,6 @@ in
                 path to store container volumes
               '';
             };
-            imageVersion = lib.mkOption {
-              type = lib.types.str;
-              default = "main";
-              description = ''
-                container image version
-              '';
-            };
           };
         }
       );
@@ -54,7 +47,7 @@ in
 
       virtualisation.oci-containers.containers = {
         "${NAME}" = {
-          image = "${IMAGE}:${cfg.imageVersion}";
+          image = "ghcr.io/tailscale/golink:main";
           autoStart = true;
           volumes = [ "${cfg.volumeLocation}/data:/home/nonroot" ];
           extraOptions = [

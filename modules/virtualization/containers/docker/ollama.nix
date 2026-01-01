@@ -34,13 +34,6 @@ in
                 path to store container volumes
               '';
             };
-            imageVersion = lib.mkOption {
-              type = lib.types.str;
-              default = "latest";
-              description = ''
-                container image version
-              '';
-            };
           };
         }
       );
@@ -54,7 +47,7 @@ in
 
       virtualisation.oci-containers.containers = {
         "${NAME}" = {
-          image = "${IMAGE}:${cfg.imageVersion}";
+          image = "docker.io/ollama/ollama:latest";
           autoStart = true;
           environment = {
             "OLLAMA_NUM_PARALLEL" = "1";

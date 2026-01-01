@@ -34,13 +34,6 @@ let
             path to store container volumes
           '';
         };
-        imageVersion = lib.mkOption {
-          type = lib.types.str;
-          default = "latest";
-          description = ''
-            container image version
-          '';
-        };
         envVariables = lib.mkOption {
           type = lib.types.attrsOf lib.types.str;
           default = {
@@ -54,7 +47,7 @@ let
       };
     };
   mkContainer = name: cfg: {
-    image = "${IMAGE}:${cfg.imageVersion}";
+    image = "docker.io/wolveix/satisfactory-server:latest";
     autoStart = true;
     environment = lib.mkMerge [
       cfg.envVariables

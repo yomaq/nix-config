@@ -35,13 +35,6 @@ in
                 path to store container volumes
               '';
             };
-            imageVersion = lib.mkOption {
-              type = lib.types.str;
-              default = "13";
-              description = ''
-                container image version
-              '';
-            };
           };
         }
       );
@@ -58,7 +51,7 @@ in
       virtualisation.oci-containers.containers = {
         ### main container
         "${NAME}" = {
-          image = "${IMAGE}:${cfg.imageVersion}";
+          image = "ghcr.io/felddy/foundryvtt:13";
           autoStart = true;
           user = "4000:4000";
           environment = {

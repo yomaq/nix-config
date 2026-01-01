@@ -1,0 +1,14 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "docker": {
+    "pinDigests": true
+  },
+  "regexManagers": [
+    {
+      "fileMatch": ["modules/virtualization/containers/docker/.*\\.nix$"],
+      "matchStrings": ["image = \"(?<depName>.*?):(?<currentValue>.*?)(@(?<currentDigest>sha256:[a-f0-9]+))?\""],
+      "datasourceTemplate": "docker"
+    }
+  ]
+}

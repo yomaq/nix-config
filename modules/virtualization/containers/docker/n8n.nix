@@ -44,13 +44,6 @@ in
                 env options
               '';
             };
-            imageVersion = lib.mkOption {
-              type = lib.types.str;
-              default = "latest";
-              description = ''
-                container image version
-              '';
-            };
           };
         }
       );
@@ -64,7 +57,7 @@ in
 
       virtualisation.oci-containers.containers = {
         "${NAME}" = {
-          image = "${IMAGE}:${cfg.imageVersion}";
+          image = "docker.io/n8nio/n8n:latest";
           autoStart = true;
           environment = cfg.env;
           volumes = [ "${cfg.volumeLocation}/n8n_data:/home/node/.n8n" ];

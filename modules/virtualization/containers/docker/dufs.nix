@@ -34,13 +34,6 @@ in
                 path to store container volumes
               '';
             };
-            imageVersion = lib.mkOption {
-              type = lib.types.str;
-              default = "latest";
-              description = ''
-                container image version
-              '';
-            };
           };
         }
       );
@@ -52,7 +45,7 @@ in
       systemd.tmpfiles.rules = [ "d ${cfg.volumeLocation}/data 0755 4000 4000" ];
       virtualisation.oci-containers.containers = {
         "${NAME}" = {
-          image = "${IMAGE}:${cfg.imageVersion}";
+          image = "docker.io/sigoden/dufs:latest";
           autoStart = true;
           volumes = [ "${cfg.volumeLocation}/data:/data" ];
           extraOptions = [

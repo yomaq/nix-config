@@ -30,13 +30,6 @@ let
             path to store container volumes
           '';
         };
-        imageVersion = lib.mkOption {
-          type = lib.types.str;
-          default = "latest";
-          description = ''
-            container image version
-          '';
-        };
         version = lib.mkOption {
           type = lib.types.str;
           default = "win11";
@@ -57,7 +50,7 @@ let
       };
     };
   mkContainer = name: cfg: {
-    image = "${IMAGE}:${cfg.imageVersion}";
+    image = "docker.io/dockurr/windows:latest";
     autoStart = true;
     environment = lib.mkMerge [
       cfg.envVariables

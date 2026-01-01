@@ -64,13 +64,6 @@ in
                 env options
               '';
             };
-            imageVersion = lib.mkOption {
-              type = lib.types.str;
-              default = "latest";
-              description = ''
-                container image version
-              '';
-            };
           };
         }
       );
@@ -84,7 +77,7 @@ in
 
       virtualisation.oci-containers.containers = {
         "${NAME}" = {
-          image = "${IMAGE}:${cfg.imageVersion}";
+          image = "ghcr.io/open-webui/open-webui:latest";
           autoStart = true;
           environment = cfg.env;
           volumes = [ "${cfg.volumeLocation}/open-webui:/app/backend/data" ];

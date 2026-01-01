@@ -35,23 +35,6 @@ in
                 path to store container volumes
               '';
             };
-            imageVersion = lib.mkOption {
-              type = lib.types.str;
-              default = "latest";
-              description = ''
-                container image version
-              '';
-            };
-            ### chrome container
-            chrome = {
-              imageVersion = lib.mkOption {
-                type = lib.types.str;
-                default = "latest";
-                description = ''
-                  container image version
-                '';
-              };
-            };
           };
         }
       );
@@ -71,7 +54,7 @@ in
       virtualisation.oci-containers.containers = {
         ### DB container
         "chrome${NAME}" = {
-          image = "${secondIMAGE}:${cfg.chrome.imageVersion}";
+          image = "docker.io/browserless/chrome:latest";
           autoStart = true;
           environment = {
             "SCREEN_WIDTH" = "1920";
@@ -96,7 +79,7 @@ in
         };
         ### main container
         "${NAME}" = {
-          image = "${IMAGE}:${cfg.imageVersion}";
+          image = "ghcr.io/dgtlmoon/changedetection.io:latest";
           autoStart = true;
           environment = {
             "PLAYWRIGHT_DRIVER_URL" = "ws://127.0.0.1:3000";

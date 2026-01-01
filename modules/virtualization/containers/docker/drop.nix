@@ -51,13 +51,6 @@ in
                 path to store game library files
               '';
             };
-            imageVersion = lib.mkOption {
-              type = lib.types.str;
-              default = "latest";
-              description = ''
-                container image version
-              '';
-            };
             ### database container
             database = {
               agenixSecret = lib.mkOption {
@@ -72,13 +65,6 @@ in
                 default = "${backup}/containers/${NAME}";
                 description = ''
                   path to store container volumes
-                '';
-              };
-              imageVersion = lib.mkOption {
-                type = lib.types.str;
-                default = "14-alpine";
-                description = ''
-                  container image version
                 '';
               };
             };
@@ -104,7 +90,7 @@ in
       virtualisation.oci-containers.containers = {
         ### DB container
         "DB${NAME}" = {
-          image = "${dbIMAGE}:${cfg.database.imageVersion}";
+          image = "docker.io/postgres:14-alpine";
           autoStart = true;
           environmentFiles = [
             config.age.secrets."${NAME}DBEnvFile".path
@@ -122,7 +108,7 @@ in
         };
         ### main container
         "${NAME}" = {
-          image = "${IMAGE}:${cfg.imageVersion}";
+          image = "ghcr.io/drop-oss/drop:latest";
           autoStart = true;
           dependsOn = [ "DB${NAME}" ];
           environment = {

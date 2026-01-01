@@ -44,13 +44,6 @@ in
                 path to store container volumes
               '';
             };
-            imageVersion = lib.mkOption {
-              type = lib.types.str;
-              default = "latest";
-              description = ''
-                container image version
-              '';
-            };
             ### database container
             database = {
               agenixSecret = lib.mkOption {
@@ -65,13 +58,6 @@ in
                 default = "${backup}/containers/${NAME}/DB";
                 description = ''
                   path to store container volumes
-                '';
-              };
-              imageVersion = lib.mkOption {
-                type = lib.types.str;
-                default = "16";
-                description = ''
-                  container image version
                 '';
               };
             };
@@ -91,13 +77,6 @@ in
                   path to store container volumes
                 '';
               };
-              imageVersion = lib.mkOption {
-                type = lib.types.str;
-                default = "latest";
-                description = ''
-                  container image version
-                '';
-              };
             };
             ### mqtt container
             mqtt = {
@@ -106,13 +85,6 @@ in
                 default = "${backup}/containers/${NAME}/mqtt";
                 description = ''
                   path to store container volumes
-                '';
-              };
-              imageVersion = lib.mkOption {
-                type = lib.types.str;
-                default = "2";
-                description = ''
-                  container image version
                 '';
               };
             };
@@ -143,7 +115,7 @@ in
       virtualisation.oci-containers.containers = {
         ### DB container
         "DB${NAME}" = {
-          image = "${dbIMAGE}:${cfg.database.imageVersion}";
+          image = "docker.io/postgres:16";
           autoStart = true;
           environment = {
             # "PGUSER" = "teslamate";
@@ -162,7 +134,7 @@ in
         };
         ### Grafana container
         "grafana-${NAME}" = {
-          image = "${grafanaIMAGE}:${cfg.grafana.imageVersion}";
+          image = "docker.io/teslamate/grafana:latest";
           autoStart = true;
           environment = {
             "GF_SERVER_ROOT_URL" = "%(protocol)s://%(domain)s/grafana";
@@ -203,7 +175,7 @@ in
         #       };
         ### main container
         "${NAME}" = {
-          image = "${IMAGE}:${cfg.imageVersion}";
+          image = "docker.io/teslamate/teslamate:latest";
           autoStart = true;
           environment = {
             "DISABLE_MQTT" = "true";
