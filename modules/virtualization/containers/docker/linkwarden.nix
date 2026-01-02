@@ -81,7 +81,7 @@ in
       virtualisation.oci-containers.containers = {
         ### DB container
         "DB${NAME}" = {
-          image = "docker.io/postgres:16-alpine";
+          image = "docker.io/postgres:16-alpine@sha256:23e88eb049fd5d54894d70100df61d38a49ed97909263f79d4ff4c30a5d5fca2";
           autoStart = true;
           # environment = {
           #     "POSTGRES_PASSWORD" = "password";
@@ -98,7 +98,7 @@ in
         };
         ### main container
         "${NAME}" = {
-          image = "ghcr.io/linkwarden/linkwarden:latest";
+          image = "ghcr.io/linkwarden/linkwarden:latest@sha256:1588811d7b7d249d387782bb94c7eb189082b82b542ac1667d2ac3d7e7f70ce6";
           autoStart = true;
           environment = {
             "NEXT_PUBLIC_AUTH0_ENABLED" = "true";

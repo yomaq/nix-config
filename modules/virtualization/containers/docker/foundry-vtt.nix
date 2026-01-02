@@ -51,7 +51,7 @@ in
       virtualisation.oci-containers.containers = {
         ### main container
         "${NAME}" = {
-          image = "ghcr.io/felddy/foundryvtt:13";
+          image = "ghcr.io/felddy/foundryvtt:13@sha256:41d518782f2fabbec887413c56da8ef8175c22fb5a75fde45382661443a8ae6b";
           autoStart = true;
           user = "4000:4000";
           environment = {

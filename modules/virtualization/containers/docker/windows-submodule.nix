@@ -50,7 +50,7 @@ let
       };
     };
   mkContainer = name: cfg: {
-    image = "docker.io/dockurr/windows:latest";
+    image = "docker.io/dockurr/windows:latest@sha256:20b398ab935465f97ec8ab06489f7a85a5ad58e74e036ce66cc3c9172e7dbea8";
     autoStart = true;
     environment = lib.mkMerge [
       cfg.envVariables

@@ -90,7 +90,7 @@ in
       virtualisation.oci-containers.containers = {
         ### DB container
         "DB${NAME}" = {
-          image = "docker.io/postgres:14-alpine";
+          image = "docker.io/postgres:14-alpine@sha256:14f02666642586a64d6fae8ef42d479fd76456a77c73ae8a626b8fe323b76d22";
           autoStart = true;
           environmentFiles = [
             config.age.secrets."${NAME}DBEnvFile".path
@@ -108,7 +108,7 @@ in
         };
         ### main container
         "${NAME}" = {
-          image = "ghcr.io/drop-oss/drop:latest";
+          image = "ghcr.io/drop-oss/drop:latest@sha256:2995f0b75ac3a6bc4d33b584f80882c3415f8bd9182c264378e3829b259b0bd4";
           autoStart = true;
           dependsOn = [ "DB${NAME}" ];
           environment = {

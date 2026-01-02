@@ -69,7 +69,7 @@ let
     };
 
   mkContainer = name: cfg: {
-    image = "docker.io/thijsvanloef/palworld-server-docker:latest";
+    image = "docker.io/thijsvanloef/palworld-server-docker:latest@sha256:b6b6490e7365a819f88c46f02513f8d6acd08fd4b1c01f837de164efc0b2ea79";
     autoStart = true;
     environment = lib.mkMerge [
       cfg.envVariables

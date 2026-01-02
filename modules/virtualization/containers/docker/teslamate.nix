@@ -115,7 +115,7 @@ in
       virtualisation.oci-containers.containers = {
         ### DB container
         "DB${NAME}" = {
-          image = "docker.io/postgres:16";
+          image = "docker.io/postgres:16@sha256:bdbc203f612e315fdd33001f98ba0c300bb3b58a5d136fbb08dd377e8057e2b1";
           autoStart = true;
           environment = {
             # "PGUSER" = "teslamate";
@@ -134,7 +134,7 @@ in
         };
         ### Grafana container
         "grafana-${NAME}" = {
-          image = "docker.io/teslamate/grafana:latest";
+          image = "docker.io/teslamate/grafana:latest@sha256:f88cbb90a8c7afa122c6b6851a647edfe7ce7112724db4a8d94853a454f1106a";
           autoStart = true;
           environment = {
             "GF_SERVER_ROOT_URL" = "%(protocol)s://%(domain)s/grafana";
@@ -175,7 +175,7 @@ in
         #       };
         ### main container
         "${NAME}" = {
-          image = "docker.io/teslamate/teslamate:latest";
+          image = "docker.io/teslamate/teslamate:latest@sha256:db111162f1037a8c8ce6fe56e538a4432b8a34d3d6176916ba22d42ef7ee4b78";
           autoStart = true;
           environment = {
             "DISABLE_MQTT" = "true";

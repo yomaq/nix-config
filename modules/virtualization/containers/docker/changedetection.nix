@@ -54,7 +54,7 @@ in
       virtualisation.oci-containers.containers = {
         ### DB container
         "chrome${NAME}" = {
-          image = "docker.io/browserless/chrome:latest";
+          image = "docker.io/browserless/chrome:latest@sha256:57d19e414d9fe4ae9d2ab12ba768c97f38d51246c5b31af55a009205c136012f";
           autoStart = true;
           environment = {
             "SCREEN_WIDTH" = "1920";
@@ -79,7 +79,7 @@ in
         };
         ### main container
         "${NAME}" = {
-          image = "ghcr.io/dgtlmoon/changedetection.io:latest";
+          image = "ghcr.io/dgtlmoon/changedetection.io:latest@sha256:99cf11f04b5d1f1300b5b68f17dc22e76bdb5d6695d7e6590d2df92eca8fb339";
           autoStart = true;
           environment = {
             "PLAYWRIGHT_DRIVER_URL" = "ws://127.0.0.1:3000";

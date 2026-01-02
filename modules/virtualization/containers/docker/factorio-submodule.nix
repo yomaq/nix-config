@@ -46,7 +46,7 @@ let
       };
     };
   mkContainer = name: cfg: {
-    image = "docker.io/ofsm/ofsm:latest";
+    image = "docker.io/ofsm/ofsm:latest@sha256:2b031bc1ec51e437a90b24266ce87f82362b4d16670e3804688610b4ac03b608";
     autoStart = true;
     environment = lib.mkMerge [
       cfg.envVariables
