@@ -1,4 +1,6 @@
 {
+  // Config placed here due to Renovate limitations.
+  // https://github.com/renovatebot/renovate/issues/40050 for platform-specific directory support (.forgejo/ etc.)
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "docker": {
