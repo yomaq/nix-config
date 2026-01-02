@@ -1,14 +1,26 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "docker": {
-    "pinDigests": true
-  },
-  "regexManagers": [
+  "extends": [
+    "config:recommended"
+  ],
+  "customManagers": [
     {
-      "fileMatch": ["modules/virtualization/containers/docker/.*\\.nix$"],
-      "matchStrings": ["image = \"(?<depName>.*?):(?<currentValue>.*?)(@(?<currentDigest>sha256:[a-f0-9]+))?\""],
+      "customType": "regex",
+      "fileMatch": [
+        "modules/virtualization/containers/docker/.*\\.nix$"
+      ],
+      "matchStrings": [
+        "image = \"(?<depName>.*?):(?<currentValue>.*?)(@(?<currentDigest>sha256:[a-f0-9]+))?\""
+      ],
       "datasourceTemplate": "docker"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchCategories": [
+        "docker"
+      ],
+      "pinDigests": true
     }
   ]
 }
