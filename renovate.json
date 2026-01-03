@@ -6,8 +6,8 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        "modules/virtualization/containers/docker/.*\\.nix$"
+      "managerFilePatterns": [
+        "/modules/virtualization/containers/docker/.*\\.nix$/"
       ],
       "matchStrings": [
         "image = \"(?<depName>.*?):(?<currentValue>.*?)(@(?<currentDigest>sha256:[a-f0-9]+))?\""
