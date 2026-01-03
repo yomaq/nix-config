@@ -115,7 +115,7 @@ in
       virtualisation.oci-containers.containers = {
         ### DB container
         "DB${NAME}" = {
-          image = "docker.io/postgres:16@sha256:bdbc203f612e315fdd33001f98ba0c300bb3b58a5d136fbb08dd377e8057e2b1";
+          image = "docker.io/postgres:16@sha256:056b54f00419b49289227ab12d09df508543883f407fe9935a2cec430ef8aa8d";
           autoStart = true;
           environment = {
             # "PGUSER" = "teslamate";
