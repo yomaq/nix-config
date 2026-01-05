@@ -77,7 +77,7 @@ in
         };
 
         "${NAME}" = {
-          image = "docker.io/searxng/searxng:latest@sha256:1ad4159e74903f8870e3464df701b800a75bd2854f5d11b44ce09ee297f3c158";
+          image = "docker.io/searxng/searxng:latest@sha256:472dd0c84b8e2a05bca773b4a430b9fc9e4e92cd4fa0afaa223efab925ab752a";
           autoStart = true;
           volumes = [ "${cfg.volumeLocation}/searxng:/etc/searxng:rw" ];
           extraOptions = [
