@@ -36,7 +36,16 @@
       nixpkgs,
       ...
     }@inputs:
+    let
+      lib = nixpkgs.lib.extend (
+        final: _prev: {
+          yomaq = import ./lib { lib = final; };
+        }
+      );
+    in
     {
+      inherit lib;
+
       devShells = {
         x86_64-linux.default = import ./Utilities/devShell/default.nix {
           pkgs = import nixpkgs {
@@ -61,6 +70,7 @@
           mkSystem =
             path:
             nixpkgs.lib.nixosSystem {
+              inherit lib;
               system = "x86_64-linux";
               specialArgs = { inherit inputs; };
               modules = [ path ];
@@ -84,6 +94,7 @@
           mkHost =
             name:
             inputs.nix-darwin.lib.darwinSystem {
+              inherit lib;
               specialArgs = { inherit inputs; };
               system = "aarch64-darwin";
               modules = [ ./hosts/darwin/${name} ];
