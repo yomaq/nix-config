@@ -27,6 +27,7 @@ let
         # Exclude this file
         && file != "default.nix"
         && !lib.hasSuffix "microvm.nix" file
+        && !lib.hasPrefix "containers/old/" file
         # how to exclude a path
         # && ! lib.hasPrefix "exclude/path/" file
         # how to exclude a group of files
