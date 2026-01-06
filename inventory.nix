@@ -35,6 +35,7 @@
           n8n.enable = true;
           open-webui.enable = true;
           drop.enable = true;
+          bentopdf.enable = true;
         };
         syncoid = {
           isBackupServer = true;
