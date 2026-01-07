@@ -49,7 +49,7 @@ in
         privateNetwork = true;
         hostBridge = "br0"; # Specify the bridge name
         specialArgs = {
-          inherit inputs;
+          inherit inputs lib;
         };
         bindMounts = {
           "/etc/ssh/${hostName}" = {

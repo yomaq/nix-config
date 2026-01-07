@@ -44,6 +44,7 @@ in
       hostBridge = "br0"; # Specify the bridge name
       specialArgs = {
         inherit inputs;
+        inherit lib;
       };
       bindMounts = {
         "/etc/ssh/${hostName}" = {
