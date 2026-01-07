@@ -119,7 +119,7 @@
       };
 
       users = {
-        yomaq = import ./users;
+        yomaq = import ./modules/users;
       };
     };
 }

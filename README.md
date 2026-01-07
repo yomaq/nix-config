@@ -37,7 +37,7 @@ Attempting to view the Flake and its nixos hosts as a single logical unit, rathe
 * Host modules (in [/modules/hosts](https://github.com/yomaq/nix-config/tree/main/modules)) that Nixos and Darwin can share are kept as identical as possible. Module options are shared between them in a `default.nix` file, while config implementations that differ will be in `nixos.nix` or `darwin.nix` respectively.
 * All modules are automatically imported into their Flake Outputs without the need to manually list them all. You can simply drop in a new file in /modules/hosts or /modules/home-manager etc, and it will be automatically imported into the correct Flake Output.
 * User accounts, similar to host modules, are configured with `darwin.nix` and`nixos.nix` files to keep configuration as consistent as possible (for all non home-manager user config).
-* User specific config is kept clean and easy to read in the `/users` directory and are included on a system with `config.yomaq.users.enableUsers = [ list of users ];`
+* User specific config is kept clean and easy to read in the `/modules/users` directory and are included on a system with `config.yomaq.users.enableUsers = [ list of users ];`
 
 ## Host Status Dashboard
 Using the git revision of the flake, you can easily see which hosts are out of date.
