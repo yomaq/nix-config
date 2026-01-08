@@ -91,6 +91,7 @@ in
             #  POSTGRES_PASSWORD=password #insert your secure database password!
           ];
           volumes = [ "${cfg.database.volumeLocation}/db:/var/lib/postgresql/data" ];
+          dependsOn = [ "TS${NAME}" ];
           extraOptions = [
             "--pull=always"
             "--network=container:TS${NAME}"
@@ -115,6 +116,10 @@ in
             #  NEXTAUTH_URL=http://localhost:3000/api/v1/auth
           ];
           volumes = [ "${cfg.volumeLocation}/data:/data/data" ];
+          dependsOn = [
+            "TS${NAME}"
+            "DB${NAME}"
+          ];
           extraOptions = [
             "--pull=always"
             "--network=container:TS${NAME}"

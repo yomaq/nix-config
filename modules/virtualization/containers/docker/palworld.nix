@@ -76,6 +76,7 @@ let
       { "SERVER_NAME" = "${cfg.serverName}"; }
     ];
     volumes = [ "${cfg.volumeLocation}/palworld:/palworld" ];
+    dependsOn = [ "TS${name}" ];
     extraOptions = [
       "--pull=always"
       "--cap-add=sys_nice"

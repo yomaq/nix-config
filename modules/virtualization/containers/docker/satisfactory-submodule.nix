@@ -58,6 +58,7 @@ let
       }
     ];
     volumes = [ "${cfg.volumeLocation}/data:/config" ];
+    dependsOn = [ "TS${name}" ];
     extraOptions = [
       "--pull=always"
       "--network=container:TS${name}"

@@ -99,6 +99,7 @@ in
             #  POSTGRES_DB=drop
           ];
           volumes = [ "${cfg.database.volumeLocation}/db:/var/lib/postgresql/data" ];
+          dependsOn = [ "TS${NAME}" ];
           extraOptions = [
             "--pull=always"
             "--network=container:TS${NAME}"
@@ -110,7 +111,10 @@ in
         "${NAME}" = {
           image = "ghcr.io/drop-oss/drop:latest@sha256:2995f0b75ac3a6bc4d33b584f80882c3415f8bd9182c264378e3829b259b0bd4";
           autoStart = true;
-          dependsOn = [ "DB${NAME}" ];
+          dependsOn = [
+            "TS${NAME}"
+            "DB${NAME}"
+          ];
           environment = {
             "EXTERNAL_URL" = "https://${hostName}-${NAME}.${tailnetName}.ts.net";
           };

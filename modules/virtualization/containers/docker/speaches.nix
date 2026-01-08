@@ -56,6 +56,7 @@ in
           image = "ghcr.io/remsky/kokoro-fastapi-gpu:v0.2.4@sha256:79d81c41d8883611291c5785e47db2ba00765e9b89dd59de05d9f28e1945f905";
           autoStart = true;
           environment = cfg.env;
+          dependsOn = [ "TS${NAME}" ];
           extraOptions = [
             "--pull=always"
             "--network=container:TS${NAME}"

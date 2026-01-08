@@ -72,6 +72,7 @@ in
           };
           environmentFiles = [ ];
           volumes = [ ];
+          dependsOn = [ "TS${NAME}" ];
           extraOptions = [
             "--pull=always"
             "--network=container:TS${NAME}"
@@ -87,6 +88,10 @@ in
           };
           environmentFiles = [ ];
           volumes = [ "${cfg.volumeLocation}/datastore:/datastore" ];
+          dependsOn = [
+            "TS${NAME}"
+            "chrome${NAME}"
+          ];
           extraOptions = [
             "--pull=always"
             "--network=container:TS${NAME}"

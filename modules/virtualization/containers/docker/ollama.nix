@@ -53,6 +53,7 @@ in
             "OLLAMA_NUM_PARALLEL" = "1";
           };
           volumes = [ "${cfg.volumeLocation}/ollama:/root/.ollama" ];
+          dependsOn = [ "TS${NAME}" ];
           extraOptions = [
             "--pull=always"
             "--network=container:TS${NAME}"

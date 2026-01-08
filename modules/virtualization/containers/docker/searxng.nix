@@ -57,6 +57,7 @@ in
           image = "docker.io/valkey/valkey:8-alpine@sha256:3c3ccc8571d4866ec5ac5ffb2519b6b6a1fdbf6b5ff5fdab075413026fbff273";
           autoStart = true;
           volumes = [ "${cfg.volumeLocation}/valkey-data:/data" ];
+          dependsOn = [ "TS${NAME}" ];
           extraOptions = [
             "--pull=always"
             "--network=container:TS${NAME}"
@@ -80,6 +81,10 @@ in
           image = "docker.io/searxng/searxng:latest@sha256:472dd0c84b8e2a05bca773b4a430b9fc9e4e92cd4fa0afaa223efab925ab752a";
           autoStart = true;
           volumes = [ "${cfg.volumeLocation}/searxng:/etc/searxng:rw" ];
+          dependsOn = [
+            "TS${NAME}"
+            "${NAME}-redis"
+          ];
           extraOptions = [
             "--pull=always"
             "--network=container:TS${NAME}"

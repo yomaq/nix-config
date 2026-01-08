@@ -59,6 +59,7 @@ let
       "${cfg.volumeLocation}/factorio/config:/opt/factorio/config"
       "${cfg.volumeLocation}/factorio/mod_packs:/opt/fsm/mod_packs"
     ];
+    dependsOn = [ "TS${name}" ];
     extraOptions = [
       "--pull=always"
       "--network=container:TS${name}"

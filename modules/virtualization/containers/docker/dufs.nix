@@ -48,6 +48,7 @@ in
           image = "docker.io/sigoden/dufs:latest@sha256:9b45a406b019921c7d2a512784a8652fc23a83c5598bf0ddc81d3c130c623f31";
           autoStart = true;
           volumes = [ "${cfg.volumeLocation}/data:/data" ];
+          dependsOn = [ "TS${NAME}" ];
           extraOptions = [
             "--pull=always"
             "--network=container:TS${NAME}"

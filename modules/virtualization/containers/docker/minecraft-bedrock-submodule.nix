@@ -69,6 +69,7 @@ let
       { "SERVER_NAME" = "${cfg.serverName}"; }
     ];
     volumes = [ "${cfg.volumeLocation}/data:/data" ];
+    dependsOn = [ "TS${name}" ];
     extraOptions = [
       "--pull=always"
       "--network=container:TS${name}"

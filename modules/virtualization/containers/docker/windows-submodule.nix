@@ -57,6 +57,7 @@ let
       { "VERSION" = "${cfg.version}"; }
     ];
     volumes = [ "${cfg.volumeLocation}/storage:/storage" ];
+    dependsOn = [ "TS${name}" ];
     extraOptions = [
       "--pull=always"
       "--network=container:TS${name}"

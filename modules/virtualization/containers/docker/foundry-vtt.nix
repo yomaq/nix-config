@@ -58,6 +58,7 @@ in
             "FOUNDRY_RELEASE_URL" = "";
           };
           volumes = [ "${cfg.volumeLocation}/data:/data" ];
+          dependsOn = [ "TS${NAME}" ];
           extraOptions = [
             "--pull=always"
             "--network=container:TS${NAME}"

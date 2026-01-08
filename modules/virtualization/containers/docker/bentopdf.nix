@@ -38,6 +38,7 @@ in
         "${NAME}" = {
           image = "bentopdf/bentopdf-simple:latest@sha256:ed728002dede243e99da3b5f66a88ef4aa842962d5fc1313a75ab841cc9af237";
           autoStart = true;
+          dependsOn = [ "TS${NAME}" ];
           extraOptions = [
             "--pull=always"
             "--network=container:TS${NAME}"

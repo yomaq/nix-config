@@ -127,6 +127,7 @@ in
             #  POSTGRES_DB=teslamate
           ];
           volumes = [ "${cfg.database.volumeLocation}/teslamate-db:/var/lib/postgresql/data" ];
+          dependsOn = [ "TS${NAME}" ];
           extraOptions = [
             "--pull=always"
             "--network=container:TS${NAME}"
@@ -150,6 +151,10 @@ in
             #  DATABASE_HOST=database
           ];
           volumes = [ "${cfg.grafana.volumeLocation}/teslamate-grafana-data:/var/lib/grafana" ];
+          dependsOn = [
+            "TS${NAME}"
+            "DB${NAME}"
+          ];
           extraOptions = [
             "--pull=always"
             "--network=container:TS${NAME}"
@@ -191,6 +196,10 @@ in
             #  MQTT_HOST=mosquitto
           ];
           volumes = [ "${cfg.volumeLocation}/import:/opt/app/import" ];
+          dependsOn = [
+            "TS${NAME}"
+            "DB${NAME}"
+          ];
           extraOptions = [
             "--cap-drop=all"
             "--pull=always"
