@@ -129,4 +129,5 @@ in
   "dropDBEnvFile.age".publicKeys = [ azure ] ++ all;
   "healthchecks.age".publicKeys = [ azure ] ++ all;
   "forgejoRunnerToken.age".publicKeys = [ azure ] ++ all;
+  "curseForgeApi.age".publicKeys = [ smalt ] ++ all;
 }

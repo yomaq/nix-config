@@ -51,23 +51,23 @@
         docker.enable = true;
         syncoid.enable = true;
         pods = {
-          foundry-vtt.enable = true;
-          palworld.palhome.enable = true;
-          necesse.necesse1.enable = true;
-          minecraftBedrock.minecrafthome = {
-            enable = true;
-            envVariables = {
-              "version" = "1.21.60.10";
-              "EULA" = "TRUE";
-              "gamemode" = "survival";
-              "difficulty" = "hard";
-              "allow-cheats" = "true";
-              "max-players" = "10";
-              "view-distance" = "50";
-              "tick-distance" = "4";
-              "TEXTUREPACK_REQUIRED" = "true";
-            };
-          };
+          # foundry-vtt.enable = true;
+          # palworld.palhome.enable = true;
+          # necesse.necesse1.enable = true;
+          craft2exile.enable = true;
+          # minecraftBedrock.minecrafthome = {
+          #   enable = true;
+          #   envVariables = {
+          #     "EULA" = "TRUE";
+          #     "gamemode" = "survival";
+          #     "difficulty" = "hard";
+          #     "allow-cheats" = "true";
+          #     "max-players" = "10";
+          #     "view-distance" = "50";
+          #     "tick-distance" = "4";
+          #     "TEXTUREPACK_REQUIRED" = "true";
+          #   };
+          # };
         };
         microvms = [
           "desktop"

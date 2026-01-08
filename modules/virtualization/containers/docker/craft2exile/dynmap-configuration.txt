@@ -1,0 +1,97 @@
+# Template and storage
+deftemplatesuffix: hi_boost_xhi
+storage:
+  type: filetree
+
+# Components
+components:
+  - class: org.dynmap.ClientConfigurationComponent
+
+  # Server update component
+  - class: org.dynmap.InternalClientUpdateComponent
+    sendhealth: true
+    sendposition: true
+    allowwebchat: false
+    includehiddenplayers: false
+    use-name-colors: false
+    hideifsneaking: true
+    hide-if-invisiblity-potion: true
+    hidenames: false
+
+  # Web chat component
+  - class: org.dynmap.SimpleWebChatComponent
+    allowchat: false
+
+  # UI components
+  - class: org.dynmap.ClientComponent
+    type: chat
+  - class: org.dynmap.ClientComponent
+    type: chatbox
+    showplayerfaces: true
+    sendbutton: false
+  - class: org.dynmap.ClientComponent
+    type: playermarkers
+    showplayerfaces: true
+    showplayerhealth: true
+    showplayerbody: true
+    smallplayerfaces: true
+    layerprio: 0
+    label: "Players"
+  - class: org.dynmap.ClientComponent
+    type: coord
+    label: "Location"
+    hidey: false
+    show-mcr: false
+    show-chunk: false
+
+# Web server
+webserver-port: 8123
+max-sessions: 30
+
+# Graphics settings
+image-format: jpg-q90
+smooth-lighting: true
+use-brightness-table: true
+use-generated-textures: true
+correct-water-lighting: true
+transparent-leaves: true
+ctm-support: true
+custom-colors-support: true
+
+# Render settings
+renderinterval: 1
+renderacceleratethreshold: 60
+renderaccelerateinterval: 0.2
+tiles-rendered-at-once: 2
+usenormalthreadpriority: true
+saverestorepending: true
+save-pending-period: 900
+zoomoutperiod: 30
+initial-zoomout-validate: true
+tileupdatedelay: 30
+enabletilehash: true
+
+# Performance limits
+maxchunkspertick: 200
+progressloginterval: 100
+updaterate: 2000
+
+# UI settings
+showplayerfacesinmenu: true
+grayplayerswhenhidden: true
+showlayercontrol: true
+
+# Default view
+defaultzoom: 0
+defaultworld: world
+defaultmap: surface
+
+# File paths
+tilespath: web/tiles
+webpath: web
+update-webpath-files: true
+
+# Miscellaneous
+compass-mode: newnorth
+snapshotcachesize: 500
+soft-ref-cache: true
