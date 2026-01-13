@@ -67,7 +67,7 @@ in
                 "SERVER_NAME" = "craft2exile";
 
                 "TYPE" = "AUTO_CURSEFORGE";
-                "MEMORY" = "16G";
+                "MEMORY" = "12G";
                 "MAX_TICK_TIME" = "-1";
                 "RCON_PASSWORD" = "minecraft";
 
