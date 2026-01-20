@@ -59,7 +59,6 @@ in
           volumes = [ "${cfg.volumeLocation}/valkey-data:/data" ];
           dependsOn = [ "TS${NAME}" ];
           extraOptions = [
-            "--pull=always"
             "--network=container:TS${NAME}"
             "--cap-add=SETGID"
             "--cap-add=SETUID"
@@ -86,7 +85,6 @@ in
             "${NAME}-redis"
           ];
           extraOptions = [
-            "--pull=always"
             "--network=container:TS${NAME}"
             "--cap-add=CHOWN"
             "--cap-add=SETGID"

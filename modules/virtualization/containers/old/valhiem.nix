@@ -138,7 +138,6 @@ in
           "${cfg.tailscale.volumeLocation}/TSdev-net-tun:/dev/net/tun"
         ];
         extraOptions = [
-          "--pull=always"
           "--network=host"
           "--cap-add=NET_ADMIN"
           "--cap-add=NET_RAW"
@@ -165,7 +164,6 @@ in
           "${cfg.volumeLocation}/data:/opt/valheim"
         ];
         extraOptions = [
-          "--pull=always"
           "--cap-add=sys_nice"
           "--network=container:TS${NAME}"
         ];

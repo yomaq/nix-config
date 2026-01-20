@@ -129,7 +129,6 @@ in
           volumes = [ "${cfg.database.volumeLocation}/teslamate-db:/var/lib/postgresql/data" ];
           dependsOn = [ "TS${NAME}" ];
           extraOptions = [
-            "--pull=always"
             "--network=container:TS${NAME}"
           ];
         };
@@ -156,7 +155,6 @@ in
             "DB${NAME}"
           ];
           extraOptions = [
-            "--pull=always"
             "--network=container:TS${NAME}"
           ];
           user = "4000:4000";
@@ -202,7 +200,6 @@ in
           ];
           extraOptions = [
             "--cap-drop=all"
-            "--pull=always"
             "--network=container:TS${NAME}"
           ];
         };

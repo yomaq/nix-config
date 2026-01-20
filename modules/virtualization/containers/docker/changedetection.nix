@@ -74,7 +74,6 @@ in
           volumes = [ ];
           dependsOn = [ "TS${NAME}" ];
           extraOptions = [
-            "--pull=always"
             "--network=container:TS${NAME}"
           ];
         };
@@ -93,7 +92,6 @@ in
             "chrome${NAME}"
           ];
           extraOptions = [
-            "--pull=always"
             "--network=container:TS${NAME}"
           ];
         };

@@ -50,7 +50,6 @@ in
           volumes = [ "${cfg.volumeLocation}/data:/data" ];
           dependsOn = [ "TS${NAME}" ];
           extraOptions = [
-            "--pull=always"
             "--network=container:TS${NAME}"
           ];
           user = "4000:4000";

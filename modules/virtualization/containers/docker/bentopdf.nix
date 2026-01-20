@@ -40,7 +40,6 @@ in
           autoStart = true;
           dependsOn = [ "TS${NAME}" ];
           extraOptions = [
-            "--pull=always"
             "--network=container:TS${NAME}"
           ];
         };

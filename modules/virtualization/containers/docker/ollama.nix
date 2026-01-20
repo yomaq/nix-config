@@ -55,7 +55,6 @@ in
           volumes = [ "${cfg.volumeLocation}/ollama:/root/.ollama" ];
           dependsOn = [ "TS${NAME}" ];
           extraOptions = [
-            "--pull=always"
             "--network=container:TS${NAME}"
             "--device=nvidia.com/gpu=all"
           ];

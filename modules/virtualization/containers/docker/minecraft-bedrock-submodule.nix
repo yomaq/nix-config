@@ -71,7 +71,6 @@ let
     volumes = [ "${cfg.volumeLocation}/data:/data" ];
     dependsOn = [ "TS${name}" ];
     extraOptions = [
-      "--pull=always"
       "--network=container:TS${name}"
     ];
     user = "4000:4000";

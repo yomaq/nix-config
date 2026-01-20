@@ -58,7 +58,6 @@ in
           environment = cfg.env;
           dependsOn = [ "TS${NAME}" ];
           extraOptions = [
-            "--pull=always"
             "--network=container:TS${NAME}"
             "--device=nvidia.com/gpu=all"
           ];

@@ -101,7 +101,6 @@ in
           volumes = [ "${cfg.database.volumeLocation}/db:/var/lib/postgresql/data" ];
           dependsOn = [ "TS${NAME}" ];
           extraOptions = [
-            "--pull=always"
             "--network=container:TS${NAME}"
             "--health-cmd=pg_isready -U drop"
             "--health-interval=30s"
@@ -127,7 +126,6 @@ in
             "${cfg.volumeLocation}/data:/data"
           ];
           extraOptions = [
-            "--pull=always"
             "--network=container:TS${NAME}"
           ];
         };

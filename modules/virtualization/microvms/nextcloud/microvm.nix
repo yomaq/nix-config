@@ -104,7 +104,6 @@ in
     #     "aliasgroup1" = "https://${vmName}.${config.yomaq.tailscale.tailnetName}.ts.net:443";
     #   };
     #   extraOptions = [
-    #     "--pull=always"
     #     "--network=host"
     #   ];
     # };

@@ -147,7 +147,6 @@ in
           "server_name" = "${hostName}-${NAME}.${tailnetName}.ts.net";
         };
         extraOptions = [
-          "--pull=always"
           "--network=container:TScollaboraCode"
         ];
       };

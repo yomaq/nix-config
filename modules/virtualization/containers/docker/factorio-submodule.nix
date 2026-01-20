@@ -61,7 +61,6 @@ let
     ];
     dependsOn = [ "TS${name}" ];
     extraOptions = [
-      "--pull=always"
       "--network=container:TS${name}"
     ];
   };

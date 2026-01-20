@@ -123,7 +123,6 @@ let
         }:/config/tailscaleCfg.json"
       ];
       extraOptions = [
-        "--pull=always"
         "--cap-add=net_admin"
         "--cap-add=sys_module"
       ];

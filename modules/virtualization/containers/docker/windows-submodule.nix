@@ -59,7 +59,6 @@ let
     volumes = [ "${cfg.volumeLocation}/storage:/storage" ];
     dependsOn = [ "TS${name}" ];
     extraOptions = [
-      "--pull=always"
       "--network=container:TS${name}"
       "--device=/dev/kvm"
       "--cap-add=NET_ADMIN"

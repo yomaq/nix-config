@@ -78,7 +78,6 @@ let
     volumes = [ "${cfg.volumeLocation}/palworld:/palworld" ];
     dependsOn = [ "TS${name}" ];
     extraOptions = [
-      "--pull=always"
       "--cap-add=sys_nice"
       "--network=container:TS${name}"
     ];

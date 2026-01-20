@@ -51,7 +51,6 @@ in
           autoStart = true;
           volumes = [ "${cfg.volumeLocation}/data:/home/nonroot" ];
           extraOptions = [
-            "--pull=always"
           ];
           user = "4000:4000";
         };

@@ -61,7 +61,6 @@ let
     volumes = [ "${cfg.volumeLocation}/saves:/necesse/saves" ];
     dependsOn = [ "TS${name}" ];
     extraOptions = [
-      "--pull=always"
       "--network=container:TS${name}"
     ];
   };
