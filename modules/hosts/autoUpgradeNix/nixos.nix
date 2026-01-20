@@ -29,7 +29,7 @@ in
     (lib.mkIf cfg.enable {
       system.autoUpgrade = {
         enable = isClean;
-        dates = "hourly";
+        dates = "03:00";
         flags = [ "--refresh" ];
         flake = "git+${config.yomaq.forgejoUrl}/yomaq/nix-config";
       };
