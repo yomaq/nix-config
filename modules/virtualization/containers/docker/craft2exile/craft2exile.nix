@@ -31,6 +31,15 @@ let
   };
   # dynmap config file
   dynmapConfig = ./dynmap-configuration.txt;
+
+  # restart warnings
+  restartWarnings = [
+    { minutes = 30; timer = "5h 30m"; }
+    { minutes = 15; timer = "5h 45m"; }
+    { minutes = 10; timer = "5h 50m"; }
+    { minutes = 5; timer = "5h 55m"; }
+    { minutes = 1; timer = "5h 59m"; }
+  ];
 in
 {
   options = {
@@ -162,12 +171,40 @@ in
         };
       };
 
-      # auto restart container
-      systemd.services."docker-${NAME}" = {
-        serviceConfig = {
-          RuntimeMaxSec = "6h";
+      # auto restart container and warning services
+      systemd.services = {
+        "docker-${NAME}" = {
+          serviceConfig = {
+            RuntimeMaxSec = "6h";
+          };
         };
-      };
+      } // lib.listToAttrs (
+        map (warning:
+          lib.nameValuePair "${NAME}-restart-warning-${toString warning.minutes}m" {
+            description = "Send ${toString warning.minutes} minute restart warning for ${NAME}";
+            serviceConfig = {
+              Type = "oneshot";
+              ExecStart = ''${pkgs.docker}/bin/docker run --rm --network=container:TS${NAME} -e RCON_HOST=127.0.0.1 -e RCON_PORT=25575 -e RCON_PASSWORD=minecraft docker.io/itzg/rcon-cli:latest tellraw @a {\"text\":\"[Server] \",\"color\":\"yellow\",\"extra\":[{\"text\":\"Server will restart in ${toString warning.minutes} minute${if warning.minutes == 1 then "" else "s"}!\",\"color\":\"red\"}]}'';
+            };
+          }
+        ) restartWarnings
+      );
+
+      # restart warning timers
+      systemd.timers = lib.listToAttrs (
+        map (warning:
+          lib.nameValuePair "${NAME}-restart-warning-${toString warning.minutes}m" {
+            description = "Timer for ${toString warning.minutes} minute restart warning for ${NAME}";
+            wantedBy = [ "timers.target" ];
+            partOf = [ "docker-${NAME}.service" ];
+            after = [ "docker-${NAME}.service" ];
+            timerConfig = {
+              OnActiveSec = warning.timer;
+              Unit = "${NAME}-restart-warning-${toString warning.minutes}m.service";
+            };
+          }
+        ) restartWarnings
+      );
 
       # networking
       yomaq.pods.tailscaled."TS${NAME}" = {
