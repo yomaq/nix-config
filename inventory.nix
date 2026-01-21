@@ -55,6 +55,7 @@
           # palworld.palhome.enable = true;
           # necesse.necesse1.enable = true;
           craft2exile.enable = true;
+          test2exile.enable = true;
           # minecraftBedrock.minecrafthome = {
           #   enable = true;
           #   envVariables = {
