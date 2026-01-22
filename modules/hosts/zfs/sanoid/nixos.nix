@@ -25,9 +25,7 @@ in
           autosnap = true;
           autoprune = true;
           hourly = 8;
-          daily = 1;
-          monthly = 1;
-          yearly = 1;
+          daily = 3;
         };
       };
       datasets = {
