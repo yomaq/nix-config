@@ -95,6 +95,10 @@ in
 
         environment.persistence."${dontBackup}".users.admin = lib.mkForce { };
 
+        programs.nix-ld.enable = true;
+        environment.systemPackages = [
+          pkgs.claude-code
+        ];
         services.code-server = {
           enable = true;
           user = "admin";
@@ -108,14 +112,6 @@ in
           extensionsDir = "${dontBackup}/nixos-containers/${NAME}/extensions";
           host = "127.0.0.1";
           port = 3000;
-          package = pkgs.vscode-with-extensions.override {
-            vscode = pkgs.code-server;
-            vscodeExtensions = with pkgs.vscode-extensions; [
-              bbenoist.nix
-              dracula-theme.theme-dracula
-              ms-python.python
-            ];
-          };
         };
 
         services.caddy = {
