@@ -22,6 +22,9 @@ in
         pkgs.kubernetes-helm
         pkgs.git
         pkgs.nixd
+        pkgs.nil
+        pkgs.claude-code
+        pkgs.zed-editor
       ];
       nixos = with pkgs; [
         pkgs.nextcloud-client

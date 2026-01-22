@@ -22,6 +22,7 @@ in
         agenix
         just
         nixd
+        nil
       ];
       nixos = with pkgs; [
       ];
