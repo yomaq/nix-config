@@ -21,6 +21,7 @@ in
         gh
         agenix
         just
+        nixd
       ];
       nixos = with pkgs; [
       ];

@@ -21,6 +21,7 @@ in
         pkgs.kubectl
         pkgs.kubernetes-helm
         pkgs.git
+        pkgs.nixd
       ];
       nixos = with pkgs; [
         pkgs.nextcloud-client
