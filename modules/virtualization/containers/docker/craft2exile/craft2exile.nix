@@ -164,7 +164,7 @@ in
           autoStart = true;
           environment = {
             BACKUP_INTERVAL = "2h";
-            PRUNE_BACKUPS_DAYS = "2";
+            PRUNE_BACKUPS_DAYS = "1";
             RCON_HOST = "127.0.0.1";
             RCON_PORT = "25575";
             RCON_PASSWORD = "minecraft";
