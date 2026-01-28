@@ -18,6 +18,7 @@ in
         ssh.enable = true;
         sanoid.enable = true;
         timezone.central = true;
+        smartd.enable = true;
       };
       inventory.hosts."${config.networking.hostName}" = {
         glances.enable = true;
