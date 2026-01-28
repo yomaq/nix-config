@@ -188,6 +188,13 @@ in
       services.zfs = {
         autoScrub.enable = true;
         trim.enable = true;
+        zed = {
+          enableMail = false;
+          settings = {
+            ZED_NTFY_TOPIC = "zfs";
+            ZED_NTFY_URL = "https://ntfy.${config.yomaq.tailscale.tailnetName}.ts.net";
+          };
+        };
       };
     })
     (lib.mkIf cfg.zfs.enable {
