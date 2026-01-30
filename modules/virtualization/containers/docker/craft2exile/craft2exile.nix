@@ -99,12 +99,12 @@ in
                 "CF_FILE_ID" = "7192795";
                 "SERVER_PORT" = "19132";
 
-                "CF_EXCLUDE_MODS" = ''1023333, 222378'';
+                "CF_EXCLUDE_MODS" = ''1023333,222378'';
 
                 "CF_FORCE_INCLUDE_MODS" = "1187311,1207903";
 
                 # Dynmap-Forge/Fabric
-                "CURSEFORGE_FILES" = ''59433'';
+                "CURSEFORGE_FILES" = ''59433,541320,867099'';
 
                 # "CF_FORCE_SYNCHRONIZE" = "true";
 

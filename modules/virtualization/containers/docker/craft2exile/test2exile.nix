@@ -34,11 +34,26 @@ let
 
   # restart warnings
   restartWarnings = [
-    { minutes = 30; timer = "5h 30m"; }
-    { minutes = 15; timer = "5h 45m"; }
-    { minutes = 10; timer = "5h 50m"; }
-    { minutes = 5; timer = "5h 55m"; }
-    { minutes = 1; timer = "5h 59m"; }
+    {
+      minutes = 30;
+      timer = "5h 30m";
+    }
+    {
+      minutes = 15;
+      timer = "5h 45m";
+    }
+    {
+      minutes = 10;
+      timer = "5h 50m";
+    }
+    {
+      minutes = 5;
+      timer = "5h 55m";
+    }
+    {
+      minutes = 1;
+      timer = "5h 59m";
+    }
   ];
 in
 {
@@ -61,7 +76,7 @@ in
                 path to store container volumes
               '';
             };
-            # mincraft env 
+            # mincraft env
             env = lib.mkOption {
               type = lib.types.attrsOf lib.types.str;
               default = {
@@ -84,14 +99,13 @@ in
                 "CF_FILE_ID" = "7192795";
                 "SERVER_PORT" = "19132";
 
-
-                "CF_EXCLUDE_MODS" = '' 1023333, 222378'';
+                "CF_EXCLUDE_MODS" = ''1023333, 222378'';
 
                 "CF_FORCE_INCLUDE_MODS" = "1187311,1207903";
 
                 # Dynmap-Forge/Fabric
                 "CURSEFORGE_FILES" = ''59433'';
-                
+
                 # "CF_FORCE_SYNCHRONIZE" = "true";
 
                 "RCON_CMDS_STARTUP" = ''
@@ -104,8 +118,7 @@ in
                   dynmap updaterender world 0 0
                 '';
               };
-              description = ''
-              '';
+              description = '''';
             };
           };
         }
@@ -176,13 +189,17 @@ in
             RuntimeMaxSec = "6h";
           };
         };
-      } // lib.listToAttrs (
-        map (warning:
+      }
+      // lib.listToAttrs (
+        map (
+          warning:
           lib.nameValuePair "${NAME}-restart-warning-${toString warning.minutes}m" {
             description = "Send ${toString warning.minutes} minute restart warning for ${NAME}";
             serviceConfig = {
               Type = "oneshot";
-              ExecStart = ''${pkgs.docker}/bin/docker run --rm --network=container:TS${NAME} -e RCON_HOST=127.0.0.1 -e RCON_PORT=25575 -e RCON_PASSWORD=minecraft docker.io/itzg/rcon-cli:latest tellraw @a {\"text\":\"[Server] \",\"color\":\"yellow\",\"extra\":[{\"text\":\"Server will restart in ${toString warning.minutes} minute${if warning.minutes == 1 then "" else "s"}!\",\"color\":\"red\"}]}'';
+              ExecStart = ''${pkgs.docker}/bin/docker run --rm --network=container:TS${NAME} -e RCON_HOST=127.0.0.1 -e RCON_PORT=25575 -e RCON_PASSWORD=minecraft docker.io/itzg/rcon-cli:latest tellraw @a {\"text\":\"[Server] \",\"color\":\"yellow\",\"extra\":[{\"text\":\"Server will restart in ${toString warning.minutes} minute${
+                if warning.minutes == 1 then "" else "s"
+              }!\",\"color\":\"red\"}]}'';
             };
           }
         ) restartWarnings
@@ -190,7 +207,8 @@ in
 
       # restart warning timers
       systemd.timers = lib.listToAttrs (
-        map (warning:
+        map (
+          warning:
           lib.nameValuePair "${NAME}-restart-warning-${toString warning.minutes}m" {
             description = "Timer for ${toString warning.minutes} minute restart warning for ${NAME}";
             # wantedBy = [ "timers.target" ];  # Disabled so timers don't auto-start
