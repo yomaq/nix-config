@@ -169,6 +169,7 @@ in
             RCON_PORT = "25575";
             RCON_PASSWORD = "minecraft";
             INITIAL_DELAY = "5m";
+            EXCLUDES = "*.jar,cache,logs,*.tmp,simplebackups/*";
           };
           volumes = [
             "${cfg.volumeLocation}/data:/data:ro"
