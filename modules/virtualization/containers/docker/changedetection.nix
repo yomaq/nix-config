@@ -79,7 +79,7 @@ in
         };
         ### main container
         "${NAME}" = {
-          image = "ghcr.io/dgtlmoon/changedetection.io:latest@sha256:8ef2849ceac50e98e37b91dd1b9a32cb495e8ce38937617267d9d22013572659";
+          image = "ghcr.io/dgtlmoon/changedetection.io:latest@sha256:e95931043d68da46e90498ce74ad317b392caade07186dc06bdfa1710901bf90";
           autoStart = true;
           environment = {
             "PLAYWRIGHT_DRIVER_URL" = "ws://127.0.0.1:3000";
