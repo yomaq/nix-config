@@ -54,9 +54,6 @@ in
   home-manager.users."${USER}" = lib.mkIf (lib.elem USER listOfUsers) {
     yomaq = {
       suites.basic.enable = true;
-      gnomeOptions.enable = true;
-      vscode.enable = true;
-      alacritty.enable = true;
     };
     programs = {
       git = {
