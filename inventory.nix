@@ -51,11 +51,11 @@
         docker.enable = true;
         syncoid.enable = true;
         pods = {
-          # foundry-vtt.enable = true;
-          # palworld.palhome.enable = true;
+          foundry-vtt.enable = true;
+          palworld.palhome.enable = true;
           # necesse.necesse1.enable = true;
-          craft2exile.enable = true;
-          test2exile.enable = true;
+          # craft2exile.enable = true;
+          # test2exile.enable = true;
           # minecraftBedrock.minecrafthome = {
           #   enable = true;
           #   envVariables = {
