@@ -42,6 +42,7 @@ in
   ]
   ++ all;
   "tailscaleOAuthKeyAcceptSsh.age".publicKeys = [
+    vermilion
     green
     moss
     jade
