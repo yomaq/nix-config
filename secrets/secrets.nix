@@ -1,5 +1,6 @@
 let
   agenix = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB7I+e624H8hTSltT2Hj5MCkwqkTPC7sVXp4On9CvJ1r";
+  vermilion = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGIvsV5A1HxpoLOIFRvf3GuKJkUlzPxL2TsE7w6GHc5l";
   carln = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFISfCExxGjPEXFOU+RPRAI1iZ6bz5U15xooYdnWvVsx";
   green = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJOKOvSM5ibLkiVi+0hmt3eWlmTprMIqtYzkHgKdSVsq";
   moss = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHUFH+p2RqZ4g1Gec7UZWyr390wketZRCtp93bNAyzZ7";
@@ -17,8 +18,9 @@ let
 
 in
 {
-  "carln.age".publicKeys = [ green ] ++ all;
+  "carln.age".publicKeys = [ vermilion ] ++ all;
   "admin.age".publicKeys = [
+    vermilion
     azure
     smalt
     teal
@@ -29,6 +31,7 @@ in
   "ryn.age".publicKeys = all;
   "encrypt.age".publicKeys = all;
   "tailscaleKey.age".publicKeys = [
+    vermilion
     green
     moss
     jade
@@ -49,6 +52,7 @@ in
   ]
   ++ all;
   "tailscaleInitrd.age".publicKeys = [
+    vermilion
     green
     moss
     jade
@@ -69,6 +73,7 @@ in
   ]
   ++ all;
   "tailscaleOAuthEnvFile.age".publicKeys = [
+    vermilion
     green
     moss
     jade
