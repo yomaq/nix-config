@@ -12,6 +12,8 @@
     networking.hostName = "vermilion";
     system.stateVersion = "25.11";
 
+    programs.nix-ld.enable = true;
+
     yomaq = {
       suites.foundation.enable = true;
       network = {
