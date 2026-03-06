@@ -18,18 +18,16 @@ in
         pkgs.tailscale
         pkgs.alacritty
         pkgs.vim
-        pkgs.kubectl
-        pkgs.kubernetes-helm
+        pkgs.tmux
         pkgs.git
         pkgs.nixd
-        pkgs.nil
         pkgs.claude-code
         pkgs.zed-editor
       ];
       nixos = with pkgs; [
         pkgs.nextcloud-client
-        pkgs.steam
         pkgs.brave
+        pkgs.steam
       ];
     };
     homebrew = {

@@ -77,6 +77,7 @@ in
               "nix"
               "documents"
               "zed"
+              ".claude"
               ".ssh"
               ".var"
               ".config"
