@@ -76,6 +76,8 @@ in
             directories = [
               "nix"
               "documents"
+              "zed"
+              ".ssh"
               ".var"
               ".config"
               ".local"
