@@ -51,6 +51,7 @@ in
           autoStart = true;
           environment = {
             "OLLAMA_NUM_PARALLEL" = "1";
+            "OLLAMA_CONTEXT_LENGTH" = "32768";
           };
           volumes = [ "${cfg.volumeLocation}/ollama:/root/.ollama" ];
           dependsOn = [ "TS${NAME}" ];

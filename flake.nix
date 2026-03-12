@@ -55,7 +55,23 @@
             };
           };
         };
+        x86_64-linux.ollama = import ./Utilities/devShell/ollama.nix {
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config = {
+              allowUnfree = true;
+            };
+          };
+        };
         aarch64-darwin.default = import ./Utilities/devShell/default.nix {
+          pkgs = import nixpkgs {
+            system = "aarch64-darwin";
+            config = {
+              allowUnfree = true;
+            };
+          };
+        };
+        aarch64-darwin.ollama = import ./Utilities/devShell/ollama.nix {
           pkgs = import nixpkgs {
             system = "aarch64-darwin";
             config = {
