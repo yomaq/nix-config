@@ -37,7 +37,7 @@ in
     age.secrets.nextcloudEnvFile.file = (inputs.self + /secrets/nextcloudEnvFile.age);
     services.nextcloud = {
       enable = true;
-      package = pkgs.nextcloud31;
+      package = pkgs.nextcloud33;
       secretFile = config.age.secrets.nextcloudEnvFile.path;
       hostName = "${vmName}.${config.yomaq.tailscale.tailnetName}.ts.net";
       config.adminpassFile = "/etc/nextcloud-admin-pass";
@@ -49,7 +49,7 @@ in
       maxUploadSize = "16G";
       notify_push.enable = true;
       extraApps = {
-        inherit (pkgs.nextcloud31Packages.apps) oidc_login memories previewgenerator;
+        inherit (pkgs.nextcloud33Packages.apps) oidc_login;
       };
       extraAppsEnable = true;
       autoUpdateApps.enable = true;
