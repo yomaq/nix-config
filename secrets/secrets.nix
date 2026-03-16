@@ -133,6 +133,8 @@ in
   ++ all;
   "dropEnvFile.age".publicKeys = [ azure ] ++ all;
   "dropDBEnvFile.age".publicKeys = [ azure ] ++ all;
+  "immichOAuthClientId.age".publicKeys = [ azure ] ++ all;
+  "immichOAuthClientSecret.age".publicKeys = [ azure ] ++ all;
   "healthchecks.age".publicKeys = [ azure ] ++ all;
   "forgejoRunnerToken.age".publicKeys = [ azure ] ++ all;
   "curseForgeApi.age".publicKeys = [ smalt ] ++ all;

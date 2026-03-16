@@ -24,6 +24,7 @@
           "nextcloud"
           "calibre"
           "forgejo"
+          "immich"
         ];
         pods = {
           golink.enable = true;
