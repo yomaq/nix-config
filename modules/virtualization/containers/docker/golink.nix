@@ -47,7 +47,7 @@ in
 
       virtualisation.oci-containers.containers = {
         "${NAME}" = {
-          image = "ghcr.io/tailscale/golink:main@sha256:6faaa71ac71d9c8603782b70a97bc3ad63144174748db5bbf79cdaa9167ababb";
+          image = "ghcr.io/tailscale/golink:main@sha256:011e6a242d525df54faec21defed5e3c164d89cb02192fbd950266dfde889d7d";
           autoStart = true;
           volumes = [ "${cfg.volumeLocation}/data:/home/nonroot" ];
           extraOptions = [
