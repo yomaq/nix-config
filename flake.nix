@@ -29,10 +29,16 @@
     microvm.inputs.nixpkgs.follows = "nixpkgs";
     # nixos on wsl
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    # nix-caliga
+    nix-caliga = {
+      url = "github:nix-caliga/nix-caliga";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     {
+      self,
       nixpkgs,
       ...
     }@inputs:
@@ -54,6 +60,8 @@
               allowUnfree = true;
             };
           };
+          nix-caliga = inputs.nix-caliga;
+          caligaConfigs = self.caligaConfigs.x86_64-linux;
         };
         x86_64-linux.ollama = import ./Utilities/devShell/ollama.nix {
           pkgs = import nixpkgs {
@@ -118,6 +126,17 @@
           myHosts = builtins.attrNames (builtins.readDir ./hosts/darwin);
         in
         nixpkgs.lib.genAttrs myHosts mkHost;
+
+
+      caligaConfigs.x86_64-linux = {
+        violet = inputs.nix-caliga.lib.makeCaligaConfig {
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+          };
+          modules = [ ./hosts/nix-caliga/violet ];
+        };
+      };
 
       overlays = import ./modules/overlays { inherit inputs; };
 

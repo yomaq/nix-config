@@ -10,6 +10,7 @@ Attempting to view the Flake and its nixos hosts as a single logical unit, rathe
 
 ### Selfhosting
 
+* NEW in testing, configuring bootc images like nixos using [nix-caliga](https://github.com/nix-caliga/nix-caliga)
 * Homelab/selfhosting focus with multiple docker and nixos container modules for various servers and services.
 * Programmatically configured [Dashboard](https://github.com/gethomepage/homepage) that automatically expands as new hosts are added to the flake. Dashboard monitors host status, the current Nix Flake revision installed on each system, and the current revision on Gitlab.
 * Programmatically configured uptime monitoring with [Gatus](https://github.com/TwiN/gatus), no matter which host a new service is deployed on, the Gatus server will automatically update its configuration to include the new service - Homepage dashboard also does the same with links to all current services automatically.
@@ -31,7 +32,7 @@ Attempting to view the Flake and its nixos hosts as a single logical unit, rathe
 
 ### Flake design
 
-* (New in-progress) A single `inventory.nix` file where all non-hardware device specific configuration happens. This is useful for clarity and readibility, but more importantly it allows all hosts to be "aware" of all other hosts and their configurations.
+* A single `inventory.nix` file where all non-hardware device specific configuration happens. This is useful for clarity and readibility, but more importantly it allows all hosts to be "aware" of all other hosts and their configurations.
 * All custom modules are joined together into a couple of Flake outputs, which are then **ALL** imported into the host in bulk.
 * Custom modules all have options and are disabled by default. They must be enabled with `config.yomaq.moduleName.enable = true`
 * Host modules (in [/modules/hosts](https://github.com/yomaq/nix-config/tree/main/modules)) that Nixos and Darwin can share are kept as identical as possible. Module options are shared between them in a `default.nix` file, while config implementations that differ will be in `nixos.nix` or `darwin.nix` respectively.

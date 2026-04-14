@@ -1,12 +1,26 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  nix-caliga ? null,
+  caligaConfigs ? null,
+  ...
+}:
+let
+  caliga = nix-caliga.lib.mkCaligaCli { inherit pkgs caligaConfigs; };
+in
 pkgs.mkShell {
-  buildInputs = [
-    pkgs._1password-cli
-    pkgs.nixfmt-rfc-style
-    pkgs.bash-completion
-  ];
+  buildInputs =
+    [
+      pkgs._1password-cli
+      pkgs.nixfmt-rfc-style
+      pkgs.bash-completion
+      pkgs.podman
+      pkgs.gh
+      pkgs.qemu
+      caliga
+    ];
 
   shellHook = ''
+        source ${caliga}/share/bash-completion/completions/caliga
         export GREET="Yomaq's Homelab"
         echo $GREET
 
@@ -84,10 +98,10 @@ pkgs.mkShell {
             echo "Example: yo-microvm testvm green"
             return 1
           fi
-          
+
           local microvm_name="$1"
           local remote_host="$2"
-          
+
           nix run ".#nixosConfigurations.$microvm_name.config.microvm.deploy.installOnHost" "admin@$remote_host" -- --use-remote-sudo
         }
 
@@ -144,11 +158,11 @@ pkgs.mkShell {
                 # Ethernet info
                 lspci -v | grep -iA8 'network\|ethernet'
                 echo ""
-                
+
                 # List all drives
                 lsblk -d -o NAME,SIZE,TYPE,MODEL | grep -E "(disk|nvme)"
                 echo ""
-                
+
                 # Generate ZFS hostID
                 HOST_ID=$(echo "$(date +%s)$(hostname)" | md5sum | cut -c1-8)
                 echo "hostID = $HOST_ID"
