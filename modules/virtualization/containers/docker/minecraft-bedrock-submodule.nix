@@ -62,7 +62,7 @@ let
       };
     };
   mkContainer = name: cfg: {
-    image = "docker.io/itzg/minecraft-bedrock-server:latest@sha256:72962230e4667183bf984984cc4b83f6618f34cce72f5996015775609e72d3ad";
+    image = "docker.io/itzg/minecraft-bedrock-server:latest@sha256:406b421c5394d7fc957a2b51ca30ebd38dfe06bdee70b817ed86ac16c7bccc6b";
     autoStart = true;
     environment = lib.mkMerge [
       cfg.envVariables
