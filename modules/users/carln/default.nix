@@ -22,7 +22,6 @@ in
         pkgs.git
         pkgs.nixd
         pkgs.claude-code
-        pkgs.zed-editor
       ];
       nixos = with pkgs; [
         pkgs.nextcloud-client
@@ -44,6 +43,7 @@ in
       ];
       taps = [ "pulumi/tap" ];
       brews = [
+        "zed"
         "mas"
         "pulumi"
       ];
@@ -52,6 +52,7 @@ in
   home-manager.users."${USER}" = lib.mkIf (lib.elem USER listOfUsers) {
     yomaq = {
       suites.basic.enable = true;
+      alacritty.enable = true;
     };
     programs = {
       git = {
