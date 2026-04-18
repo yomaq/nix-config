@@ -31,6 +31,7 @@ in
     };
     homebrew = {
       casks = [
+        "zed"
         "moonlight"
         "rustdesk"
         "discord"
@@ -43,7 +44,6 @@ in
       ];
       taps = [ "pulumi/tap" ];
       brews = [
-        "zed"
         "mas"
         "pulumi"
       ];
