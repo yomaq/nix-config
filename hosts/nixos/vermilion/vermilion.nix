@@ -13,6 +13,7 @@
     system.stateVersion = "25.11";
 
     programs.nix-ld.enable = true;
+    virtualisation.podman.enable = true;
 
     yomaq = {
       suites.foundation.enable = true;
