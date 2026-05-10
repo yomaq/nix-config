@@ -57,8 +57,11 @@ in
       enable = true;
       daemon.settings = {
         dns = [ "100.100.100.100" ];
+        "storage-driver" = "fuse-overlayfs";
       };
     };
+
+    systemd.services.docker.path = [ pkgs.fuse-overlayfs ];
 
     # Allow Docker containers to access Forgejo
     networking.firewall.extraCommands = ''

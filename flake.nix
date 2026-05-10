@@ -61,7 +61,7 @@
             };
           };
           nix-caliga = inputs.nix-caliga;
-          caligaConfigs = self.caligaConfigs.x86_64-linux;
+          caligaConfigurations = self.caligaConfigurations.x86_64-linux;
         };
         x86_64-linux.ollama = import ./Utilities/devShell/ollama.nix {
           pkgs = import nixpkgs {

@@ -23,7 +23,7 @@
 
   users.users.carln = {
     isNormalUser = true;
-    uid = 1000;
+    uid = 1005;
     extraGroups = [ "wheel" ];
     initialPassword = "test";
   };
