@@ -5,18 +5,15 @@
     name = "ghcr.io/yomaq/nix-config";
     tag = "violet";
     fromImage = pkgs.dockerTools.pullImage {
-      imageName = "ghcr.io/ublue-os/aurora";
-      imageDigest = "sha256:562db764497cabb0b6a618776429be072d22525190b3b3bffd3030b67f4c5874";
-      hash = "sha256-FgQY0+YZGlB6fHtyhFjlzsE337B2E97Y0er/JaS9H0E=";
-      finalImageName = "ghcr.io/ublue-os/aurora";
-      finalImageTag = "stable";
-    };
-    config.Labels = {
-      "containers.bootc" = "1";
-      "ostree.bootable" = "true";
-      "org.opencontainers.image.source" = "https://github.com/yomaq/nix-config";
+      imageName = "ghcr.io/ublue-os/bluefin";
+      imageDigest = "sha256:ec4325b7ee3325fcacc91d3ebfa68e1e43ac382c502618705784419e9e98b93e";
+      hash = "sha256-iwWhY8BiB0yhHmGo05m17EV7LqCC8aDGuCLHxdH0gTU=";
+      finalImageTag = "44";
     };
   };
+
+  caliga.os = "fedora";
+  caliga.core.enable = true;
 
   environment.systemPackages = [
     pkgs.cowsay
@@ -27,7 +24,7 @@
   users.users.carln = {
     isNormalUser = true;
     uid = 1000;
-    extraGroups = [ "wheel" "plugdev" ];
+    extraGroups = [ "wheel" ];
     initialPassword = "test";
   };
 

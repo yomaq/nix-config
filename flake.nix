@@ -128,13 +128,20 @@
         nixpkgs.lib.genAttrs myHosts mkHost;
 
 
-      caligaConfigs.x86_64-linux = {
-        violet = inputs.nix-caliga.lib.makeCaligaConfig {
+      caligaConfigurations.x86_64-linux = {
+        violet = inputs.nix-caliga.lib.makeCaligaConfigurations {
           pkgs = import nixpkgs {
             system = "x86_64-linux";
             config.allowUnfree = true;
           };
           modules = [ ./hosts/nix-caliga/violet ];
+        };
+        cyan = inputs.nix-caliga.lib.makeCaligaConfigurations {
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+          };
+          modules = [ ./hosts/nix-caliga/cyan ];
         };
       };
 

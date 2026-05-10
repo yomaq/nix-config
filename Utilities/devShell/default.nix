@@ -1,11 +1,11 @@
 {
   pkgs,
   nix-caliga ? null,
-  caligaConfigs ? null,
+  caligaConfigurations ? null,
   ...
 }:
 let
-  caliga = if nix-caliga != null then nix-caliga.lib.mkCaligaCli { inherit pkgs caligaConfigs; } else null;
+  caliga = if nix-caliga != null then nix-caliga.lib.mkCaligaCli { inherit pkgs caligaConfigurations; } else null;
 in
 pkgs.mkShell {
   buildInputs =
