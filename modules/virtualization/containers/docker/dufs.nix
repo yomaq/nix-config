@@ -45,7 +45,7 @@ in
       systemd.tmpfiles.rules = [ "d ${cfg.volumeLocation}/data 0755 4000 4000" ];
       virtualisation.oci-containers.containers = {
         "${NAME}" = {
-          image = "docker.io/sigoden/dufs:latest@sha256:9b45a406b019921c7d2a512784a8652fc23a83c5598bf0ddc81d3c130c623f31";
+          image = "docker.io/sigoden/dufs:latest@sha256:8dd3b750015734703e64b55641fb7d2254c112e0ff3967074766177dc15dc982";
           autoStart = true;
           volumes = [ "${cfg.volumeLocation}/data:/data" ];
           dependsOn = [ "TS${NAME}" ];
