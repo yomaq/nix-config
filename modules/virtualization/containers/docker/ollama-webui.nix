@@ -77,7 +77,7 @@ in
 
       virtualisation.oci-containers.containers = {
         "${NAME}" = {
-          image = "ghcr.io/open-webui/open-webui:latest@sha256:a6da0c292081d810a396ce786a10536d0b1b9ba2925dcca20ebb03f9fa90dbff";
+          image = "ghcr.io/open-webui/open-webui:latest@sha256:74093dadc9c6aabc23987a74fd8c2fb8d995b1a5b22e83b0036fb9d6af590e8c";
           autoStart = true;
           environment = cfg.env;
           volumes = [ "${cfg.volumeLocation}/open-webui:/app/backend/data" ];
