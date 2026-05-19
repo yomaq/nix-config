@@ -21,6 +21,14 @@
         "docker"
       ],
       "pinDigests": true
+    },
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "automerge": true
     }
   ]
 }
