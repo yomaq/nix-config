@@ -11,7 +11,7 @@ pkgs.mkShell {
   buildInputs =
     [
       pkgs._1password-cli
-      pkgs.nixfmt-rfc-style
+      pkgs.nixfmt
       pkgs.bash-completion
       pkgs.podman
       pkgs.gh

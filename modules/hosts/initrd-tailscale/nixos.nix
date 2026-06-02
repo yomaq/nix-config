@@ -51,6 +51,9 @@ in
     lib.mkMerge [
       (lib.mkIf (config.boot.initrd.network.enable && !config.yomaq.disks.amReinstalling && cfg.enable) {
 
+        # Need to fix this ASAP
+        boot.initrd.systemd.enable = false;
+
         boot.initrd.kernelModules = [ "tun" ];
         boot.initrd.availableKernelModules = [
           "xt_mark"
