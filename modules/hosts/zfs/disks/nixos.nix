@@ -144,8 +144,7 @@ in
       boot.initrd.network.ssh = {
         enable = true;
         port = 22;
-        shell = "/bin/cryptsetup-askpass";
-        authorizedKeys = authorizedkeys;
+        authorizedKeys = map (key: ''command="systemctl default" ${key}'') authorizedkeys;
         hostKeys = [ "/etc/ssh/initrd" ];
       };
       boot.initrd.secrets = {
@@ -442,11 +441,17 @@ in
       fileSystems."/persist/save".neededForBoot = true;
     })
     (lib.mkIf (cfg.zfs.root.impermanenceRoot) {
-      boot.initrd.postResumeCommands =
-        #wipe / and /var on boot
-        lib.mkAfter ''
+      boot.initrd.systemd.services.rollback = {
+        wantedBy = [ "initrd.target" ];
+        after = [ "zfs-import-zroot.service" ];
+        before = [ "sysroot.mount" ];
+        path = [ config.boot.zfs.package ];
+        unitConfig.DefaultDependencies = "no";
+        serviceConfig.Type = "oneshot";
+        script = ''
           zfs rollback -r zroot/root@empty
         '';
+      };
     })
   ];
 }
