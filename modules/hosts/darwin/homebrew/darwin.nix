@@ -11,7 +11,7 @@
   # };
   # config = lib.mkIf cfg.enable {
   #   homebrew = {
-  #     brewPrefix = "/opt/homebrew/bin";
+  #     prefix = "/opt/homebrew";
   #     enable = true;
   #     onActivation = {
   #       autoUpdate = true;

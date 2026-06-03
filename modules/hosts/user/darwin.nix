@@ -37,7 +37,7 @@ in
       [ "root" ] ++ rootUsers;
 
     homebrew = lib.foldl lib.recursiveUpdate {
-      brewPrefix = "/opt/homebrew/bin";
+      prefix = "/opt/homebrew";
       enable = true;
       onActivation = {
         autoUpdate = true;
