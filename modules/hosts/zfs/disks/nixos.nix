@@ -180,7 +180,8 @@ in
         ];
         zfs = {
           devNodes = "/dev/disk/by-id/";
-          forceImportAll = true;
+          # forceImportAll = true;
+          forceImportRoot = false;
           requestEncryptionCredentials = true;
         };
       };
