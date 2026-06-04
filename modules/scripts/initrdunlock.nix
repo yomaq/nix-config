@@ -46,7 +46,7 @@ pkgs.writeShellScriptBin "initrd-unlock" ''
                 eval $(op signin)
                 password=$(op read op://nix/$hostname/encryption)
 
-  ${pkgs.toybox}/bin/timeout 5s ssh -tt root@$hostname-initrd <<EOF
+  ${pkgs.toybox}/bin/timeout 5s ssh -o RequestTTY=force root@$hostname-initrd >/dev/null 2>&1 <<EOF
   $password
   EOF
                 echo "unlock sent"
