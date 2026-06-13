@@ -52,7 +52,7 @@ let
       };
     };
   mkContainer = name: cfg: {
-    image = "docker.io/brammys/necesse-server:latest@sha256:792cabbc429364cc95d1fb7cdf46416c8b40e5c4b7fdf07aacc166268db4c4f9";
+    image = "docker.io/brammys/necesse-server:latest@sha256:af639037cc16d75a90097939544ad508ac47b8799b8b626e7bcb0c2b4399ce64";
     autoStart = true;
     environment = lib.mkMerge [
       cfg.envVariables
