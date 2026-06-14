@@ -134,7 +134,7 @@ in
         };
         ### Grafana container
         "grafana-${NAME}" = {
-          image = "docker.io/teslamate/grafana:latest@sha256:8d7287f44b1eefb39e649175aa14615df648c04a3162da9461d07c8a9ea1c7e9";
+          image = "docker.io/teslamate/grafana:latest@sha256:5b974c82b7684fbe071778e5e5e5f542dc9caffc2cacafb750edf8bf92124beb";
           autoStart = true;
           environment = {
             "GF_SERVER_ROOT_URL" = "%(protocol)s://%(domain)s/grafana";
