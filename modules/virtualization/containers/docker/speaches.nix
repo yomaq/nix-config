@@ -53,7 +53,7 @@ in
 
       virtualisation.oci-containers.containers = {
         "${NAME}" = {
-          image = "ghcr.io/remsky/kokoro-fastapi-gpu:v0.3.0@sha256:bf17f91756f45fb07a631a779377097cb17d3702b3d2198694c05e888fcec3ff";
+          image = "ghcr.io/remsky/kokoro-fastapi-gpu:v0.5.0@sha256:63176e12e476470f020e29dfb3203bac249fa66c8fdf95e44b7482546eb4e974";
           autoStart = true;
           environment = cfg.env;
           dependsOn = [ "TS${NAME}" ];
