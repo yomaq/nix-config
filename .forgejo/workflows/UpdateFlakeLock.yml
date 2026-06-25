@@ -18,7 +18,7 @@ jobs:
               run: |
                   apt-get update
                   apt-get install -y sudo
-            - uses: https://code.forgejo.org/actions/checkout@v6
+            - uses: https://code.forgejo.org/actions/checkout@v7
               with:
                   token: ${{ secrets.PUSH_TOKEN }}
             - name: Set up Nix
