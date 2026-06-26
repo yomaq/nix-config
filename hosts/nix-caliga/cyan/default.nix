@@ -1,33 +1,41 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  inputs,
+  lib,
+  ...
+}:
 
 {
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+    inputs.agenix.nixosModules.default
+    (inputs.self + /modules/hosts/user/default.nix)
+    (inputs.self + /modules/hosts/user/nixos.nix)
+    ./microvm.nix
+    ./stubs.nix
+  ];
+
   layeredImage = {
     name = "ghcr.io/yomaq/nix-config";
     tag = "cyan";
-    maxLayers = 125;
+    maxLayers = 135;
     fromImage = pkgs.dockerTools.pullImage {
       imageName = "ghcr.io/projectbluefin/dakota";
-      imageDigest = "sha256:1876990f38722642c241e2a765022984e87f8df1ef29a05aa4bd5f63f30cb924";
-      hash = "sha256-C/tbOfuR/QP09qqvf3IrxjAj/Wj0WJsZbAQ9S6x9lJo=";
+      imageDigest = "sha256:06f5511bca3ce5b44cb9069c2f34d77823b300ae7aada9e177075e986103b28e";
+      hash = "sha256-GLNl3QUQcjBix5IGyYAUZRWPWU9fg06vya/JxjBOZKk=";
+      finalImageName = "ghcr.io/projectbluefin/dakota";
       finalImageTag = "latest";
     };
   };
 
-  environment.systemPackages = [
-    pkgs.cowsay
-    pkgs._1password-gui
-    pkgs._1password-cli
-  ];
-
   caliga.os = "gnomeOS";
   caliga.core.enable = true;
 
-  users.users.carln = {
-    isNormalUser = true;
-    uid = 1007;
-    initialPassword = "test";
-    extraGroups = [ "wheel" ];
-  };
+  inventory.hosts.cyan.users.enableUsers = [ "carln" ];
+
+  users.users.carln.shell = lib.mkForce "/usr/bin/bash";
+
+  age.identityPaths = [ "/etc/ssh/cyan" ];
 
   system.stateVersion = "25.11";
 }

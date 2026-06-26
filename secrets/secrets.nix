@@ -9,6 +9,7 @@ let
   teal = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIQQRdx0vygfX8LZFLq2Dg8X3EGYLIB+hL788x7LP+29";
   smalt = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPsEPoDzF3MRUY0adefhlXkHoErrLncXrV1GTXbM8Znt";
   wsl = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEVvSvIGRCpR3vo0QTeFPFb6vlatnQkqKhbN4m3H2DKn";
+  cyan = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEZ/iIc9VH00VcFfehUAb0flwHhG0xzfncVcoqaALbac";
 
   # keys to work for all secrets
   all = [
@@ -18,7 +19,7 @@ let
 
 in
 {
-  "carln.age".publicKeys = [ vermilion ] ++ all;
+  "carln.age".publicKeys = [ vermilion cyan ] ++ all;
   "admin.age".publicKeys = [
     vermilion
     azure
@@ -39,6 +40,7 @@ in
     teal
     smalt
     wsl
+    cyan
   ]
   ++ all;
   "tailscaleOAuthKeyAcceptSsh.age".publicKeys = [
