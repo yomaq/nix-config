@@ -26,12 +26,12 @@ in
     };
     ollamaModel = lib.mkOption {
       type = lib.types.str;
-      default = "gemma3:12b";
+      default = "ornith:9b";
       description = "Model to use for Ollama API requests";
     };
     ntfyBaseUrl = lib.mkOption {
       type = lib.types.str;
-      default = "https://azure-ntfy.sable-chimaera.ts.net";
+      default = config.yomaq.ntfy.ntfyUrl;
       description = "Base URL for ntfy notifications";
     };
     n8nUrl = lib.mkOption {
@@ -120,7 +120,7 @@ in
             journal_output=$(journalctl -u "$SERVICE_NAME" -n 25 --no-pager 2>/dev/null ||
               echo "Failed to fetch journal logs")
             journal_output=$(echo "$journal_output" | sed 's/[[:cntrl:]]/\\n/g')
-            
+
             ${
               if cfg.n8nUrl != "" then
                 ''
@@ -165,7 +165,7 @@ in
                   fi
                 ''
             }
-            
+
             # Reset counter after sending notification
             echo 0 > "$STATE_FILE" || echo "ERROR: Failed to reset failure counter" >&2
           fi

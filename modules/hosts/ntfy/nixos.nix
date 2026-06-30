@@ -7,7 +7,7 @@
   options.yomaq.ntfy = {
     ntfyUrl = lib.mkOption {
       type = lib.types.str;
-      default = "";
+      default = "https://ntfy.${config.yomaq.tailscale.tailnetName}.ts.net";
       description = "The base URL for NTFY notifications.";
     };
 
@@ -26,7 +26,6 @@
 
   config = {
     yomaq.ntfy = {
-      ntfyUrl = "https://ntfy.${config.yomaq.tailscale.tailnetName}.ts.net";
       defaultTopic = "ntfy";
       defaultPriority = "p:3";
     };
