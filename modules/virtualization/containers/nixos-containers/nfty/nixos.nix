@@ -108,7 +108,7 @@ in
             alerts = [
               {
                 type = "ntfy";
-                failureThreshold = 3;
+                "failure-threshold" = 3;
                 description = "healthcheck failed";
               }
             ];

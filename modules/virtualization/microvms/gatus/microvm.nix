@@ -41,7 +41,7 @@ in
             topic = "${config.yomaq.ntfy.defaultTopic}";
             priority = 3;
             default-alert = {
-              enable = true;
+              enabled = true;
               failure-threshold = 10;
               success-threshold = 10;
               send-on-resolved = true;
