@@ -85,7 +85,6 @@
           host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILfjX0jVwhnkQ2QISv8BtCyu5+PCbV2rOIlFWn9IavZY";
           initrd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICqPiDDKV/JbxJ7MN0nhPxst1/oTCM4fYFBSVpyKH5X7";
         };
-        syncoid.enable = true;
         docker.enable = true;
       };
 
