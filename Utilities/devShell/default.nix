@@ -1,12 +1,7 @@
 {
   pkgs,
-  nix-caliga ? null,
-  caligaConfigurations ? null,
   ...
 }:
-let
-  caliga = if nix-caliga != null then nix-caliga.lib.mkCaligaCli { inherit pkgs caligaConfigurations; } else null;
-in
 pkgs.mkShell {
   buildInputs =
     [
@@ -16,10 +11,9 @@ pkgs.mkShell {
       pkgs.podman
       pkgs.gh
       pkgs.qemu
-    ] ++ pkgs.lib.optional (caliga != null) caliga;
+    ];
 
   shellHook = ''
-        ${pkgs.lib.optionalString (caliga != null) "source ${caliga}/share/bash-completion/completions/caliga"}
         export GREET="Yomaq's Homelab"
         echo $GREET
 
