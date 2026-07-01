@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 let
@@ -44,10 +45,7 @@ in
 
                 "ENABLE_OPENAI_API" = "false";
 
-                "OAUTH_CLIENT_ID" = "unused";
-                "OAUTH_CLIENT_SECRET" = "unused";
-                "OPENID_PROVIDER_URL" =
-                  "https://azure-tsidp.sable-chimaera.ts.net/.well-known/openid-configuration";
+                "OPENID_PROVIDER_URL" = "${config.yomaq.tailscale.tsidpUrl}/.well-known/openid-configuration";
                 "DEFAULT_USER_ROLE" = "user";
 
                 "ENABLE_DIRECT_CONNECTIONS" = "false";
@@ -75,11 +73,18 @@ in
 
       systemd.tmpfiles.rules = [ "d ${cfg.volumeLocation}/open-webui 0755 root root" ];
 
+      age.secrets."${NAME}OAuthEnvFile".file = (inputs.self + /secrets/${NAME}OAuthEnvFile.age);
+
       virtualisation.oci-containers.containers = {
         "${NAME}" = {
           image = "ghcr.io/open-webui/open-webui:latest@sha256:7f1b0a1a50cfbac23da3b16f96bc968fd757b26dc9e54e93813d61768ea9184e";
           autoStart = true;
           environment = cfg.env;
+          environmentFiles = [
+            config.age.secrets."${NAME}OAuthEnvFile".path
+            #  OAUTH_CLIENT_ID=insert_the_tsidp_oauth_client_id_here
+            #  OAUTH_CLIENT_SECRET=insert_the_tsidp_oauth_client_secret_here
+          ];
           volumes = [ "${cfg.volumeLocation}/open-webui:/app/backend/data" ];
           dependsOn = [ "TS${NAME}" ];
           extraOptions = [

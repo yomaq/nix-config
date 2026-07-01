@@ -107,6 +107,7 @@
         pods = {
           ollama.enable = true;
           speaches.enable = true;
+          litellm.enable = true;
         };
       };
 

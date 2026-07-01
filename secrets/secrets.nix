@@ -19,7 +19,11 @@ let
 
 in
 {
-  "carln.age".publicKeys = [ vermilion cyan ] ++ all;
+  "carln.age".publicKeys = [
+    vermilion
+    cyan
+  ]
+  ++ all;
   "admin.age".publicKeys = [
     vermilion
     azure
@@ -140,4 +144,7 @@ in
   "healthchecks.age".publicKeys = [ azure ] ++ all;
   "forgejoRunnerToken.age".publicKeys = [ azure ] ++ all;
   "curseForgeApi.age".publicKeys = [ smalt ] ++ all;
+  "litellmEnvFile.age".publicKeys = [ wsl ] ++ all;
+  "litellmDBEnvFile.age".publicKeys = [ wsl ] ++ all;
+  "open-webuiOAuthEnvFile.age".publicKeys = [ azure ] ++ all;
 }
