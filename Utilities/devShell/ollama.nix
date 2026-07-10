@@ -5,7 +5,7 @@ pkgs.mkShell {
     ANTHROPIC_BASE_URL = "https://wsl-ollama.sable-chimaera.ts.net";
   };
   shellHook = ''
-    ${pkgs.claude-code}/bin/claude --model ornith:9b
+    ${pkgs.claude-code}/bin/claude --model ornith:35b
     exit $?
   '';
 }
