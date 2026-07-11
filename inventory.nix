@@ -36,6 +36,7 @@
           n8n.enable = true;
           open-webui.enable = true;
           drop.enable = true;
+          palworld.palhome.enable = true;
           bentopdf.enable = true;
         };
         syncoid = {
