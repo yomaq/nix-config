@@ -47,7 +47,7 @@ in
 
       virtualisation.oci-containers.containers = {
         "${NAME}" = {
-          image = "docker.io/ollama/ollama:latest@sha256:509fdf54e23bd50d87af646cb51c0a7a203d6a83cc4d6695b3b08c5be1c62c0a";
+          image = "docker.io/ollama/ollama:latest@sha256:6345fbc18bd73a1e16404be681dbc6fd291a027cab43ed541abe78c4c81051b0";
           autoStart = true;
           environment = {
             "OLLAMA_NUM_PARALLEL" = "1";
