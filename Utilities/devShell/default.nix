@@ -11,6 +11,7 @@ pkgs.mkShell {
       pkgs.podman
       pkgs.gh
       pkgs.qemu
+      pkgs.nixos-anywhere
     ];
 
   shellHook = ''
@@ -117,7 +118,7 @@ pkgs.mkShell {
           op read op:"//nix/initrd/private key?ssh-format=openssh" > "$temp/etc/ssh/initrd"
           chmod 600 "$temp/etc/ssh/$hostname"
           chmod 600 "$temp/etc/ssh/initrd"
-          nix run github:nix-community/nixos-anywhere -- --extra-files "$temp" --build-on remote \
+          nixos-anywhere --extra-files "$temp" --build-on remote \
             --generate-hardware-config nixos-generate-config "$(git rev-parse --show-toplevel)/hosts/nixos/$hostname/hardware-configuration.nix" \
             --disk-encryption-keys /tmp/secret.key <(op read op://nix/$hostname/encryption) --flake .#$hostname root@$ipaddress
         }
@@ -125,7 +126,7 @@ pkgs.mkShell {
         yo-install() {
           ipaddress=$2
           hostname=$1
-          nix run github:nix-community/nixos-anywhere -- --flake .#$hostname root@$ipaddress
+          nixos-anywhere --flake .#$hostname root@$ipaddress
         }
 
         yo-keygen() {

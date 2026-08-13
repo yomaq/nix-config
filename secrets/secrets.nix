@@ -10,6 +10,7 @@ let
   smalt = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPsEPoDzF3MRUY0adefhlXkHoErrLncXrV1GTXbM8Znt";
   wsl = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEVvSvIGRCpR3vo0QTeFPFb6vlatnQkqKhbN4m3H2DKn";
   cyan = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEZ/iIc9VH00VcFfehUAb0flwHhG0xzfncVcoqaALbac";
+  sage = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJwty4naOTp/R1wLdPJcn7x+s/3oq7e6lgYq5KWFgtOo";
 
   # keys to work for all secrets
   all = [
@@ -31,6 +32,7 @@ in
     teal
     moss
     jade
+    sage
   ]
   ++ all;
   "ryn.age".publicKeys = all;
@@ -45,6 +47,7 @@ in
     smalt
     wsl
     cyan
+    sage
   ]
   ++ all;
   "tailscaleOAuthKeyAcceptSsh.age".publicKeys = [
@@ -56,6 +59,7 @@ in
     teal
     smalt
     wsl
+    sage
   ]
   ++ all;
   "tailscaleInitrd.age".publicKeys = [
@@ -67,6 +71,7 @@ in
     teal
     smalt
     wsl
+    sage
   ]
   ++ all;
   "tailscaleEnvFile.age".publicKeys = [
@@ -77,6 +82,7 @@ in
     teal
     smalt
     wsl
+    sage
   ]
   ++ all;
   "tailscaleOAuthEnvFile.age".publicKeys = [
@@ -88,6 +94,7 @@ in
     teal
     smalt
     wsl
+    sage
   ]
   ++ all;
   "piholeEnvFile.age".publicKeys = [ green ] ++ all;
@@ -99,6 +106,7 @@ in
   "palworldEnvFile.age".publicKeys = [
     teal
     smalt
+    sage
   ]
   ++ all;
   "teslamateEnvFile.age".publicKeys = [

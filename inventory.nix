@@ -44,38 +44,38 @@
         };
       };
 
-      smalt = {
-        users.enableUsers = [ "admin" ];
-        publicKey = {
-          host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILR615VGZfPxDnK6dDumGUByl8n8ZT8hctQ0HzXplxPB";
-          initrd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKFphObpjw/XH1NvvI2VuQPlLb45Zi3O7CgFQAH4fkvz";
-        };
-        docker.enable = true;
-        syncoid.enable = true;
-        pods = {
-          foundry-vtt.enable = true;
-          palworld.palhome.enable = true;
-          # necesse.necesse1.enable = true;
-          # craft2exile.enable = true;
-          # test2exile.enable = true;
-          # minecraftBedrock.minecrafthome = {
-          #   enable = true;
-          #   envVariables = {
-          #     "EULA" = "TRUE";
-          #     "gamemode" = "survival";
-          #     "difficulty" = "hard";
-          #     "allow-cheats" = "true";
-          #     "max-players" = "10";
-          #     "view-distance" = "50";
-          #     "tick-distance" = "4";
-          #     "TEXTUREPACK_REQUIRED" = "true";
-          #   };
-          # };
-        };
-        microvms = [
-          "desktop"
-        ];
-      };
+      # smalt = {
+      #   users.enableUsers = [ "admin" ];
+      #   publicKey = {
+      #     host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILR615VGZfPxDnK6dDumGUByl8n8ZT8hctQ0HzXplxPB";
+      #     initrd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKFphObpjw/XH1NvvI2VuQPlLb45Zi3O7CgFQAH4fkvz";
+      #   };
+      #   docker.enable = true;
+      #   syncoid.enable = true;
+      #   pods = {
+      #     foundry-vtt.enable = true;
+      #     palworld.palhome.enable = true;
+      #     # necesse.necesse1.enable = true;
+      #     # craft2exile.enable = true;
+      #     # test2exile.enable = true;
+      #     # minecraftBedrock.minecrafthome = {
+      #     #   enable = true;
+      #     #   envVariables = {
+      #     #     "EULA" = "TRUE";
+      #     #     "gamemode" = "survival";
+      #     #     "difficulty" = "hard";
+      #     #     "allow-cheats" = "true";
+      #     #     "max-players" = "10";
+      #     #     "view-distance" = "50";
+      #     #     "tick-distance" = "4";
+      #     #     "TEXTUREPACK_REQUIRED" = "true";
+      #     #   };
+      #     # };
+      #   };
+      #   microvms = [
+      #     "desktop"
+      #   ];
+      # };
 
       vermilion = {
         users.enableUsers = [
@@ -121,6 +121,19 @@
         syncoid.enable = true;
         docker.enable = true;
         microvms = [ "testvm" ];
+      };
+
+      sage = {
+        users.enableUsers = [ "admin" ];
+        publicKey = {
+          host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJxCjJXQTfMN4Sdl+S0RhiBLTZgutkcEv5D5ixR6ceRq";
+          initrd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4cbaaCOqkSbmevWEhBGdMgSsc31krCMUlhT/H+0r5S";
+        };
+        docker.enable = true;
+        syncoid.enable = true;
+        pods = {
+          palworld.palhome.enable = true;
+        };
       };
 
       # jade = {
