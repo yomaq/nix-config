@@ -18,6 +18,20 @@ let
     carln
   ];
 
+  # all hosts
+  hosts = [
+    vermilion
+    green
+    moss
+    jade
+    azure
+    teal
+    smalt
+    wsl
+    cyan
+    sage
+  ];
+
 in
 {
   "carln.age".publicKeys = [
@@ -25,78 +39,14 @@ in
     cyan
   ]
   ++ all;
-  "admin.age".publicKeys = [
-    vermilion
-    azure
-    smalt
-    teal
-    moss
-    jade
-    sage
-  ]
-  ++ all;
+  "admin.age".publicKeys = hosts ++ all;
   "ryn.age".publicKeys = all;
   "encrypt.age".publicKeys = all;
-  "tailscaleKey.age".publicKeys = [
-    vermilion
-    green
-    moss
-    jade
-    azure
-    teal
-    smalt
-    wsl
-    cyan
-    sage
-  ]
-  ++ all;
-  "tailscaleOAuthKeyAcceptSsh.age".publicKeys = [
-    vermilion
-    green
-    moss
-    jade
-    azure
-    teal
-    smalt
-    wsl
-    sage
-  ]
-  ++ all;
-  "tailscaleInitrd.age".publicKeys = [
-    vermilion
-    green
-    moss
-    jade
-    azure
-    teal
-    smalt
-    wsl
-    sage
-  ]
-  ++ all;
-  "tailscaleEnvFile.age".publicKeys = [
-    green
-    moss
-    jade
-    azure
-    teal
-    smalt
-    wsl
-    sage
-  ]
-  ++ all;
-  "tailscaleOAuthEnvFile.age".publicKeys = [
-    vermilion
-    green
-    moss
-    jade
-    azure
-    teal
-    smalt
-    wsl
-    sage
-  ]
-  ++ all;
+  "tailscaleKey.age".publicKeys = hosts ++ all;
+  "tailscaleOAuthKeyAcceptSsh.age".publicKeys = hosts ++ all;
+  "tailscaleInitrd.age".publicKeys = hosts ++ all;
+  "tailscaleEnvFile.age".publicKeys = hosts ++ all;
+  "tailscaleOAuthEnvFile.age".publicKeys = hosts ++ all;
   "piholeEnvFile.age".publicKeys = [ green ] ++ all;
   "nextcloudEnvFile.age".publicKeys = [
     azure
