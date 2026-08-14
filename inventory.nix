@@ -132,7 +132,27 @@
         docker.enable = true;
         syncoid.enable = true;
         pods = {
-          palworld.palhome.enable = true;
+          palworld.palhome = {
+          enable = true;
+          envVariables = {
+              PUID = "1000";
+              PGID = "1000";
+              PORT = "8211";
+              PLAYERS = "12";
+              SERVER_PASSWORD = "password";
+              MULTITHREADING = "true";
+              RCON_ENABLED = "true";
+              RCON_PORT = "25575";
+              TZ = "UTC";
+              ADMIN_PASSWORD = "admin";
+              COMMUNITY = "false";
+              DEATH_PENALTY = "Item";
+              EXP_RATE = "1";
+              DIFFICULTY = "difficult";
+              bAllowGlobalPalboxImport = "true";
+              bAllowGlobalPalboxExport = "true";
+            };
+          };
         };
       };
 
