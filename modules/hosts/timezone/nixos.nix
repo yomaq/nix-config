@@ -11,7 +11,7 @@ in
     central = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = '''';
+      description = "";
     };
   };
 

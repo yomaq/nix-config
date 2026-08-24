@@ -133,8 +133,8 @@
         syncoid.enable = true;
         pods = {
           palworld.palhome = {
-          enable = true;
-          envVariables = {
+            enable = true;
+            envVariables = {
               PUID = "1000";
               PGID = "1000";
               PORT = "8211";

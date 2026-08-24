@@ -130,7 +130,6 @@ in
       };
       yomaq.monitorServices.services."docker-${NAME}".priority = "medium";
 
-
     })
     (lib.mkIf config.yomaq.gatus.enable {
       yomaq.gatus.endpoints =

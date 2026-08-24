@@ -13,7 +13,7 @@ in
     enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = ''basic configuration that should be set for all microvms'';
+      description = "basic configuration that should be set for all microvms";
     };
   };
 

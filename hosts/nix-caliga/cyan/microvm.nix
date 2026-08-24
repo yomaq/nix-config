@@ -15,7 +15,6 @@ in
     '')
   ];
 
-  
   systemd.tmpfiles.rules = [
     "d /var/persist 0755 root root -"
     "d /var/persist/microvm 0755 root root -"

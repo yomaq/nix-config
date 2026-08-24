@@ -1,6 +1,6 @@
 { pkgs, ... }:
 pkgs.mkShell {
-  packages = [];
+  packages = [ ];
   env = {
     ANTHROPIC_BASE_URL = "https://wsl-ollama.sable-chimaera.ts.net";
   };

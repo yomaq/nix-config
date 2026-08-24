@@ -3,20 +3,21 @@
   ...
 }:
 pkgs.mkShell {
-  buildInputs =
-    [
-      pkgs._1password-cli
-      pkgs.nixfmt
-      pkgs.bash-completion
-      pkgs.podman
-      pkgs.gh
-      pkgs.qemu
-      pkgs.nixos-anywhere
-    ];
+  buildInputs = [
+    pkgs._1password-cli
+    pkgs.nixfmt-tree
+    pkgs.bash-completion
+    pkgs.podman
+    pkgs.gh
+    pkgs.qemu
+    pkgs.nixos-anywhere
+  ];
 
   shellHook = ''
         export GREET="Yomaq's Homelab"
         echo $GREET
+
+        alias nixfmt=treefmt
 
         yo-clean() {
           sudo nix profile wipe-history --profile /nix/var/nix/profiles/system --older-than 7d

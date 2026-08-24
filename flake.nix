@@ -127,7 +127,6 @@
         in
         nixpkgs.lib.genAttrs myHosts mkHost;
 
-
       caligaConfigurations.x86_64-linux = {
         violet = inputs.nix-caliga.lib.makeCaligaConfigurations {
           pkgs = import nixpkgs {
