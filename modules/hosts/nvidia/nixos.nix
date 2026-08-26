@@ -21,7 +21,7 @@ in
     };
   };
   config = lib.mkMerge [
-    (lib.mkIf cfg.enable {
+    (lib.mkIf (cfg.enable && !cfg.wsl) {
       services.xserver.videoDrivers = [ "nvidia" ];
       hardware.nvidia.open = true;
     })
@@ -46,6 +46,7 @@ in
       hardware.nvidia-container-toolkit = {
         enable = true;
         mount-nvidia-executables = lib.mkIf cfg.wsl false;
+        suppressNvidiaDriverAssertion = lib.mkIf cfg.wsl true;
       };
 
       systemd.services = {

@@ -26,7 +26,7 @@ in
     };
     ollamaModel = lib.mkOption {
       type = lib.types.str;
-      default = "ornith:9b";
+      default = "qwen3.8:27b";
       description = "Model to use for Ollama API requests";
     };
     ntfyBaseUrl = lib.mkOption {
