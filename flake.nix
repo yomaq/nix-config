@@ -63,7 +63,7 @@
           nix-caliga = inputs.nix-caliga;
           caligaConfigurations = self.caligaConfigurations.x86_64-linux;
         };
-        x86_64-linux.ollama = import ./Utilities/devShell/ollama.nix {
+        x86_64-linux.pi = import ./Utilities/devShell/pi.nix {
           pkgs = import nixpkgs {
             system = "x86_64-linux";
             config = {
@@ -79,7 +79,7 @@
             };
           };
         };
-        aarch64-darwin.ollama = import ./Utilities/devShell/ollama.nix {
+        aarch64-darwin.pi = import ./Utilities/devShell/pi.nix {
           pkgs = import nixpkgs {
             system = "aarch64-darwin";
             config = {

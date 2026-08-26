@@ -50,8 +50,11 @@ in
           image = "docker.io/ollama/ollama:latest@sha256:dea72d1e22270fe095b68fdf756d2b489d615643c5a2eaebbc5f569181e322d8";
           autoStart = true;
           environment = {
-            "OLLAMA_NUM_PARALLEL" = "1";
-            "OLLAMA_CONTEXT_LENGTH" = "32768";
+            "OLLAMA_NUM_PARALLEL" = "2";
+            "OLLAMA_CONTEXT_LENGTH" = "220000";
+            "OLLAMA_FLASH_ATTENTION" = "1";
+            "OLLAMA_KV_CACHE_TYPE" = "q8_0";
+            "OLLAMA_MAX_LOADED_MODELS" = "1";
           };
           volumes = [ "${cfg.volumeLocation}/ollama:/root/.ollama" ];
           dependsOn = [ "TS${NAME}" ];
