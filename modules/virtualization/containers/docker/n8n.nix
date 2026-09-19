@@ -57,7 +57,7 @@ in
 
       virtualisation.oci-containers.containers = {
         "${NAME}" = {
-          image = "docker.io/n8nio/n8n:latest@sha256:e0d9593724e36d2584a1686148155e881233b38ae1833101c97c6463c0d36711";
+          image = "docker.io/n8nio/n8n:latest@sha256:b73045abaddb40cb4024e86eea1b1f69093501a7339f685a4cd486b7743d23ae";
           autoStart = true;
           environment = cfg.env;
           volumes = [ "${cfg.volumeLocation}/n8n_data:/home/node/.n8n" ];
