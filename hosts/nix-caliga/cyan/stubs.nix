@@ -1,10 +1,15 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 
 {
   options = {
     networking.hostName = lib.mkOption {
       type = lib.types.str;
       default = "";
+    };
+
+    boot.kernelPackages = lib.mkOption {
+      type = lib.types.raw;
+      default = pkgs.linuxPackages;
     };
 
     yomaq.impermanence.dontBackup = lib.mkOption {

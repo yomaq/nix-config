@@ -20,6 +20,21 @@
         "type": "github"
       }
     },
+    "bootc-image-prefetcher": {
+      "locked": {
+        "lastModified": 1792403557,
+        "narHash": "sha256-CczfTihBVpf1cSly79zUbcxa6Nmmp0xX3irW9V1Oj7Q=",
+        "owner": "nix-caliga",
+        "repo": "bootc-image-prefetcher",
+        "rev": "18193237af95c928f584976348a798e5dac3838f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-caliga",
+        "repo": "bootc-image-prefetcher",
+        "type": "github"
+      }
+    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -318,6 +333,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "bootc-image-prefetcher": "bootc-image-prefetcher",
         "disko": "disko",
         "home-manager": "home-manager",
         "impermanence": "impermanence",

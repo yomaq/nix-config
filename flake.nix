@@ -34,6 +34,8 @@
       url = "github:nix-caliga/nix-caliga";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # bootc hash pre-fetcher
+    bootc-image-prefetcher.url = "github:nix-caliga/bootc-image-prefetcher";
   };
 
   outputs =
@@ -129,6 +131,7 @@
 
       caligaConfigurations.x86_64-linux = {
         violet = inputs.nix-caliga.lib.makeCaligaConfigurations {
+          inherit lib;
           pkgs = import nixpkgs {
             system = "x86_64-linux";
             config.allowUnfree = true;
@@ -136,6 +139,7 @@
           modules = [ ./hosts/nix-caliga/violet ];
         };
         cyan = inputs.nix-caliga.lib.makeCaligaConfigurations {
+          inherit lib;
           pkgs = import nixpkgs {
             system = "x86_64-linux";
             config.allowUnfree = true;
