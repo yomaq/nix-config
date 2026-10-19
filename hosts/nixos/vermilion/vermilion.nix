@@ -1,6 +1,7 @@
 {
   lib,
   inputs,
+  pkgs,
   ...
 }:
 {
@@ -14,6 +15,14 @@
 
     programs.nix-ld.enable = true;
     virtualisation.podman.enable = true;
+
+    virtualisation.libvirtd = {
+      enable = true;
+      qemu.vhostUserPackages = [ pkgs.virtiofsd ];
+      qemu.swtpm.enable = true;
+    };
+    users.users.carln.extraGroups = [ "libvirtd" ];
+    environment.systemPackages = [ pkgs.swtpm ];
 
     yomaq = {
       suites.foundation.enable = true;
