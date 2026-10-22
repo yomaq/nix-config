@@ -15,7 +15,7 @@ in
         package = pkgs.unstable.tailscale;
         enable = true;
         authKeyFile = cfg.authKeyFile;
-        extraUpFlags = cfg.extraUpFlags;
+        extraUpFlags = cfg.extraUpFlags ++ [ "--advertise-tags=tag:lockdown" ];
         useRoutingFeatures = cfg.useRoutingFeatures;
         permitCertUid = "caddy";
       };

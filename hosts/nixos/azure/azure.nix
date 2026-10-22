@@ -9,23 +9,13 @@
   imports = [
     # import custom modules
     inputs.self.nixosModules.yomaq
-    # import hardware
-    (modulesPath + "/installer/scan/not-detected.nix")
+    # hardware
     inputs.nixos-hardware.nixosModules.common-cpu-amd
-    inputs.nixos-hardware.nixosModules.common-pc-laptop
+    inputs.nixos-hardware.nixosModules.common-pc
   ];
   config = {
     networking.hostName = "azure";
-    system.stateVersion = "23.11";
-    boot.initrd.availableKernelModules = [
-      "nvme"
-      "xhci_pci"
-      "ahci"
-      "usbhid"
-      "usb_storage"
-      "sd_mod"
-    ];
-    nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+    system.stateVersion = "26.05";
 
     yomaq = {
       network = {
@@ -34,6 +24,7 @@
       };
       suites.foundation.enable = true;
       disks = {
+        # amReinstalling = true;
         enable = true;
         systemd-boot = true;
         initrd-ssh = {
@@ -45,7 +36,6 @@
           hostID = "49e95c43";
           root = {
             disk1 = "nvme0n1";
-            disk2 = "nvme1n1";
             reservation = "200G";
             impermanenceRoot = true;
           };
@@ -57,7 +47,6 @@
             ];
             reservation = "1500G";
             mirror = true;
-            #amReinstalling = true;
           };
         };
       };

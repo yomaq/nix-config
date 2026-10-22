@@ -10,8 +10,8 @@
       azure = {
         users.enableUsers = [ "admin" ];
         publicKey = {
-          host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP2G2qPq4NAu18EE0CB7Kfm5F3FIvphuzv13BlCXuKbu";
-          initrd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICx7kM94EWaUxMh9oVgLapk4+beUqCYge3Qd4fjCRyD0";
+          host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKVVdUJlhQH/ylCNw9ENFFkScECXKFGXXWqR+0RwNhQD";
+          initrd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILDfpxRNuoUCBaCwBH7WMUxksHMxHvpQ8tSt7Ed4Tz+y";
         };
         docker.enable = true;
         syncoid.enable = true;
