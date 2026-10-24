@@ -33,6 +33,9 @@ in
 
     services.mysql.package = pkgs.mariadb_114;
 
+    users.users.nextcloud.uid = 999;
+    users.groups.nextcloud.gid = 999;
+
     environment.etc."nextcloud-admin-pass".text = "asdhasd&!@@SDa";
     age.secrets.nextcloudEnvFile.file = (inputs.self + /secrets/nextcloudEnvFile.age);
     services.nextcloud = {
