@@ -36,6 +36,7 @@ in
 
     services.immich = {
       enable = true;
+      package = pkgs.unstable.immich;
       host = "127.0.0.1";
       database.enable = true;
       redis.enable = true;
