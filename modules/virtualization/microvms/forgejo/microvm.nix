@@ -49,7 +49,6 @@ in
     services.openssh.settings.AcceptEnv = [ "GIT_PROTOCOL" ];
 
     yomaq.tailscale.extraUpFlags = [
-      "--reset=true"
       "--accept-dns=true"
     ];
 
