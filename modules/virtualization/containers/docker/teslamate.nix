@@ -178,7 +178,7 @@ in
         #       };
         ### main container
         "${NAME}" = {
-          image = "docker.io/teslamate/teslamate:latest@sha256:88f4b0eb20802e4dd8518b31045d2c19ce384bd5c85ae7289a921f5221ea2562";
+          image = "docker.io/teslamate/teslamate:latest@sha256:c85b3d447502683ed7bf12fb478e0dae9a985fe975ac22cccb64faeb4c4a5d31";
           autoStart = true;
           environment = {
             "DISABLE_MQTT" = "true";
