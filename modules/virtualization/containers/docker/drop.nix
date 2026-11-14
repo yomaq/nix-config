@@ -90,7 +90,7 @@ in
       virtualisation.oci-containers.containers = {
         ### DB container
         "DB${NAME}" = {
-          image = "docker.io/postgres:14-alpine@sha256:944eb7667a778dac253b03e27da1b0786a782ee6dc773433463869d39af39e40";
+          image = "docker.io/postgres:14-alpine@sha256:0e6cd607ed90b858005f39da5931dad42ff1ea4be37a897ffe325414b0bab029";
           autoStart = true;
           environmentFiles = [
             config.age.secrets."${NAME}DBEnvFile".path
