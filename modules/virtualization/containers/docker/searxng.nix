@@ -54,7 +54,7 @@ in
 
       virtualisation.oci-containers.containers = {
         "${NAME}-redis" = {
-          image = "docker.io/valkey/valkey:8-alpine@sha256:77643d152547b446fc15cbafaff22004545663fcd40c6b28038ad283837baa75";
+          image = "docker.io/valkey/valkey:8-alpine@sha256:9971099af41c36e887aabdfe22b80c0fe45df949163dfc9cb434febc57cfc3fc";
           autoStart = true;
           volumes = [ "${cfg.volumeLocation}/valkey-data:/data" ];
           dependsOn = [ "TS${NAME}" ];
