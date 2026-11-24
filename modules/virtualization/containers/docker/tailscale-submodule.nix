@@ -94,7 +94,7 @@ let
       };
     in
     {
-      image = "ghcr.io/tailscale/tailscale:latest@sha256:8c42c4574ab066384fcb72f69e086a2ff1dd3652eb6f56856cee34bcf0d2f680";
+      image = "ghcr.io/tailscale/tailscale:latest@sha256:72c1e19e0aedca96b8533bbb0b4368564410ff20b17e53b804eb6c1f04a31be4";
       autoStart = true;
       hostname = cfg.TShostname;
       environment = lib.mkMerge [
