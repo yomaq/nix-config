@@ -98,7 +98,7 @@ in
         };
         ### main container
         "${NAME}" = {
-          image = "ghcr.io/linkwarden/linkwarden:latest@sha256:0664c28a039bda8ffa6663389e8536b2fc717219e329f85b83faca7efed3b144";
+          image = "ghcr.io/linkwarden/linkwarden:latest@sha256:7c11fde57d1a0c819b6de0079966eba3a33584d718464af7dacde22bd470ae46";
           autoStart = true;
           environment = {
             "NEXT_PUBLIC_AUTH0_ENABLED" = "true";
