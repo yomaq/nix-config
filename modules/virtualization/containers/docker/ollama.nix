@@ -51,7 +51,7 @@ in
           autoStart = true;
           environment = {
             "OLLAMA_NUM_PARALLEL" = "2";
-            "OLLAMA_CONTEXT_LENGTH" = "220000";
+            "OLLAMA_CONTEXT_LENGTH" = "65000";
             "OLLAMA_FLASH_ATTENTION" = "1";
             "OLLAMA_KV_CACHE_TYPE" = "q8_0";
             "OLLAMA_MAX_LOADED_MODELS" = "1";
