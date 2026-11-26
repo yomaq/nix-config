@@ -108,7 +108,7 @@ in
         };
         ### main container
         "${NAME}" = {
-          image = "ghcr.io/drop-oss/drop:latest@sha256:2995f0b75ac3a6bc4d33b584f80882c3415f8bd9182c264378e3829b259b0bd4";
+          image = "ghcr.io/drop-oss/drop:latest@sha256:c076aecec2f3b53bdb682c6f032ee12da825ee1bf31e0f99d4598c8d90699ec1";
           autoStart = true;
           dependsOn = [
             "TS${NAME}"
