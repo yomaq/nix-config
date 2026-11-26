@@ -47,7 +47,7 @@ let
       };
     };
   mkContainer = name: cfg: {
-    image = "docker.io/wolveix/satisfactory-server:latest@sha256:e103700ae6ae4c50f19dac80eadb2a805c5b885e179ae2a40850e967bf189efd";
+    image = "docker.io/wolveix/satisfactory-server:latest@sha256:ca895e72c78a586c4b9f50774a852f53915dc7299977af5ba26978607fad9213";
     autoStart = true;
     environment = lib.mkMerge [
       cfg.envVariables
